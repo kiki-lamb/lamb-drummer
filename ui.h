@@ -12,13 +12,13 @@ class Ui {
     enum screen_t { SCREEN_INTRO, SCREEN_NONE, SCREEN_MAIN, SCREEN_INSTR };
     
     static void           setup           ();
-    static void           update_screen   ();
-    static void           popup_bpm       ();
-    static void           flag_screen     (screen_t screen);
     static void           enter_screen    (screen_t screen);
-    static void           invalidate_track(uint8_t track);
+    static void           update_screen   ();
+    static void           flag_popup_bpm  ();
+    static void           flag_screen     (screen_t screen);
+    static void           flag_redraw_track(uint8_t track);
 
-    static Flag           redraw_selected_track;
+    static Flag           redraw_selected_track_indicator;
     static Flag           redraw_playback_state;
         
   private:
@@ -28,8 +28,8 @@ class Ui {
     static IScreenState * screen_states[4];
     static Flag           popup_bpm_requested;
     static Flag           redraw_bpm;
-    static Flag           track_invalidated;
-    static uint8_t        invalidated_track;
+    static Flag           redraw_track;
+    static uint8_t        trag_flagged_for_redraw;
 };
 
 #endif

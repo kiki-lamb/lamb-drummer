@@ -88,7 +88,7 @@ static void Application::process_controls() {
   if (controls.bpm_changed.consume()) {
     timer1.set_bpm(controls.bpm());
     eeprom  .flag_save_requested();
-    Ui     ::popup_bpm();
+    Ui     ::flag_popup_bpm();
     flag_main_screen();
   }
 
@@ -106,8 +106,8 @@ static void Application::process_controls() {
     Serial.println();
 
     if ( _track_states[_track_states.index()].handle_button(controls.buttonpad_button()) ) {
-      Ui::invalidate_track(_track_states.index());
-      Ui::redraw_selected_track.flag();
+      Ui::flag_redraw_track(_track_states.index());
+      Ui::redraw_selected_track_indicator.flag();
       flag_main_screen();
     }
   }

@@ -29,8 +29,8 @@ void SSMain::draw_bars() const {
 }
 
 void SSMain::impl_enter() {
-  Ui::popup_bpm();
-  Ui::redraw_selected_track.unflag();
+  Ui::flag_popup_bpm();
+  Ui::redraw_selected_track_indicator.unflag();
   
   draw_line0();
   Lcd::put_playstate(19,0);
@@ -56,7 +56,7 @@ void SSMain::draw_line0() const {
 // Must consume:
 //  Ui::redraw_playback_state
 //  Ui::redraw_bpm
-//  Ui::redraw_selected_track)
+//  Ui::redraw_selected_track_indicator)
 
   char buf [21];
   char buf2[21];
@@ -74,7 +74,7 @@ void SSMain::draw_line0() const {
     snprintf(buf, 21, "%s hz", buf2);
     lcd().print(buf);
   }
-  else if (Ui::redraw_selected_track.consume()) {
+  else if (Ui::redraw_selected_track_indicator.consume()) {
     draw_channel_numbers();
 
     lcd().setCursor(0, 0);
@@ -120,7 +120,7 @@ void SSMain::impl_update() {
     
     if ((now - popup_bpm_time) >= POP_DURATION) {
       popup_bpm_state = false;
-      Ui::redraw_selected_track.flag();
+      Ui::redraw_selected_track_indicator.flag();
     }
   }
  
@@ -128,7 +128,7 @@ void SSMain::impl_update() {
 
   uint8_t prior   = ((uint8_t)((Application::ticker()>>1)-1)) % track_states().max_mod_maj(); // Don't remove this cast or the subtraction result becomes a signed type
   uint8_t current = (Application::ticker()>>1) % track_states().max_mod_maj();
-  bool redraw_page = Ui::track_invalidated.consume(); 
+  bool redraw_page = Ui::redraw_track.consume(); 
   
   if (! redraw_page) {
     static uint8_t last_page = 255;
