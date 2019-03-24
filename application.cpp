@@ -75,7 +75,12 @@ static void Application::setup() {
   timer1   .setup();
   timer2   .setup();
   sei();
-  eeprom   .restore_all();
+  persistant_data<collection_t> tmp(&_track_states, bpm(), playback_state());
+  eeprom   .restore_all(tmp);
+  controls.set_encoder(tmp.bpm);
+  Application::set_bpm(tmp.bpm); 
+  Application::set_playback_state(tmp.play_state);
+
   Ui      ::enter_screen(Ui::SCREEN_MAIN);
 
   Serial.println(F("Setup complete."));
@@ -123,7 +128,7 @@ static void Application::process_controls() {
 }
 
 static void Application::save_state() {
-  eeprom.save_all();
+  eeprom.save_all( persistant_data<collection_t>(&_track_states, bpm(), playback_state()) );
 }
 
 

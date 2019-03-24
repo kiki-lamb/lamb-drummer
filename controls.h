@@ -27,6 +27,10 @@ class Controls {
   Controls(uint8_t(*bpm_f_)()) : button_pad(new i_buttonpad_t()),  buttonpad_button_pressed("buttonpad_button_pressed"), encoder_button(A7), bpm_f(bpm_f_) {
   }
 
+  void set_encoder(uint8_t val) {
+    Encoder::set_value(val);
+  }
+  
   void setup() {  
     Encoder::setup();
     encoder_button.setup();

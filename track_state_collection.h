@@ -2,8 +2,9 @@
 #define SHELF_CLOCK_TRACK_STATE_COLLECTION_H
 
 #include "Arduino.h"
+#include "track_state.h"
 
-template <size_t size_, class track_state_t> 
+template <size_t size_, class track_state_t = TrackState> 
 class TrackStateCollection {
   private:
    track_state_t items[size_];
