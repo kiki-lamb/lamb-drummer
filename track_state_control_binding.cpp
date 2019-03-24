@@ -1,113 +1,109 @@
 #include "track_state_control_binding.h"
 
-ControlBoundTrackState::ControlBoundTrackState(
-      uint8_t _mod_maj   = 0, 
-      uint8_t _mod_min   = 1, 
-      uint8_t _phase_min = 0,      
-      uint8_t _phase_maj = 0      
-    ) : TrackState(_mod_maj, _mod_min, _phase_min, _phase_maj) {}
+TrackStateButtonProcessor::TrackStateButtonProcessor() {}
 
-ControlBoundTrackState::~ControlBoundTrackState() {}
+TrackStateButtonProcessor::~TrackStateButtonProcessor() {}
 
-ControlBoundTrackState::button_handler ControlBoundTrackState::button_handlers[8] = {
-  &ControlBoundTrackState::increase_mod_maj,
-  &ControlBoundTrackState::increase_phase_maj, 
-  &ControlBoundTrackState::increase_mod_min,
-  &ControlBoundTrackState::increase_phase_min,
-  &ControlBoundTrackState::decrease_mod_maj,
-  &ControlBoundTrackState::decrease_phase_maj,    
-  &ControlBoundTrackState::decrease_mod_min,
-  &ControlBoundTrackState::decrease_phase_min,
-};  
     
-bool ControlBoundTrackState::handle_button(IButtonpad::Button button) {
+bool TrackStateButtonProcessor::handle_button(TrackState & that, IButtonpad::Button button) {
   if (button < 8) {   
-    (this->*button_handlers[button])();
+    (*button_handlers[button])(that);
     return true;
    }
   else {
     ;
-    Serial.print(F("ControlBoundTrackState got unrecognized button: "));
+    Serial.print(F("TrackState got unrecognized button: "));
     Serial.println(button);
   }
   return false;
 }
 
-void ControlBoundTrackState::increase_mod_maj() {
+void TrackStateButtonProcessor::increase_mod_maj(TrackState & that) {
   Serial.println(F("Do BTN_MAJ_UP"));
-  if (mod_maj() <= 32)
-    set_mod_maj( mod_maj() << 1);
+  if (that.mod_maj() <= 32)
+    that.set_mod_maj( that.mod_maj() << 1);
 }
 
-void ControlBoundTrackState::decrease_mod_maj() {
+void TrackStateButtonProcessor::decrease_mod_maj(TrackState & that) {
   Serial.println(F("Do BTN_MAJ_DOWN"));
-  if (mod_maj() >= 2)
-    set_mod_maj( mod_maj() >> 1);
+  if (that.mod_maj() >= 2)
+    that.set_mod_maj( that.mod_maj() >> 1);
   
-  if (phase_maj() >=
-      mod_maj())
-    set_phase_maj( 0 );
+  if (that.phase_maj() >=
+      that.mod_maj())
+    that.set_phase_maj( 0 );
 
-  if (mod_min() >
-      mod_maj())
-    set_mod_min( mod_maj() );
+  if (that.mod_min() >
+      that.mod_maj())
+    that.set_mod_min( that.mod_maj() );
 
-  if (phase_min() >=
-      mod_min())
-    set_phase_min( 0 );
+  if (that.phase_min() >=
+      that.mod_min())
+    that.set_phase_min( 0 );
 }
 
-void ControlBoundTrackState::increase_mod_min() {
+void TrackStateButtonProcessor::increase_mod_min(TrackState & that) {
   Serial.println(F("Do BTN_MIN_UP"));
-  if (mod_min() < 
-      mod_maj() 
+  if (that.mod_min() < 
+      that.mod_maj() 
      )
-    set_mod_min( mod_min() + 1 );
+    that.set_mod_min( that.mod_min() + 1 );
 }
 
-void ControlBoundTrackState::decrease_mod_min() {
+void TrackStateButtonProcessor::decrease_mod_min(TrackState & that) {
   Serial.println(F("Do BTN_MIN_DOWN"));
-  if (mod_min() > 1)
-    set_mod_min( mod_min()-1 );
+  if (that.mod_min() > 1)
+    that.set_mod_min( that.mod_min()-1 );
 
-  if (phase_min() >=
-      mod_min())
-    set_phase_min( 0 );
+  if (that.phase_min() >=
+      that.mod_min())
+    that.set_phase_min( 0 );
 }
 
-void ControlBoundTrackState::increase_phase_maj() {
-  Serial.println(F("Do BTN_PHASE_MAJ_UP"));
-  if (phase_maj() < mod_maj() - 1)
-    set_phase_maj( phase_maj() + 1);
-  else if (phase_maj() ==
-      (mod_maj() - 1)
+void TrackStateButtonProcessor::increase_phase_maj(TrackState & that) {
+  Serial.println(F("Do BTN_phase_MAJ_UP"));
+  if (that.phase_maj() < that.mod_maj() - 1)
+    that.set_phase_maj( that.phase_maj() + 1);
+  else if (that.phase_maj() ==
+      (that.mod_maj() - 1)
       ) 
-    set_phase_maj( 0 );
+    that.set_phase_maj( 0 );
 }
 
-void ControlBoundTrackState::decrease_phase_maj() {
-  Serial.println(F("Do BTN_PHASE_MAJ_DOWN"));
-  if (phase_maj() > 0)
-    set_phase_maj( phase_maj() - 1);
-  else if (phase_maj() == 0)
-    set_phase_maj( mod_maj() - 1);
+void TrackStateButtonProcessor::decrease_phase_maj(TrackState & that) {
+  Serial.println(F("Do BTN_phase_MAJ_DOWN"));
+  if (that.phase_maj() > 0)
+    that.set_phase_maj( that.phase_maj() - 1);
+  else if (that.phase_maj() == 0)
+    that.set_phase_maj( that.mod_maj() - 1);
 }
 
-void ControlBoundTrackState::increase_phase_min() {
-  Serial.println(F("Do BTN_PHASE_MIN_UP"));
-  if (phase_min() < 
-    (mod_min() - 1)
+void TrackStateButtonProcessor::increase_phase_min(TrackState & that) {
+  Serial.println(F("Do BTN_phase_MIN_UP"));
+  if (that.phase_min() < 
+    (that.mod_min() - 1)
   )
-    set_phase_min( phase_min() + 1);
-  else if (phase_min() == (mod_min() - 1)) 
-    set_phase_min( 0 );
+    that.set_phase_min( that.phase_min() + 1);
+  else if (that.phase_min() == (that.mod_min() - 1)) 
+    that.set_phase_min( 0 );
 }
 
-void ControlBoundTrackState::decrease_phase_min() {
+void TrackStateButtonProcessor::decrease_phase_min(TrackState & that) {
   Serial.println(F("Do BTN_PHASE_MIN_DOWN"));
-  if (phase_min() > 0)
-    set_phase_min( phase_min() - 1);
-  else if (phase_min() == 0)
-    set_phase_min( mod_min() - 1);
+  if (that.phase_min() > 0)
+    that.set_phase_min( that.phase_min() - 1);
+  else if (that.phase_min() == 0)
+    that.set_phase_min( that.mod_min() - 1);
 }
+
+TrackStateButtonProcessor::button_handler TrackStateButtonProcessor::button_handlers[8] = {
+  &TrackStateButtonProcessor::increase_mod_maj,
+  &TrackStateButtonProcessor::increase_phase_maj, 
+  &TrackStateButtonProcessor::increase_mod_min,
+  &TrackStateButtonProcessor::increase_phase_min,
+  &TrackStateButtonProcessor::decrease_mod_maj,
+  &TrackStateButtonProcessor::decrease_phase_maj,    
+  &TrackStateButtonProcessor::decrease_mod_min,
+  &TrackStateButtonProcessor::decrease_phase_min,
+};  
 

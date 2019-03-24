@@ -1,5 +1,6 @@
 #include "application.h"
 #include "ui.h"
+#include "track_state_control_binding.h"
 
 Controls<Application::buttonpad_t> Application::controls(&Application::bpm);
 static Application::collection_t   Application::_track_states;
@@ -105,7 +106,12 @@ static void Application::process_controls() {
     Serial.print(_track_states.index());
     Serial.println();
 
-    if ( _track_states[_track_states.index()].handle_button(controls.buttonpad_button()) ) {
+    if ( 
+      TrackStateButtonProcessor::handle_button(
+        _track_states[_track_states.index()],
+        controls.buttonpad_button()
+      )
+    ) {
       Ui::flag_redraw_track(_track_states.index());
       Ui::flag_redraw_selected_track_indicator();
       flag_main_screen();
