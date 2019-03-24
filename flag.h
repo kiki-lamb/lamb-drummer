@@ -7,7 +7,10 @@ class Flag {
   public:
     char * name;
 
-    Flag(char * _name = 0, bool _value = false);
+    Flag(
+      char * _name = 0, 
+      bool _value = false
+    );
     
     void flag();
 

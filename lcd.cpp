@@ -22,7 +22,11 @@ const uint8_t Lcd::LCD_D7    = 4;
 
 LiquidCrystal Lcd::lcd(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 
-static void Lcd::put_inversion(uint8_t col, uint8_t line, uint8_t number) {
+static void Lcd::put_inversion(
+  uint8_t col, 
+  uint8_t line, 
+  uint8_t number
+) {
   select_inversion(number);
   lcd.setCursor(col, line);
   lcd.write(byte(0));

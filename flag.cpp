@@ -1,7 +1,13 @@
 #include "flag.h"
 #include "Arduino.h"
 
-Flag::Flag(char * _name = 0, bool _value = false) : name(_name), value(_value) {};
+Flag::Flag(
+  char * _name = 0, 
+  bool _value = false
+) : 
+  name(_name), 
+  value(_value) {
+};
 
 void Flag::flag() { 
   value = true; 

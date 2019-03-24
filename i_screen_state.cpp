@@ -1,7 +1,8 @@
 #include "i_screen_state.h"
 #include "lcd.h"
 
-IScreenState::IScreenState(): requires_update("requires_update", true) {
+IScreenState::IScreenState() : 
+  requires_update("requires_update", true) {
   flag();
 }
 

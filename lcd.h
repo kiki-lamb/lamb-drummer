@@ -23,7 +23,13 @@ class Lcd {
   
   public:
     enum chars { CHAR_INVERSION, CHAR_PLAYSTATE, CHAR_HIT, CHAR_HIT_ACTIVE, CHAR_REST, CHAR_REST_ACTIVE, CHAR_HIT_BARRIER, CHAR_REST_BARRIER };
-    static void put_inversion(uint8_t col, uint8_t line, uint8_t number);
+    
+    static void put_inversion(
+      uint8_t col, 
+      uint8_t line, 
+      uint8_t number
+    );
+    
     static void setup();
 
     static void put_playstate(uint8_t col, uint8_t line);

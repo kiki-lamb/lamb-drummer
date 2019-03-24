@@ -42,7 +42,10 @@ uint8_t Eeprom::bpm() const {
   return tmp;
 }
 
-void Eeprom::save_track_state(size_t eeprom_location, TrackState const & track_state) const {
+void Eeprom::save_track_state(
+  size_t eeprom_location, 
+  TrackState const & track_state
+) const {
   if (! track_state.modified.consume() )
     return;
     
@@ -61,7 +64,10 @@ void Eeprom::save_track_state(size_t eeprom_location, TrackState const & track_s
   Serial.println(F("Saved track_state."));  
 }
 
-void Eeprom::restore_track_state(size_t eeprom_location, TrackState & track_state) {
+void Eeprom::restore_track_state(
+  size_t eeprom_location, 
+  TrackState & track_state
+) {
   track_state.set_mod_maj(EEPROM.read(eeprom_location + 0));
   Serial.print(F("Restore mod_maj ")); Serial.print(track_state.mod_maj()); Serial.println();
 

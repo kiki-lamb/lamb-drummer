@@ -5,7 +5,11 @@
 
 class EncoderButton {
   public:      
-    EncoderButton(uint8_t pin_, bool adc_state_ = true);
+    EncoderButton(
+      uint8_t pin_, 
+      bool adc_state_ = true
+    );
+    
     ~EncoderButton();
     bool read();
     void setup();
