@@ -94,6 +94,7 @@ static void Application::restore_state() {
 
 static void Application::process_controls() {
 #define SET_FLAGS flag_main_screen(); eeprom.flag_save_requested();
+
   controls.poll();
 
   if (controls.bpm_changed.consume()) {
@@ -123,6 +124,7 @@ static void Application::process_controls() {
       SET_FLAGS;
     }
   }
+  
 #undef SET_FLAGS
 }
 
