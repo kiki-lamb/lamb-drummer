@@ -15,9 +15,9 @@ class Application {
   private:
   Application();
   ~Application();
+  static const    size_t                  NUM_TRACKS = 3;
 
   public:
-  static const    size_t                  NUM_TRACKS = 3;
   typedef TrackStateCollection<NUM_TRACKS, TrackState> collection_t;
 
   private:

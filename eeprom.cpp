@@ -105,7 +105,7 @@ void Eeprom::save_all() const {
   save_bpm();
   save_playback_state();
 
-  for (size_t ix = 0, addr = 5; ix < Application::NUM_TRACKS; ix++, addr+= 4)
+  for (size_t ix = 0, addr = 5; ix < Application::track_states().size(); ix++, addr+= 4)
     save_track_state(addr,  Application::track_states()[ix]);
 	
   Serial.println(F("Done save all to EEPROM"));
@@ -117,7 +117,7 @@ void Eeprom::restore_all() const {
   Application::set_bpm(tmp);  
   Application::set_playback_state(Eeprom::playback_state());
 
-  for (size_t ix = 0, addr = 5; ix < Application::NUM_TRACKS; ix++, addr+= 4) {
+  for (size_t ix = 0, addr = 5; ix < Application::track_states().size(); ix++, addr+= 4) {
     Serial.print(F("Restore TS #"));
     Serial.print(ix);
     Serial.print(F(" from "));
