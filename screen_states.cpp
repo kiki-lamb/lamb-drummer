@@ -1,5 +1,13 @@
 #include "screen_states.h"
 
+// Needs to access:
+// Application::bpm()
+// Application::hz()
+// Application::page()
+// Application::playback_state()
+// Application::ticker()
+// Application::track_states()
+
 void SSNone::impl_enter() {
 }
 
