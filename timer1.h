@@ -27,7 +27,6 @@ class Timer1_ {
     void    increment_ticker();    
     Timer1_();
     virtual ~Timer1_();
-    
 };
 
 #endif

@@ -5,7 +5,7 @@ Timer1_::Timer1_() : _ticker(0), _hz(0), _bpm(0), _playback_state(true) {};
 
 Timer1_::~Timer1_() {}
 
-const    uint8_t    Timer1_::MIN_BPM         = 8;
+const uint8_t Timer1_::MIN_BPM = 8;
 
 Timer1_ * Timer1_::_instance = 0;
 
