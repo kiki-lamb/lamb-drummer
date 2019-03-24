@@ -26,11 +26,11 @@ static void Application::setup() {
   timer2   .setup();
   sei();
   restore_state();
+
   Ui      ::enter_screen(Ui::SCREEN_MAIN);
 
   Serial.println(F("Setup complete."));
   Serial.println();
-
 }
 
 static void Application::loop() {
