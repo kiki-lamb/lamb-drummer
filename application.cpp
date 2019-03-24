@@ -108,7 +108,7 @@ static void Application::process_controls() {
 
     if ( 
       TrackStateButtonProcessor::handle_button(
-        _track_states[_track_states.index()],
+        _track_states.current(),
         controls.buttonpad_button()
       )
     ) {

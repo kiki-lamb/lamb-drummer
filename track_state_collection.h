@@ -10,6 +10,7 @@ class TrackStateCollection {
    size_t _index;
    
   public:
+  
   typedef track_state_t item_t;
   
   TrackStateCollection() : _index(2) {
@@ -29,6 +30,14 @@ class TrackStateCollection {
   
   track_state_t & operator[](size_t index) {
     return items[index];
+  }
+
+  track_state_t const & current() const {
+    return items[index()];
+  }
+
+  track_state_t & current() {
+    return items[index()];
   }
 
   uint8_t max_mod_maj() const {
