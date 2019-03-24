@@ -1,3 +1,6 @@
+#ifndef SHELF_CLOCK_BUFFER_H
+#define SHELF_CLOCK_BUFFER_H
+
 template <typename T> 
 class Buffer256 {
   private: 
@@ -69,3 +72,4 @@ class Buffer {
   }
 };
 
+#endif
