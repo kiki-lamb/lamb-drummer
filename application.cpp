@@ -77,6 +77,7 @@ static void Application::set_playback_state(bool playback_state_) {
   timer1.set_playback_state(playback_state_);
   Ui::flag_redraw_playback_state();
   flag_main_screen();
+  eeprom.flag_save_requested();
 }
 
 static void Application::save_state() {
@@ -92,22 +93,19 @@ static void Application::restore_state() {
 }
 
 static void Application::process_controls() {
+#define SET_FLAGS flag_main_screen(); eeprom.flag_save_requested();
   controls.poll();
 
   if (controls.bpm_changed.consume()) {
     timer1.set_bpm(controls.bpm());
-    eeprom  .flag_save_requested();
     Ui     ::flag_popup_bpm();
-    flag_main_screen();
+    SET_FLAGS;
   }
 
-  bool encoder_button_pressed   = controls.encoder_button_pressed  .consume();
-  bool buttonpad_button_pressed = controls.buttonpad_button_pressed.consume();
+  if (controls.encoder_button_pressed .consume())
+    set_playback_state(! timer1.playback_state());
 
-  if (encoder_button_pressed)
-    timer1.set_playback_state(! timer1.playback_state());
-
-  if (buttonpad_button_pressed && IButtonpad::BTN_NONE != controls.buttonpad_button()) {
+  if (controls.buttonpad_button_pressed.consume() && IButtonpad::BTN_NONE != controls.buttonpad_button()) {
     Serial.print(F("Caught button "));
     Serial.print(controls.buttonpad_button());
     Serial.print(F(" for track "));
@@ -122,12 +120,10 @@ static void Application::process_controls() {
     ) {
       Ui::flag_redraw_track(_track_states.index());
       Ui::flag_redraw_selected_track_indicator();
-      flag_main_screen();
+      SET_FLAGS;
     }
   }
-
-  if (encoder_button_pressed || buttonpad_button_pressed)
-    eeprom.flag_save_requested();
+#undef SET_FLAGS
 }
 
 
