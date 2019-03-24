@@ -75,7 +75,7 @@ static void Application::setup() {
   timer1   .setup();
   timer2   .setup();
   sei();
-  persistant_data<collection_t> tmp(&_track_states, bpm(), playback_state());
+  Eeprom::persistant_data<collection_t> tmp(&_track_states, bpm(), playback_state());
   eeprom   .restore_all(tmp);
   controls.set_encoder(tmp.bpm);
   Application::set_bpm(tmp.bpm); 
@@ -128,7 +128,7 @@ static void Application::process_controls() {
 }
 
 static void Application::save_state() {
-  eeprom.save_all( persistant_data<collection_t>(&_track_states, bpm(), playback_state()) );
+  eeprom.save_all( Eeprom::persistant_data<collection_t>(&_track_states, bpm(), playback_state()) );
 }
 
 

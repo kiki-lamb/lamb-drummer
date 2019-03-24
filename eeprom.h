@@ -5,21 +5,23 @@
 #include "flag.h"
 #include "track_state.h"
 
-template <class collection_t>
-class persistant_data {
-  public:
-  collection_t * track_states;
-  uint8_t bpm;
-  bool play_state;
-
-  persistant_data(collection_t * track_states_, uint8_t bpm_, bool play_state_) :
-    track_states(track_states_),
-    bpm(bpm_),
-    play_state(play_state_)
-  {}
-};
 
 class Eeprom {
+  public:
+  template <class collection_t>
+  class persistant_data {
+    public:
+    collection_t * track_states;
+    uint8_t bpm;
+    bool play_state;
+  
+    persistant_data(collection_t * track_states_, uint8_t bpm_, bool play_state_) :
+      track_states(track_states_),
+      bpm(bpm_),
+      play_state(play_state_)
+    {}
+  };
+
   private:
     void save_playback_state(bool playback_state_) const;
     void save_bpm(uint8_t bpm_) const;
