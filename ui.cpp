@@ -3,17 +3,28 @@
 #include "screen_state_main.h"
 
 Flag           Ui::redraw_selected_track_indicator("rst", true);
-Flag           Ui::redraw_playback_state("rps", true);
-Flag           Ui::redraw_bpm           ("rb" , false);
-Flag           Ui::popup_bpm_requested  ("pbr", false);
-Flag           Ui::redraw_track    ("ti" , false);
-uint8_t        Ui::trag_flagged_for_redraw    = 0;
-Ui::screen_t   Ui::current_screen       = SCREEN_NONE;
-IScreenState * Ui::screen_states[4]     = { new SSIntro(), new SSNone(), new SSMain(), new SSInstr() };
+Flag           Ui::redraw_playback_state          ("rps", true);
+Flag           Ui::redraw_bpm                     ("rb" , false);
+Flag           Ui::popup_bpm_requested            ("pbr", false);
+Flag           Ui::redraw_track                   ("ti" , false);
+uint8_t        Ui::track_flagged_for_redraw      = 0;
+Ui::screen_t   Ui::current_screen                = SCREEN_NONE;
+
+IScreenState * Ui::screen_states[4]              = { 
+  new SSIntro(), new SSNone(), new SSMain(), new SSInstr() 
+};
+
+static void Ui::flag_redraw_selected_track_indicator() {
+  redraw_selected_track_indicator.flag();
+}
+
+static void Ui::flag_redraw_playback_state() {
+  redraw_playback_state.flag();
+}
 
 static void Ui::flag_redraw_track(uint8_t track) {
   redraw_track.flag();
-  trag_flagged_for_redraw = track;
+  track_flagged_for_redraw = track;
 }
 
 static void Ui::flag_popup_bpm() {

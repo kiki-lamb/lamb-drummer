@@ -41,7 +41,7 @@ static void Application::set_bpm(uint8_t bpm_) {
 
 static void Application::set_playback_state(bool playback_state_) {
   timer1.set_playback_state(playback_state_);
-  Ui::redraw_playback_state.flag();
+  Ui::flag_redraw_playback_state();
   flag_main_screen();
 }
 
@@ -107,7 +107,7 @@ static void Application::process_controls() {
 
     if ( _track_states[_track_states.index()].handle_button(controls.buttonpad_button()) ) {
       Ui::flag_redraw_track(_track_states.index());
-      Ui::redraw_selected_track_indicator.flag();
+      Ui::flag_redraw_selected_track_indicator();
       flag_main_screen();
     }
   }

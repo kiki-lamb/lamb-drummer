@@ -14,12 +14,12 @@ class Ui {
     static void           setup           ();
     static void           enter_screen    (screen_t screen);
     static void           update_screen   ();
+    
     static void           flag_popup_bpm  ();
     static void           flag_screen     (screen_t screen);
     static void           flag_redraw_track(uint8_t track);
-
-    static Flag           redraw_selected_track_indicator;
-    static Flag           redraw_playback_state;
+    static void           flag_redraw_selected_track_indicator();
+    static void           flag_redraw_playback_state();
         
   private:
     Ui();
@@ -29,7 +29,9 @@ class Ui {
     static Flag           popup_bpm_requested;
     static Flag           redraw_bpm;
     static Flag           redraw_track;
-    static uint8_t        trag_flagged_for_redraw;
+    static Flag           redraw_selected_track_indicator;
+    static Flag           redraw_playback_state;
+    static uint8_t        track_flagged_for_redraw;
 };
 
 #endif
