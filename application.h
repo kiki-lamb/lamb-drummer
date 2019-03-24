@@ -29,6 +29,7 @@ class Application {
   static          Timer2_                 timer2;
   static          collection_t            _track_states;
   static          void                    restore_state();
+  static          void                    set_playback_state(bool playback_state_);
   
   public:
   static          void                    setup();
@@ -41,8 +42,6 @@ class Application {
   static          uint8_t                 bpm();
   static          uint8_t                 ticker();
   static          bool                    playback_state();
-  static          void                    set_bpm(uint8_t bpm);
-  static          void                    set_playback_state(bool playback_state_);
 
   // fwd to Ui:
   static          void                    flag_main_screen();

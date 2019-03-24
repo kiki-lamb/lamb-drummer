@@ -12,56 +12,6 @@ Application::Application() {};
 
 Application::~Application() {}
 
-static void Application::loop() {
-  const uint16_t frame_rate  = 80;
-  const uint16_t frame_delay = 1000 / frame_rate;
-
-  Ui::update_screen();
-  delay(frame_delay);
-}
-
-static Application::collection_t const & Application::track_states() {
-  return _track_states;
-}
-
-static void Application::flag_main_screen() {
-  Ui::flag_screen(Ui::SCREEN_MAIN);
-}
-
-static uint8_t Application::ticker() {
-  return timer1.ticker();
-}
-
-static double Application::hz() {
-  return timer1.hz();
-}
-
-static void Application::set_bpm(uint8_t bpm_) {
-  timer1.set_bpm(bpm_);
-}
-
-static void Application::set_playback_state(bool playback_state_) {
-  timer1.set_playback_state(playback_state_);
-  Ui::flag_redraw_playback_state();
-  flag_main_screen();
-}
-
-static uint8_t Application::bpm() {
-  return timer1.bpm();
-}
-
-static bool Application::playback_state() {
-  return timer1.playback_state();
-}
-
-static uint8_t Application::page() {
-  uint8_t tmp_tick        = timer1.ticker() >> 1;
-  uint8_t tmp_inside_tick = tmp_tick % _track_states.max_mod_maj();
-  uint8_t tmp_page        = tmp_inside_tick /  16;
-
-  return tmp_page;
-}
-
 static void Application::setup() {
   Serial.begin(115200);
   Serial.println();
@@ -83,11 +33,61 @@ static void Application::setup() {
 
 }
 
+static void Application::loop() {
+  const uint16_t frame_rate  = 80;
+  const uint16_t frame_delay = 1000 / frame_rate;
+
+  Ui::update_screen();
+  delay(frame_delay);
+}
+
+static Application::collection_t const & Application::track_states() {
+  return _track_states;
+}
+
+static void Application::flag_main_screen() {
+  Ui::flag_screen(Ui::SCREEN_MAIN);
+}
+
+static double Application::hz() {
+  return timer1.hz();
+}
+
+static uint8_t Application::bpm() {
+  return timer1.bpm();
+}
+
+static uint8_t Application::ticker() {
+  return timer1.ticker();
+}
+
+static uint8_t Application::page() {
+  uint8_t tmp_tick        = timer1.ticker() >> 1;
+  uint8_t tmp_inside_tick = tmp_tick % _track_states.max_mod_maj();
+  uint8_t tmp_page        = tmp_inside_tick /  16;
+
+  return tmp_page;
+}
+
+static bool Application::playback_state() {
+  return timer1.playback_state();
+}
+
+static void Application::set_playback_state(bool playback_state_) {
+  timer1.set_playback_state(playback_state_);
+  Ui::flag_redraw_playback_state();
+  flag_main_screen();
+}
+
+static void Application::save_state() {
+  eeprom.save_all( Eeprom::PersistantData<collection_t>(&_track_states, bpm(), playback_state()) );
+}
+
 static void Application::restore_state() {
   Eeprom::PersistantData<collection_t> tmp(&_track_states, bpm(), playback_state());
   eeprom.restore_all(tmp);
   controls.set_encoder(tmp.bpm);
-  Application::set_bpm(tmp.bpm); 
+  timer1.set_bpm(tmp.bpm); 
   Application::set_playback_state(tmp.playback_state);
 }
 
@@ -130,8 +130,5 @@ static void Application::process_controls() {
     eeprom.flag_save_requested();
 }
 
-static void Application::save_state() {
-  eeprom.save_all( Eeprom::PersistantData<collection_t>(&_track_states, bpm(), playback_state()) );
-}
 
 
