@@ -28,6 +28,7 @@ class Application {
   static          Timer1_                 timer1;
   static          Timer2_                 timer2;
   static          collection_t            _track_states;
+  static          void                    restore_state();
   
   public:
   static          void                    setup();
@@ -49,7 +50,6 @@ class Application {
   // fwd to _track_states:
   static          collection_t const &    track_states();
   
-  // fwd to eeprom:
   static          void                    save_state();
 };
 #endif

@@ -9,16 +9,16 @@
 class Eeprom {
   public:
   template <class collection_t>
-  class persistant_data {
+  class PersistantData {
     public:
     collection_t * track_states;
     uint8_t bpm;
-    bool play_state;
+    bool playback_state;
   
-    persistant_data(collection_t * track_states_, uint8_t bpm_, bool play_state_) :
+    PersistantData(collection_t * track_states_, uint8_t bpm_, bool playback_state_) :
       track_states(track_states_),
       bpm(bpm_),
-      play_state(play_state_)
+      playback_state(playback_state_)
     {}
   };
 
@@ -39,10 +39,10 @@ class Eeprom {
     virtual ~Eeprom();    
     
     template <class collection_t> 
-    void Eeprom::restore_all(persistant_data<collection_t> & data) {
+    void Eeprom::restore_all(PersistantData<collection_t> & data) {
      //Encoder::set_value(tmp); // UGLY NEED TO DO THIS OUTSIDE
      data.bpm = bpm();
-     data.play_state = playback_state();
+     data.playback_state = playback_state();
         
      for (size_t ix = 0, addr = 5; ix < data.track_states->size(); ix++, addr+= 4) {
        Serial.print(F("Restore TS #"));
@@ -58,7 +58,7 @@ class Eeprom {
   }
   
   template <class collection_t> 
-  void Eeprom::save_all(persistant_data<collection_t> const & data) {
+  void Eeprom::save_all(PersistantData<collection_t> const & data) {
     const unsigned long SAVE_DELAY = 15000UL;
 
     unsigned long now   = millis();
@@ -78,7 +78,7 @@ class Eeprom {
     Serial.println(F("Save all to EEPROM..."));
   
     save_bpm(data.bpm);
-    save_playback_state(data.play_state);
+    save_playback_state(data.playback_state);
   
     for (size_t ix = 0, addr = 5; ix < data.track_states->size(); ix++, addr+= 4)
       save_track_state(addr,  (*data.track_states)[ix]);
