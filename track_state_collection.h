@@ -1,7 +1,7 @@
 #ifndef SHELF_CLOCK_TRACK_STATE_COLLECTION_H
 #define SHELF_CLOCK_TRACK_STATE_COLLECTION_H
 
-#include <Arduino.h>
+#include "Arduino.h"
 
 template <size_t size, class track_state_t> 
 class TrackStateCollection {

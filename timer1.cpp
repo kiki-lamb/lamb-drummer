@@ -1,5 +1,4 @@
 #include "timer1.h"
-#include "ui.h"
 #include "application.h"
 
 Timer1_::Timer1_() : _ticker(0), _hz(0), _bpm(0), _playback_state(true) {};

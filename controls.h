@@ -5,7 +5,6 @@
 #include "flag.h"
 #include "encoder_button.h" 
 #include "encoder.h" 
-#include "timer1.h"
 #include "application.h"
 
 template <class i_buttonpad_t>

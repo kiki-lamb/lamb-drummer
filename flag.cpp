@@ -4,9 +4,6 @@
 Flag::Flag(char * _name = 0, bool _value = false) : name(_name), value(_value) {};
 
 void Flag::flag() { 
-//  Serial.print(F("Flag "));
-//  Serial.print(name);
-//  Serial.println();
   value = true; 
 }
 

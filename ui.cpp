@@ -1,6 +1,4 @@
 #include "ui.h"
-#include "lcd.h"
-#include "i_screen_state.h"
 #include "screen_states.h"
 #include "screen_state_main.h"
 

@@ -3,7 +3,6 @@
 
 #include "lcd.h"
 #include "i_screen_state.h"
-#include "screen_states.h"
 #include "flag.h"
 
 class Ui {

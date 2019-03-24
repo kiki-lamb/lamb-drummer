@@ -13,12 +13,10 @@ class IScreenState {
   void update();
   void enter();
 
-  protected:
-  Flag requires_update;
-
   static LiquidCrystal & lcd();
 
   private:
+  Flag requires_update;
   virtual void impl_update() = 0;
   virtual void impl_enter() = 0;
 

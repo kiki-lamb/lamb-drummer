@@ -1,10 +1,5 @@
 #include "application.h"
 #include "ui.h"
-#include "eeprom.h"
-#include "timer1.h"
-#include "timer2.h"
-#include "buttonpad_resistor_ladder.h"
-#include "buttonpad_pcf8574.h"
 
 Controls<Application::buttonpad_t> Application::controls(&Application::bpm);
 static Application::collection_t   Application::_track_states;

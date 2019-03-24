@@ -5,7 +5,6 @@
 #include "i_buttonpad.h"
 #include <Wire.h>
 #include <jm_PCF8574.h>
-#include "flag.h"
 
 template <uint8_t i2c_addr_>
 class Buttonpad_PCF8754 : public IButtonpad {

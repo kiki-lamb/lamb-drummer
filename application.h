@@ -8,6 +8,7 @@
 #include "track_state_collection.h"
 #include "controls.h"
 #include "eeprom.h"
+#include "timer1.h"
 #include "timer2.h"
 
 class Application {
