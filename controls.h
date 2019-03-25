@@ -7,10 +7,11 @@
 #include "encoder.h" 
 #include "buffer.h"
 
-template <class i_buttonpad_t>
-class Controls {
+class IControls {
   public:
-  
+  IControls();
+  virtual ~IControls();
+
   enum ControlEventType { 
     EVT_MIN_UP,
     EVT_MIN_DN,
@@ -32,6 +33,15 @@ class Controls {
     uint8_t parameter;
   };
 
+  virtual uint8_t queue_count() const = 0;
+  virtual ControlEvent dequeue_event() = 0;
+  virtual void poll() = 0;
+};
+
+template <class i_buttonpad_t>
+class Controls : public IControls {
+  public:
+  
   Controls(uint8_t(*bpm_f_)()) : 
     button_pad(new i_buttonpad_t()),  
     encoder_button(A7), 
@@ -50,11 +60,11 @@ class Controls {
     button_pad->setup();
   }
 
-  uint8_t queue_count() const {
+  virtual uint8_t queue_count() const {
     return event_buffer.count();
   }
 
-  void poll() {
+  virtual void poll() {
     uint8_t tmp_bpm = Encoder::value();
   
     if (tmp_bpm != (*bpm_f)()) {
@@ -69,7 +79,7 @@ class Controls {
       queue_event( buttonpad_ordering[buttonpad_button()] );
   }
   
-  ControlEvent dequeue_event() {
+  virtual ControlEvent dequeue_event() {
     if (! event_buffer.readable() ) {
       ControlEvent e = { EVT_NOT_AVAILABLE};
       return e;

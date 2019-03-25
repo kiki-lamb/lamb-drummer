@@ -23,3 +23,6 @@ template <> typename Controls<Buttonpad_PCF8754<0x3F> >::ControlEventType Contro
   EVT_PHASE_MIN_DN
 };
 
+IControls::IControls() {};
+IControls::~IControls() {};
+
