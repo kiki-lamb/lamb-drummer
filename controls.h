@@ -71,10 +71,12 @@ class Controls {
     }
 
     if ( encoder_button.read() )
-      queue_event( EVT_PLAYBACK_STATE_TOGGLE, 0);
+      queue_event( EVT_PLAYBACK_STATE_TOGGLE);
     
-//    if ( button_pad->read() ) 
-//    
+    if ( button_pad->read() ) {
+      queue_event( (ControlEventType)(buttonpad_button()) );
+    }
+    
 //      buttonpad_button_pressed.flag();
   }
   
@@ -82,7 +84,7 @@ class Controls {
 
   ControlEvent dequeue_event() {
     if (! event_buffer.readable() ) {
-      ControlEvent e = { EVT_NOT_AVAILABLE, 0 };
+      ControlEvent e = { EVT_NOT_AVAILABLE};
       return e;
     }
 

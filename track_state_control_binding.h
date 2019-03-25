@@ -7,9 +7,9 @@
 #include "controls.h"
 
 template <class controls_t>
-class TrackStateButtonProcessor {
+class TrackStateEventProcessor {
  public:	
-   bool handle_button(TrackState & that, typename controls_t::ControlEvent e) {
+   static bool handle_event(TrackState & that, typename controls_t::ControlEvent e) {
       if (e.type < 8) {   
         (*button_handlers[e.type])(that);
         return true;
@@ -24,9 +24,9 @@ class TrackStateButtonProcessor {
    }
    
  private:
-   TrackStateButtonProcessor() {}
+   TrackStateEventProcessor() {}
     
-   ~TrackStateButtonProcessor() {}
+   ~TrackStateEventProcessor() {}
         
    static void increase_mod_maj(TrackState & that) {
       Serial.println(F("Do BTN_MAJ_UP"));
@@ -110,15 +110,15 @@ class TrackStateButtonProcessor {
     static button_handler button_handlers[8];
 };
 
-template <class controls_t> typename TrackStateButtonProcessor<controls_t>::button_handler TrackStateButtonProcessor<controls_t>::button_handlers[8] = {
-  &TrackStateButtonProcessor::increase_mod_min,
-  &TrackStateButtonProcessor::decrease_mod_min,
-  &TrackStateButtonProcessor::increase_mod_maj,
-  &TrackStateButtonProcessor::decrease_mod_maj,
-  &TrackStateButtonProcessor::increase_phase_min,
-  &TrackStateButtonProcessor::decrease_phase_min,
-  &TrackStateButtonProcessor::increase_phase_maj, 
-  &TrackStateButtonProcessor::decrease_phase_maj,    
+template <class controls_t> typename TrackStateEventProcessor<controls_t>::button_handler TrackStateEventProcessor<controls_t>::button_handlers[8] = {
+  &TrackStateEventProcessor::increase_mod_min,
+  &TrackStateEventProcessor::decrease_mod_min,
+  &TrackStateEventProcessor::increase_mod_maj,
+  &TrackStateEventProcessor::decrease_mod_maj,
+  &TrackStateEventProcessor::increase_phase_min,
+  &TrackStateEventProcessor::decrease_phase_min,
+  &TrackStateEventProcessor::increase_phase_maj, 
+  &TrackStateEventProcessor::decrease_phase_maj,    
 };  
 
 #endif

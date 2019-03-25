@@ -103,7 +103,7 @@ static void Application::process_controls() {
     Serial.println();
 
     if (e.type < 8) {
-      TrackStateButtonProcessor<controls_t>::handle_button(_track_states.current(), e);
+      TrackStateEventProcessor<controls_t>::handle_event(_track_states.current(), e);
       Serial.print(F("Caught event "));
       Serial.print(e.type);
       Serial.print(F(" for track "));
