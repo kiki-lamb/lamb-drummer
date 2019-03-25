@@ -101,37 +101,31 @@ static void Application::process_controls() {
     Serial.print(F("Dequeue "));
     Serial.print(e.type);
     Serial.println();
-    
-    switch (e.type) {
-      case controls_t::EVT_PLAYBACK_STATE_TOGGLE:
-        set_playback_state(! timer1.playback_state());
-        break;
-      case controls_t::EVT_BPM_SET:
-        timer1.set_bpm(controls.bpm());
-        Ui     ::flag_popup_bpm();
-        SET_FLAGS;
-        break;
+
+    if (e.type < 8) {
+      TrackStateButtonProcessor<controls_t>::handle_button(_track_states.current(), e);
+      Serial.print(F("Caught event "));
+      Serial.print(e.type);
+      Serial.print(F(" for track "));
+      Serial.print(_track_states.index());
+      Serial.println();
+      Ui::flag_redraw_track(_track_states.index());
+      Ui::flag_redraw_selected_track_indicator();
+      SET_FLAGS;
+    }
+    else {
+      switch (e.type) {
+        case controls_t::EVT_PLAYBACK_STATE_TOGGLE:
+          set_playback_state(! timer1.playback_state());
+          break;
+        case controls_t::EVT_BPM_SET:
+          timer1.set_bpm(controls.bpm());
+          Ui     ::flag_popup_bpm();
+          SET_FLAGS;
+          break;
+      }
     }
   }
-
-//  if (controls.buttonpad_button_pressed.consume() && IButtonpad::BTN_NONE != controls.buttonpad_button()) {
-//    Serial.print(F("Caught button "));
-//    Serial.print(controls.buttonpad_button());
-//    Serial.print(F(" for track "));
-//    Serial.print(_track_states.index());
-//    Serial.println();
-//
-//    if ( 
-//      TrackStateButtonProcessor::handle_button(
-//        _track_states.current(),
-//        controls.buttonpad_button()
-//      )
-//    ) {
-//      Ui::flag_redraw_track(_track_states.index());
-//      Ui::flag_redraw_selected_track_indicator();
-//      SET_FLAGS;
-//    }
-//  }
   
 #undef SET_FLAGS
 }
