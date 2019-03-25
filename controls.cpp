@@ -1,4 +1,5 @@
 #include "controls.h"
+#include "buttonpad_pcf8574.h"
 
 template <class buttonpad_t> typename Controls<buttonpad_t>::ControlEventType Controls<buttonpad_t>::buttonpad_ordering[8] = {
   EVT_MAJ_UP,
