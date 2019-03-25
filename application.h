@@ -18,7 +18,7 @@ class Application {
   static const    size_t                  NUM_TRACKS = 3;
 
   public:
-  typedef TrackStateCollection<NUM_TRACKS> track_collection_;
+  typedef TrackStateCollection<NUM_TRACKS> track_collection_t;
 
   private:
   typedef         Buttonpad_PCF8754<0x3F> buttonpad_t;
