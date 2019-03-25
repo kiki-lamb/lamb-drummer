@@ -74,10 +74,19 @@ class Controls {
       queue_event( EVT_PLAYBACK_STATE_TOGGLE);
     
     if ( button_pad->read() ) {
-      queue_event( (ControlEventType)(buttonpad_button()) );
+      static ControlEventType unscramble_buttons[] = {
+        EVT_MAJ_UP,
+        EVT_PHASE_MAJ_UP,
+        EVT_MIN_UP,
+        EVT_PHASE_MIN_UP,
+        EVT_MAJ_DN,
+        EVT_PHASE_MAJ_DN,
+        EVT_MIN_DN,
+        EVT_PHASE_MIN_DN
+      };
+      
+      queue_event( unscramble_buttons[buttonpad_button()] );
     }
-    
-//      buttonpad_button_pressed.flag();
   }
   
   virtual ~Controls() {}
