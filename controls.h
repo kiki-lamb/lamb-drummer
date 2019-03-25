@@ -20,21 +20,31 @@ class Controls : public IControls {
 
   virtual ~Controls() {}
 
-  virtual void set_encoder(uint8_t val) {
+  private:   
+  
+  Buffer<ControlEvent, 8> event_buffer;
+  
+  uint8_t(*bpm_f)();
+
+  IButtonpad::Button buttonpad_button() const {
+    return button_pad->buttonpad_button();
+  }
+
+  virtual void impl_set_encoder(uint8_t val) {
     Encoder::set_value(val);
   }
   
-  virtual void setup() {  
+  virtual void impl_setup() {  
     Encoder::setup();
     encoder_button.setup();
     button_pad->setup();
   }
 
-  virtual uint8_t queue_count() const {
+  virtual uint8_t impl_queue_count() const {
     return event_buffer.count();
   }
 
-  virtual void poll() {
+  virtual void impl_poll() {
     uint8_t tmp_bpm = Encoder::value();
   
     if (tmp_bpm != (*bpm_f)()) {
@@ -49,23 +59,13 @@ class Controls : public IControls {
       queue_event( buttonpad_ordering[buttonpad_button()] );
   }
   
-  virtual ControlEvent dequeue_event() {
+  virtual ControlEvent impl_dequeue_event() {
     if (! event_buffer.readable() ) {
       ControlEvent e = { EVT_NOT_AVAILABLE};
       return e;
     }
 
     return event_buffer.read();
-  }
-
-  private:   
-  
-  Buffer<ControlEvent, 8> event_buffer;
-  
-  uint8_t(*bpm_f)();
-
-  IButtonpad::Button buttonpad_button() const {
-    return button_pad->buttonpad_button();
   }
 
   void queue_event(ControlEventType t, uint8_t param = 0) {

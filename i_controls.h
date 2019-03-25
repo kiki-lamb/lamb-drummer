@@ -1,6 +1,8 @@
 #ifndef SHELF_CLOCK_I_CONTROLS_H
 #define SHELF_CLOCK_I_CONTROLS_H
 
+#include "Arduino.h"
+
 class IControls {
   public:
   IControls();
@@ -27,11 +29,17 @@ class IControls {
     uint8_t parameter;
   };
   
-  virtual void setup() = 0;
-  virtual uint8_t queue_count() const = 0;
-  virtual ControlEvent dequeue_event() = 0;
-  virtual void set_encoder(uint8_t val) = 0; // try to get rid of this
-  virtual void poll() = 0;
+  void setup();
+  uint8_t queue_count() const;
+  ControlEvent dequeue_event();
+  void set_encoder(uint8_t val); // try to get rid of this
+  void poll();
+  
+  virtual void impl_setup() = 0;
+  virtual uint8_t impl_queue_count() const = 0;
+  virtual ControlEvent impl_dequeue_event() = 0;
+  virtual void impl_set_encoder(uint8_t val) = 0; // try to get rid of this
+  virtual void impl_poll() = 0;
 };
 
 #endif
