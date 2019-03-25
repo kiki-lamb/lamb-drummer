@@ -3,16 +3,16 @@
 #include "track_state_control_binding.h"
 
 IControls * Application::controls(new Application::controls_t(&Application::bpm));
-static Application::track_collection_t   Application::_track_states;
-static Eeprom                      Application::eeprom;
-static Timer1_                     Application::timer1;
-static Timer2_                     Application::timer2;
+Application::track_collection_t   Application::_track_states;
+Eeprom                      Application::eeprom;
+Timer1_                     Application::timer1;
+Timer2_                     Application::timer2;
 
 Application::Application() {};
 
 Application::~Application() {}
 
-static void Application::setup() {
+void Application::setup() {
   Serial.begin(115200);
   Serial.println();
   Serial.println(F("Begin setup"));
@@ -33,7 +33,7 @@ static void Application::setup() {
   Serial.println();
 }
 
-static void Application::loop() {
+void Application::loop() {
   const uint16_t frame_rate  = 80;
   const uint16_t frame_delay = 1000 / frame_rate;
 
@@ -41,27 +41,27 @@ static void Application::loop() {
   delay(frame_delay);
 }
 
-static Application::track_collection_t const & Application::track_states() {
+Application::track_collection_t const & Application::track_states() {
   return _track_states;
 }
 
-static void Application::flag_main_screen() {
+void Application::flag_main_screen() {
   Ui::flag_screen(Ui::SCREEN_MAIN);
 }
 
-static double Application::hz() {
+double Application::hz() {
   return timer1.hz();
 }
 
-static uint8_t Application::bpm() {
+uint8_t Application::bpm() {
   return timer1.bpm();
 }
 
-static uint8_t Application::ticker() {
+uint8_t Application::ticker() {
   return timer1.ticker();
 }
 
-static uint8_t Application::page() {
+uint8_t Application::page() {
   uint8_t tmp_tick        = timer1.ticker() >> 1;
   uint8_t tmp_inside_tick = tmp_tick % _track_states.max_mod_maj();
   uint8_t tmp_page        = tmp_inside_tick /  16;
@@ -69,22 +69,22 @@ static uint8_t Application::page() {
   return tmp_page;
 }
 
-static bool Application::playback_state() {
+bool Application::playback_state() {
   return timer1.playback_state();
 }
 
-static void Application::set_playback_state(bool playback_state_) {
+void Application::set_playback_state(bool playback_state_) {
   timer1.set_playback_state(playback_state_);
   Ui::flag_redraw_playback_state();
   flag_main_screen();
   eeprom.flag_save_requested();
 }
 
-static void Application::save_state() {
+void Application::save_state() {
   eeprom.save_all( Eeprom::PersistantData<track_collection_t>(&_track_states, bpm(), playback_state()) );
 }
 
-static void Application::restore_state() {
+void Application::restore_state() {
   Eeprom::PersistantData<track_collection_t> tmp(&_track_states, bpm(), playback_state());
   eeprom.restore_all(tmp);
   controls->set_encoder(tmp.bpm);
@@ -92,7 +92,7 @@ static void Application::restore_state() {
   Application::set_playback_state(tmp.playback_state);
 }
 
-static void Application::process_controls() {
+void Application::process_controls() {
 #define SET_FLAGS flag_main_screen(); eeprom.flag_save_requested();
 
   controls->poll();
