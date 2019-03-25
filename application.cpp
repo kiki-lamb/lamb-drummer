@@ -116,8 +116,6 @@ void Application::process_controls() {
 
     if (e.type < 8) {
       TrackStateEventProcessor<controls_t>::handle_event(_track_states.current(), e);
-      Serial.print(F("Caught event "));
-      Serial.print(e.type);
       Serial.print(F(" for track "));
       Serial.print(_track_states.index());
       Serial.println();
