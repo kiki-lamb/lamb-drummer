@@ -71,7 +71,7 @@ class TrackStateEventProcessor {
     }
     
     static void increase_phase_maj(TrackState & that) {
-      Serial.println(F("Do BTN_phase_MAJ_UP"));
+      Serial.println(F("Do BTN_PHASE_MAJ_UP"));
       if (that.phase_maj() < that.mod_maj() - 1)
         that.set_phase_maj( that.phase_maj() + 1);
       else if (that.phase_maj() ==
@@ -81,7 +81,7 @@ class TrackStateEventProcessor {
     }
     
     static void decrease_phase_maj(TrackState & that) {
-      Serial.println(F("Do BTN_phase_MAJ_DOWN"));
+      Serial.println(F("Do BTN_PHASE_MAJ_DOWN"));
       if (that.phase_maj() > 0)
         that.set_phase_maj( that.phase_maj() - 1);
       else if (that.phase_maj() == 0)
