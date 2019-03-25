@@ -32,25 +32,13 @@ class Controls {
     uint8_t parameter;
   };
 
-  Buffer<ControlEvent, 8> event_buffer;
-//  Flag buttonpad_button_pressed;
-//  Flag encoder_button_pressed;
-//  Flag bpm_changed;
-  uint8_t(*bpm_f)();
-  
-  uint8_t bpm() const {
-    return _bpm;
-  }
-
-  IButtonpad::Button buttonpad_button() const {
-    return button_pad->buttonpad_button();
-  }
-
   Controls(uint8_t(*bpm_f_)()) : 
     button_pad(new i_buttonpad_t()),  
     encoder_button(A7), 
     bpm_f(bpm_f_) {
   }
+
+  virtual ~Controls() {}
 
   void set_encoder(uint8_t val) {
     Encoder::set_value(val);
@@ -81,8 +69,6 @@ class Controls {
       queue_event( buttonpad_ordering[buttonpad_button()] );
   }
   
-  virtual ~Controls() {}
-
   ControlEvent dequeue_event() {
     if (! event_buffer.readable() ) {
       ControlEvent e = { EVT_NOT_AVAILABLE};
@@ -93,6 +79,15 @@ class Controls {
   }
 
   private:   
+  
+  Buffer<ControlEvent, 8> event_buffer;
+  
+  uint8_t(*bpm_f)();
+
+  IButtonpad::Button buttonpad_button() const {
+    return button_pad->buttonpad_button();
+  }
+
   void queue_event(ControlEventType t, uint8_t param = 0) {
     if (! event_buffer.writeable()) {
       Serial.println(F("Can't queue."));

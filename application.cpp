@@ -131,7 +131,7 @@ static void Application::process_controls() {
           set_playback_state(! timer1.playback_state());
           break;
         case controls_t::EVT_BPM_SET:
-          timer1.set_bpm(controls.bpm());
+          timer1.set_bpm(e.parameter);
           Ui     ::flag_popup_bpm();
           SET_FLAGS;
           break;
