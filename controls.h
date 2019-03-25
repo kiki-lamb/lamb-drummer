@@ -32,9 +32,11 @@ class IControls {
     ControlEventType type;
     uint8_t parameter;
   };
-
+  
+  virtual void setup() = 0;
   virtual uint8_t queue_count() const = 0;
   virtual ControlEvent dequeue_event() = 0;
+  virtual void set_encoder(uint8_t val) = 0; // try to get rid of this
   virtual void poll() = 0;
 };
 
@@ -50,11 +52,11 @@ class Controls : public IControls {
 
   virtual ~Controls() {}
 
-  void set_encoder(uint8_t val) {
+  virtual void set_encoder(uint8_t val) {
     Encoder::set_value(val);
   }
   
-  void setup() {  
+  virtual void setup() {  
     Encoder::setup();
     encoder_button.setup();
     button_pad->setup();

@@ -23,7 +23,7 @@ class Application {
   private:
   typedef         Buttonpad_PCF8754<0x3F> buttonpad_t;
   typedef         Controls<buttonpad_t>   controls_t;
-  static          controls_t              controls;
+  static          IControls *             controls;
   static          Eeprom                  eeprom;
   static          Timer1_                 timer1;
   static          Timer2_                 timer2;

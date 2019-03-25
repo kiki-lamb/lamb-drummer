@@ -2,7 +2,7 @@
 #include "ui.h"
 #include "track_state_control_binding.h"
 
-Application::controls_t Application::controls(&Application::bpm);
+IControls * Application::controls(new Application::controls_t(&Application::bpm));
 static Application::collection_t   Application::_track_states;
 static Eeprom                      Application::eeprom;
 static Timer1_                     Application::timer1;
@@ -17,7 +17,7 @@ static void Application::setup() {
   Serial.println();
   Serial.println(F("Begin setup"));
 
-  controls .setup();
+  controls->setup();
   Ui      ::setup();
   Ui      ::enter_screen(Ui::SCREEN_INTRO);
 
@@ -87,7 +87,7 @@ static void Application::save_state() {
 static void Application::restore_state() {
   Eeprom::PersistantData<collection_t> tmp(&_track_states, bpm(), playback_state());
   eeprom.restore_all(tmp);
-  controls.set_encoder(tmp.bpm);
+  controls->set_encoder(tmp.bpm);
   timer1.set_bpm(tmp.bpm); 
   Application::set_playback_state(tmp.playback_state);
 }
@@ -95,20 +95,20 @@ static void Application::restore_state() {
 static void Application::process_controls() {
 #define SET_FLAGS flag_main_screen(); eeprom.flag_save_requested();
 
-  controls.poll();
+  controls->poll();
 
-// uint8_t tmp = controls.queue_count();
+// uint8_t tmp = controls->queue_count();
 
 // if (0 != tmp) {
 //    Serial.print(F("QUEUE HAS "));
-//    Serial.print(controls.queue_count());
+//    Serial.print(controls->queue_count());
 //    Serial.println(F(" EVENTS."));
 //   }
   
   for (
-        controls_t::ControlEvent e = controls.dequeue_event(); 
+        controls_t::ControlEvent e = controls->dequeue_event(); 
         e.type != controls_t::EVT_NOT_AVAILABLE; 
-        e = controls.dequeue_event()) {
+        e = controls->dequeue_event()) {
 
     Serial.print(F("Dequeue "));
     Serial.print(e.type);
