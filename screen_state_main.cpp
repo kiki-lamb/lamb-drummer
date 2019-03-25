@@ -5,7 +5,7 @@ static const unsigned long SSMain::POP_DURATION = 600;
 
 SSMain::SSMain() : popup_bpm_time(0), popup_bpm_state(false) {}
 
-Application::collection_t const & SSMain::track_states() {
+Application::track_collection_t const & SSMain::track_states() {
   return Application::track_states();
 }
 

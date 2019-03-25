@@ -3,7 +3,7 @@
 #include "track_state_control_binding.h"
 
 IControls * Application::controls(new Application::controls_t(&Application::bpm));
-static Application::collection_t   Application::_track_states;
+static Application::track_collection_   Application::_track_states;
 static Eeprom                      Application::eeprom;
 static Timer1_                     Application::timer1;
 static Timer2_                     Application::timer2;
@@ -41,7 +41,7 @@ static void Application::loop() {
   delay(frame_delay);
 }
 
-static Application::collection_t const & Application::track_states() {
+static Application::track_collection_ const & Application::track_states() {
   return _track_states;
 }
 
@@ -81,11 +81,11 @@ static void Application::set_playback_state(bool playback_state_) {
 }
 
 static void Application::save_state() {
-  eeprom.save_all( Eeprom::PersistantData<collection_t>(&_track_states, bpm(), playback_state()) );
+  eeprom.save_all( Eeprom::PersistantData<track_collection_>(&_track_states, bpm(), playback_state()) );
 }
 
 static void Application::restore_state() {
-  Eeprom::PersistantData<collection_t> tmp(&_track_states, bpm(), playback_state());
+  Eeprom::PersistantData<track_collection_> tmp(&_track_states, bpm(), playback_state());
   eeprom.restore_all(tmp);
   controls->set_encoder(tmp.bpm);
   timer1.set_bpm(tmp.bpm); 

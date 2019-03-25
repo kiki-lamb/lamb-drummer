@@ -18,16 +18,17 @@ class Application {
   static const    size_t                  NUM_TRACKS = 3;
 
   public:
-  typedef TrackStateCollection<NUM_TRACKS> collection_t;
+  typedef TrackStateCollection<NUM_TRACKS> track_collection_;
 
   private:
   typedef         Buttonpad_PCF8754<0x3F> buttonpad_t;
   typedef         Controls<buttonpad_t>   controls_t;
+
   static          IControls *             controls;
   static          Eeprom                  eeprom;
   static          Timer1_                 timer1;
   static          Timer2_                 timer2;
-  static          collection_t            _track_states;
+  static          track_collection_            _track_states;
   static          void                    restore_state();
   static          void                    set_playback_state(bool playback_state_);
   
@@ -47,7 +48,7 @@ class Application {
   static          void                    flag_main_screen();
 
   // fwd to _track_states:
-  static          collection_t const &    track_states();
+  static          track_collection_ const &    track_states();
   
   static          void                    save_state();
 };
