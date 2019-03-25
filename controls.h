@@ -73,20 +73,8 @@ class Controls {
     if ( encoder_button.read() )
       queue_event( EVT_PLAYBACK_STATE_TOGGLE);
     
-    if ( button_pad->read() ) {
-      static ControlEventType unscramble_buttons[] = {
-        EVT_MAJ_UP,
-        EVT_PHASE_MAJ_UP,
-        EVT_MIN_UP,
-        EVT_PHASE_MIN_UP,
-        EVT_MAJ_DN,
-        EVT_PHASE_MAJ_DN,
-        EVT_MIN_DN,
-        EVT_PHASE_MIN_DN
-      };
-      
-      queue_event( unscramble_buttons[buttonpad_button()] );
-    }
+    if ( button_pad->read() )
+      queue_event( buttonpad_ordering[buttonpad_button()] );
   }
   
   virtual ~Controls() {}
@@ -119,6 +107,20 @@ class Controls {
   uint8_t _bpm;
   IButtonpad * button_pad;
   EncoderButton encoder_button;
+  static  ControlEventType buttonpad_ordering[8]; 
 };
+
+
+template <class buttonpad_t> typename Controls<buttonpad_t>::ControlEventType Controls<buttonpad_t>::buttonpad_ordering[8] = {
+  EVT_MAJ_UP,
+  EVT_PHASE_MAJ_UP,
+  EVT_MIN_UP,
+  EVT_PHASE_MIN_UP,
+  EVT_MAJ_DN,
+  EVT_PHASE_MAJ_DN,
+  EVT_MIN_DN,
+  EVT_PHASE_MIN_DN
+};
+
 
 #endif
