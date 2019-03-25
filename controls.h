@@ -48,7 +48,6 @@ class Controls {
 
   Controls(uint8_t(*bpm_f_)()) : 
     button_pad(new i_buttonpad_t()),  
-    buttonpad_button_pressed("buttonpad_button_pressed"), 
     encoder_button(A7), 
     bpm_f(bpm_f_) {
   }
@@ -92,9 +91,18 @@ class Controls {
 
   private:   
   void queue_event(ControlEventType t, uint8_t param = 0) {
-    if (! event_buffer.writeable())
+    if (! event_buffer.writeable()) {
+      Serial.println(F("Can't queue."));
       return;
+    }
+
     ControlEvent e = { t, param };
+
+    Serial.print(F("Queue "));
+    Serial.print(e.type);
+    Serial.println();
+
+    event_buffer.write(e);
   };
   
   uint8_t _bpm;

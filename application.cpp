@@ -2,7 +2,7 @@
 #include "ui.h"
 #include "track_state_control_binding.h"
 
-Controls<Application::buttonpad_t> Application::controls(&Application::bpm);
+Application::controls_t Application::controls(&Application::bpm);
 static Application::collection_t   Application::_track_states;
 static Eeprom                      Application::eeprom;
 static Timer1_                     Application::timer1;
@@ -97,33 +97,41 @@ static void Application::process_controls() {
 
   controls.poll();
 
-  if (controls.bpm_changed.consume()) {
-    timer1.set_bpm(controls.bpm());
-    Ui     ::flag_popup_bpm();
-    SET_FLAGS;
-  }
-
-  if (controls.encoder_button_pressed .consume())
-    set_playback_state(! timer1.playback_state());
-
-  if (controls.buttonpad_button_pressed.consume() && IButtonpad::BTN_NONE != controls.buttonpad_button()) {
-    Serial.print(F("Caught button "));
-    Serial.print(controls.buttonpad_button());
-    Serial.print(F(" for track "));
-    Serial.print(_track_states.index());
+  for (controls_t::ControlEvent e = controls.dequeue_event(); e.type != controls_t::EVT_NOT_AVAILABLE; e=controls.dequeue_event()) {
+    Serial.print(F("Dequeue "));
+    Serial.print(e.type);
     Serial.println();
-
-    if ( 
-      TrackStateButtonProcessor::handle_button(
-        _track_states.current(),
-        controls.buttonpad_button()
-      )
-    ) {
-      Ui::flag_redraw_track(_track_states.index());
-      Ui::flag_redraw_selected_track_indicator();
-      SET_FLAGS;
+    
+    switch (e.type) {
+      case controls_t::EVT_PLAYBACK_STATE_TOGGLE:
+        set_playback_state(! timer1.playback_state());
+        break;
+      case controls_t::EVT_BPM_SET:
+        timer1.set_bpm(controls.bpm());
+        Ui     ::flag_popup_bpm();
+        SET_FLAGS;
+        break;
     }
   }
+
+//  if (controls.buttonpad_button_pressed.consume() && IButtonpad::BTN_NONE != controls.buttonpad_button()) {
+//    Serial.print(F("Caught button "));
+//    Serial.print(controls.buttonpad_button());
+//    Serial.print(F(" for track "));
+//    Serial.print(_track_states.index());
+//    Serial.println();
+//
+//    if ( 
+//      TrackStateButtonProcessor::handle_button(
+//        _track_states.current(),
+//        controls.buttonpad_button()
+//      )
+//    ) {
+//      Ui::flag_redraw_track(_track_states.index());
+//      Ui::flag_redraw_selected_track_indicator();
+//      SET_FLAGS;
+//    }
+//  }
   
 #undef SET_FLAGS
 }
