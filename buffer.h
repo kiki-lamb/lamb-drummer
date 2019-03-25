@@ -33,7 +33,7 @@ class Buffer256 {
   inline bool readable() {
     return count;
   }
-};
+};  
 
 template <typename T, uint8_t SIZE> 
 class Buffer {

@@ -23,8 +23,7 @@ class Controls {
     EVT_SELECTED_TRACK_UP,
     EVT_SELECTED_TRACK_DN,
     EVT_BPM_SET,
-    EVT_PLAYBACK_STATE_PLAY,
-    EVT_PLAYBACK_STATE_PAUSE,
+    EVT_PLAYBACK_STATE_TOGGLE,
     EVT_NOT_AVAILABLE
   };
 
@@ -34,9 +33,9 @@ class Controls {
   };
 
   Buffer<ControlEvent, 8> event_buffer;
-  Flag buttonpad_button_pressed;
-  Flag encoder_button_pressed;
-  Flag bpm_changed;
+//  Flag buttonpad_button_pressed;
+//  Flag encoder_button_pressed;
+//  Flag bpm_changed;
   uint8_t(*bpm_f)();
   
   uint8_t bpm() const {
@@ -63,25 +62,41 @@ class Controls {
     encoder_button.setup();
     button_pad->setup();
   }
-  
+
   void poll() {
     uint8_t tmp_bpm = Encoder::value();
   
     if (tmp_bpm != (*bpm_f)()) {
-      bpm_changed.flag();
+      queue_event(EVT_BPM_SET, tmp_bpm);
       _bpm = tmp_bpm;
     }
 
     if ( encoder_button.read() )
-      encoder_button_pressed.flag();
+      queue_event( EVT_PLAYBACK_STATE_TOGGLE, 0);
     
-    if ( button_pad->read() ) 
-      buttonpad_button_pressed.flag();
+//    if ( button_pad->read() ) 
+//    
+//      buttonpad_button_pressed.flag();
   }
   
   virtual ~Controls() {}
 
+  ControlEvent dequeue_event() {
+    if (! event_buffer.readable() ) {
+      ControlEvent e = { EVT_NOT_AVAILABLE, 0 };
+      return e;
+    }
+
+    return event_buffer.read();
+  }
+
   private:   
+  void queue_event(ControlEventType t, uint8_t param = 0) {
+    if (! event_buffer.writeable())
+      return;
+    ControlEvent e = { t, param };
+  };
+  
   uint8_t _bpm;
   IButtonpad * button_pad;
   EncoderButton encoder_button;
