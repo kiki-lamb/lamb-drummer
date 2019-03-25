@@ -28,7 +28,7 @@ class Application {
   static          Eeprom                  eeprom;
   static          Timer1_                 timer1;
   static          Timer2_                 timer2;
-  static          track_collection_t      _track_states;
+  static          track_collection_t      track_states_collection;
   static          void                    restore_state();
   static          void                    set_playback_state(bool playback_state_);
   
@@ -47,7 +47,7 @@ class Application {
   // fwd to Ui:
   static          void                    flag_main_screen();
 
-  // fwd to _track_states:
+  // fwd to track_states_collection:
   static          track_collection_t const &    track_states();
   
   static          void                    save_state();

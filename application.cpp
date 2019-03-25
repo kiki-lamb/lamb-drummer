@@ -3,7 +3,7 @@
 #include "track_state_control_binding.h"
 
 IControls * Application::controls(new Application::controls_t(&Application::bpm));
-Application::track_collection_t   Application::_track_states;
+Application::track_collection_t   Application::track_states_collection;
 Eeprom                      Application::eeprom;
 Timer1_                     Application::timer1;
 Timer2_                     Application::timer2;
@@ -42,7 +42,7 @@ void Application::loop() {
 }
 
 Application::track_collection_t const & Application::track_states() {
-  return _track_states;
+  return track_states_collection;
 }
 
 void Application::flag_main_screen() {
@@ -63,7 +63,7 @@ uint8_t Application::ticker() {
 
 uint8_t Application::page() {
   uint8_t tmp_tick        = timer1.ticker() >> 1;
-  uint8_t tmp_inside_tick = tmp_tick % _track_states.max_mod_maj();
+  uint8_t tmp_inside_tick = tmp_tick % track_states_collection.max_mod_maj();
   uint8_t tmp_page        = tmp_inside_tick /  16;
 
   return tmp_page;
@@ -81,11 +81,11 @@ void Application::set_playback_state(bool playback_state_) {
 }
 
 void Application::save_state() {
-  eeprom.save_all( Eeprom::PersistantData<track_collection_t>(&_track_states, bpm(), playback_state()) );
+  eeprom.save_all( Eeprom::PersistantData<track_collection_t>(&track_states_collection, bpm(), playback_state()) );
 }
 
 void Application::restore_state() {
-  Eeprom::PersistantData<track_collection_t> tmp(&_track_states, bpm(), playback_state());
+  Eeprom::PersistantData<track_collection_t> tmp(&track_states_collection, bpm(), playback_state());
   eeprom.restore_all(tmp);
   controls->set_encoder(tmp.bpm);
   timer1.set_bpm(tmp.bpm); 
@@ -107,11 +107,11 @@ void Application::process_controls() {
     Serial.println();
 
     if (e.type < 8) {
-      TrackStateEventProcessor<controls_t>::handle_event(_track_states.current(), e);
+      TrackStateEventProcessor<controls_t>::handle_event(track_states_collection.current(), e);
       Serial.print(F(" for track "));
-      Serial.print(_track_states.index());
+      Serial.print(track_states_collection.index());
       Serial.println();
-      Ui::flag_redraw_track(_track_states.index());
+      Ui::flag_redraw_track(track_states_collection.index());
       Ui::flag_redraw_selected_track_indicator();
       SET_FLAGS;
     }
