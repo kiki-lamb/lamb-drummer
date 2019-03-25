@@ -10,7 +10,7 @@ class SSMain : public IScreenState {
   SSMain();
   
   private:
-  Application::collection_t const & track_states();
+  Application::track_collection_t const & track_states();
   virtual void impl_enter();  
   virtual void impl_update();
   void draw_bars() const; 
