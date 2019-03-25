@@ -96,15 +96,20 @@ static void Application::process_controls() {
 #define SET_FLAGS flag_main_screen(); eeprom.flag_save_requested();
 
   controls.poll();
-  uint8_t tmp = controls.queue_count();
 
-//  if (0 != tmp) {
+// uint8_t tmp = controls.queue_count();
+
+// if (0 != tmp) {
 //    Serial.print(F("QUEUE HAS "));
 //    Serial.print(controls.queue_count());
 //    Serial.println(F(" EVENTS."));
 //   }
   
-  for (controls_t::ControlEvent e = controls.dequeue_event(); e.type != controls_t::EVT_NOT_AVAILABLE; e=controls.dequeue_event()) {
+  for (
+        controls_t::ControlEvent e = controls.dequeue_event(); 
+        e.type != controls_t::EVT_NOT_AVAILABLE; 
+        e = controls.dequeue_event()) {
+
     Serial.print(F("Dequeue "));
     Serial.print(e.type);
     Serial.println();
@@ -136,6 +141,4 @@ static void Application::process_controls() {
   
 #undef SET_FLAGS
 }
-
-
 
