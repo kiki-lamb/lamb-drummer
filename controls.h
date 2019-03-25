@@ -62,6 +62,10 @@ class Controls {
     button_pad->setup();
   }
 
+  uint8_t queue_count() const {
+    return event_buffer.count();
+  }
+
   void poll() {
     uint8_t tmp_bpm = Encoder::value();
   
