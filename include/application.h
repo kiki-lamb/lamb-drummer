@@ -12,6 +12,35 @@
 #include "timer2.h"
 #include "ui.h"
 
+template <class tracks_t>
+class UiData {
+public:
+  tracks_t const * track_states;
+  uint8_t page;
+  uint8_t bpm;
+  double  hz;
+  bool    playback_state;
+  uint8_t ticker;
+
+  UiData(
+    tracks_t const * track_states_,
+    uint8_t          page_,
+    uint8_t          bpm_,
+    double           hz_,
+    bool             playback_state_,
+    uint8_t          ticker_
+  ) :
+    track_states(track_states_),
+    page(page_),
+    bpm(bpm_),
+    hz(hz_),
+    playback_state(playback_state_),
+    ticker(ticker_)
+  {};
+
+  virtual ~UiData() {};
+};
+
 class Application {
 public:
   static const    size_t           track_count = 3;
@@ -23,6 +52,8 @@ private:
   ~Application();
   typedef Buttonpad_PCF8754<0x3F>  buttonpad_t;
   typedef Controls<buttonpad_t>    controls_t;
+  typedef UiData<tracks_t>         ui_data_t;
+  typedef Ui<ui_data_t>            ui_t;
   static          IControls *      controls;
   static          Eeprom           eeprom;
   static          Timer1_          timer1;
@@ -31,8 +62,7 @@ private:
   static          void             restore_state();
   static          void             set_playback_state(bool playback_state_);
   static          void             process_control(controls_t::ControlEvent & e);
-  static          Ui::UiData<tracks_t>
-                                   ui_data();
+  static          UiData<tracks_t> ui_data();
 
 public:
   static          void             save_state();
