@@ -59,7 +59,6 @@ class Ui {
     Ui() :
 		  redraw_selected_track_indicator("rst", true),
 			redraw_playback_state          ("rps", true),
-			redraw_bpm                     ("rb" , false),
 			popup_bpm_requested            ("pbr", false),
 			redraw_track                   ("ti" , false),
 			track_flagged_for_redraw(0),
@@ -70,7 +69,6 @@ class Ui {
       screen_states[1] = new SSNone ();
       screen_states[2] = new SSMain (
         &popup_bpm_requested,
-        &redraw_bpm,
         &redraw_playback_state,
         &redraw_selected_track_indicator,
         &redraw_track
@@ -84,7 +82,6 @@ class Ui {
     screen_t               current_screen;
     IScreenState<data_t> * screen_states[4];
     Flag                   popup_bpm_requested;
-    Flag                   redraw_bpm;
     Flag                   redraw_track;
     Flag                   redraw_selected_track_indicator;
     Flag                   redraw_playback_state;

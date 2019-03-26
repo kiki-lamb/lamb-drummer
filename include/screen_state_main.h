@@ -11,14 +11,12 @@ class SSMain : public IScreenState<UiData<TrackStateCollection<3, TrackState> > 
 public:
   SSMain(
     Flag * popup_bpm_requested,
-    Flag * redraw_bpm,
     Flag * redraw_playback_state,
     Flag * redraw_selected_track_indicator,
     Flag * redraw_track
   );
 private:
   Flag *        popup_bpm_requested;
-  Flag *        redraw_bpm;
   Flag *        redraw_playback_state;
   Flag *        redraw_selected_track_indicator;
   Flag *        redraw_track;
@@ -27,7 +25,7 @@ private:
   void          draw_bars(data_t & d);
   void 				  draw_channel_numbers(data_t & d);
   void 				  draw_column(data_t & d, uint8_t step, bool highlit = false, bool log_this = false);
-  void 			 	  draw_line0(data_t & d);
+  void 			 	  draw_line0(data_t & d, bool redraw_bpm = false);
   void 			    draw_page_number(data_t & d);
   unsigned long popup_bpm_time;
   bool          popup_bpm_state;

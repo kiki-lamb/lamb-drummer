@@ -4,3 +4,4 @@
 .clang_complete
 .gcc-flags.json
 lamb-drummer.ino.cpp
+.DS_Store
