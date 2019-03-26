@@ -79,7 +79,13 @@ void Application::set_playback_state(bool playback_state_) {
 }
 
 void Application::save_state() {
-  eeprom.save_all( Eeprom::PersistantData<track_collection_t>(&track_states_collection, bpm(), playback_state()) );
+   eeprom.save_all(
+     Eeprom::PersistantData<track_collection_t>(
+       &track_states_collection,
+       bpm(),
+       playback_state()
+     )
+   );
 }
 
 void Application::restore_state() {

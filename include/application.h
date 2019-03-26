@@ -34,6 +34,7 @@ class Application {
   static          void                    process_control(controls_t::ControlEvent & e);
 
   public:
+  static          void                    save_state();
   static          void                    setup();
   static          void                    loop();
   static          void                    process_controls();
@@ -50,7 +51,5 @@ class Application {
 
   // fwd to track_states_collection:
   static          track_collection_t const & track_states();
-
-  static          void                    save_state();
 };
 #endif
