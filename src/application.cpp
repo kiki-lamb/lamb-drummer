@@ -90,42 +90,44 @@ void Application::restore_state() {
   Application::set_playback_state(tmp.playback_state);
 }
 
-void Application::process_controls() {
+void Application::process_control(Application::controls_t::ControlEvent & e) {
+
 #define SET_FLAGS flag_main_screen(); eeprom.flag_save_requested();
 
+  Serial.print(F("Dequeue "));
+  Serial.print(e.type);
+  Serial.println();
+
+  if (e.type < 8) {
+    TrackStateEventProcessor<controls_t>::handle_event(track_states_collection.current(), e);
+    Serial.print(F(" for track "));
+    Serial.print(track_states_collection.index());
+    Serial.println();
+    Ui::flag_redraw_track(track_states_collection.index());
+    Ui::flag_redraw_selected_track_indicator();
+    SET_FLAGS;
+  }
+  else {
+    switch (e.type) {
+      case controls_t::EVT_PLAYBACK_STATE_TOGGLE:
+        set_playback_state(! timer1.playback_state());
+        break;
+      case controls_t::EVT_BPM_SET:
+        timer1.set_bpm(e.parameter);
+        Ui     ::flag_popup_bpm();
+        SET_FLAGS;
+        break;
+    }
+  }
+#undef SET_FLAGS
+}
+
+void Application::process_controls() {
   controls->poll();
 
   for (
         controls_t::ControlEvent e = controls->dequeue_event();
         e.type != controls_t::EVT_NOT_AVAILABLE;
         e = controls->dequeue_event()
-  ) {
-    Serial.print(F("Dequeue "));
-    Serial.print(e.type);
-    Serial.println();
-
-    if (e.type < 8) {
-      TrackStateEventProcessor<controls_t>::handle_event(track_states_collection.current(), e);
-      Serial.print(F(" for track "));
-      Serial.print(track_states_collection.index());
-      Serial.println();
-      Ui::flag_redraw_track(track_states_collection.index());
-      Ui::flag_redraw_selected_track_indicator();
-      SET_FLAGS;
-    }
-    else {
-      switch (e.type) {
-        case controls_t::EVT_PLAYBACK_STATE_TOGGLE:
-          set_playback_state(! timer1.playback_state());
-          break;
-        case controls_t::EVT_BPM_SET:
-          timer1.set_bpm(e.parameter);
-          Ui     ::flag_popup_bpm();
-          SET_FLAGS;
-          break;
-      }
-    }
-  }
-
-#undef SET_FLAGS
+  ) process_control(e);
 }

@@ -23,6 +23,7 @@ class Application {
   private:
   typedef         Buttonpad_PCF8754<0x3F> buttonpad_t;
   typedef         Controls<buttonpad_t>   controls_t;
+  static          void  process_control(controls_t::ControlEvent & e);
 
   static          IControls *             controls;
   static          Eeprom                  eeprom;
