@@ -36,10 +36,6 @@ void Ui::setup() {
   Lcd::setup();
 }
 
-void Ui::update_screen() {
-  screen_states[current_screen]->update();
-}
-
 void Ui::flag_screen(screen_t screen) {
   screen_states[screen]->flag();
 }
