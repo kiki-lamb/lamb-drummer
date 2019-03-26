@@ -17,10 +17,10 @@ Application::ui_data_t Application::ui_data() {
   return ui_data_t(
     &tracks,
     page(),
-    bpm(),
-    hz(),
-    playback_state(),
-    ticker()
+    timer1.bpm(),
+    timer1.hz(),
+    timer1.playback_state(),
+    timer1.ticker()
   );
 }
 
@@ -69,28 +69,15 @@ void Application::flag_main_screen() {
   ui.flag_screen(ui_t::SCREEN_MAIN);
 }
 
-double Application::hz() {
-  return timer1.hz();
-}
-
 uint8_t Application::bpm() {
   return timer1.bpm();
-}
-
-uint8_t Application::ticker() {
-  return timer1.ticker();
 }
 
 uint8_t Application::page() {
   uint8_t tmp_tick        = timer1.ticker() >> 1;
   uint8_t tmp_inside_tick = tmp_tick % tracks.max_mod_maj();
   uint8_t tmp_page        = tmp_inside_tick /  16;
-
   return tmp_page;
-}
-
-bool Application::playback_state() {
-  return timer1.playback_state();
 }
 
 void Application::set_playback_state(bool playback_state_) {
@@ -105,13 +92,17 @@ void Application::save_state() {
      Eeprom::PersistantData<tracks_t>(
        &tracks,
        bpm(),
-       playback_state()
+       timer1.playback_state()
      )
    );
 }
 
 void Application::restore_state() {
-  Eeprom::PersistantData<tracks_t> tmp(&tracks, bpm(), playback_state());
+  Eeprom::PersistantData<tracks_t> tmp(
+    &tracks,
+    timer1.bpm(),
+    timer1.playback_state()
+  );
   eeprom.restore_all(tmp);
   controls->set_encoder(tmp.bpm);
   timer1.set_bpm(tmp.bpm);

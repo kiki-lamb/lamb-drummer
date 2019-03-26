@@ -78,17 +78,17 @@ class Ui {
       screen_states[3] = new SSInstr();
     }
 
-    ~Ui() {}
+    virtual ~Ui() {}
 
   private:
-    screen_t       current_screen;
+    screen_t               current_screen;
     IScreenState<data_t> * screen_states[4];
-    Flag           popup_bpm_requested;
-    Flag           redraw_bpm;
-    Flag           redraw_track;
-    Flag           redraw_selected_track_indicator;
-    Flag           redraw_playback_state;
-    uint8_t        track_flagged_for_redraw;
+    Flag                   popup_bpm_requested;
+    Flag                   redraw_bpm;
+    Flag                   redraw_track;
+    Flag                   redraw_selected_track_indicator;
+    Flag                   redraw_playback_state;
+    uint8_t                track_flagged_for_redraw;
 };
 
 #endif

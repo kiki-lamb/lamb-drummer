@@ -1,7 +1,6 @@
 #include "screen_state_main.h"
 #include "ui.h"
 
-
 SSMain::SSMain(
   Flag * popup_bpm_requested_,
   Flag * redraw_bpm_,
