@@ -18,6 +18,8 @@ public:
   Flag *  redraw_selected_track_indicator;
   Flag *  redraw_playback_state;
 
+  UiData() {}
+
   UiData(
     tracks_t const * track_states_,
     uint8_t          page_,
@@ -40,7 +42,7 @@ public:
     redraw_track(redraw_track_),
     redraw_selected_track_indicator(redraw_selected_track_indicator_),
     redraw_playback_state(redraw_playback_state)
-  {};
+  {}
 
   virtual ~UiData() {};
 };

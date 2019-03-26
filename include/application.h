@@ -25,22 +25,21 @@ private:
   typedef Controls<buttonpad_t>    controls_t;
   typedef UiData<tracks_t>         ui_data_t;
   typedef Ui<ui_data_t>            ui_t;
-
   static          Flag             popup_bpm_requested;
   static          Flag             redraw_track;
   static          Flag             redraw_selected_track_indicator;
   static          Flag             redraw_playback_state;
-
   static          IControls *      controls;
   static          Eeprom           eeprom;
   static          Timer1_          timer1;
   static          Timer2_          timer2;
   static          tracks_t         tracks;
   static          ui_t             ui;
+  static          ui_data_t        ui_data;
   static          void             restore_state();
   static          void             set_playback_state(bool playback_state_);
   static          void             process_control(controls_t::ControlEvent & e);
-  static          UiData<tracks_t> ui_data();
+  static          void             update_ui_data();
   static          uint8_t          page();
   static          uint8_t          bpm();
 public:

@@ -2,34 +2,34 @@
 #include "ui_data.h"
 #include "track_state_control_binding.h"
 
-IControls *           Application::controls(new Application::controls_t(&Application::bpm));
-Application::tracks_t Application::tracks;
-Eeprom                Application::eeprom;
-Timer1_               Application::timer1;
-Timer2_               Application::timer2;
-Application::ui_t     Application::ui;
-Flag                  Application::popup_bpm_requested("rst", true);
-Flag                  Application::redraw_track("rps", true);
-Flag                  Application::redraw_selected_track_indicator("pbr", false);
-Flag                  Application::redraw_playback_state("ti" , false);
+IControls *            Application::controls(new Application::controls_t(&Application::bpm));
+Application::tracks_t  Application::tracks;
+Eeprom                 Application::eeprom;
+Timer1_                Application::timer1;
+Timer2_                Application::timer2;
+Application::ui_t      Application::ui;
+Application::ui_data_t Application::ui_data;
+Flag                   Application::popup_bpm_requested("rst", true);
+Flag                   Application::redraw_track("rps", true);
+Flag                   Application::redraw_selected_track_indicator("pbr", false);
+Flag                   Application::redraw_playback_state("ti" , false);
 
 Application::Application() {};
 
 Application::~Application() {};
 
-Application::ui_data_t Application::ui_data() {
-  return ui_data_t(
-    &tracks,  //  tracks_t const * track_states_,
-    page(),  //  uint8_t          page_,
-    timer1.bpm(),  //  uint8_t          bpm_,
-    timer1.hz(),  //  double           hz_,
-    timer1.playback_state(),  //  bool             playback_state_,
-    timer1.ticker(),  //  uint8_t          ticker_,
-    &popup_bpm_requested,  //  Flag *           popup_bpm_requested_,
-    &redraw_track,  //  Flag *           redraw_track_,
-    &redraw_selected_track_indicator,  //  Flag *           redraw_selected_track_indicator_,
-    &redraw_playback_state  //  Flag *           redraw_playback_state_
-  );
+void Application::update_ui_data() {
+    ui_data.track_states           = &tracks;
+    ui_data.page                   = page();
+    ui_data.bpm                    = timer1.bpm();
+    ui_data.hz                     = timer1.hz();
+    ui_data.playback_state         = timer1.playback_state();
+    ui_data.ticker                 = timer1.ticker();
+    ui_data.popup_bpm_requested    = &popup_bpm_requested;
+    ui_data.redraw_track           = &redraw_track;
+    ui_data.redraw_selected_track_indicator
+                                   = &redraw_selected_track_indicator;
+    ui_data.redraw_playback_state  = &redraw_playback_state;
 }
 
 void Application::setup() {
@@ -38,28 +38,15 @@ void Application::setup() {
   Serial.println(F("Begin setup"));
 
   controls->setup();
-  ui       .setup();
-  ui       .enter_screen(
-    ui_t::SCREEN_INTRO,
-    ui_data_t(
-      0, //
-      0, //
-      0, //
-      0, //
-      false, //
-      0, //
-      &popup_bpm_requested, //
-      &redraw_track, //
-      &redraw_selected_track_indicator, //
-      &redraw_playback_state //
-    )
-  );
+  update_ui_data();
+  ui       .setup(&ui_data);
+  ui       .enter_screen(ui_t::SCREEN_INTRO);
   cli();
   timer1   .setup();
   timer2   .setup();
   sei();
   restore_state();
-  ui       .enter_screen(ui_t::SCREEN_MAIN, ui_data());
+  ui       .enter_screen(ui_t::SCREEN_MAIN);
 
   Serial.println(F("Setup complete."));
   Serial.println();
@@ -69,7 +56,7 @@ void Application::loop() {
   const uint16_t frame_rate  = 80;
   const uint16_t frame_delay = 1000 / frame_rate;
 
-  ui.update_screen(ui_data());
+  ui.update_screen();
   delay(frame_delay);
 }
 

@@ -28,12 +28,12 @@ public:
     return Lcd::lcd;
   }
 
-  void update(data_t d) {
+  void update(data_t * d) {
     if (requires_update.consume())
       impl_update(d);
   }
 
-  void enter(data_t d) {
+  void enter(data_t * d) {
     requires_update.consume();
 
     lcd().clear();
@@ -41,8 +41,8 @@ public:
     impl_enter(d);
   }
 private:
-  virtual void impl_update(data_t d) = 0;
-  virtual void impl_enter(data_t d) = 0;
+  virtual void impl_update(data_t * d) = 0;
+  virtual void impl_enter(data_t * d) = 0;
 };
 
 #endif

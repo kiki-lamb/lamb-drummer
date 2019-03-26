@@ -19,11 +19,11 @@ class Ui {
 			SCREEN_INSTR
 		};
 
-    void update_screen(data_t data) {
+    void update_screen() {
       screen_states[current_screen]->update(data);
     }
 
-    void enter_screen(screen_t screen, data_t data) {
+    void enter_screen(screen_t screen) {
       if (screen == current_screen)
         return;
       current_screen = screen;
@@ -48,7 +48,8 @@ class Ui {
     //   flag_screen(SCREEN_MAIN);
     // }
 
-    void setup() {
+    void setup(data_t * data_) {
+      data = data;
       Lcd::setup();
     }
 
@@ -74,6 +75,7 @@ class Ui {
     virtual ~Ui() {}
 
   private:
+    data_t * data;
     screen_t               current_screen;
     IScreenState<data_t> * screen_states[4];
 };
