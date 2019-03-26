@@ -10,8 +10,7 @@
 
 template <class i_buttonpad_t>
 class Controls : public IControls {
-  public:
-
+public:
   Controls(uint8_t(*bpm_f_)()) :
     button_pad(new i_buttonpad_t()),
     encoder_button(A7),
@@ -20,10 +19,12 @@ class Controls : public IControls {
 
   virtual ~Controls() {}
 
-  private:
-
+private:
+  uint8_t _bpm;
+  IButtonpad * button_pad;
+  EncoderButton encoder_button;
+  static  ControlEventType buttonpad_ordering[8];
   Buffer<ControlEvent, 8> event_buffer;
-
   uint8_t(*bpm_f)();
 
   IButtonpad::Button buttonpad_button() const {
@@ -82,11 +83,6 @@ class Controls : public IControls {
 
     event_buffer.write(e);
   };
-
-  uint8_t _bpm;
-  IButtonpad * button_pad;
-  EncoderButton encoder_button;
-  static  ControlEventType buttonpad_ordering[8];
 };
 
 

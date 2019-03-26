@@ -4,21 +4,20 @@
 #include "Arduino.h"
 #include "track_state.h"
 
-template <size_t size_, class track_state_t = TrackState> 
+template <size_t size_, class track_state_t = TrackState>
 class TrackStateCollection {
-  private:
-   track_state_t items[size_];
-   size_t _index;
-   
-  public:
-  
+private:
+  track_state_t items[size_];
+  size_t _index;
+
+public:
   typedef track_state_t item_t;
-  
+
   TrackStateCollection() : _index(2) {
     for (size_t ix = 0; ix < size_; ix++)
       items[ix] = track_state_t();
   }
-  
+
   virtual ~TrackStateCollection() {}
 
   size_t index() const {
@@ -28,11 +27,11 @@ class TrackStateCollection {
   size_t size() const {
     return size_;
   }
-  
+
   track_state_t const & operator[](size_t index) const {
     return items[index];
   }
-  
+
   track_state_t & operator[](size_t index) {
     return items[index];
   }
@@ -47,11 +46,11 @@ class TrackStateCollection {
 
   uint8_t max_mod_maj() const {
     uint8_t max = 0;
-  
+
     for (uint8_t ix = 0; ix < size_; ix++)
       if (items[ix].mod_maj() > max)
         max = items[ix].mod_maj();
-  
+
     return max;
   }
 };
