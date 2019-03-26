@@ -10,14 +10,29 @@ class Ui {
 
   template <class tracks_t>
   class UiData {
-    tracks_t * track_states;
-    uint8_t const & (*page)();
-    uint8_t const & (*bpm)();
-    double  const & (*hz)();
-    bool    const & (*playback_state)();
-    uint8_t const & (*ticker)();
+    tracks_t const * track_states;
+    uint8_t page;
+    uint8_t bpm;
+    double  hz;
+    bool    playback_state;
+    uint8_t ticker;
 
-    UiData() {};
+    UiData(
+      tracks_t const * track_states,
+      uint8_t          page,
+      uint8_t          bpm,
+      double           hz,
+      bool             playback_state,
+      uint8_t          ticker
+    ) :
+		  track_states(track_states_),
+			pag(page_),
+			bpm(bpm_),
+			hz(hz_),
+			playback_stat(playback_state_),
+			ticker(ticker_)
+    {};
+
     virtual ~UiData() {};
   };
 
