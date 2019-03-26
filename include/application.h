@@ -10,14 +10,15 @@
 #include "eeprom_.h"
 #include "timer1.h"
 #include "timer2.h"
+#include "ui.h"
 
 class Application {
-  public:
+public:
   static const    size_t           track_count = 3;
   typedef TrackStateCollection<track_count>
                                    tracks_t;
 
-  private:
+private:
   Application();
   ~Application();
   typedef Buttonpad_PCF8754<0x3F>  buttonpad_t;
@@ -30,8 +31,10 @@ class Application {
   static          void             restore_state();
   static          void             set_playback_state(bool playback_state_);
   static          void             process_control(controls_t::ControlEvent & e);
+  static          Ui::UiData<tracks_t>
+                                   ui_data();
 
-  public:
+public:
   static          void             save_state();
   static          void             setup();
   static          void             loop();

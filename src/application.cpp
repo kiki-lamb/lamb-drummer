@@ -12,6 +12,17 @@ Application::Application() {};
 
 Application::~Application() {}
 
+Ui::UiData<Application::tracks_t> Application::ui_data() {
+  return Ui::UiData<tracks_t>(
+    0,
+    0,
+    0,
+    0,
+    false,
+    0
+  );
+}
+
 void Application::setup() {
   Serial.begin(115200);
   Serial.println();
@@ -19,7 +30,10 @@ void Application::setup() {
 
   controls->setup();
   Ui      ::setup();
-  Ui      ::enter_screen(Ui::SCREEN_INTRO);
+  Ui      ::enter_screen<tracks_t>(
+    Ui::SCREEN_INTRO,
+    ui_data()
+  );
   cli();
   timer1   .setup();
   timer2   .setup();
@@ -35,7 +49,7 @@ void Application::loop() {
   const uint16_t frame_rate  = 80;
   const uint16_t frame_delay = 1000 / frame_rate;
 
-  Ui::update_screen();
+  Ui::update_screen(ui_data());
   delay(frame_delay);
 }
 

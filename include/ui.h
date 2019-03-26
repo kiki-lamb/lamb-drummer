@@ -8,35 +8,36 @@
 class Ui {
   friend class SSMain;
 
-  template <class tracks_t>
-  class UiData {
-    tracks_t const * track_states;
-    uint8_t page;
-    uint8_t bpm;
-    double  hz;
-    bool    playback_state;
-    uint8_t ticker;
-
-    UiData(
-      tracks_t const * track_states,
-      uint8_t          page,
-      uint8_t          bpm,
-      double           hz,
-      bool             playback_state,
-      uint8_t          ticker
-    ) :
-		  track_states(track_states_),
-			pag(page_),
-			bpm(bpm_),
-			hz(hz_),
-			playback_stat(playback_state_),
-			ticker(ticker_)
-    {};
-
-    virtual ~UiData() {};
-  };
-
   public:
+    template <class tracks_t>
+    class UiData {
+    public:
+      tracks_t const * track_states;
+      uint8_t page;
+      uint8_t bpm;
+      double  hz;
+      bool    playback_state;
+      uint8_t ticker;
+
+      UiData(
+        tracks_t const * track_states_,
+        uint8_t          page_,
+        uint8_t          bpm_,
+        double           hz_,
+        bool             playback_state_,
+        uint8_t          ticker_
+      ) :
+  		  track_states(track_states_),
+  			page(page_),
+  			bpm(bpm_),
+  			hz(hz_),
+  			playback_state(playback_state_),
+  			ticker(ticker_)
+      {};
+
+      virtual ~UiData() {};
+    };
+
     enum screen_t {
 			SCREEN_INTRO,
 			SCREEN_NONE,
@@ -54,12 +55,12 @@ class Ui {
     static void           flag_redraw_playback_state();
 
     template <class tracks_t>
-    void update_screen(UiData<tracks_t> & data) {
+    static void update_screen(UiData<tracks_t> data) {
       screen_states[current_screen]->update();
     }
 
     template <class tracks_t>
-    void enter_screen(screen_t screen, UiData<tracks_t> & data) {
+    static void enter_screen(screen_t screen, UiData<tracks_t> data) {
       if (screen == current_screen)
         return;
       current_screen = screen;
