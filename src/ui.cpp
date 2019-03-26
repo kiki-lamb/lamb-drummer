@@ -40,17 +40,6 @@ void Ui::flag_screen(screen_t screen) {
   screen_states[screen]->flag();
 }
 
-void Ui::update_screen() {
-  screen_states[current_screen]->update();
-}
-
-void Ui::enter_screen(screen_t screen) {
-  if (screen == current_screen)
-    return;
-  current_screen = screen;
-  screen_states[screen]->enter();
-}
-
 Ui::Ui() {};
 
 Ui::~Ui() {}

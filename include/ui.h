@@ -46,8 +46,6 @@ class Ui {
 		};
 
     static void           setup           ();
-    static void           enter_screen    (screen_t screen);
-    static void           update_screen   ();
     static void           flag_popup_bpm  ();
     static void           flag_screen     (screen_t screen);
     static void           flag_redraw_track(uint8_t track);

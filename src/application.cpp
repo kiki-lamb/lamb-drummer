@@ -12,8 +12,8 @@ Application::Application() {};
 
 Application::~Application() {}
 
-Ui::UiData<Application::tracks_t> Application::ui_data() {
-  return Ui::UiData<tracks_t>(
+Ui::UiData<Application::tracks_t> ui_data() {
+  return Ui::UiData<Application::tracks_t>(
     0,
     0,
     0,
@@ -32,14 +32,21 @@ void Application::setup() {
   Ui      ::setup();
   Ui      ::enter_screen<tracks_t>(
     Ui::SCREEN_INTRO,
-    ui_data()
+    Ui::UiData<tracks_t>(
+      0,
+      0,
+      0,
+      0,
+      false,
+      0
+    )
   );
   cli();
   timer1   .setup();
   timer2   .setup();
   sei();
   restore_state();
-  Ui      ::enter_screen(Ui::SCREEN_MAIN);
+  Ui      ::enter_screen(Ui::SCREEN_MAIN, ui_data());
 
   Serial.println(F("Setup complete."));
   Serial.println();
