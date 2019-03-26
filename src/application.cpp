@@ -98,9 +98,6 @@ void Application::restore_state() {
 }
 
 void Application::process_control(Application::controls_t::ControlEvent & e) {
-
-#define SET_FLAGS flag_main_screen(); eeprom.flag_save_requested();
-
   Serial.print(F("Dequeue "));
   Serial.print(e.type);
   Serial.println();
@@ -116,6 +113,7 @@ void Application::process_control(Application::controls_t::ControlEvent & e) {
     Serial.println();
     Ui::flag_redraw_track(track_states_collection.index());
     Ui::flag_redraw_selected_track_indicator();
+  #define SET_FLAGS flag_main_screen(); eeprom.flag_save_requested();
     SET_FLAGS;
   }
   else {
@@ -127,10 +125,10 @@ void Application::process_control(Application::controls_t::ControlEvent & e) {
         timer1.set_bpm(e.parameter);
         Ui     ::flag_popup_bpm();
         SET_FLAGS;
+#undef SET_FLAGS
         break;
     }
   }
-#undef SET_FLAGS
 }
 
 void Application::process_controls() {

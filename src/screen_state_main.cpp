@@ -1,7 +1,7 @@
 #include "screen_state_main.h"
 #include "ui.h"
 
-const unsigned long SSMain::POP_DURATION = 600;
+const unsigned long SSMain::popup_bpm_duration = 600;
 
 SSMain::SSMain() : popup_bpm_time(0), popup_bpm_state(false) {}
 
@@ -118,7 +118,7 @@ void SSMain::impl_update() {
   if (popup_bpm_state) {
     unsigned long now = millis();
 
-    if ((now - popup_bpm_time) >= POP_DURATION) {
+    if ((now - popup_bpm_time) >= popup_bpm_duration) {
       popup_bpm_state = false;
       Ui::redraw_selected_track_indicator.flag();
     }
