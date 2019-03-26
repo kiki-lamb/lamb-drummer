@@ -23,7 +23,7 @@ void SSMain::draw_channel_numbers(data_t * d) {
     lcd().print(line);
   }
 
-  Lcd::put_inversion(0, (*d->track_states).index() + 1, (*d->track_states).index() + 1);
+  Lcd::put_inversion(0, (*d->tracks).index() + 1, (*d->tracks).index() + 1);
 }
 
 void SSMain::draw_bars(data_t * d) {
@@ -88,25 +88,25 @@ void SSMain::draw_line0(SSMain::data_t * d, bool redraw_bpm) {
     lcd().print("                  ");
 
     lcd().setCursor(0, 0);
-    snprintf(buf, 21, "Maj%2d", (*d->track_states)[(*d->track_states).index()].mod_maj());
+    snprintf(buf, 21, "Maj%2d", (*d->tracks)[(*d->tracks).index()].mod_maj());
     lcd().print(buf);
 
     lcd().setCursor(5, 0);
     lcd().write(byte(223));
 
     lcd().setCursor(6, 0);
-    snprintf(buf, 21, "%-2d", (*d->track_states)[(*d->track_states).index()].phase_maj());
+    snprintf(buf, 21, "%-2d", (*d->tracks)[(*d->tracks).index()].phase_maj());
     lcd().print(buf);
 
     lcd().setCursor(9, 0);
-    snprintf(buf, 21, "Min%2d", (*d->track_states)[(*d->track_states).index()].mod_min());
+    snprintf(buf, 21, "Min%2d", (*d->tracks)[(*d->tracks).index()].mod_min());
     lcd().print(buf);
 
     lcd().setCursor(14, 0);
     lcd().write(byte(223));
 
     lcd().setCursor(15, 0);
-    snprintf(buf, 21, "%-2d", (*d->track_states)[(*d->track_states).index()].phase_min());
+    snprintf(buf, 21, "%-2d", (*d->tracks)[(*d->tracks).index()].phase_min());
     lcd().print(buf);
   } }
 
@@ -136,8 +136,8 @@ void SSMain::impl_update(SSIntro::data_t * d) {
 
   draw_line0(d, redraw_bpm);
 
-  uint8_t prior   = ((uint8_t)((d->ticker>>1)-1)) % (*d->track_states).max_mod_maj(); // Don't remove this cast or the subtraction result becomes a signed type
-  uint8_t current = (d->ticker>>1) % (*d->track_states).max_mod_maj();
+  uint8_t prior   = ((uint8_t)((d->ticker>>1)-1)) % (*d->tracks).max_mod_maj(); // Don't remove this cast or the subtraction result becomes a signed type
+  uint8_t current = (d->ticker>>1) % (*d->tracks).max_mod_maj();
 
   //Serial.println("Before rt!");
   bool redraw_page = d->redraw_track->consume();
@@ -172,16 +172,16 @@ void SSMain::draw_column(SSMain::data_t * d, uint8_t col, bool highlit, bool log
     16, 17, 18, 19
   };
 
-  uint8_t tmp = (*d->track_states).max_mod_maj();
+  uint8_t tmp = (*d->tracks).max_mod_maj();
 
   for (uint8_t line = 1; line <= 3; line++) {
-    uint8_t col_ = col_map[col % (*d->track_states).max_mod_maj() % 16];
+    uint8_t col_ = col_map[col % (*d->tracks).max_mod_maj() % 16];
     uint8_t tmp = 0;
 
-    if ( (*d->track_states)[line-1].trigger_state(col) ) {
+    if ( (*d->tracks)[line-1].trigger_state(col) ) {
       if (highlit)
         tmp = Lcd::CHAR_HIT_ACTIVE;
-      else if (((col - (*d->track_states)[line-1].phase_maj() + 1) % (*d->track_states)[line-1].mod_maj()) == 0)
+      else if (((col - (*d->tracks)[line-1].phase_maj() + 1) % (*d->tracks)[line-1].mod_maj()) == 0)
         tmp = Lcd::CHAR_HIT_BARRIER;
       else
         tmp = Lcd::CHAR_HIT;
@@ -189,7 +189,7 @@ void SSMain::draw_column(SSMain::data_t * d, uint8_t col, bool highlit, bool log
     else {
       if (highlit)
         tmp = Lcd::CHAR_REST_ACTIVE;
-      else if (((col - (*d->track_states)[line-1].phase_maj() + 1) % (*d->track_states)[line-1].mod_maj()) == 0)
+      else if (((col - (*d->tracks)[line-1].phase_maj() + 1) % (*d->tracks)[line-1].mod_maj()) == 0)
         tmp = Lcd::CHAR_REST_BARRIER;
       else
         tmp = Lcd::CHAR_REST;

@@ -3,7 +3,7 @@
 #include "track_state_control_binding.h"
 
 IControls *            Application::controls(new Application::controls_t(&Application::bpm));
-Application::tracks_t  Application::tracks;
+Application::tracks_t  Application::_tracks;
 Eeprom                 Application::eeprom;
 Timer1_                Application::timer1;
 Timer2_                Application::timer2;
@@ -19,36 +19,38 @@ Application::Application() {};
 Application::~Application() {};
 
 void Application::update_ui_data() {
-    ui_data.track_states           = &tracks;
-    ui_data.page                   = page();
-    ui_data.bpm                    = timer1.bpm();
-    ui_data.hz                     = timer1.hz();
-    ui_data.playback_state         = timer1.playback_state();
-    ui_data.ticker                 = timer1.ticker();
-    ui_data.popup_bpm_requested    = &popup_bpm_requested;
-    ui_data.redraw_track           = &redraw_track;
-    ui_data.redraw_selected_track_indicator
-                                   = &redraw_selected_track_indicator;
-    ui_data.redraw_playback_state  = &redraw_playback_state;
+  ui_data.page           = page();
+  ui_data.bpm            = timer1.bpm();
+  ui_data.hz             = timer1.hz();
+  ui_data.playback_state = timer1.playback_state();
+  ui_data.ticker         = timer1.ticker();
 }
 
+void Application::init_ui_data() {
+  ui_data.tracks                 = &_tracks;
+  ui_data.popup_bpm_requested    = &popup_bpm_requested;
+  ui_data.redraw_track           = &redraw_track;
+  ui_data.redraw_playback_state  = &redraw_playback_state;
+  ui_data.redraw_selected_track_indicator
+                                 = &redraw_selected_track_indicator;
+  update_ui_data();
+}
 void Application::setup() {
   Serial.begin(115200);
   Serial.println();
   Serial.println(F("Begin setup"));
 
   controls->setup();
-
+  init_ui_data();
   update_ui_data();
-  ui       .setup();
-  ui       .enter_screen(ui_t::SCREEN_INTRO);
-
+  ui    .setup();
+  ui    .enter_screen(ui_t::SCREEN_INTRO);
   cli();
-  timer1   .setup();
-  timer2   .setup();
+  timer1.setup();
+  timer2.setup();
   sei();
   restore_state();
-  ui       .enter_screen(ui_t::SCREEN_MAIN);
+  ui    .enter_screen(ui_t::SCREEN_MAIN);
 
   Serial.println(F("Setup complete."));
   Serial.println();
@@ -63,8 +65,8 @@ void Application::loop() {
   delay(frame_delay);
 }
 
-Application::tracks_t const & Application::track_states() {
-  return tracks;
+Application::tracks_t const & Application::tracks() {
+  return _tracks;
 }
 
 void Application::flag_main_screen() {
@@ -77,7 +79,7 @@ uint8_t Application::bpm() {
 
 uint8_t Application::page() {
   uint8_t tmp_tick        = timer1.ticker() >> 1;
-  uint8_t tmp_inside_tick = tmp_tick % tracks.max_mod_maj();
+  uint8_t tmp_inside_tick = tmp_tick % _tracks.max_mod_maj();
   uint8_t tmp_page        = tmp_inside_tick /  16;
   return tmp_page;
 }
@@ -92,7 +94,7 @@ void Application::set_playback_state(bool playback_state_) {
 void Application::save_state() {
    eeprom.save_all(
      Eeprom::PersistantData<tracks_t>(
-       &tracks,
+       &_tracks,
        bpm(),
        timer1.playback_state()
      )
@@ -101,7 +103,7 @@ void Application::save_state() {
 
 void Application::restore_state() {
   Eeprom::PersistantData<tracks_t> tmp(
-    &tracks,
+    &_tracks,
     timer1.bpm(),
     timer1.playback_state()
   );
@@ -119,12 +121,12 @@ void Application::process_control(Application::controls_t::ControlEvent & e) {
 
   if (e.type < 8) {
     TrackStateEventProcessor<controls_t>::handle_event(
-      tracks.current(),
+      _tracks.current(),
       e
     );
 
     Serial.print(F(" for track "));
-    Serial.print(tracks.index());
+    Serial.print(_tracks.index());
     Serial.println();
     redraw_track.flag();
     redraw_selected_track_indicator.flag();

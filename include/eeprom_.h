@@ -11,16 +11,16 @@ class Eeprom {
   template <class tracks_t>
   class PersistantData {
     public:
-    tracks_t * track_states;
+    tracks_t * tracks;
     uint8_t bpm;
     bool playback_state;
 
     PersistantData(
-      tracks_t * track_states_,
+      tracks_t * tracks_,
       uint8_t bpm_,
       bool playback_state_
     ) :
-      track_states(track_states_),
+      tracks(tracks_),
       bpm(bpm_),
       playback_state(playback_state_)
     {}
@@ -61,7 +61,7 @@ class Eeprom {
 
      for (
       size_t ix = 0, addr = 5;
-      ix < data.track_states->size();
+      ix < data.tracks->size();
       ix++, addr+= 4
     ) {
        Serial.print(F("Restore TS #"));
@@ -69,7 +69,7 @@ class Eeprom {
        Serial.print(F(" from "));
        Serial.print(addr);
        Serial.println();
-       restore_track_state(addr,  (*data.track_states)[ix]);
+       restore_track_state(addr,  (*data.tracks)[ix]);
      }
 
      save_requested.unflag();
@@ -102,10 +102,10 @@ class Eeprom {
 
     for (
       size_t ix = 0, addr = 5;
-      ix < data.track_states->size();
+      ix < data.tracks->size();
       ix++, addr+= 4
     )
-      save_track_state(addr,  (*data.track_states)[ix]);
+      save_track_state(addr,  (*data.tracks)[ix]);
 
     Serial.println(F("Done save all to EEPROM"));
   }

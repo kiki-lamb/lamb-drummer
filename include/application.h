@@ -33,12 +33,13 @@ private:
   static          Eeprom           eeprom;
   static          Timer1_          timer1;
   static          Timer2_          timer2;
-  static          tracks_t         tracks;
+  static          tracks_t         _tracks;
   static          ui_t             ui;
   static          ui_data_t        ui_data;
   static          void             restore_state();
   static          void             set_playback_state(bool playback_state_);
   static          void             process_control(controls_t::ControlEvent & e);
+  static          void             init_ui_data();
   static          void             update_ui_data();
   static          uint8_t          page();
   static          uint8_t          bpm();
@@ -48,7 +49,7 @@ public:
   static          void             loop();
   static          void             process_controls();
   static          void             flag_main_screen();
-  static          tracks_t const & track_states();
+  static          tracks_t const & tracks();
 };
 
 #endif

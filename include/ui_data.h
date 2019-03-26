@@ -7,7 +7,7 @@ template <class tracks_t>
 class UiData {
 public:
   tracks_t const *
-          track_states;
+          tracks;
   uint8_t page;
   uint8_t bpm;
   double  hz;
@@ -21,7 +21,7 @@ public:
   UiData() {}
 
   UiData(
-    tracks_t const * track_states_,
+    tracks_t const * tracks_,
     uint8_t          page_,
     uint8_t          bpm_,
     double           hz_,
@@ -32,7 +32,7 @@ public:
     Flag *           redraw_selected_track_indicator_,
     Flag *           redraw_playback_state_
   ) :
-    track_states(track_states_),
+    tracks(tracks_),
     page(page_),
     bpm(bpm_),
     hz(hz_),

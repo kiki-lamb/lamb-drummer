@@ -107,7 +107,7 @@ ISR(TIMER1_COMPA_vect) {
     byte blast = 0;
 
     for (byte ix = 0; ix <= 2; ix++)
-      if (Application::track_states()[ix].trigger_state(ticker >> 1)) // In ISR, not that ugly...
+      if (Application::tracks()[ix].trigger_state(ticker >> 1)) // In ISR, not that ugly...
         blast |= _BV(ix);
 
     PORTC = blast;
