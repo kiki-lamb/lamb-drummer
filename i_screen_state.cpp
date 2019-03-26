@@ -1,7 +1,7 @@
 #include "i_screen_state.h"
 #include "lcd.h"
 
-IScreenState::IScreenState() : 
+IScreenState::IScreenState() :
   requires_update("requires_update", true) {
   flag();
 }
@@ -13,20 +13,19 @@ void IScreenState::flag() {
   requires_update.flag();
 }
 
-static LiquidCrystal & IScreenState::lcd() {
+LiquidCrystal & IScreenState::lcd() {
   return Lcd::lcd;
 }
 
-void IScreenState::update() { 
+void IScreenState::update() {
   if (requires_update.consume())
-    impl_update(); 
+    impl_update();
 }
 
-void IScreenState::enter() { 
+void IScreenState::enter() {
   requires_update.consume();
-  
-  lcd().clear(); 
-  
-  impl_enter(); 
-}
 
+  lcd().clear();
+
+  impl_enter();
+}

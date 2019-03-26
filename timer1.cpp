@@ -1,10 +1,10 @@
 #include "timer1.h"
 #include "application.h"
 
-Timer1_::Timer1_() : 
-  _ticker(0), 
-  _hz(0), 
-  _bpm(0), 
+Timer1_::Timer1_() :
+  _ticker(0),
+  _hz(0),
+  _bpm(0),
   _playback_state(true) {
 };
 
@@ -36,10 +36,10 @@ void Timer1_::setup() {
 bool Timer1_::playback_state() const {
   return _playback_state;
 }
-  
+
 void Timer1_::set_playback_state(bool playback_state_) {
   _playback_state = playback_state_;
-  
+
   if (_playback_state) {
     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
       TCCR1A |= (1 << COM1A0);
@@ -67,7 +67,7 @@ void Timer1_::set_bpm(uint8_t tmp_bpm) {
   Timer1_::_bpm          = tmp_bpm;
   Timer1_::_hz           = Timer1_::_bpm / 60.0;
   Timer1_::set_hz_by_bpm ( Timer1_::_bpm ); // This should probably be in the ISR...
-} 
+}
 
 uint8_t Timer1_::ticker() const {
   return _ticker;
@@ -81,11 +81,11 @@ double Timer1_::hz() const {
   return _hz;
 }
 
-static void Timer1_::set_hz_by_bpm(uint8_t bpm_) {
+void Timer1_::set_hz_by_bpm(uint8_t bpm_) {
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     OCR1A = 16000000 / (256 * (bpm_ / 60.0 * 8)) - 1; //   // do not un-float the '60.0'!
     if (TCNT1 > OCR1A)
-      TCNT1 = OCR1A - 1; 
+      TCNT1 = OCR1A - 1;
   }
 }
 
@@ -94,8 +94,8 @@ void Timer1_::increment_ticker() {
 }
 
 ISR(TIMER1_COMPA_vect) {
-  uint8_t ticker = Timer1_::instance().ticker(); 
-  
+  uint8_t ticker = Timer1_::instance().ticker();
+
   if (! (ticker & 0b1)) {
     Application::flag_main_screen(); // In ISR, not that ugly...
 
@@ -117,4 +117,3 @@ ISR(TIMER1_COMPA_vect) {
 
   Timer1_::instance().increment_ticker();
 }
-

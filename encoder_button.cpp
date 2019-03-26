@@ -1,10 +1,10 @@
 #include "encoder_button.h"
 
 EncoderButton::EncoderButton(
-  uint8_t pin_, 
-  bool adc_state_ = true
-) : 
-  pin(pin_), 
+  uint8_t pin_,
+  bool adc_state_
+) :
+  pin(pin_),
   adc_state(adc_state_) {
 };
 
@@ -25,4 +25,3 @@ bool EncoderButton::read() {
     adc_state = true;
     return false;
 }
-

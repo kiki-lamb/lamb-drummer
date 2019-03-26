@@ -4,11 +4,11 @@
 Lcd::Lcd() {}
 Lcd::~Lcd() {}
 
-static void Lcd::setup() {
+void Lcd::setup() {
   lcd.begin(LCD_COLS, LCD_LINES);
 
   for (uint8_t ix = 0; ix < 8; ix++)
-    lcd.createChar(ix, custom_chars[ix]);  
+    lcd.createChar(ix, (uint8_t *)(custom_chars[ix]));
 }
 
 const uint8_t Lcd::LCD_COLS  = 20;
@@ -22,9 +22,9 @@ const uint8_t Lcd::LCD_D7    = 4;
 
 LiquidCrystal Lcd::lcd(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 
-static void Lcd::put_inversion(
-  uint8_t col, 
-  uint8_t line, 
+void Lcd::put_inversion(
+  uint8_t col,
+  uint8_t line,
   uint8_t number
 ) {
   select_inversion(number);
@@ -32,8 +32,8 @@ static void Lcd::put_inversion(
   lcd.write(byte(0));
 }
 
-static void Lcd::select_inversion(uint8_t number) {
-  static const unsigned char inversions[][8] = {
+void Lcd::select_inversion(uint8_t number) {
+  static const uint8_t inversions[][8] = {
     {
       0b10001,
       0b01110,
@@ -41,7 +41,7 @@ static void Lcd::select_inversion(uint8_t number) {
       0b01010,
       0b00110,
       0b01110,
-      0b10001, 
+      0b10001,
       0b11111
     },
     {
@@ -51,7 +51,7 @@ static void Lcd::select_inversion(uint8_t number) {
       0b11011,
       0b11011,
       0b11011,
-      0b10001, 
+      0b10001,
       0b11111
     },
     {
@@ -71,21 +71,21 @@ static void Lcd::select_inversion(uint8_t number) {
       0b11011,
       0b11101,
       0b01110,
-      0b10001, 
-      0b11111 
+      0b10001,
+      0b11111
     }
   };
 
-  lcd.createChar(0, inversions[number]);
+  lcd.createChar(0, const_cast<uint8_t *>(inversions[number]));
 }
 
-static void Lcd::put_playstate(uint8_t col, uint8_t line) {
+void Lcd::put_playstate(uint8_t col, uint8_t line) {
   lcd.setCursor(col, line);
   lcd.write(byte(1));
 }
 
-static void Lcd::select_playstate(bool paused) {
-  static const unsigned char playstates[][8] = {
+void Lcd::select_playstate(bool paused) {
+  static const uint8_t playstates[][8] = {
     {
       0b11011, // CHAR_PAUSE
       0b11011,
@@ -107,11 +107,11 @@ static void Lcd::select_playstate(bool paused) {
       0b00000
     }
   };
-  
-  lcd.createChar(1, playstates[paused ? 0 : 1]);
+
+  lcd.createChar(1, const_cast<uint8_t *>(playstates[paused ? 0 : 1]));
 }
 
-const unsigned char Lcd::custom_chars[8][8] = {
+const uint8_t Lcd::custom_chars[8][8] = {
   {
     0b11111, // CHAR_STOP
     0b11111,
@@ -119,7 +119,7 @@ const unsigned char Lcd::custom_chars[8][8] = {
     0b11111,
     0b11111,
     0b11111,
-    0b11111, 
+    0b11111,
     0b00000
   },
   {
@@ -193,4 +193,3 @@ const unsigned char Lcd::custom_chars[8][8] = {
     0b00000
   }
 };
-

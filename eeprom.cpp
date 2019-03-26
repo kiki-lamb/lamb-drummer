@@ -15,7 +15,7 @@ void Eeprom::flag_save_requested() {
 void Eeprom::save_playback_state(bool playback_state_) const {
   Serial.print(F("Save playback_state state "));
   Serial.println(playback_state_ ? F("ON") : F("OFF"));
-  
+
   EEPROM.write(ADDR_PLAY, playback_state_);
 }
 
@@ -25,7 +25,7 @@ void Eeprom::save_bpm(uint8_t bpm_) const {
   EEPROM.write(ADDR_BPM, bpm_);
 }
 
-bool Eeprom::playback_state() const { 
+bool Eeprom::playback_state() const {
   bool tmp = EEPROM.read(ADDR_PLAY);
 
   Serial.print(F("Load playback_state: "));
@@ -33,7 +33,7 @@ bool Eeprom::playback_state() const {
   return tmp;
 }
 
-uint8_t Eeprom::bpm() const { 
+uint8_t Eeprom::bpm() const {
   uint8_t tmp = EEPROM.read(ADDR_BPM);
 
   Serial.print(F("Load BPM: "));
@@ -43,12 +43,12 @@ uint8_t Eeprom::bpm() const {
 }
 
 void Eeprom::save_track_state(
-  size_t eeprom_location, 
-  TrackState const & track_state
+  size_t eeprom_location,
+  TrackState & track_state
 ) const {
   if (! track_state.modified.consume() )
     return;
-    
+
   EEPROM.write(eeprom_location + 0, track_state.mod_maj());
   Serial.print(F("Save mod_maj ")); Serial.print(track_state.mod_maj()); Serial.println();
 
@@ -60,18 +60,18 @@ void Eeprom::save_track_state(
 
   EEPROM.write(eeprom_location + 3, track_state.phase_maj());
   Serial.print(F("Save phase_maj ")); Serial.print(track_state.phase_maj()); Serial.println();
-  
-  Serial.println(F("Saved track_state."));  
+
+  Serial.println(F("Saved track_state."));
 }
 
 void Eeprom::restore_track_state(
-  size_t eeprom_location, 
+  size_t eeprom_location,
   TrackState & track_state
 ) {
   track_state.set_mod_maj(EEPROM.read(eeprom_location + 0));
   Serial.print(F("Restore mod_maj ")); Serial.print(track_state.mod_maj()); Serial.println();
 
-  track_state.set_mod_min(EEPROM.read(eeprom_location + 1)); 
+  track_state.set_mod_min(EEPROM.read(eeprom_location + 1));
   Serial.print(F("Restore mod_min ")); Serial.print(track_state.mod_min()); Serial.println();
 
   track_state.set_phase_min  (EEPROM.read(eeprom_location + 2));
@@ -86,5 +86,3 @@ void Eeprom::restore_track_state(
   Serial.flush();
   track_state.modified.unflag();
 }
-
-

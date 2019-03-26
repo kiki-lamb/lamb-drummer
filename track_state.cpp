@@ -1,13 +1,12 @@
 #include "track_state.h"
 
 TrackState::TrackState(
-  uint8_t mod_maj_ = 0, 
-  uint8_t mod_min_ = 1, 
-  uint8_t phase_min_ = 0,
-  uint8_t phase_maj_ = 0
- 
-) : _mod_min(mod_min_), 
-    _mod_maj(mod_maj_), 
+  uint8_t mod_maj_,
+  uint8_t mod_min_,
+  uint8_t phase_min_,
+  uint8_t phase_maj_
+) : _mod_min(mod_min_),
+    _mod_maj(mod_maj_),
     _phase_min(phase_min_),
     _phase_maj(phase_maj_) {
 };
@@ -49,7 +48,7 @@ void TrackState::set_phase_maj  (uint8_t val) {
   modified.flag();
 }
 
-uint8_t TrackState::mod_maj() const { 
+uint8_t TrackState::mod_maj() const {
   return _mod_maj;
 }
 

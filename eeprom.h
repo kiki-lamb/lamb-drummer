@@ -14,10 +14,10 @@ class Eeprom {
     collection_t * track_states;
     uint8_t bpm;
     bool playback_state;
-  
+
     PersistantData(
-      collection_t * track_states_, 
-      uint8_t bpm_, 
+      collection_t * track_states_,
+      uint8_t bpm_,
       bool playback_state_
     ) :
       track_states(track_states_),
@@ -31,36 +31,36 @@ class Eeprom {
     void save_bpm(uint8_t bpm_) const;
     bool playback_state() const;
     uint8_t bpm() const;
-    
+
     void save_track_state(
-      size_t eeprom_location, 
-      TrackState const & track_state
+      size_t eeprom_location,
+      TrackState & track_state
     ) const;
-    
+
     void restore_track_state(
-      size_t eeprom_location, 
+      size_t eeprom_location,
       TrackState & track_state
     );
-    
+
     Flag save_requested;
     unsigned long last_edit;
 
   public:
     void flag_save_requested();
-    
+
     Eeprom();
-    virtual ~Eeprom();    
-    
-    template <class collection_t> 
-    void Eeprom::restore_all(
+    virtual ~Eeprom();
+
+    template <class collection_t>
+    void restore_all(
       PersistantData<collection_t> & data
     ) {
      data.bpm = bpm();
      data.playback_state = playback_state();
-        
+
      for (
-      size_t ix = 0, addr = 5; 
-      ix < data.track_states->size(); 
+      size_t ix = 0, addr = 5;
+      ix < data.track_states->size();
       ix++, addr+= 4
     ) {
        Serial.print(F("Restore TS #"));
@@ -73,19 +73,19 @@ class Eeprom {
 
      save_requested.unflag();
   }
-  
-  template <class collection_t> 
-  void Eeprom::save_all(
+
+  template <class collection_t>
+  void save_all(
     PersistantData<collection_t> const & data
   ) {
     const unsigned long SAVE_DELAY = 15000UL;
 
     unsigned long now   = millis();
     unsigned long delta = now - last_edit;
-      
+
     if (! save_requested.consume())
       return;
-  
+
     if (delta < SAVE_DELAY) {
       Serial.print(F("Must wait "));
       Serial.print(SAVE_DELAY-delta);
@@ -93,21 +93,21 @@ class Eeprom {
       save_requested.flag();
       return;
     }
-  
+
     Serial.println(F("Save all to EEPROM..."));
-  
+
     save_bpm(data.bpm);
     save_playback_state(data.playback_state);
-  
+
     for (
-      size_t ix = 0, addr = 5; 
-      ix < data.track_states->size(); 
+      size_t ix = 0, addr = 5;
+      ix < data.track_states->size();
       ix++, addr+= 4
     )
       save_track_state(addr,  (*data.track_states)[ix]);
-    
+
     Serial.println(F("Done save all to EEPROM"));
-  } 
+  }
 };
 
 #endif

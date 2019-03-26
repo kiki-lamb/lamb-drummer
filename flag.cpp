@@ -2,44 +2,43 @@
 #include "Arduino.h"
 
 Flag::Flag(
-  char * _name = 0, 
-  bool _value = false
-) : 
-  name(_name), 
+  char * _name,
+  bool _value
+) :
+  name(_name),
   value(_value) {
 };
 
-void Flag::flag() { 
-  value = true; 
+void Flag::flag() {
+  value = true;
 }
 
-bool Flag::consume() { 
+bool Flag::consume() {
   bool tmp = value;
   if (value) {
     value = false;
     return true;
   }
-  
+
   return false;
 }
 
 void Flag::unflag() {
   value = false;
-  
+
   Serial.flush();
   Serial.print(F("Explicitly unflag "));
-  
+
   if (0 != name) {
     Serial.print(name);
     Serial.print(F(" "));
   }
 
   Serial.print(F("@ "));
-  unsigned long tmp = this;
+  unsigned long tmp = (unsigned long)this;
   tmp += 0x800000;
   Serial.print(tmp, HEX);
 
-  Serial.println();  
+  Serial.println();
   Serial.flush();
 }
-
