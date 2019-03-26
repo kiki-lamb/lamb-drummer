@@ -3,23 +3,23 @@
 #include "track_state_control_binding.h"
 
 IControls *           Application::controls(new Application::controls_t(&Application::bpm));
-Application::tracks_t Application::track_states_collection;
+Application::tracks_t Application::tracks;
 Eeprom                Application::eeprom;
 Timer1_               Application::timer1;
 Timer2_               Application::timer2;
 
 Application::Application() {};
 
-Application::~Application() {}
+Application::~Application() {};
 
 Ui::UiData<Application::tracks_t> Application::ui_data() {
   return Ui::UiData<Application::tracks_t>(
-    0,
-    0,
-    0,
-    0,
-    false,
-    0
+    &tracks,
+    page(),
+    bpm(),
+    hz(),
+    playback_state(),
+    ticker()
   );
 }
 
@@ -61,7 +61,7 @@ void Application::loop() {
 }
 
 Application::tracks_t const & Application::track_states() {
-  return track_states_collection;
+  return tracks;
 }
 
 void Application::flag_main_screen() {
@@ -82,7 +82,7 @@ uint8_t Application::ticker() {
 
 uint8_t Application::page() {
   uint8_t tmp_tick        = timer1.ticker() >> 1;
-  uint8_t tmp_inside_tick = tmp_tick % track_states_collection.max_mod_maj();
+  uint8_t tmp_inside_tick = tmp_tick % tracks.max_mod_maj();
   uint8_t tmp_page        = tmp_inside_tick /  16;
 
   return tmp_page;
@@ -102,7 +102,7 @@ void Application::set_playback_state(bool playback_state_) {
 void Application::save_state() {
    eeprom.save_all(
      Eeprom::PersistantData<tracks_t>(
-       &track_states_collection,
+       &tracks,
        bpm(),
        playback_state()
      )
@@ -110,7 +110,7 @@ void Application::save_state() {
 }
 
 void Application::restore_state() {
-  Eeprom::PersistantData<tracks_t> tmp(&track_states_collection, bpm(), playback_state());
+  Eeprom::PersistantData<tracks_t> tmp(&tracks, bpm(), playback_state());
   eeprom.restore_all(tmp);
   controls->set_encoder(tmp.bpm);
   timer1.set_bpm(tmp.bpm);
@@ -125,14 +125,14 @@ void Application::process_control(Application::controls_t::ControlEvent & e) {
 
   if (e.type < 8) {
     TrackStateEventProcessor<controls_t>::handle_event(
-      track_states_collection.current(),
+      tracks.current(),
       e
     );
 
     Serial.print(F(" for track "));
-    Serial.print(track_states_collection.index());
+    Serial.print(tracks.index());
     Serial.println();
-    Ui::flag_redraw_track(track_states_collection.index());
+    Ui::flag_redraw_track(tracks.index());
     Ui::flag_redraw_selected_track_indicator();
   #define SET_FLAGS flag_main_screen(); eeprom.flag_save_requested();
     SET_FLAGS;

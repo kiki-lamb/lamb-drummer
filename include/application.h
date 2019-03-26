@@ -27,7 +27,7 @@ private:
   static          Eeprom           eeprom;
   static          Timer1_          timer1;
   static          Timer2_          timer2;
-  static          tracks_t         track_states_collection;
+  static          tracks_t         tracks;
   static          void             restore_state();
   static          void             set_playback_state(bool playback_state_);
   static          void             process_control(controls_t::ControlEvent & e);
@@ -47,7 +47,7 @@ public:
   static          bool             playback_state();
   // fwd to Ui:
   static          void             flag_main_screen();
-  // fwd to track_states_collection:
+  // fwd to tracks:
   static          tracks_t const & track_states();
 };
 
