@@ -20,13 +20,11 @@ void Application::setup() {
   controls->setup();
   Ui      ::setup();
   Ui      ::enter_screen(Ui::SCREEN_INTRO);
-
   cli();
   timer1   .setup();
   timer2   .setup();
   sei();
   restore_state();
-
   Ui      ::enter_screen(Ui::SCREEN_MAIN);
 
   Serial.println(F("Setup complete."));
