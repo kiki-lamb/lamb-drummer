@@ -66,17 +66,18 @@ class Ui {
 			current_screen(SCREEN_NONE),
       screen_states()
     {
-       // screen_states[0] = new SSIntro();
-       // screen_states[1] = new SSNone();
-       // screen_states[2] = new SSMain();
-       // screen_states[3] = new SSInstr();
+      screen_states[0] = new SSIntro();
+      screen_states[1] = new SSNone ();
+      screen_states[2] = new SSNone ();
+//      screen_states[2] = new SSMain ();
+      screen_states[3] = new SSInstr();
     }
 
     ~Ui() {}
 
   private:
     screen_t       current_screen;
-    IScreenState * screen_states[4];
+    IScreenState<data_t> * screen_states[4];
     Flag           popup_bpm_requested;
     Flag           redraw_bpm;
     Flag           redraw_track;

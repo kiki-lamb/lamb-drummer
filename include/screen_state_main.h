@@ -3,9 +3,11 @@
 
 #include "Arduino.h"
 #include "i_screen_state.h"
+#include "ui_data.h"
+#include "track_state_collection.h"
 #include "application.h"
 
-class SSMain : public IScreenState {
+class SSMain : public IScreenState<UiData<TrackStateCollection<3, TrackState> > > {
   public:
   SSMain();
 
