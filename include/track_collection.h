@@ -2,20 +2,20 @@
 #define SHELF_CLOCK_TRACK_STATE_COLLECTION_H
 
 #include "Arduino.h"
-#include "track_state.h"
+#include "track.h"
 
-template <size_t size_, class track_state_t = TrackState>
+template <size_t size_, class track_t = TrackState>
 class TrackStateCollection {
 private:
-  track_state_t items[size_];
+  track_t items[size_];
   size_t _index;
 
 public:
-  typedef track_state_t item_t;
+  typedef track_t item_t;
 
   TrackStateCollection() : _index(2) {
     for (size_t ix = 0; ix < size_; ix++)
-      items[ix] = track_state_t();
+      items[ix] = track_t();
   }
 
   virtual ~TrackStateCollection() {}
@@ -28,19 +28,19 @@ public:
     return size_;
   }
 
-  track_state_t const & operator[](size_t index) const {
+  track_t const & operator[](size_t index) const {
     return items[index];
   }
 
-  track_state_t & operator[](size_t index) {
+  track_t & operator[](size_t index) {
     return items[index];
   }
 
-  track_state_t const & current() const {
+  track_t const & current() const {
     return items[index()];
   }
 
-  track_state_t & current() {
+  track_t & current() {
     return items[index()];
   }
 

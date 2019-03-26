@@ -3,7 +3,7 @@
 
 #include <EEPROM.h>
 #include "flag.h"
-#include "track_state.h"
+#include "track.h"
 
 
 class Eeprom {
@@ -32,14 +32,14 @@ class Eeprom {
     bool playback_state() const;
     uint8_t bpm() const;
 
-    void save_track_state(
+    void save_track(
       size_t eeprom_location,
-      TrackState & track_state
+      TrackState & track
     ) const;
 
-    void restore_track_state(
+    void restore_track(
       size_t eeprom_location,
-      TrackState & track_state
+      TrackState & track
     );
 
     Flag save_requested;
@@ -69,7 +69,7 @@ class Eeprom {
        Serial.print(F(" from "));
        Serial.print(addr);
        Serial.println();
-       restore_track_state(addr,  (*data.tracks)[ix]);
+       restore_track(addr,  (*data.tracks)[ix]);
      }
 
      save_requested.unflag();
@@ -105,7 +105,7 @@ class Eeprom {
       ix < data.tracks->size();
       ix++, addr+= 4
     )
-      save_track_state(addr,  (*data.tracks)[ix]);
+      save_track(addr,  (*data.tracks)[ix]);
 
     Serial.println(F("Done save all to EEPROM"));
   }

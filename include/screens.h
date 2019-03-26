@@ -2,9 +2,9 @@
 #define SHELF_CLOCK_SCREEN_STATES_H
 
 #include "Arduino.h"
-#include "i_screen_state.h"
+#include "i_screen.h"
 #include "ui_data.h"
-#include "track_state_collection.h"
+#include "track_collection.h"
 
 class SSIntro : public IScreenState<UiData<TrackStateCollection<3, TrackState> > > {
 public:

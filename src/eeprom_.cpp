@@ -47,47 +47,47 @@ uint8_t Eeprom::bpm() const {
   return tmp;
 }
 
-void Eeprom::save_track_state(
+void Eeprom::save_track(
   size_t eeprom_location,
-  TrackState & track_state
+  TrackState & track
 ) const {
-  if (! track_state.modified.consume() )
+  if (! track.modified.consume() )
     return;
 
-  EEPROM.write(eeprom_location + 0, track_state.mod_maj());
-  Serial.print(F("Save mod_maj ")); Serial.print(track_state.mod_maj()); Serial.println();
+  EEPROM.write(eeprom_location + 0, track.mod_maj());
+  Serial.print(F("Save mod_maj ")); Serial.print(track.mod_maj()); Serial.println();
 
-  EEPROM.write(eeprom_location + 1, track_state.mod_min());
-  Serial.print(F("Save mod_min ")); Serial.print(track_state.mod_min()); Serial.println();
+  EEPROM.write(eeprom_location + 1, track.mod_min());
+  Serial.print(F("Save mod_min ")); Serial.print(track.mod_min()); Serial.println();
 
-  EEPROM.write(eeprom_location + 2, track_state.phase_min());
-  Serial.print(F("Save phase_min ")); Serial.print(track_state.phase_min()); Serial.println();
+  EEPROM.write(eeprom_location + 2, track.phase_min());
+  Serial.print(F("Save phase_min ")); Serial.print(track.phase_min()); Serial.println();
 
-  EEPROM.write(eeprom_location + 3, track_state.phase_maj());
-  Serial.print(F("Save phase_maj ")); Serial.print(track_state.phase_maj()); Serial.println();
+  EEPROM.write(eeprom_location + 3, track.phase_maj());
+  Serial.print(F("Save phase_maj ")); Serial.print(track.phase_maj()); Serial.println();
 
-  Serial.println(F("Saved track_state."));
+  Serial.println(F("Saved track."));
 }
 
-void Eeprom::restore_track_state(
+void Eeprom::restore_track(
   size_t eeprom_location,
-  TrackState & track_state
+  TrackState & track
 ) {
-  track_state.set_mod_maj(EEPROM.read(eeprom_location + 0));
-  Serial.print(F("Restore mod_maj ")); Serial.print(track_state.mod_maj()); Serial.println();
+  track.set_mod_maj(EEPROM.read(eeprom_location + 0));
+  Serial.print(F("Restore mod_maj ")); Serial.print(track.mod_maj()); Serial.println();
 
-  track_state.set_mod_min(EEPROM.read(eeprom_location + 1));
-  Serial.print(F("Restore mod_min ")); Serial.print(track_state.mod_min()); Serial.println();
+  track.set_mod_min(EEPROM.read(eeprom_location + 1));
+  Serial.print(F("Restore mod_min ")); Serial.print(track.mod_min()); Serial.println();
 
-  track_state.set_phase_min  (EEPROM.read(eeprom_location + 2));
-  Serial.print(F("Restore phase_min ")); Serial.print(track_state.phase_min()); Serial.println();
+  track.set_phase_min  (EEPROM.read(eeprom_location + 2));
+  Serial.print(F("Restore phase_min ")); Serial.print(track.phase_min()); Serial.println();
 
-  track_state.set_phase_maj (EEPROM.read(eeprom_location + 3));
-  Serial.print(F("Restore phase_maj ")); Serial.print(track_state.phase_maj()); Serial.println();
+  track.set_phase_maj (EEPROM.read(eeprom_location + 3));
+  Serial.print(F("Restore phase_maj ")); Serial.print(track.phase_maj()); Serial.println();
 
   Serial.print(F("(Unflag a track state) "));
   Serial.println();
   Serial.println();
   Serial.flush();
-  track_state.modified.unflag();
+  track.modified.unflag();
 }

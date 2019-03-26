@@ -2,7 +2,7 @@
 #define SHELF_CLOCK_TRACK_STATE_CONTROL_BINDING_H
 
 #include "Arduino.h"
-#include "track_state.h"
+#include "track.h"
 #include "i_buttonpad.h"
 #include "controls.h"
 
