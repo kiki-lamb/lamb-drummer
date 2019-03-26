@@ -16,6 +16,8 @@ public:
   TrackCollection() : _index(2) {
     for (size_t ix = 0; ix < size_; ix++)
       items[ix] = track_t();
+      
+    Track * items[ix]; // Make sure it's a Track.
   }
 
   virtual ~TrackCollection() {}
