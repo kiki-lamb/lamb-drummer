@@ -12,6 +12,11 @@ void Eeprom::flag_save_requested() {
   save_requested.flag();
   last_edit = millis();
 }
+
+void Eeprom::unflag_save_requested() {
+  save_requested.unflag();
+}
+
 void Eeprom::save_playback_state(bool playback_state_) const {
   Serial.print(F("Save playback_state state "));
   Serial.println(playback_state_ ? F("ON") : F("OFF"));

@@ -47,6 +47,7 @@ class Eeprom {
 
   public:
     void flag_save_requested();
+    void unflag_save_requested();
 
     Eeprom();
     virtual ~Eeprom();

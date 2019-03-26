@@ -88,6 +88,7 @@ void Application::restore_state() {
   controls->set_encoder(tmp.bpm);
   timer1.set_bpm(tmp.bpm);
   Application::set_playback_state(tmp.playback_state);
+  eeprom.unflag_save_requested();
 }
 
 void Application::process_control(Application::controls_t::ControlEvent & e) {
