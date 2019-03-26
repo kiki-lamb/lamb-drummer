@@ -20,33 +20,15 @@ class Ui {
 		};
 
     void update_screen() {
-      screen_states[current_screen]->update(data);
+      screen_states[current_screen]->update();
     }
 
     void enter_screen(screen_t screen) {
       if (screen == current_screen)
         return;
       current_screen = screen;
-      screen_states[screen]->enter(data);
+      screen_states[screen]->enter();
     }
-
-    // void flag_redraw_selected_track_indicator() {
-    //   redraw_selected_track_indicator.flag();
-    // }
-    //
-    // void flag_redraw_playback_state() {
-    //   redraw_playback_state.flag();
-    // }
-    //
-    // void flag_redraw_track(uint8_t track) {
-    //   redraw_track.flag();
-    //   track_flagged_for_redraw = track;
-    // }
-    //
-    // void flag_popup_bpm() {
-    //   popup_bpm_requested.flag();
-    //   flag_screen(SCREEN_MAIN);
-    // }
 
     void setup() {
       Lcd::setup();
@@ -61,10 +43,10 @@ class Ui {
       screen_states(),
       data(data_)
     {
-      screen_states[0] = new SSIntro();
-      screen_states[1] = new SSNone ();
-      screen_states[2] = new SSMain ();
-      screen_states[3] = new SSInstr();
+      screen_states[0] = new SSIntro(data);
+      screen_states[1] = new SSNone (data);
+      screen_states[2] = new SSMain (data);
+      screen_states[3] = new SSInstr(data);
     }
 
     virtual ~Ui() {}

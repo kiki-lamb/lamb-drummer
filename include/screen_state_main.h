@@ -9,20 +9,15 @@
 
 class SSMain : public IScreenState<UiData<TrackStateCollection<3, TrackState> > > {
 public:
-  SSMain(
-    // Flag * popup_bpm_requested,
-    // Flag * redraw_playback_state,
-    // Flag * redraw_selected_track_indicator,
-    // Flag * redraw_track
-  );
+  SSMain(data_t * data);
 private:
-  virtual void  impl_enter(data_t * d);
-  virtual void  impl_update(data_t * d);
-  void          draw_bars(data_t * d);
-  void 				  draw_channel_numbers(data_t * d);
-  void 				  draw_column(data_t * d, uint8_t step, bool highlit = false, bool log_this = false);
-  void 			 	  draw_line0(data_t * d, bool redraw_bpm = false);
-  void 			    draw_page_number(data_t * d);
+  virtual void  impl_enter();
+  virtual void  impl_update();
+  void          draw_bars();
+  void 				  draw_channel_numbers();
+  void 				  draw_column(uint8_t step, bool highlit = false, bool log_this = false);
+  void 			 	  draw_line0(bool redraw_bpm = false);
+  void 			    draw_page_number();
   unsigned long popup_bpm_time;
   bool          popup_bpm_state;
   static const unsigned long

@@ -7,18 +7,27 @@
 #include "track_state_collection.h"
 
 class SSIntro : public IScreenState<UiData<TrackStateCollection<3, TrackState> > > {
-  virtual void impl_enter(data_t * d);
-  virtual void impl_update(data_t * d);
+public:
+  SSIntro(data_t * data);
+private:
+  virtual void impl_enter();
+  virtual void impl_update();
 };
 
 class SSInstr : public IScreenState<UiData<TrackStateCollection<3, TrackState> > > {
-  virtual void impl_enter(data_t * d);
-  virtual void impl_update(data_t * d);
+public:
+  SSInstr(data_t * data);
+private:
+  virtual void impl_enter();
+  virtual void impl_update();
 };
 
 class SSNone : public IScreenState<UiData<TrackStateCollection<3, TrackState> > > {
-  virtual void impl_enter(data_t * d);
-  virtual void impl_update(data_t * d);
+public:
+  SSNone(data_t * data);
+private:
+  virtual void impl_enter();
+  virtual void impl_update();
 };
 
 #endif

@@ -11,8 +11,10 @@ private:
 
 public:
   typedef data_t_ data_t;
+  data_t * data;
 
-  IScreenState() :
+  IScreenState(data_t * data_) :
+    data(data_),
     requires_update("requires_update", true) {
     flag();
   }
@@ -28,21 +30,21 @@ public:
     return Lcd::lcd;
   }
 
-  void update(data_t * d) {
+  void update() {
     if (requires_update.consume())
-      impl_update(d);
+      impl_update();
   }
 
-  void enter(data_t * d) {
+  void enter() {
     requires_update.consume();
 
     lcd().clear();
 
-    impl_enter(d);
+    impl_enter();
   }
 private:
-  virtual void impl_update(data_t * d) = 0;
-  virtual void impl_enter(data_t * d) = 0;
+  virtual void impl_update() = 0;
+  virtual void impl_enter() = 0;
 };
 
 #endif

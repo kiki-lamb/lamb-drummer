@@ -1,18 +1,30 @@
 #include "screen_states.h"
 
-void SSNone::impl_enter(SSIntro::data_t * d) {
+SSNone::SSNone(
+  SSNone::data_t * data
+) : IScreenState<SSNone::data_t>(data) {}
+
+SSIntro::SSIntro(
+  SSIntro::data_t * data
+) : IScreenState<SSIntro::data_t>(data) {}
+
+SSInstr::SSInstr(
+  SSInstr::data_t * data
+) : IScreenState<SSIntro::data_t>(data) {}
+
+void SSNone::impl_enter() {
 }
 
-void SSNone::impl_update(SSIntro::data_t * d) {
+void SSNone::impl_update() {
 }
 
-void SSInstr::impl_enter(SSInstr::data_t * d) {
+void SSInstr::impl_enter() {
 }
 
-void SSInstr::impl_update(SSInstr::data_t * d) {
+void SSInstr::impl_update() {
 }
 
-void SSIntro::impl_enter(SSIntro::data_t * d) {
+void SSIntro::impl_enter() {
   lcd().setCursor(0, 0);
   lcd().print(F("    Lamb Drummer    "));
 
@@ -51,5 +63,5 @@ void SSIntro::impl_enter(SSIntro::data_t * d) {
   delay(300);
 }
 
-void SSIntro::impl_update(SSIntro::data_t * d) {
+void SSIntro::impl_update() {
 }
