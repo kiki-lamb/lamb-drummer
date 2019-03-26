@@ -12,44 +12,40 @@
 #include "timer2.h"
 
 class Application {
+  public:
+  static const    size_t           track_count = 3;
+  typedef TrackStateCollection<track_count>
+                                   tracks_t;
+
   private:
   Application();
   ~Application();
-  static const    size_t                  NUM_TRACKS = 3;
+  typedef Buttonpad_PCF8754<0x3F>  buttonpad_t;
+  typedef Controls<buttonpad_t>    controls_t;
+  static          IControls *      controls;
+  static          Eeprom           eeprom;
+  static          Timer1_          timer1;
+  static          Timer2_          timer2;
+  static          tracks_t         track_states_collection;
+  static          void             restore_state();
+  static          void             set_playback_state(bool playback_state_);
+  static          void             process_control(controls_t::ControlEvent & e);
 
   public:
-  typedef TrackStateCollection<NUM_TRACKS> track_collection_t;
-
-  private:
-  typedef         Buttonpad_PCF8754<0x3F> buttonpad_t;
-  typedef         Controls<buttonpad_t>   controls_t;
-
-  static          IControls *             controls;
-  static          Eeprom                  eeprom;
-  static          Timer1_                 timer1;
-  static          Timer2_                 timer2;
-  static          track_collection_t      track_states_collection;
-  static          void                    restore_state();
-  static          void                    set_playback_state(bool playback_state_);
-  static          void                    process_control(controls_t::ControlEvent & e);
-
-  public:
-  static          void                    save_state();
-  static          void                    setup();
-  static          void                    loop();
-  static          void                    process_controls();
-  static          uint8_t                 page();
-
+  static          void             save_state();
+  static          void             setup();
+  static          void             loop();
+  static          void             process_controls();
+  static          uint8_t          page();
   // fwds to timer1:
-  static          double                  hz();
-  static          uint8_t                 bpm();
-  static          uint8_t                 ticker();
-  static          bool                    playback_state();
-
+  static          double           hz();
+  static          uint8_t          bpm();
+  static          uint8_t          ticker();
+  static          bool             playback_state();
   // fwd to Ui:
-  static          void                    flag_main_screen();
-
+  static          void             flag_main_screen();
   // fwd to track_states_collection:
-  static          track_collection_t const & track_states();
+  static          tracks_t const & track_states();
 };
+
 #endif

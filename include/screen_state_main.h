@@ -9,9 +9,9 @@ class SSMain : public IScreenState {
   public:
   SSMain();
 
-  template <class collection_t>
+  template <class tracks_t>
   class UiData {
-    collection_t * track_states;
+    tracks_t * track_states;
     uint8_t const & (*page)();
     uint8_t const & (*bpm)();
     double  const & (*hz)();
@@ -20,7 +20,7 @@ class SSMain : public IScreenState {
   };
 
   private:
-  Application::track_collection_t const & track_states();
+  Application::tracks_t const & track_states();
   virtual void impl_enter();
   virtual void impl_update();
   void draw_bars();

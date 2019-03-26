@@ -2,11 +2,11 @@
 #include "ui.h"
 #include "track_state_control_binding.h"
 
-IControls * Application::controls(new Application::controls_t(&Application::bpm));
-Application::track_collection_t   Application::track_states_collection;
-Eeprom                            Application::eeprom;
-Timer1_                           Application::timer1;
-Timer2_                           Application::timer2;
+IControls *           Application::controls(new Application::controls_t(&Application::bpm));
+Application::tracks_t Application::track_states_collection;
+Eeprom                Application::eeprom;
+Timer1_               Application::timer1;
+Timer2_               Application::timer2;
 
 Application::Application() {};
 
@@ -39,7 +39,7 @@ void Application::loop() {
   delay(frame_delay);
 }
 
-Application::track_collection_t const & Application::track_states() {
+Application::tracks_t const & Application::track_states() {
   return track_states_collection;
 }
 
@@ -80,7 +80,7 @@ void Application::set_playback_state(bool playback_state_) {
 
 void Application::save_state() {
    eeprom.save_all(
-     Eeprom::PersistantData<track_collection_t>(
+     Eeprom::PersistantData<tracks_t>(
        &track_states_collection,
        bpm(),
        playback_state()
@@ -89,7 +89,7 @@ void Application::save_state() {
 }
 
 void Application::restore_state() {
-  Eeprom::PersistantData<track_collection_t> tmp(&track_states_collection, bpm(), playback_state());
+  Eeprom::PersistantData<tracks_t> tmp(&track_states_collection, bpm(), playback_state());
   eeprom.restore_all(tmp);
   controls->set_encoder(tmp.bpm);
   timer1.set_bpm(tmp.bpm);
