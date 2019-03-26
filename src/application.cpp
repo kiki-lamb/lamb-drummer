@@ -115,10 +115,13 @@ void Application::restore_state() {
   eeprom.unflag_save_requested();
 }
 
-void Application::process_control(Application::controls_t::ControlEvent & e) {
+bool Application::process_control(Application::controls_t::ControlEvent e) {
   Serial.print(F("Dequeue "));
   Serial.print(e.type);
   Serial.println();
+
+  if (e.type == controls_t::EVT_NOT_AVAILABLE)
+    return false;
 
   if (e.type < 8) {
     TrackStateEventProcessor<controls_t>::handle_event(
@@ -131,30 +134,28 @@ void Application::process_control(Application::controls_t::ControlEvent & e) {
     Serial.println();
     redraw_track.flag();
     redraw_selected_track_indicator.flag();
-  #define SET_FLAGS flag_main_screen(); eeprom.flag_save_requested();
-    SET_FLAGS;
+  #define SET_FLAGS_AND_RETURN_TRUE flag_main_screen(); eeprom.flag_save_requested(); return true;
+    SET_FLAGS_AND_RETURN_TRUE;
   }
   else {
     switch (e.type) {
       case controls_t::EVT_PLAYBACK_STATE_TOGGLE:
         set_playback_state(! timer1.playback_state());
+        SET_FLAGS_AND_RETURN_TRUE;
         break;
       case controls_t::EVT_BPM_SET:
         timer1.set_bpm(e.parameter);
         popup_bpm_requested.flag();
-        SET_FLAGS;
+        SET_FLAGS_AND_RETURN_TRUE;
 #undef SET_FLAGS
         break;
     }
+
+    return false;
   }
 }
 
 void Application::process_controls() {
   controls->poll();
-
-  for (
-        controls_t::ControlEvent e = controls->dequeue_event();
-        e.type != controls_t::EVT_NOT_AVAILABLE;
-        e = controls->dequeue_event()
-  ) process_control(e);
+  while(process_control(controls->dequeue_event()));
 }
