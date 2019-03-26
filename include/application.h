@@ -4,7 +4,7 @@
 #include "Arduino.h"
 #include "buttonpad_resistor_ladder.h"
 #include "buttonpad_pcf8574.h"
-#include "track_control_binding.h"
+#include "track_event_processor.h"
 #include "track_collection.h"
 #include "controls.h"
 #include "eeprom_.h"

@@ -1,6 +1,5 @@
 #include "application.h"
 #include "ui_data.h"
-#include "track_control_binding.h"
 
 IControls *            Application::controls(new Application::controls_t(&Application::bpm));
 Application::tracks_t  Application::_tracks;
