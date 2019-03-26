@@ -35,6 +35,7 @@ void Application::init_ui_data() {
                                  = &redraw_selected_track_indicator;
   update_ui_data();
 }
+
 void Application::setup() {
   Serial.begin(115200);
   Serial.println();
@@ -43,14 +44,14 @@ void Application::setup() {
   controls->setup();
   init_ui_data();
   update_ui_data();
-  ui    .setup();
-  ui    .enter_screen(ui_t::SCREEN_INTRO);
+  ui       .setup();
+  ui       .enter_screen(ui_t::SCREEN_INTRO);
   cli();
-  timer1.setup();
-  timer2.setup();
+  timer1   .setup();
+  timer2   .setup();
   sei();
   restore_state();
-  ui    .enter_screen(ui_t::SCREEN_MAIN);
+  ui       .enter_screen(ui_t::SCREEN_MAIN);
 
   Serial.println(F("Setup complete."));
   Serial.println();
