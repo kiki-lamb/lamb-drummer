@@ -7,7 +7,7 @@
 #include "track_state_control_binding.h"
 #include "track_state_collection.h"
 #include "controls.h"
-#include "eeprom.h"
+#include "eeprom_.h"
 #include "timer1.h"
 #include "timer2.h"
 
@@ -31,12 +31,12 @@ class Application {
   static          track_collection_t      track_states_collection;
   static          void                    restore_state();
   static          void                    set_playback_state(bool playback_state_);
-  
+
   public:
   static          void                    setup();
   static          void                    loop();
   static          void                    process_controls();
-  static          uint8_t                 page();  
+  static          uint8_t                 page();
 
   // fwds to timer1:
   static          double                  hz();
@@ -49,7 +49,7 @@ class Application {
 
   // fwd to track_states_collection:
   static          track_collection_t const &    track_states();
-  
+
   static          void                    save_state();
 };
 #endif

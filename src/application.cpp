@@ -88,7 +88,7 @@ void Application::restore_state() {
   Eeprom::PersistantData<track_collection_t> tmp(&track_states_collection, bpm(), playback_state());
   eeprom.restore_all(tmp);
   controls->set_encoder(tmp.bpm);
-  timer1.set_bpm(tmp.bpm); 
+  timer1.set_bpm(tmp.bpm);
   Application::set_playback_state(tmp.playback_state);
 }
 
@@ -96,10 +96,10 @@ void Application::process_controls() {
 #define SET_FLAGS flag_main_screen(); eeprom.flag_save_requested();
 
   controls->poll();
-  
+
   for (
-        controls_t::ControlEvent e = controls->dequeue_event(); 
-        e.type != controls_t::EVT_NOT_AVAILABLE; 
+        controls_t::ControlEvent e = controls->dequeue_event();
+        e.type != controls_t::EVT_NOT_AVAILABLE;
         e = controls->dequeue_event()
   ) {
     Serial.print(F("Dequeue "));
@@ -128,7 +128,6 @@ void Application::process_controls() {
       }
     }
   }
-  
+
 #undef SET_FLAGS
 }
-
