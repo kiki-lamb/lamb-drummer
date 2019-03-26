@@ -23,7 +23,6 @@ class Application {
   private:
   typedef         Buttonpad_PCF8754<0x3F> buttonpad_t;
   typedef         Controls<buttonpad_t>   controls_t;
-  static          void  process_control(controls_t::ControlEvent & e);
 
   static          IControls *             controls;
   static          Eeprom                  eeprom;
@@ -32,6 +31,7 @@ class Application {
   static          track_collection_t      track_states_collection;
   static          void                    restore_state();
   static          void                    set_playback_state(bool playback_state_);
+  static          void                    process_control(controls_t::ControlEvent & e);
 
   public:
   static          void                    setup();
@@ -49,7 +49,7 @@ class Application {
   static          void                    flag_main_screen();
 
   // fwd to track_states_collection:
-  static          track_collection_t const &    track_states();
+  static          track_collection_t const & track_states();
 
   static          void                    save_state();
 };

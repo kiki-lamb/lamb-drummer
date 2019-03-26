@@ -4,9 +4,9 @@
 
 IControls * Application::controls(new Application::controls_t(&Application::bpm));
 Application::track_collection_t   Application::track_states_collection;
-Eeprom                      Application::eeprom;
-Timer1_                     Application::timer1;
-Timer2_                     Application::timer2;
+Eeprom                            Application::eeprom;
+Timer1_                           Application::timer1;
+Timer2_                           Application::timer2;
 
 Application::Application() {};
 
@@ -103,7 +103,7 @@ void Application::process_control(Application::controls_t::ControlEvent & e) {
       track_states_collection.current(),
       e
     );
-    
+
     Serial.print(F(" for track "));
     Serial.print(track_states_collection.index());
     Serial.println();
