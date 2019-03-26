@@ -49,7 +49,7 @@ uint8_t Eeprom::bpm() const {
 
 void Eeprom::save_track(
   size_t eeprom_location,
-  TrackState & track
+  Track & track
 ) const {
   if (! track.modified.consume() )
     return;
@@ -71,7 +71,7 @@ void Eeprom::save_track(
 
 void Eeprom::restore_track(
   size_t eeprom_location,
-  TrackState & track
+  Track & track
 ) {
   track.set_mod_maj(EEPROM.read(eeprom_location + 0));
   Serial.print(F("Restore mod_maj ")); Serial.print(track.mod_maj()); Serial.println();

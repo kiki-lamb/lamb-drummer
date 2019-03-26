@@ -4,7 +4,7 @@
 #include "Arduino.h"
 #include "flag.h"
 
-class TrackState {
+class Track {
 public:
   Flag    modified;
 
@@ -16,15 +16,15 @@ public:
   uint8_t mod_min()   const;
   uint8_t phase_min() const;
   uint8_t phase_maj() const;
-  virtual TrackState & operator=(TrackState const & other);
+  virtual Track & operator=(Track const & other);
   bool    trigger_state(uint8_t counter) const;
-  TrackState(
+  Track(
     uint8_t mod_maj_ = 0,
     uint8_t mod_min_ = 1,
     uint8_t phase_min_ = 0,
     uint8_t phase_maj_ = 0
   );
-  virtual ~TrackState();
+  virtual ~Track();
 private:
   uint8_t _mod_min;
   uint8_t _mod_maj;

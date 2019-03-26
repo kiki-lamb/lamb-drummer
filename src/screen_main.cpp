@@ -2,7 +2,7 @@
 #include "ui.h"
 
 SSMain::SSMain(data_t * data) :
-  IScreenState<UiData<TrackStateCollection<3, TrackState> > >(data),
+  IScreenState<UiData<TrackCollection<3, Track> > >(data),
   popup_bpm_time(0),
   popup_bpm_state(false)
   {}

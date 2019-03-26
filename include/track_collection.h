@@ -4,8 +4,8 @@
 #include "Arduino.h"
 #include "track.h"
 
-template <size_t size_, class track_t = TrackState>
-class TrackStateCollection {
+template <size_t size_, class track_t = Track>
+class TrackCollection {
 private:
   track_t items[size_];
   size_t _index;
@@ -13,12 +13,12 @@ private:
 public:
   typedef track_t item_t;
 
-  TrackStateCollection() : _index(2) {
+  TrackCollection() : _index(2) {
     for (size_t ix = 0; ix < size_; ix++)
       items[ix] = track_t();
   }
 
-  virtual ~TrackStateCollection() {}
+  virtual ~TrackCollection() {}
 
   size_t index() const {
     return _index;

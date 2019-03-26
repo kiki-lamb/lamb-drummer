@@ -124,7 +124,7 @@ bool Application::process_control(Application::controls_t::ControlEvent e) {
     return false;
 
   if (e.type < 8) {
-    TrackStateEventProcessor<controls_t>::handle_event(
+    TrackEventProcessor<controls_t>::handle_event(
       _tracks.current(),
       e
     );

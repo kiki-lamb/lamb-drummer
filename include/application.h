@@ -16,7 +16,7 @@
 class Application {
 public:
   static const    size_t           track_count = 3;
-  typedef TrackStateCollection<track_count>
+  typedef TrackCollection<track_count>
                                    tracks_t;
 private:
   Application();

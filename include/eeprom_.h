@@ -34,12 +34,12 @@ class Eeprom {
 
     void save_track(
       size_t eeprom_location,
-      TrackState & track
+      Track & track
     ) const;
 
     void restore_track(
       size_t eeprom_location,
-      TrackState & track
+      Track & track
     );
 
     Flag save_requested;

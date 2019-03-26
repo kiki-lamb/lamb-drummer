@@ -6,7 +6,7 @@
 #include "ui_data.h"
 #include "track_collection.h"
 
-class SSIntro : public IScreenState<UiData<TrackStateCollection<3, TrackState> > > {
+class SSIntro : public IScreenState<UiData<TrackCollection<3, Track> > > {
 public:
   SSIntro(data_t * data);
 private:
@@ -14,7 +14,7 @@ private:
   virtual void impl_update();
 };
 
-class SSInstr : public IScreenState<UiData<TrackStateCollection<3, TrackState> > > {
+class SSInstr : public IScreenState<UiData<TrackCollection<3, Track> > > {
 public:
   SSInstr(data_t * data);
 private:
@@ -22,7 +22,7 @@ private:
   virtual void impl_update();
 };
 
-class SSNone : public IScreenState<UiData<TrackStateCollection<3, TrackState> > > {
+class SSNone : public IScreenState<UiData<TrackCollection<3, Track> > > {
 public:
   SSNone(data_t * data);
 private:
