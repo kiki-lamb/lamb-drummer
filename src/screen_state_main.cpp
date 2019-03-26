@@ -2,7 +2,21 @@
 #include "ui.h"
 
 
-SSMain::SSMain() : popup_bpm_time(0), popup_bpm_state(false) {}
+SSMain::SSMain(
+  Flag * popup_bpm_requested_,
+  Flag * redraw_bpm_,
+  Flag * redraw_playback_state_,
+  Flag * redraw_selected_track_indicator_,
+  Flag * redraw_track_
+) :
+  popup_bpm_requested(popup_bpm_requested_),
+  redraw_bpm(redraw_bpm_),
+  redraw_playback_state(redraw_playback_state_),
+  redraw_selected_track_indicator(redraw_selected_track_indicator_),
+  redraw_track(redraw_track_),
+  popup_bpm_time(0),
+  popup_bpm_state(false)
+  {}
 
 void SSMain::draw_channel_numbers(data_t & d) {
   for (uint8_t line = 1; line <= 3; line++) {
@@ -26,8 +40,8 @@ void SSMain::draw_bars(data_t & d) {
 void SSMain::impl_enter(SSIntro::data_t d) {
   SSIntro::data_t d_ = d;
 
-  // Ui::flag_popup_bpm();
-  // Ui::redraw_selected_track_indicator.unflag();
+  popup_bpm_requested->flag();
+  redraw_selected_track_indicator->unflag();
 
   draw_line0(d);
   Lcd::put_playstate(19,0); // Ugly...
@@ -40,8 +54,8 @@ void SSMain::impl_enter(SSIntro::data_t d) {
 
   draw_page_number(d);
 
-  // Ui::redraw_playback_state.unflag();
-  // Ui::redraw_bpm.unflag();
+  redraw_playback_state->unflag();
+  redraw_bpm->unflag();
 }
 
 void SSMain::draw_page_number(data_t & d) {
@@ -53,7 +67,7 @@ void SSMain::draw_line0(SSMain::data_t & d) {
   char buf [21];
   char buf2[21];
 
-  if (true) { // if (Ui::redraw_bpm.consume()) {
+  if (redraw_bpm->consume()) {
     lcd().setCursor(0, 0);
     lcd().print("                  ");
 
@@ -66,7 +80,7 @@ void SSMain::draw_line0(SSMain::data_t & d) {
     snprintf(buf, 21, "%s hz", buf2);
     lcd().print(buf);
   }
-  else if (true) { // (Ui::redraw_selected_track_indicator.consume()) {
+  else if (redraw_selected_track_indicator->consume()) {
     draw_channel_numbers(d);
 
     lcd().setCursor(0, 0);
@@ -95,16 +109,16 @@ void SSMain::draw_line0(SSMain::data_t & d) {
     lcd().print(buf);
   }
 
-  if (true) { // (Ui::redraw_playback_state.consume()) {
+  if (redraw_playback_state->consume()) {
     Lcd::select_playstate(! d.playback_state);
   }
 }
 
 void SSMain::impl_update(SSIntro::data_t d) {
-  if (true) { // (Ui::popup_bpm_requested.consume()) {
+  if (popup_bpm_requested->consume()) {
     popup_bpm_time = millis();
     popup_bpm_state = true;
-    //Ui::redraw_bpm.flag();
+    redraw_bpm->flag();
   }
 
   if (popup_bpm_state) {
@@ -112,7 +126,7 @@ void SSMain::impl_update(SSIntro::data_t d) {
 
     if ((now - popup_bpm_time) >= popup_bpm_duration) {
       popup_bpm_state = false;
-      //Ui::redraw_selected_track_indicator.flag();
+      redraw_selected_track_indicator->flag();
     }
   }
 
@@ -120,7 +134,7 @@ void SSMain::impl_update(SSIntro::data_t d) {
 
   uint8_t prior   = ((uint8_t)((d.ticker>>1)-1)) % (*d.track_states).max_mod_maj(); // Don't remove this cast or the subtraction result becomes a signed type
   uint8_t current = (d.ticker>>1) % (*d.track_states).max_mod_maj();
-  bool redraw_page = true; // Ui::redraw_track.consume();
+  bool redraw_page = redraw_track->consume();
 
   if (! redraw_page) {
     static uint8_t last_page = 255;

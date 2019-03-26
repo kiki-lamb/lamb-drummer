@@ -68,7 +68,13 @@ class Ui {
     {
       screen_states[0] = new SSIntro();
       screen_states[1] = new SSNone ();
-      screen_states[2] = new SSMain ();
+      screen_states[2] = new SSMain (
+        &popup_bpm_requested,
+        &redraw_bpm,
+        &redraw_playback_state,
+        &redraw_selected_track_indicator,
+        &redraw_track
+      );
       screen_states[3] = new SSInstr();
     }
 
