@@ -2,17 +2,17 @@
 #include "ui.h"
 
 SSMain::SSMain(
-  Flag * popup_bpm_requested_,
-//  Flag * redraw_bpm_,
-  Flag * redraw_playback_state_,
-  Flag * redraw_selected_track_indicator_,
-  Flag * redraw_track_
+//   Flag * popup_bpm_requested_,
+// //  Flag * redraw_bpm_,
+//   Flag * redraw_playback_state_,
+//   Flag * redraw_selected_track_indicator_,
+//   Flag * redraw_track_
 ) :
-  popup_bpm_requested(popup_bpm_requested_),
-  //redraw_bpm(redraw_bpm_),
-  redraw_playback_state(redraw_playback_state_),
-  redraw_selected_track_indicator(redraw_selected_track_indicator_),
-  redraw_track(redraw_track_),
+  // popup_bpm_requested(popup_bpm_requested_),
+  // //redraw_bpm(redraw_bpm_),
+  // redraw_playback_state(redraw_playback_state_),
+  // redraw_selected_track_indicator(redraw_selected_track_indicator_),
+  // redraw_track(redraw_track_),
   popup_bpm_time(0),
   popup_bpm_state(false)
   {}
@@ -39,8 +39,8 @@ void SSMain::draw_bars(data_t & d) {
 void SSMain::impl_enter(SSIntro::data_t d) {
   SSIntro::data_t d_ = d;
 
-  popup_bpm_requested->flag();
-  redraw_selected_track_indicator->unflag();
+  d.popup_bpm_requested->flag();
+  d.redraw_selected_track_indicator->unflag();
 
   draw_line0(d);
   Lcd::put_playstate(19,0); // Ugly...
@@ -53,7 +53,7 @@ void SSMain::impl_enter(SSIntro::data_t d) {
 
   draw_page_number(d);
 
-  redraw_playback_state->unflag();
+  d.redraw_playback_state->unflag();
 //  redraw_bpm->unflag();
 }
 
@@ -79,7 +79,9 @@ void SSMain::draw_line0(SSMain::data_t & d, bool redraw_bpm) {
     snprintf(buf, 21, "%s hz", buf2);
     lcd().print(buf);
   }
-  else if (redraw_selected_track_indicator->consume()) {
+  else {
+    //Serial.println("Before rdsi!");
+    if (d.redraw_selected_track_indicator->consume()) {
     draw_channel_numbers(d);
 
     lcd().setCursor(0, 0);
@@ -106,17 +108,18 @@ void SSMain::draw_line0(SSMain::data_t & d, bool redraw_bpm) {
     lcd().setCursor(15, 0);
     snprintf(buf, 21, "%-2d", (*d.track_states)[(*d.track_states).index()].phase_min());
     lcd().print(buf);
-  }
+  } }
 
-  if (redraw_playback_state->consume()) {
+  //Serial.println("Before rps!");
+  if (d.redraw_playback_state->consume()) {
     Lcd::select_playstate(! d.playback_state);
   }
 }
 
 void SSMain::impl_update(SSIntro::data_t d) {
   bool redraw_bpm = false;
-
-  if (popup_bpm_requested->consume()) {
+  //Serial.println("Before pbr!");
+  if (d.popup_bpm_requested->consume()) {
     popup_bpm_time = millis();
     popup_bpm_state = true;
     redraw_bpm = true;
@@ -127,7 +130,7 @@ void SSMain::impl_update(SSIntro::data_t d) {
 
     if ((now - popup_bpm_time) >= popup_bpm_duration) {
       popup_bpm_state = false;
-      redraw_selected_track_indicator->flag();
+      d.redraw_selected_track_indicator->flag();
     }
   }
 
@@ -135,7 +138,9 @@ void SSMain::impl_update(SSIntro::data_t d) {
 
   uint8_t prior   = ((uint8_t)((d.ticker>>1)-1)) % (*d.track_states).max_mod_maj(); // Don't remove this cast or the subtraction result becomes a signed type
   uint8_t current = (d.ticker>>1) % (*d.track_states).max_mod_maj();
-  bool redraw_page = redraw_track->consume();
+
+  //Serial.println("Before rt!");
+  bool redraw_page = d.redraw_track->consume();
 
   if (! redraw_page) {
     static uint8_t last_page = 255;

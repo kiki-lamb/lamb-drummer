@@ -30,23 +30,23 @@ class Ui {
       screen_states[screen]->enter(data);
     }
 
-    void flag_redraw_selected_track_indicator() {
-      redraw_selected_track_indicator.flag();
-    }
-
-    void flag_redraw_playback_state() {
-      redraw_playback_state.flag();
-    }
-
-    void flag_redraw_track(uint8_t track) {
-      redraw_track.flag();
-      track_flagged_for_redraw = track;
-    }
-
-    void flag_popup_bpm() {
-      popup_bpm_requested.flag();
-      flag_screen(SCREEN_MAIN);
-    }
+    // void flag_redraw_selected_track_indicator() {
+    //   redraw_selected_track_indicator.flag();
+    // }
+    //
+    // void flag_redraw_playback_state() {
+    //   redraw_playback_state.flag();
+    // }
+    //
+    // void flag_redraw_track(uint8_t track) {
+    //   redraw_track.flag();
+    //   track_flagged_for_redraw = track;
+    // }
+    //
+    // void flag_popup_bpm() {
+    //   popup_bpm_requested.flag();
+    //   flag_screen(SCREEN_MAIN);
+    // }
 
     void setup() {
       Lcd::setup();
@@ -57,21 +57,16 @@ class Ui {
     }
 
     Ui() :
-		  redraw_selected_track_indicator("rst", true),
-			redraw_playback_state          ("rps", true),
-			popup_bpm_requested            ("pbr", false),
-			redraw_track                   ("ti" , false),
-			track_flagged_for_redraw(0),
 			current_screen(SCREEN_NONE),
       screen_states()
     {
       screen_states[0] = new SSIntro();
       screen_states[1] = new SSNone ();
       screen_states[2] = new SSMain (
-        &popup_bpm_requested,
-        &redraw_playback_state,
-        &redraw_selected_track_indicator,
-        &redraw_track
+        // &popup_bpm_requested,
+        // &redraw_playback_state,
+        // &redraw_selected_track_indicator,
+        // &redraw_track
       );
       screen_states[3] = new SSInstr();
     }
@@ -81,11 +76,6 @@ class Ui {
   private:
     screen_t               current_screen;
     IScreenState<data_t> * screen_states[4];
-    Flag                   popup_bpm_requested;
-    Flag                   redraw_track;
-    Flag                   redraw_selected_track_indicator;
-    Flag                   redraw_playback_state;
-    uint8_t                track_flagged_for_redraw;
 };
 
 #endif

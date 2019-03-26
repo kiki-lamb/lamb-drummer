@@ -8,7 +8,8 @@ TrackState::TrackState(
 ) : _mod_min(mod_min_),
     _mod_maj(mod_maj_),
     _phase_min(phase_min_),
-    _phase_maj(phase_maj_) {
+    _phase_maj(phase_maj_),
+    modified("mod", false) {
 };
 
 TrackState::~TrackState() {};

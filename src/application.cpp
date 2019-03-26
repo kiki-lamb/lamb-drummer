@@ -8,6 +8,10 @@ Eeprom                Application::eeprom;
 Timer1_               Application::timer1;
 Timer2_               Application::timer2;
 Application::ui_t     Application::ui;
+Flag                  Application::popup_bpm_requested("rst", true);
+Flag                  Application::redraw_track("rps", true);
+Flag                  Application::redraw_selected_track_indicator("pbr", false);
+Flag                  Application::redraw_playback_state("ti" , false);
 
 Application::Application() {};
 
@@ -15,12 +19,16 @@ Application::~Application() {};
 
 Application::ui_data_t Application::ui_data() {
   return ui_data_t(
-    &tracks,
-    page(),
-    timer1.bpm(),
-    timer1.hz(),
-    timer1.playback_state(),
-    timer1.ticker()
+    &tracks,  //  tracks_t const * track_states_,
+    page(),  //  uint8_t          page_,
+    timer1.bpm(),  //  uint8_t          bpm_,
+    timer1.hz(),  //  double           hz_,
+    timer1.playback_state(),  //  bool             playback_state_,
+    timer1.ticker(),  //  uint8_t          ticker_,
+    &popup_bpm_requested,  //  Flag *           popup_bpm_requested_,
+    &redraw_track,  //  Flag *           redraw_track_,
+    &redraw_selected_track_indicator,  //  Flag *           redraw_selected_track_indicator_,
+    &redraw_playback_state  //  Flag *           redraw_playback_state_
   );
 }
 
@@ -34,12 +42,16 @@ void Application::setup() {
   ui       .enter_screen(
     ui_t::SCREEN_INTRO,
     ui_data_t(
-      0,
-      0,
-      0,
-      0,
-      false,
-      0
+      0, //
+      0, //
+      0, //
+      0, //
+      false, //
+      0, //
+      &popup_bpm_requested, //
+      &redraw_track, //
+      &redraw_selected_track_indicator, //
+      &redraw_playback_state //
     )
   );
   cli();
@@ -82,7 +94,7 @@ uint8_t Application::page() {
 
 void Application::set_playback_state(bool playback_state_) {
   timer1.set_playback_state(playback_state_);
-  ui.flag_redraw_playback_state();
+  redraw_playback_state.flag();
   flag_main_screen();
   eeprom.flag_save_requested();
 }
@@ -124,8 +136,8 @@ void Application::process_control(Application::controls_t::ControlEvent & e) {
     Serial.print(F(" for track "));
     Serial.print(tracks.index());
     Serial.println();
-    ui.flag_redraw_track(tracks.index());
-    ui.flag_redraw_selected_track_indicator();
+    redraw_track.flag();
+    redraw_selected_track_indicator.flag();
   #define SET_FLAGS flag_main_screen(); eeprom.flag_save_requested();
     SET_FLAGS;
   }
@@ -136,7 +148,7 @@ void Application::process_control(Application::controls_t::ControlEvent & e) {
         break;
       case controls_t::EVT_BPM_SET:
         timer1.set_bpm(e.parameter);
-        ui    .flag_popup_bpm();
+        popup_bpm_requested.flag();
         SET_FLAGS;
 #undef SET_FLAGS
         break;
