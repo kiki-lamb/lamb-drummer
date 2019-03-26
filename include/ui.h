@@ -8,19 +8,49 @@
 class Ui {
   friend class SSMain;
 
+  template <class tracks_t>
+  class UiData {
+    tracks_t * track_states;
+    uint8_t const & (*page)();
+    uint8_t const & (*bpm)();
+    double  const & (*hz)();
+    bool    const & (*playback_state)();
+    uint8_t const & (*ticker)();
+
+    UiData() {};
+    virtual ~UiData() {};
+  };
+
   public:
-    enum screen_t { SCREEN_INTRO, SCREEN_NONE, SCREEN_MAIN, SCREEN_INSTR };
-    
+    enum screen_t {
+			SCREEN_INTRO,
+			SCREEN_NONE,
+			SCREEN_MAIN,
+			SCREEN_INSTR
+		};
+
     static void           setup           ();
     static void           enter_screen    (screen_t screen);
     static void           update_screen   ();
-    
     static void           flag_popup_bpm  ();
     static void           flag_screen     (screen_t screen);
     static void           flag_redraw_track(uint8_t track);
     static void           flag_redraw_selected_track_indicator();
     static void           flag_redraw_playback_state();
-        
+
+    template <class tracks_t>
+    void update_screen_2(UiData<tracks_t> & data) {
+      screen_states[current_screen]->update();
+    }
+
+    template <class tracks_t>
+    void enter_screen_2(screen_t screen, UiData<tracks_t> & data) {
+      if (screen == current_screen)
+        return;
+      current_screen = screen;
+      screen_states[screen]->enter();
+    }
+
   private:
     Ui();
     ~Ui();

@@ -1,8 +1,6 @@
 #include "screen_state_main.h"
 #include "ui.h"
 
-const unsigned long SSMain::popup_bpm_duration = 600;
-
 SSMain::SSMain() : popup_bpm_time(0), popup_bpm_state(false) {}
 
 Application::tracks_t const & SSMain::track_states() {

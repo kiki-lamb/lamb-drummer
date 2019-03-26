@@ -9,16 +9,6 @@ class SSMain : public IScreenState {
   public:
   SSMain();
 
-  template <class tracks_t>
-  class UiData {
-    tracks_t * track_states;
-    uint8_t const & (*page)();
-    uint8_t const & (*bpm)();
-    double  const & (*hz)();
-    bool    const & (*playback_state)();
-    uint8_t const & (*ticker)();
-  };
-
   private:
   Application::tracks_t const &
 		           track_states();
@@ -30,7 +20,7 @@ class SSMain : public IScreenState {
   void 				 draw_line0();
   void 				 draw_page_number();
 
-  static const unsigned long popup_bpm_duration;
+  static const unsigned long popup_bpm_duration = 600;
   unsigned long              popup_bpm_time;
   bool                       popup_bpm_state;
 };
