@@ -4,12 +4,14 @@
 #include "lcd.h"
 #include "flag.h"
 
-template <class data_t>
+template <class data_t_>
 class IScreenState {
   private:
     Flag requires_update;
 
   public:
+    typedef data_t_ data_t;
+
     IScreenState() :
       requires_update("requires_update", true) {
       flag();
@@ -26,21 +28,21 @@ class IScreenState {
       return Lcd::lcd;
     }
 
-    void update() {
+    void update(data_t d) {
       if (requires_update.consume())
-        impl_update();
+        impl_update(d);
     }
 
-    void enter() {
+    void enter(data_t d) {
       requires_update.consume();
 
       lcd().clear();
 
-      impl_enter();
+      impl_enter(d);
     }
   private:
-    virtual void impl_update() = 0;
-    virtual void impl_enter() = 0;
+    virtual void impl_update(data_t d) = 0;
+    virtual void impl_enter(data_t d) = 0;
 };
 
 #endif

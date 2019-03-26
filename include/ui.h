@@ -4,8 +4,8 @@
 #include "lcd.h"
 #include "i_screen_state.h"
 #include "flag.h"
-#include "screen_states.h"
 #include "screen_state_main.h"
+#include "screen_states.h"
 
 template <class data_t>
 class Ui {
@@ -20,14 +20,14 @@ class Ui {
 		};
 
     void update_screen(data_t data) {
-      screen_states[current_screen]->update();
+      screen_states[current_screen]->update(data);
     }
 
     void enter_screen(screen_t screen, data_t data) {
       if (screen == current_screen)
         return;
       current_screen = screen;
-      screen_states[screen]->enter();
+      screen_states[screen]->enter(data);
     }
 
     void flag_redraw_selected_track_indicator() {
@@ -68,8 +68,7 @@ class Ui {
     {
       screen_states[0] = new SSIntro();
       screen_states[1] = new SSNone ();
-      screen_states[2] = new SSNone ();
-//      screen_states[2] = new SSMain ();
+      screen_states[2] = new SSMain ();
       screen_states[3] = new SSInstr();
     }
 
