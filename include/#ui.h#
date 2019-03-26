@@ -57,20 +57,18 @@ class Ui {
     }
 
     Ui() :
-		  redraw_selected_track_indicator("rst", true),
+		  redraw_selected_track_indicator("rst", true);
 			redraw_playback_state          ("rps", true),
 			redraw_bpm                     ("rb" , false),
 			popup_bpm_requested            ("pbr", false),
 			redraw_track                   ("ti" , false),
 			track_flagged_for_redraw(0),
-			current_screen(SCREEN_NONE),
-      screen_states()
-    {
-       // screen_states[0] = new SSIntro();
-       // screen_states[1] = new SSNone();
-       // screen_states[2] = new SSMain();
-       // screen_states[3] = new SSInstr();
-    }
+			current_screen(SCREEN_NONE)
+				
+    IScreenState * screen_states[4]              = {
+      new SSIntro(), new SSNone(), new SSMain(), new SSInstr()
+    };
+{}
 
     ~Ui() {}
 

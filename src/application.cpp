@@ -7,6 +7,7 @@ Application::tracks_t Application::tracks;
 Eeprom                Application::eeprom;
 Timer1_               Application::timer1;
 Timer2_               Application::timer2;
+Application::ui_t     Application::ui;
 
 Application::Application() {};
 
@@ -29,8 +30,8 @@ void Application::setup() {
   Serial.println(F("Begin setup"));
 
   controls->setup();
-  ui_t    ::setup();
-  ui_t    ::enter_screen(
+  ui       .setup();
+  ui       .enter_screen(
     ui_t::SCREEN_INTRO,
     ui_data_t(
       0,
@@ -46,7 +47,7 @@ void Application::setup() {
   timer2   .setup();
   sei();
   restore_state();
-  ui_t     ::enter_screen(ui_t::SCREEN_MAIN, ui_data());
+  ui       .enter_screen(ui_t::SCREEN_MAIN, ui_data());
 
   Serial.println(F("Setup complete."));
   Serial.println();
@@ -56,7 +57,7 @@ void Application::loop() {
   const uint16_t frame_rate  = 80;
   const uint16_t frame_delay = 1000 / frame_rate;
 
-  ui_t::update_screen(ui_data());
+  ui.update_screen(ui_data());
   delay(frame_delay);
 }
 
@@ -65,7 +66,7 @@ Application::tracks_t const & Application::track_states() {
 }
 
 void Application::flag_main_screen() {
-  ui_t::flag_screen(ui_t::SCREEN_MAIN);
+  ui.flag_screen(ui_t::SCREEN_MAIN);
 }
 
 double Application::hz() {
@@ -94,7 +95,7 @@ bool Application::playback_state() {
 
 void Application::set_playback_state(bool playback_state_) {
   timer1.set_playback_state(playback_state_);
-  ui_t::flag_redraw_playback_state();
+  ui.flag_redraw_playback_state();
   flag_main_screen();
   eeprom.flag_save_requested();
 }
@@ -132,8 +133,8 @@ void Application::process_control(Application::controls_t::ControlEvent & e) {
     Serial.print(F(" for track "));
     Serial.print(tracks.index());
     Serial.println();
-    ui_t::flag_redraw_track(tracks.index());
-    ui_t::flag_redraw_selected_track_indicator();
+    ui.flag_redraw_track(tracks.index());
+    ui.flag_redraw_selected_track_indicator();
   #define SET_FLAGS flag_main_screen(); eeprom.flag_save_requested();
     SET_FLAGS;
   }
@@ -144,7 +145,7 @@ void Application::process_control(Application::controls_t::ControlEvent & e) {
         break;
       case controls_t::EVT_BPM_SET:
         timer1.set_bpm(e.parameter);
-        ui_t     ::flag_popup_bpm();
+        ui    .flag_popup_bpm();
         SET_FLAGS;
 #undef SET_FLAGS
         break;

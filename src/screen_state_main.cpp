@@ -3,9 +3,9 @@
 
 SSMain::SSMain() : popup_bpm_time(0), popup_bpm_state(false) {}
 
-Application::tracks_t const & SSMain::track_states() {
-  return Application::track_states();
-}
+// Application::tracks_t const & SSMain::track_states() {
+//   return Application::track_states();
+// }
 
 void SSMain::draw_channel_numbers(){
   // for (uint8_t line = 1; line <= 3; line++) {

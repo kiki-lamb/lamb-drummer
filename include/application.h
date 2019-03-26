@@ -63,6 +63,7 @@ private:
   static          void             set_playback_state(bool playback_state_);
   static          void             process_control(controls_t::ControlEvent & e);
   static          UiData<tracks_t> ui_data();
+  static          ui_t             ui;
 
 public:
   static          void             save_state();
