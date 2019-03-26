@@ -39,12 +39,12 @@ class Ui {
     static void           flag_redraw_playback_state();
 
     template <class tracks_t>
-    void update_screen_2(UiData<tracks_t> & data) {
+    void update_screen(UiData<tracks_t> & data) {
       screen_states[current_screen]->update();
     }
 
     template <class tracks_t>
-    void enter_screen_2(screen_t screen, UiData<tracks_t> & data) {
+    void enter_screen(screen_t screen, UiData<tracks_t> & data) {
       if (screen == current_screen)
         return;
       current_screen = screen;
