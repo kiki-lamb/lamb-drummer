@@ -99,7 +99,11 @@ void Application::process_control(Application::controls_t::ControlEvent & e) {
   Serial.println();
 
   if (e.type < 8) {
-    TrackStateEventProcessor<controls_t>::handle_event(track_states_collection.current(), e);
+    TrackStateEventProcessor<controls_t>::handle_event(
+      track_states_collection.current(),
+      e
+    );
+    
     Serial.print(F(" for track "));
     Serial.print(track_states_collection.index());
     Serial.println();
