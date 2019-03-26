@@ -12,7 +12,7 @@ Application::Application() {};
 
 Application::~Application() {}
 
-Ui::UiData<Application::tracks_t> ui_data() {
+Ui::UiData<Application::tracks_t> Application::ui_data() {
   return Ui::UiData<Application::tracks_t>(
     0,
     0,
