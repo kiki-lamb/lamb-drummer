@@ -7,7 +7,7 @@ Application::tracks_t  Application::tracks;
 Eeprom                 Application::eeprom;
 Timer1_                Application::timer1;
 Timer2_                Application::timer2;
-Application::ui_t      Application::ui;
+Application::ui_t      Application::ui(&ui_data);
 Application::ui_data_t Application::ui_data;
 Flag                   Application::popup_bpm_requested("rst", true);
 Flag                   Application::redraw_track("rps", true);
@@ -38,9 +38,11 @@ void Application::setup() {
   Serial.println(F("Begin setup"));
 
   controls->setup();
+
   update_ui_data();
-  ui       .setup(&ui_data);
+  ui       .setup();
   ui       .enter_screen(ui_t::SCREEN_INTRO);
+
   cli();
   timer1   .setup();
   timer2   .setup();
@@ -56,6 +58,7 @@ void Application::loop() {
   const uint16_t frame_rate  = 80;
   const uint16_t frame_delay = 1000 / frame_rate;
 
+  update_ui_data();
   ui.update_screen();
   delay(frame_delay);
 }

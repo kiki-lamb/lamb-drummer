@@ -48,8 +48,7 @@ class Ui {
     //   flag_screen(SCREEN_MAIN);
     // }
 
-    void setup(data_t * data_) {
-      data = data;
+    void setup() {
       Lcd::setup();
     }
 
@@ -57,18 +56,14 @@ class Ui {
       screen_states[screen]->flag();
     }
 
-    Ui() :
+    Ui(data_t * data_) :
 			current_screen(SCREEN_NONE),
-      screen_states()
+      screen_states(),
+      data(data_)
     {
       screen_states[0] = new SSIntro();
       screen_states[1] = new SSNone ();
-      screen_states[2] = new SSMain (
-        // &popup_bpm_requested,
-        // &redraw_playback_state,
-        // &redraw_selected_track_indicator,
-        // &redraw_track
-      );
+      screen_states[2] = new SSMain ();
       screen_states[3] = new SSInstr();
     }
 
