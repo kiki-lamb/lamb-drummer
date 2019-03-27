@@ -24,7 +24,7 @@ private:
   ~Application();
   typedef Buttonpad_PCF8754<0x3F>
                            buttonpad_t;
-  typedef ControlEventSource<Application::buttonpad_t>
+  typedef ControlEventSource<buttonpad_t>
                            control_event_source_real_t;
   typedef PolledEventSource<ControlEvent>
                            control_event_source_t;
