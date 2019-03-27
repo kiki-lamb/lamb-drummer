@@ -5,7 +5,6 @@
 #include "i_buttonpad.h"
 #include "encoder_button.h"
 #include "encoder.h"
-#include "ring_buffer.h"
 #include "polled_event_source.h"
 
 enum ControlEventType {
@@ -47,7 +46,7 @@ private:
   IButtonpad * button_pad;
   EncoderButton encoder_button;
   static  ControlEventType buttonpad_ordering[8];
-  RingBuffer<ControlEvent, 8> event_queue;
+  lamb::RingBuffer<ControlEvent, 8> event_queue;
 
   IButtonpad::Button buttonpad_button() const {
     return (IButtonpad::Button)(button_pad->buttonpad_button());
