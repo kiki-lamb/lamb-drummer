@@ -8,8 +8,31 @@
 #include "buffer.h"
 #include "i_controls.h"
 
+
+enum ControlEventType {
+  EVT_MIN_UP,
+  EVT_MIN_DN,
+  EVT_MAJ_UP,
+  EVT_MAJ_DN,
+  EVT_PHASE_MIN_UP,
+  EVT_PHASE_MIN_DN,
+  EVT_PHASE_MAJ_UP,
+  EVT_PHASE_MAJ_DN,
+  EVT_SELECTED_TRACK_UP,
+  EVT_SELECTED_TRACK_DN,
+  EVT_BPM_SET,
+  EVT_PLAYBACK_STATE_TOGGLE,
+  EVT_NOT_AVAILABLE
+};
+
+struct ControlEvent {
+  typedef ControlEventType event_type_t;
+  ControlEventType type;
+  uint8_t parameter;
+};
+
 template <class i_buttonpad_t>
-class Controls : public IControls {
+class Controls : public IControls<ControlEvent> {
 public:
   Controls(uint8_t(*bpm_f_)()) :
     button_pad(new i_buttonpad_t()),
@@ -57,7 +80,7 @@ private:
       queue_event( EVT_PLAYBACK_STATE_TOGGLE);
 
     if ( button_pad->read() )
-      queue_event( (IControls::ControlEventType)(buttonpad_ordering[buttonpad_button()]) );
+      queue_event( (event_t::event_type_t)(buttonpad_ordering[buttonpad_button()]) );
   }
 
   virtual ControlEvent impl_dequeue_event() {

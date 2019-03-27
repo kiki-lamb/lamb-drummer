@@ -12,7 +12,7 @@
 //  EVT_PHASE_MIN_DN
 //};
 
-template <> typename Controls<Buttonpad_PCF8754<0x3F> >::ControlEventType Controls<Buttonpad_PCF8754<0x3F> >::buttonpad_ordering[8] = {
+template <> ControlEventType Controls<Buttonpad_PCF8754<0x3F> >::buttonpad_ordering[8] = {
   EVT_MAJ_UP,
   EVT_PHASE_MAJ_UP,
   EVT_MIN_UP,
@@ -22,4 +22,3 @@ template <> typename Controls<Buttonpad_PCF8754<0x3F> >::ControlEventType Contro
   EVT_MIN_DN,
   EVT_PHASE_MIN_DN
 };
-

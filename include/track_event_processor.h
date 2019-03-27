@@ -9,7 +9,7 @@
 template <class controls_t>
 class TrackEventProcessor {
 public:
-  static bool handle_event(Track & that, typename controls_t::ControlEvent e) {
+  static bool handle_event(Track & that, typename controls_t::event_t e) {
     if (e.type < 8) {
       (*button_handlers[e.type])(that);
       return true;

@@ -29,7 +29,8 @@ private:
   static          Flag             redraw_track;
   static          Flag             redraw_selected_track_indicator;
   static          Flag             redraw_playback_state;
-  static          IControls *      controls;
+  static          IControls<ControlEvent> *
+                                   controls;
   static          Eeprom           eeprom;
   static          Timer1_          timer1;
   static          Timer2_          timer2;
@@ -38,7 +39,7 @@ private:
   static          ui_data_t        ui_data;
   static          void             restore_state();
   static          void             set_playback_state(bool playback_state_);
-  static          bool             process_control(controls_t::ControlEvent e);
+  static          bool             process_control(controls_t::event_t e);
   static          void             init_ui_data();
   static          void             update_ui_data();
   static          uint8_t          page();

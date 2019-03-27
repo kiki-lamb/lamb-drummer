@@ -1,17 +1,17 @@
 #include "application.h"
 #include "ui_data.h"
 
-IControls *            Application::controls(new Application::controls_t(&Application::bpm));
-Application::tracks_t  Application::_tracks;
-Eeprom                 Application::eeprom;
-Timer1_                Application::timer1;
-Timer2_                Application::timer2;
-Application::ui_t      Application::ui(&ui_data);
-Application::ui_data_t Application::ui_data;
-Flag                   Application::popup_bpm_requested("rst", true);
-Flag                   Application::redraw_track("rps", true);
-Flag                   Application::redraw_selected_track_indicator("pbr", false);
-Flag                   Application::redraw_playback_state("ti" , false);
+IControls<ControlEvent> * Application::controls(new Application::controls_t(&Application::bpm));
+Application::tracks_t     Application::_tracks;
+Eeprom                    Application::eeprom;
+Timer1_                   Application::timer1;
+Timer2_                   Application::timer2;
+Application::ui_t         Application::ui(&ui_data);
+Application::ui_data_t    Application::ui_data;
+Flag                      Application::popup_bpm_requested("rst", true);
+Flag                      Application::redraw_track("rps", true);
+Flag                      Application::redraw_selected_track_indicator("pbr", false);
+Flag                      Application::redraw_playback_state("ti" , false);
 
 Application::Application() {};
 
@@ -114,12 +114,12 @@ void Application::restore_state() {
   eeprom.unflag_save_requested();
 }
 
-bool Application::process_control(Application::controls_t::ControlEvent e) {
+bool Application::process_control(Application::controls_t::event_t e) {
   Serial.print(F("Dequeue "));
   Serial.print(e.type);
   Serial.println();
 
-  if (e.type == controls_t::EVT_NOT_AVAILABLE)
+  if (e.type == ControlEventType::EVT_NOT_AVAILABLE)
     return false;
 
   if (e.type < 8) {
@@ -138,11 +138,11 @@ bool Application::process_control(Application::controls_t::ControlEvent e) {
   }
   else {
     switch (e.type) {
-      case controls_t::EVT_PLAYBACK_STATE_TOGGLE:
+      case ControlEventType::EVT_PLAYBACK_STATE_TOGGLE:
         set_playback_state(! timer1.playback_state());
         SET_FLAGS_AND_RETURN_TRUE;
         break;
-      case controls_t::EVT_BPM_SET:
+      case ControlEventType::EVT_BPM_SET:
         timer1.set_bpm(e.parameter);
         popup_bpm_requested.flag();
         SET_FLAGS_AND_RETURN_TRUE;
