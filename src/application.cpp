@@ -69,9 +69,9 @@ void Application::loop() {
   delay(frame_delay);
 }
 
-Application::tracks_t const & Application::tracks() {
-  return _tracks;
-}
+// constexpr Application::tracks_t const & Application::tracks() {
+//   return _tracks;
+// }
 
 void Application::flag_main_screen() {
   ui.flag_screen(ui_t::SCREEN_MAIN);

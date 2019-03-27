@@ -39,7 +39,7 @@ public:
     impl_enter();
   }
 protected:
-  LiquidCrystal & lcd() {
+  constexpr LiquidCrystal & lcd() {
     return Lcd::lcd;
   }
 
