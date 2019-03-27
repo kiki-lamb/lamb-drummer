@@ -3,9 +3,9 @@
 
 #include <lamb.h>
 #include "buttonpad.h"
-#include "encoder_button.h"
 #include "encoder.h"
 #include "polled_event_source.h"
+#include "encoder_button_source.h"
 
 enum ControlEventType {
   EVT_MIN_UP,
@@ -68,6 +68,7 @@ private:
       _bpm = tmp_bpm;
     }
 
+    encoder_button_source.poll();
     if ( encoder_button_source.dequeue_event().event_type ==
          encoder_button_source_t::event_t::event_type_t::EBE_ON
        )
