@@ -5,7 +5,7 @@
 #include "flag.h"
 #include "encoder_button.h"
 #include "encoder.h"
-#include "buffer.h"
+#include "ring_buffer.h"
 #include "polled_event_source.h"
 
 
@@ -48,7 +48,7 @@ private:
   IButtonpad * button_pad;
   EncoderButton encoder_button;
   static  ControlEventType buttonpad_ordering[8];
-  Buffer<ControlEvent, 8> event_buffer;
+  RingBuffer<ControlEvent, 8> event_ring_buffer;
 
   IButtonpad::Button buttonpad_button() const {
     return (IButtonpad::Button)(button_pad->buttonpad_button());
@@ -61,7 +61,7 @@ private:
   }
 
   virtual uint8_t impl_queue_count() const {
-    return event_buffer.count();
+    return event_ring_buffer.count();
   }
 
   virtual void impl_poll() {
@@ -80,16 +80,16 @@ private:
   }
 
   virtual ControlEvent impl_dequeue_event() {
-    if (! event_buffer.readable() ) {
+    if (! event_ring_buffer.readable() ) {
       ControlEvent e = { EVT_NOT_AVAILABLE};
       return e;
     }
 
-    return event_buffer.read();
+    return event_ring_buffer.read();
   }
 
   void queue_event(ControlEventType t, uint8_t param = 0) {
-    if (! event_buffer.writeable()) {
+    if (! event_ring_buffer.writeable()) {
       Serial.println(F("Can't queue."));
       return;
     }
@@ -100,7 +100,7 @@ private:
     Serial.print(e.type);
     Serial.println();
 
-    event_buffer.write(e);
+    event_ring_buffer.write(e);
   };
 };
 

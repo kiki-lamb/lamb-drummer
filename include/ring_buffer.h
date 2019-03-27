@@ -2,7 +2,7 @@
 #define SHELF_CLOCK_BUFFER_H
 
 template <typename T>
-class Buffer256 {
+class RingBuffer256 {
   private:
   uint8_t write_ix;
   uint8_t read_ix;
@@ -10,8 +10,8 @@ class Buffer256 {
   volatile T buff[256];
 
   public:
-  Buffer256() : write_ix(0), read_ix(0), _count(0) {}
-  ~Buffer256() {}
+  RingBuffer256() : write_ix(0), read_ix(0), _count(0) {}
+  ~RingBuffer256() {}
 
   uint8_t count() const {
     return _count;
@@ -40,7 +40,7 @@ class Buffer256 {
 };
 
 template <typename T, uint8_t SIZE>
-class Buffer {
+class RingBuffer {
   private:
    uint8_t write_ix;
    uint8_t read_ix;
@@ -48,8 +48,8 @@ class Buffer {
    T buff[SIZE];
 
   public:
-  Buffer() : write_ix(0), read_ix(0), _count(0) {}
-  ~Buffer() {}
+  RingBuffer() : write_ix(0), read_ix(0), _count(0) {}
+  ~RingBuffer() {}
 
   uint8_t count() const {
     return _count;
