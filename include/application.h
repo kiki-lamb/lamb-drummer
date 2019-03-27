@@ -15,10 +15,10 @@
 
 class Application {
 private:
-  static const    size_t           tracks_count = 3;
+  static const size_t      tracks_count = 3;
 public:
   typedef TrackCollection<tracks_count> // Public because tracks() returns it.
-                                   tracks_t;
+                           tracks_t;
 private:
   Application();
   ~Application();
