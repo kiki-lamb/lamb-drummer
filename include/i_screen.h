@@ -26,10 +26,6 @@ public:
     requires_update.flag();
   }
 
-  LiquidCrystal & lcd() {
-    return Lcd::lcd;
-  }
-
   void update() {
     if (requires_update.consume())
       impl_update();
@@ -41,6 +37,10 @@ public:
     lcd().clear();
 
     impl_enter();
+  }
+protected:
+  LiquidCrystal & lcd() {
+    return Lcd::lcd;
   }
 private:
   virtual void impl_update() = 0;
