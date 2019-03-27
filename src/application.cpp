@@ -26,22 +26,22 @@ void Application::setup() {
   Serial.begin(115200);
   Serial.println();
   Serial.println(F("Begin setup"));
-  ui       .setup();
-  ui       .enter_screen(ui_t::SCREEN_INTRO);
+  ui     .setup();
+  ui     .enter_screen(ui_t::SCREEN_INTRO);
   Eeprom::PersistantData<tracks_t> tmp(
     &_tracks,
     timer1.bpm(),
     timer1.playback_state()
   );
-  eeprom   .restore_all(tmp);
+  eeprom .restore_all(tmp);
   control_event_source = new Application::control_event_source_real_t(tmp.bpm);
   control_event_source->setup();
   cli();
-  timer1   .setup();
-  timer1   .set_bpm(tmp.bpm);
-  timer2   .setup();
-  Application::set_playback_state(tmp.playback_state);
-  eeprom   .unflag_save_requested();
+  timer1 .setup();
+  timer1 .set_bpm(tmp.bpm);
+  timer2 .setup();
+  set_playback_state(tmp.playback_state);
+  eeprom .unflag_save_requested();
   ui_data.tracks = &_tracks;
   update_ui_data();
   ui       .enter_screen(ui_t::SCREEN_MAIN);
