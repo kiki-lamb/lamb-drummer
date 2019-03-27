@@ -10,27 +10,26 @@ Flag::Flag(
 };
 
 void Flag::flag() {
-  // Serial.flush();
-  // Serial.print(F("Flag "));
-  // if (0 != name) {
-  //   Serial.print(name);
-  //   Serial.print(F(" "));
-  //   Serial.println();
-  // }
+  Serial.flush();
+  Serial.print(F("Flag "));
+  if (0 != name) {
+    Serial.print(name);
+    Serial.print(F(" "));
+    Serial.println();
+  }
 
   value = true;
 }
 
 bool Flag::consume() {
-  // Serial.print(F("Consume "));
-  // if (0 != name) {
-  //   Serial.print(name);
-  //   Serial.print(F(" "));
-  //   Serial.println();
-  // }
-
   if (value) {
     value = false;
+    Serial.print(F("Consume "));
+    if (0 != name) {
+      Serial.print(name);
+      Serial.print(F(" "));
+      Serial.println();
+    }
     return true;
   }
 
