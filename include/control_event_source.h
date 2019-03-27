@@ -48,7 +48,7 @@ private:
   IButtonpad * button_pad;
   EncoderButton encoder_button;
   static  ControlEventType buttonpad_ordering[8];
-  RingBuffer<ControlEvent, 8> event_ring_buffer;
+  RingBuffer<ControlEvent, 8> event_queue;
 
   IButtonpad::Button buttonpad_button() const {
     return (IButtonpad::Button)(button_pad->buttonpad_button());
@@ -61,7 +61,7 @@ private:
   }
 
   virtual uint8_t impl_queue_count() const {
-    return event_ring_buffer.count();
+    return event_queue.count();
   }
 
   virtual void impl_poll() {
@@ -80,16 +80,16 @@ private:
   }
 
   virtual ControlEvent impl_dequeue_event() {
-    if (! event_ring_buffer.readable() ) {
+    if (! event_queue.readable() ) {
       ControlEvent e = { EVT_NOT_AVAILABLE};
       return e;
     }
 
-    return event_ring_buffer.read();
+    return event_queue.read();
   }
 
   void queue_event(ControlEventType t, uint8_t param = 0) {
-    if (! event_ring_buffer.writeable()) {
+    if (! event_queue.writeable()) {
       Serial.println(F("Can't queue."));
       return;
     }
@@ -100,7 +100,7 @@ private:
     Serial.print(e.type);
     Serial.println();
 
-    event_ring_buffer.write(e);
+    event_queue.write(e);
   };
 };
 
