@@ -57,8 +57,6 @@ void Application::loop() {
   const uint8_t  max_frame_rate  = 32;
   const uint16_t frame_delay = 1000 / max_frame_rate;
 
-  update_ui_data();
-
   // v roughly 4 hz. this is mainly so that popups (like BPM) are still
   // removed in a faily timely maner when playback is paused or when
   // bpm is set absurdly low.
@@ -66,6 +64,7 @@ void Application::loop() {
   if (clk++ & 0b111)
     flag_main_screen();
 
+  update_ui_data();
   ui.update_screen();
   delay(frame_delay);
 }
@@ -85,8 +84,7 @@ uint8_t Application::bpm() {
 uint8_t Application::page() {
   uint8_t tmp_tick        = timer1.ticker() >> 1;
   uint8_t tmp_inside_tick = tmp_tick % _tracks.max_mod_maj();
-  uint8_t tmp_page        = tmp_inside_tick /  16;
-  return  tmp_page;
+  return                    tmp_inside_tick /  16;
 }
 
 void Application::set_playback_state(bool playback_state_) {
