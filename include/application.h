@@ -46,10 +46,10 @@ private:
 public:
   static void              setup();
   static void              loop();
-  static void              flag_main_screen(); // called by ISR for timer1.
-  static tracks_t const &  tracks();           // called by ISR for time 1.
+  static void              flag_main_screen();       // called by ISR for timer1.
+  static tracks_t const &  tracks();                 // called by ISR for time 1.
   static void              process_control_events(); // called by ISR for timer2.
-  static void              save_state();       // called by ISR for timer2.
+  static void              save_state();             // called by ISR for timer2.
 };
 
 #endif
