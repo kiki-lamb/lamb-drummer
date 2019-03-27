@@ -2,10 +2,10 @@
 #define SHELF_CLOCK_CONTROLS_H
 
 #include <lamb.h>
-#include "buttonpad.h"
 #include "encoder.h"
 #include "polled_event_source.h"
 #include "encoder_button_source.h"
+#include "buttonpad_source.h"
 
 enum ControlEventType {
   EVT_MIN_UP,
@@ -34,11 +34,11 @@ class ControlEventSource : public PolledEventSource<ControlEvent> {
 public:
   ControlEventSource(uint8_t bpm) :
     _bpm(bpm),
-    button_pad(new buttonpad_t()),
+//    buttonpad_source(new buttonpad_source_t()),
     encoder_button_source(A7) {
     Encoder::setup();
     encoder_button_source.setup();
-    button_pad->setup();
+    buttonpad_source.setup();
     Encoder::set_value(_bpm);
   }
 
@@ -46,15 +46,16 @@ public:
 
 private:
   uint8_t _bpm;
-  Buttonpad * button_pad;
+  typedef ButtonpadSource<buttonpad_t> buttonpad_source_t;
+  buttonpad_source_t buttonpad_source;
   typedef EncoderButtonSource encoder_button_source_t;
   EncoderButtonSource encoder_button_source;
   static  ControlEventType buttonpad_ordering[8];
   lamb::RingBuffer<ControlEvent, 8> event_queue;
 
-  uint8_t button() const {
-    return button_pad->button();
-  }
+  // uint8_t button() const {
+  //   return button_pad->button();
+  // }
 
   virtual uint8_t impl_queue_count() const {
     return event_queue.count();
@@ -74,8 +75,10 @@ private:
        )
       queue_event( EVT_PLAYBACK_STATE_TOGGLE);
 
-    if ( button_pad->poll() )
-      queue_event( (event_t::event_type_t)(buttonpad_ordering[button()]) );
+    buttonpad_source.poll();
+    typename buttonpad_source_t::event_t e = buttonpad_source.dequeue_event();
+    if ( e != 8 )
+      queue_event( (event_t::event_type_t)(buttonpad_ordering[e]) );
   }
 
   virtual ControlEvent impl_dequeue_event() {

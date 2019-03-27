@@ -2,8 +2,8 @@
 #define SHELF_CLOCK_ENCODER_BUTTON_SOURCE_H
 
 #include "Arduino.h"
-#include "polled_event_source.h"
 #include "encoder_button.h"
+#include "polled_event_source.h"
 
 enum EncoderButtonEventType { EBE_ON, EBE_OFF, EBE_NOT_AVAILABLE };
 
@@ -14,10 +14,10 @@ struct EncoderButtonEvent {
 
 class EncoderButtonSource : public EncoderButton, public PolledEventSource<EncoderButtonEvent>{
 public:
-  inline EncoderButtonSource(uint8_t pin_, bool adc_state = true) : EncoderButton(pin_, adc_state) {}
-  inline virtual ~EncoderButtonSource() {
+  inline EncoderButtonSource(uint8_t pin_, bool adc_state = true) : EncoderButton(pin_, adc_state) {
     event.event_type = EncoderButtonEventType::EBE_NOT_AVAILABLE;
   }
+  inline virtual ~EncoderButtonSource() {}
 private:
   EncoderButtonEvent event;
 

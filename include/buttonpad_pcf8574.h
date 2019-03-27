@@ -9,11 +9,11 @@
 template <uint8_t i2c_addr_>
 class Buttonpad_PCF8754 : public Buttonpad {
   private:
-    uint8_t  button;
+    uint8_t  _button;
     jm_PCF8574 device;
 
   public:
-    Buttonpad_PCF8754() : button(8) {}
+    Buttonpad_PCF8754() : _button(8) {}
 
     virtual ~Buttonpad_PCF8754() {}
 
@@ -29,7 +29,7 @@ class Buttonpad_PCF8754 : public Buttonpad {
       Serial.print(F("Done setup Buttonpad_PCF8754."));
     }
 
-    virtual bool impl_poll() {
+    virtual bool impl_read() {
       sei();
       uint8_t tmpval = device.read();
       cli();
@@ -42,10 +42,10 @@ class Buttonpad_PCF8754 : public Buttonpad {
           }
       }
 
-      if (pin != button) {
-        button = pin;
+      if (pin != _button) {
+        _button = pin;
 
-        if (button != 8) {
+        if (_button != 8) {
           Serial.print(F("Pressed button "));
           Serial.print(pin);
           Serial.println();
@@ -57,7 +57,7 @@ class Buttonpad_PCF8754 : public Buttonpad {
     }
 
     virtual uint8_t impl_button() const {
-      return button;
+      return _button;
     }
 };
 

@@ -12,7 +12,7 @@ class Buttonpad_ResistorLadder : public Buttonpad {
   public:
     Buttonpad_ResistorLadder();
     virtual ~Buttonpad_ResistorLadder();
-    virtual bool impl_poll();
+    virtual bool impl_read();
     virtual uint8_t impl_button() const;
     virtual void impl_setup();
 };

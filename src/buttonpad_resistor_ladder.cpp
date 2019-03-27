@@ -16,7 +16,7 @@ uint8_t Buttonpad_ResistorLadder::impl_button() const {
   return button;
 }
 
-bool Buttonpad_ResistorLadder::impl_poll() {
+bool Buttonpad_ResistorLadder::impl_read() {
   static uint16_t adc            = 1024;
   static bool     return_to_zero = false;
   uint8_t         pressed        = 0;
