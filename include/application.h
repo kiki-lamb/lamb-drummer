@@ -16,18 +16,16 @@
 class Application {
 public:
   static const    size_t           track_count = 3;
-  typedef TrackCollection<track_count>
+  typedef TrackCollection<track_count> // Public because tracks() returns it.
                                    tracks_t;
 private:
   Application();
   ~Application();
-  ////////////////////////////////////////////////////////////////////////////////
   typedef Buttonpad_PCF8754<0x3F>  buttonpad_t;
   typedef PolledEventSource<ControlEvent>
                                    controls_t;
   typedef UiData<tracks_t>         ui_data_t;
   typedef Ui<ui_data_t>            ui_t;
-////////////////////////////////////////////////////////////////////////////////
   static          controls_t *     controls;
   static          ui_t             ui;
   static          ui_data_t        ui_data;
@@ -42,12 +40,12 @@ private:
   static          uint8_t          page();
   static          uint8_t          bpm();
 public:
-  static          void             save_state();
   static          void             setup();
   static          void             loop();
-  static          void             process_controls();
-  static          void             flag_main_screen();
-  static          tracks_t const & tracks();
+  static          void             flag_main_screen(); // called by ISR for timer1.
+  static          tracks_t const & tracks();           // called by ISR for time 1.
+  static          void             process_controls(); // called by ISR for timer2.
+  static          void             save_state();       // called by ISR for timer2.
 };
 
 #endif
