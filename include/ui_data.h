@@ -13,11 +13,16 @@ public:
   double  hz;
   bool    playback_state;
   uint8_t ticker;
-  Flag *  popup_bpm_requested;
-  Flag *  redraw_track;
-  Flag *  redraw_selected_track_indicator;
-  Flag *  redraw_playback_state;
-  UiData() {}
+  Flag    popup_bpm_requested;
+  Flag    redraw_track;
+  Flag    redraw_selected_track_indicator;
+  Flag    redraw_playback_state;
+  UiData() :
+    popup_bpm_requested("pbr", true),
+    redraw_track("rt", true),
+    redraw_selected_track_indicator("rsti", false),
+    redraw_playback_state("rps", false)
+  {}
   virtual ~UiData() {};
 };
 

@@ -27,8 +27,8 @@ void SSMain::draw_bars() {
 }
 
 void SSMain::impl_enter() {
-  data->popup_bpm_requested->flag();
-  data->redraw_selected_track_indicator->unflag();
+  data->popup_bpm_requested.flag();
+  data->redraw_selected_track_indicator.unflag();
 
   draw_line0();
   Lcd::put_playstate(19,0); // Ugly...
@@ -41,7 +41,7 @@ void SSMain::impl_enter() {
 
   draw_page_number();
 
-  data->redraw_playback_state->unflag();
+  data->redraw_playback_state.unflag();
 //  redraw_bpm->unflag();
 }
 
@@ -69,7 +69,7 @@ void SSMain::draw_line0(bool redraw_bpm) {
   }
   else {
     //Serial.println("Before rdsi!");
-    if (data->redraw_selected_track_indicator->consume()) {
+    if (data->redraw_selected_track_indicator.consume()) {
     draw_channel_numbers();
 
     lcd().setCursor(0, 0);
@@ -99,7 +99,7 @@ void SSMain::draw_line0(bool redraw_bpm) {
   } }
 
   //Serial.println("Before rps!");
-  if (data->redraw_playback_state->consume()) {
+  if (data->redraw_playback_state.consume()) {
     Lcd::select_playstate(! data->playback_state);
   }
 }
@@ -107,7 +107,7 @@ void SSMain::draw_line0(bool redraw_bpm) {
 void SSMain::impl_update() {
   bool redraw_bpm = false;
   //Serial.println("Before pbr!");
-  if (data->popup_bpm_requested->consume()) {
+  if (data->popup_bpm_requested.consume()) {
     popup_bpm_time = millis();
     popup_bpm_state = true;
     redraw_bpm = true;
@@ -118,7 +118,7 @@ void SSMain::impl_update() {
 
     if ((now - popup_bpm_time) >= popup_bpm_duration) {
       popup_bpm_state = false;
-      data->redraw_selected_track_indicator->flag();
+      data->redraw_selected_track_indicator.flag();
     }
   }
 
@@ -128,7 +128,7 @@ void SSMain::impl_update() {
   uint8_t current = (data->ticker>>1) % (*data->tracks).max_mod_maj();
 
   //Serial.println("Before rt!");
-  bool redraw_page = data->redraw_track->consume();
+  bool redraw_page = data->redraw_track.consume();
 
   if (! redraw_page) {
     static uint8_t last_page = 255;

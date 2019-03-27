@@ -1,8 +1,8 @@
 #include "application.h"
 #include "ui_data.h"
 
-PolledEventSource<ControlEvent> * Application::controls(
-  new Application::controls_t(&Application::bpm)
+Application::controls_t * Application::controls(
+  new Controls<Application::buttonpad_t>(&Application::bpm)
 );
 Application::tracks_t     Application::_tracks;
 Eeprom                    Application::eeprom;
@@ -10,10 +10,6 @@ Timer1_                   Application::timer1;
 Timer2_                   Application::timer2;
 Application::ui_t         Application::ui(&ui_data);
 Application::ui_data_t    Application::ui_data;
-Flag                      Application::popup_bpm_requested("rst", true);
-Flag                      Application::redraw_track("rps", true);
-Flag                      Application::redraw_selected_track_indicator("pbr", false);
-Flag                      Application::redraw_playback_state("ti" , false);
 
 Application::Application() {};
 
@@ -27,23 +23,13 @@ void Application::update_ui_data() {
   ui_data.ticker         = timer1.ticker();
 }
 
-void Application::init_ui_data() {
-  ui_data.tracks                 = &_tracks;
-  ui_data.popup_bpm_requested    = &popup_bpm_requested;
-  ui_data.redraw_track           = &redraw_track;
-  ui_data.redraw_playback_state  = &redraw_playback_state;
-  ui_data.redraw_selected_track_indicator
-                                 = &redraw_selected_track_indicator;
-  update_ui_data();
-}
-
 void Application::setup() {
   Serial.begin(115200);
   Serial.println();
   Serial.println(F("Begin setup"));
 
   controls->setup();
-  init_ui_data();
+  ui_data.tracks = &_tracks;
   update_ui_data();
   ui       .setup();
   ui       .enter_screen(ui_t::SCREEN_INTRO);
@@ -88,7 +74,7 @@ uint8_t Application::page() {
 
 void Application::set_playback_state(bool playback_state_) {
   timer1.set_playback_state(playback_state_);
-  redraw_playback_state.flag();
+  ui_data.redraw_playback_state.flag();
   flag_main_screen();
   eeprom.flag_save_requested();
 }
@@ -133,8 +119,8 @@ bool Application::process_control(Application::controls_t::event_t e) {
     Serial.print(F(" for track "));
     Serial.print(_tracks.index());
     Serial.println();
-    redraw_track.flag();
-    redraw_selected_track_indicator.flag();
+    ui_data.redraw_track.flag();
+    ui_data.redraw_selected_track_indicator.flag();
   #define SET_FLAGS_AND_RETURN_TRUE flag_main_screen(); eeprom.flag_save_requested(); return true;
     SET_FLAGS_AND_RETURN_TRUE;
   }
@@ -146,7 +132,7 @@ bool Application::process_control(Application::controls_t::event_t e) {
         break;
       case ControlEventType::EVT_BPM_SET:
         timer1.set_bpm(e.parameter);
-        popup_bpm_requested.flag();
+        ui_data.popup_bpm_requested.flag();
         SET_FLAGS_AND_RETURN_TRUE;
 #undef SET_FLAGS
         break;
