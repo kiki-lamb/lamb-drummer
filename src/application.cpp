@@ -54,8 +54,8 @@ void Application::setup() {
 }
 
 void Application::loop() {
-  const uint16_t frame_rate  = 32;
-  const uint16_t frame_delay = 1000 / frame_rate;
+  const uint8_t  max_frame_rate  = 32;
+  const uint16_t frame_delay = 1000 / max_frame_rate;
 
   update_ui_data();
 
