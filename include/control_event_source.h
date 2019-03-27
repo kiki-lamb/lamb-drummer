@@ -34,14 +34,10 @@ struct ControlEvent {
 template <class i_buttonpad_t>
 class ControlEventSource : public PolledEventSource<ControlEvent> {
 public:
-  ControlEventSource() :
-    _bpm(255),
+  ControlEventSource(uint8_t bpm) :
+    _bpm(bpm),
     button_pad(new i_buttonpad_t()),
     encoder_button(A7) {}
-
-  virtual void set_encoder(uint8_t val) {
-    Encoder::set_value(val);
-  }
 
   virtual ~ControlEventSource() {}
 

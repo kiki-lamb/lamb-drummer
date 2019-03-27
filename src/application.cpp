@@ -1,9 +1,8 @@
 #include "application.h"
 #include "ui_data.h"
 
-Application::control_event_source_t * Application::control_event_source(
-  new Application::control_event_source_real_t()
-);
+Application::control_event_source_t *
+                          Application::control_event_source;
 Application::tracks_t     Application::_tracks;
 Eeprom                    Application::eeprom;
 Timer1_                   Application::timer1;
@@ -29,23 +28,23 @@ void Application::setup() {
   Serial.println(F("Begin setup"));
   ui       .setup();
   ui       .enter_screen(ui_t::SCREEN_INTRO);
-  control_event_source->setup();
-  cli();
-  timer1   .setup();
-  timer2   .setup();
   Eeprom::PersistantData<tracks_t> tmp(
     &_tracks,
     timer1.bpm(),
     timer1.playback_state()
   );
   eeprom   .restore_all(tmp);
-  ((control_event_source_real_t *)control_event_source)->set_encoder(tmp.bpm);
+  control_event_source = new Application::control_event_source_real_t(tmp.bpm);
+  control_event_source->setup();
+  cli();
+  timer1   .setup();
   timer1   .set_bpm(tmp.bpm);
+  timer2   .setup();
   Application::set_playback_state(tmp.playback_state);
-  ui       .enter_screen(ui_t::SCREEN_MAIN);
   eeprom   .unflag_save_requested();
   ui_data.tracks = &_tracks;
   update_ui_data();
+  ui       .enter_screen(ui_t::SCREEN_MAIN);
   sei();
 
   Serial.println(F("Setup complete."));
