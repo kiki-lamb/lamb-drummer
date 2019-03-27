@@ -36,7 +36,6 @@ void Application::setup() {
   cli();
   timer1   .setup();
   timer2   .setup();
-  sei();
   Eeprom::PersistantData<tracks_t> tmp(
     &_tracks,
     timer1.bpm(),
@@ -48,6 +47,7 @@ void Application::setup() {
   Application::set_playback_state(tmp.playback_state);
   ui       .enter_screen(ui_t::SCREEN_MAIN);
   eeprom   .unflag_save_requested();
+  sei();
 
   Serial.println(F("Setup complete."));
   Serial.println();
