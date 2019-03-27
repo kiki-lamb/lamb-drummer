@@ -43,7 +43,7 @@ void Application::setup() {
     timer1.playback_state()
   );
   eeprom   .restore_all(tmp);
-  //control_event_source->set_encoder(tmp.bpm);
+  ((control_event_source_real_t *)&control_event_source)->set_encoder(tmp.bpm);
 
   timer1   .set_bpm(tmp.bpm);
   Application::set_playback_state(tmp.playback_state);

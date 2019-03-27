@@ -39,6 +39,10 @@ public:
     button_pad(new i_buttonpad_t()),
     encoder_button(A7) {}
 
+  virtual void set_encoder(uint8_t val) {
+    Encoder::set_value(val);
+  }
+
   virtual ~ControlEventSource() {}
 
 private:
@@ -51,10 +55,6 @@ private:
 
   IButtonpad::Button buttonpad_button() const {
     return (IButtonpad::Button)(button_pad->buttonpad_button());
-  }
-
-  virtual void set_encoder(uint8_t val) {
-    Encoder::set_value(val);
   }
 
   virtual void impl_setup() {
