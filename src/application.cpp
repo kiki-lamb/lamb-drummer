@@ -112,7 +112,7 @@ bool Application::process_control_event(Application::control_event_source_t::eve
     return false;
 
   if (e.type < 8) {
-    TrackEventProcessor<control_event_source_t>::handle_event(
+    ProcessTrackControlEvent<control_event_source_t>::apply(
       _tracks.current(),
       e
     );
