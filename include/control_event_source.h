@@ -35,9 +35,9 @@ public:
   ControlEventSource(uint8_t bpm) :
     _bpm(bpm),
     button_pad(new buttonpad_t()),
-    encoder_button(A7) {
+    encoder_button_source(A7) {
     Encoder::setup();
-    encoder_button.setup();
+    encoder_button_source.setup();
     button_pad->setup();
     Encoder::set_value(_bpm);
   }
@@ -47,7 +47,8 @@ public:
 private:
   uint8_t _bpm;
   Buttonpad * button_pad;
-  EncoderButton encoder_button;
+  typedef EncoderButtonSource encoder_button_source_t;
+  EncoderButtonSource encoder_button_source;
   static  ControlEventType buttonpad_ordering[8];
   lamb::RingBuffer<ControlEvent, 8> event_queue;
 
@@ -67,7 +68,9 @@ private:
       _bpm = tmp_bpm;
     }
 
-    if ( encoder_button.read() )
+    if ( encoder_button_source.dequeue_event().event_type ==
+         encoder_button_source_t::event_t::event_type_t::EBE_ON
+       )
       queue_event( EVT_PLAYBACK_STATE_TOGGLE);
 
     if ( button_pad->poll() )
