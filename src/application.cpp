@@ -44,11 +44,10 @@ void Application::setup() {
   );
   eeprom   .restore_all(tmp);
   ((control_event_source_real_t *)control_event_source)->set_encoder(tmp.bpm);
-
   timer1   .set_bpm(tmp.bpm);
   Application::set_playback_state(tmp.playback_state);
-  eeprom   .unflag_save_requested();
   ui       .enter_screen(ui_t::SCREEN_MAIN);
+  eeprom   .unflag_save_requested();
 
   Serial.println(F("Setup complete."));
   Serial.println();
