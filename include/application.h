@@ -22,10 +22,11 @@ private:
   Application();
   ~Application();
   ////////////////////////////////////////////////////////////////////////////////
-  typedef Buttonpad_PCF8754<0x3F>         buttonpad_t;
-  typedef PolledEventSource<ControlEvent> controls_t;
-  typedef UiData<tracks_t>                ui_data_t;
-  typedef Ui<ui_data_t>                   ui_t;
+  typedef Buttonpad_PCF8754<0x3F>  buttonpad_t;
+  typedef PolledEventSource<ControlEvent>
+                                   controls_t;
+  typedef UiData<tracks_t>         ui_data_t;
+  typedef Ui<ui_data_t>            ui_t;
 ////////////////////////////////////////////////////////////////////////////////
   static          controls_t *     controls;
   static          ui_t             ui;
