@@ -3,10 +3,10 @@
 
 #include "Arduino.h"
 
-class IButtonpad {
+class Buttonpad {
 public:
-  IButtonpad();
-  virtual ~IButtonpad();
+  Buttonpad();
+  virtual ~Buttonpad();
   bool read();
   uint8_t buttonpad_button() const;
   void setup();

@@ -3,7 +3,7 @@
 
 #include <lamb.h>
 #include "lcd.h"
-#include "i_screen.h"
+#include "screen.h"
 #include "screen_main.h"
 #include "screens.h"
 
@@ -54,7 +54,7 @@ class Ui {
   private:
     data_t * data;
     screen_t               current_screen;
-    IScreen<data_t> * screens[4];
+    Screen<data_t> * screens[4];
 };
 
 #endif

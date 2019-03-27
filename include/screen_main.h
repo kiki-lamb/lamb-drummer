@@ -3,11 +3,11 @@
 
 #include <lamb.h>
 #include "Arduino.h"
-#include "i_screen.h"
+#include "screen.h"
 #include "ui_data.h"
 #include "track_collection.h"
 
-class SSMain : public IScreen<UiData<TrackCollection<3, Track> > > {
+class SSMain : public Screen<UiData<TrackCollection<3, Track> > > {
 public:
   SSMain(data_t * data);
 private:

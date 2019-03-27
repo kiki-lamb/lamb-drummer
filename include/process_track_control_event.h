@@ -3,7 +3,7 @@
 
 #include "Arduino.h"
 #include "track.h"
-#include "i_buttonpad.h"
+#include "buttonpad.h"
 #include "control_event_source.h"
 
 template <class control_event_source_t>

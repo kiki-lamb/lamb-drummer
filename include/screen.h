@@ -5,7 +5,7 @@
 #include "lcd.h"
 
 template <class data_t_>
-class IScreen {
+class Screen {
 private:
   lamb::Flag requires_update;
 
@@ -13,13 +13,13 @@ public:
   typedef data_t_ data_t;
   data_t * data;
 
-  IScreen(data_t * data_) :
+  Screen(data_t * data_) :
     requires_update("requires_update", true),
     data(data_) {
     flag();
   }
 
-  virtual ~IScreen() {
+  virtual ~Screen() {
   }
 
   void flag() {

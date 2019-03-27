@@ -2,7 +2,7 @@
 #define SHELF_CLOCK_CONTROLS_H
 
 #include <lamb.h>
-#include "i_buttonpad.h"
+#include "buttonpad.h"
 #include "encoder_button.h"
 #include "encoder.h"
 #include "polled_event_source.h"
@@ -29,13 +29,16 @@ struct ControlEvent {
   uint8_t parameter;
 };
 
-template <class i_buttonpad_t>
+template <class buttonpad_t>
 class ControlEventSource : public PolledEventSource<ControlEvent> {
 public:
   ControlEventSource(uint8_t bpm) :
     _bpm(bpm),
-    button_pad(new i_buttonpad_t()),
+    button_pad(new buttonpad_t()),
     encoder_button(A7) {
+    Encoder::setup();
+    encoder_button.setup();
+    button_pad->setup();
     Encoder::set_value(_bpm);
   }
 
@@ -43,19 +46,13 @@ public:
 
 private:
   uint8_t _bpm;
-  IButtonpad * button_pad;
+  Buttonpad * button_pad;
   EncoderButton encoder_button;
   static  ControlEventType buttonpad_ordering[8];
   lamb::RingBuffer<ControlEvent, 8> event_queue;
 
-  IButtonpad::Button buttonpad_button() const {
-    return (IButtonpad::Button)(button_pad->buttonpad_button());
-  }
-
-  virtual void impl_setup() {
-    Encoder::setup();
-    encoder_button.setup();
-    button_pad->setup();
+  Buttonpad::Button buttonpad_button() const {
+    return (Buttonpad::Button)(button_pad->buttonpad_button());
   }
 
   virtual uint8_t impl_queue_count() const {

@@ -38,7 +38,6 @@ void Application::setup() {
   Serial .println(tmp.bpm);
   control_event_source =
     new Application::control_event_source_real_t(tmp.bpm);
-  control_event_source->setup();
   cli();
   timer1 .setup();
   timer1 .set_bpm(tmp.bpm);

@@ -2,9 +2,9 @@
 #define SHELF_CLOCK_BUTTONPAD_PIN_H
 
 #include "Arduino.h"
-#include "i_buttonpad.h"
+#include "buttonpad.h"
 
-class Buttonpad_ResistorLadder : public IButtonpad {
+class Buttonpad_ResistorLadder : public Buttonpad {
   private:
     static const uint8_t  BUTTONPAD_PIN;
     static const uint16_t VALUES[8];

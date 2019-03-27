@@ -2,12 +2,12 @@
 #define SHELF_CLOCK_BUTTONPAD_PIN_PCF8574_H
 
 #include "Arduino.h"
-#include "i_buttonpad.h"
+#include "buttonpad.h"
 #include <Wire.h>
 #include <jm_PCF8574.h>
 
 template <uint8_t i2c_addr_>
-class Buttonpad_PCF8754 : public IButtonpad {
+class Buttonpad_PCF8754 : public Buttonpad {
   private:
     uint8_t  button;
     jm_PCF8574 device;

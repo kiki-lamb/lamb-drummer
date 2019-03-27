@@ -12,10 +12,6 @@ public:
 
   virtual ~PolledEventSource() {}
 
-  void setup() {
-    impl_setup();
-  }
-
   void poll() {
     impl_poll();
   }
@@ -29,7 +25,6 @@ public:
   }
 
 private:
-  virtual void    impl_setup() = 0;
   virtual void    impl_poll() = 0;
   virtual uint8_t impl_queue_count() const = 0;
   virtual event_t impl_dequeue_event() = 0;
