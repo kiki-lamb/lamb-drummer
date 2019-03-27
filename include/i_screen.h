@@ -1,13 +1,13 @@
 #ifndef SHELF_CLOCK_I_SCREEN_STATE_H
 #define SHELF_CLOCK_I_SCREEN_STATE_H
 
+#include <lamb.h>
 #include "lcd.h"
-#include "flag.h"
 
 template <class data_t_>
 class IScreen {
 private:
-  Flag requires_update;
+  lamb::Flag requires_update;
 
 public:
   typedef data_t_ data_t;
@@ -45,7 +45,7 @@ protected:
 
 private:
   virtual void impl_update() = 0;
-  
+
   virtual void impl_enter() = 0;
 };
 

@@ -1,9 +1,9 @@
 #ifndef SHELF_CLOCK_UI_H
 #define SHELF_CLOCK_UI_H
 
+#include <lamb.h>
 #include "lcd.h"
 #include "i_screen.h"
-#include "flag.h"
 #include "screen_main.h"
 #include "screens.h"
 

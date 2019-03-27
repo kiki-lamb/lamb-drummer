@@ -1,13 +1,12 @@
 #ifndef SHELF_CLOCK_CONTROLS_H
 #define SHELF_CLOCK_CONTROLS_H
 
+#include <lamb.h>
 #include "i_buttonpad.h"
-#include "flag.h"
 #include "encoder_button.h"
 #include "encoder.h"
 #include "ring_buffer.h"
 #include "polled_event_source.h"
-
 
 enum ControlEventType {
   EVT_MIN_UP,

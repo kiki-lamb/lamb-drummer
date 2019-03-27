@@ -2,11 +2,11 @@
 #define SHELF_CLOCK_TRACK_STATE_H
 
 #include "Arduino.h"
-#include "flag.h"
+#include <lamb.h>
 
 class Track {
 public:
-  Flag    modified;
+  lamb::Flag    modified;
   void    set_mod_maj  (uint8_t val);
   void    set_mod_min  (uint8_t val);
   void    set_phase_min(uint8_t val);

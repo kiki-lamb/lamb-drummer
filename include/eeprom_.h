@@ -2,9 +2,8 @@
 #define SHELF_CLOCK_EEPROM_H
 
 #include <EEPROM.h>
-#include "flag.h"
+#include <lamb.h>
 #include "track.h"
-
 
 class Eeprom {
   public:
@@ -37,7 +36,7 @@ class Eeprom {
       size_t eeprom_location,
       Track & track
     );
-    Flag save_requested;
+    lamb::Flag save_requested;
     unsigned long last_edit;
   public:
     void flag_save_requested();

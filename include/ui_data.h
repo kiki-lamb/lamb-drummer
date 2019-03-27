@@ -13,10 +13,10 @@ public:
   double  hz;
   bool    playback_state;
   uint8_t ticker;
-  Flag    popup_bpm_requested;
-  Flag    redraw_track;
-  Flag    redraw_selected_track_indicator;
-  Flag    redraw_playback_state;
+  lamb::Flag    popup_bpm_requested;
+  lamb::Flag    redraw_track;
+  lamb::Flag    redraw_selected_track_indicator;
+  lamb::Flag    redraw_playback_state;
   UiData() :
     popup_bpm_requested("pbr", true),
     redraw_track("rt", true),

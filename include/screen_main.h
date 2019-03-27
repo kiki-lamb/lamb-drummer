@@ -1,11 +1,11 @@
 #ifndef SHELF_CLOCK_SCREEN_STATE_MAIN_H
 #define SHELF_CLOCK_SCREEN_STATE_MAIN_H
 
+#include <lamb.h>
 #include "Arduino.h"
 #include "i_screen.h"
 #include "ui_data.h"
 #include "track_collection.h"
-#include "flag.h"
 
 class SSMain : public IScreen<UiData<TrackCollection<3, Track> > > {
 public:
