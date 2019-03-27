@@ -54,7 +54,7 @@ class Ui {
   private:
     data_t * data;
     screen_t               current_screen;
-    IScreenState<data_t> * screens[4];
+    IScreen<data_t> * screens[4];
 };
 
 #endif

@@ -7,7 +7,7 @@
 #include "track_collection.h"
 #include "flag.h"
 
-class SSMain : public IScreenState<UiData<TrackCollection<3, Track> > > {
+class SSMain : public IScreen<UiData<TrackCollection<3, Track> > > {
 public:
   SSMain(data_t * data);
 private:

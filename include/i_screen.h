@@ -5,7 +5,7 @@
 #include "flag.h"
 
 template <class data_t_>
-class IScreenState {
+class IScreen {
 private:
   Flag requires_update;
 
@@ -13,13 +13,13 @@ public:
   typedef data_t_ data_t;
   data_t * data;
 
-  IScreenState(data_t * data_) :
+  IScreen(data_t * data_) :
     requires_update("requires_update", true),
     data(data_) {
     flag();
   }
 
-  virtual ~IScreenState() {
+  virtual ~IScreen() {
   }
 
   void flag() {

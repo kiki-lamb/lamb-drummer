@@ -2,15 +2,15 @@
 
 SSNone::SSNone(
   SSNone::data_t * data
-) : IScreenState<SSNone::data_t>(data) {}
+) : IScreen<SSNone::data_t>(data) {}
 
 SSIntro::SSIntro(
   SSIntro::data_t * data
-) : IScreenState<SSIntro::data_t>(data) {}
+) : IScreen<SSIntro::data_t>(data) {}
 
 SSInstr::SSInstr(
   SSInstr::data_t * data
-) : IScreenState<SSIntro::data_t>(data) {}
+) : IScreen<SSIntro::data_t>(data) {}
 
 void SSNone::impl_enter() {
 }
