@@ -44,13 +44,13 @@ public:
   virtual ~ControlEventSource() {}
 
 private:
-  uint8_t _bpm;
   typedef ButtonpadSource<buttonpad_t> buttonpad_source_t;
-  buttonpad_source_t buttonpad_source;
-  typedef EncoderButtonSource encoder_button_source_t;
-  EncoderButtonSource encoder_button_source;
-  static  ControlEventType buttonpad_ordering[8];
-  lamb::RingBuffer<ControlEvent, 8> event_queue;
+  typedef EncoderButtonSource          encoder_button_source_t;
+  static  ControlEventType             buttonpad_ordering[8];
+  uint8_t                              _bpm;
+  buttonpad_source_t                   buttonpad_source;
+  EncoderButtonSource                  encoder_button_source;
+  lamb::RingBuffer<ControlEvent, 8>    event_queue;
 
   virtual uint8_t impl_queue_count() const {
     return event_queue.count();
