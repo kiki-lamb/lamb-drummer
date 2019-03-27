@@ -105,10 +105,6 @@ void Application::process_control_events() {
 }
 
 bool Application::process_control_event(Application::control_event_source_t::event_t e) {
-  // Serial.print(F("Dequeue "));
-  // Serial.print(e.type);
-  // Serial.println();
-
   if (e.type == ControlEventType::EVT_NOT_AVAILABLE)
     return false;
 
