@@ -135,14 +135,15 @@ void SSMain::impl_update() {
 
   if (redraw_page) {
     draw_page_number();
-
     for (uint8_t col = 0;  col <= 15; col++)
       draw_column((data->page * 16) + col, false, true);
   }
-  else
-    draw_column(prior, false);
 
   draw_column(current, true);
+
+  if (redraw_page) {
+    draw_column(prior, false);
+  }
 }
 
 void SSMain::draw_column(uint8_t col, bool highlit, bool log_this)  {

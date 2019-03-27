@@ -10,7 +10,7 @@ Timer1_::Timer1_() :
 
 Timer1_::~Timer1_() {}
 
-const uint8_t Timer1_::MIN_BPM = 8;
+const uint8_t Timer1_::MIN_BPM = 5;
 
 Timer1_ * Timer1_::_instance = 0;
 
