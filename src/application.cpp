@@ -1,7 +1,9 @@
 #include "application.h"
 #include "ui_data.h"
 
-IControls<ControlEvent> * Application::controls(new Application::controls_t(&Application::bpm));
+PolledEventSource<ControlEvent> * Application::controls(
+  new Application::controls_t(&Application::bpm)
+);
 Application::tracks_t     Application::_tracks;
 Eeprom                    Application::eeprom;
 Timer1_                   Application::timer1;

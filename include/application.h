@@ -29,7 +29,7 @@ private:
   static          Flag             redraw_track;
   static          Flag             redraw_selected_track_indicator;
   static          Flag             redraw_playback_state;
-  static          IControls<ControlEvent> *
+  static          PolledEventSource<ControlEvent> *
                                    controls;
   static          Eeprom           eeprom;
   static          Timer1_          timer1;

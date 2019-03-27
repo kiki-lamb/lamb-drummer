@@ -6,7 +6,7 @@
 #include "encoder_button.h"
 #include "encoder.h"
 #include "buffer.h"
-#include "i_controls.h"
+#include "polled_event_source.h"
 
 
 enum ControlEventType {
@@ -32,7 +32,7 @@ struct ControlEvent {
 };
 
 template <class i_buttonpad_t>
-class Controls : public IControls<ControlEvent> {
+class Controls : public PolledEventSource<ControlEvent> {
 public:
   Controls(uint8_t(*bpm_f_)()) :
     button_pad(new i_buttonpad_t()),
