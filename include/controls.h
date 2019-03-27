@@ -32,15 +32,15 @@ struct ControlEvent {
 };
 
 template <class i_buttonpad_t>
-class Controls : public PolledEventSource<ControlEvent> {
+class ControlEventSource : public PolledEventSource<ControlEvent> {
 public:
-  Controls(uint8_t(*bpm_f_)()) :
+  ControlEventSource(uint8_t(*bpm_f_)()) :
     button_pad(new i_buttonpad_t()),
     encoder_button(A7),
     bpm_f(bpm_f_) {
   }
 
-  virtual ~Controls() {}
+  virtual ~ControlEventSource() {}
 
 private:
   uint8_t _bpm;

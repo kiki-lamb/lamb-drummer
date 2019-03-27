@@ -2,7 +2,7 @@
 #include "ui_data.h"
 
 Application::controls_t * Application::controls(
-  new Controls<Application::buttonpad_t>(&Application::bpm)
+  new ControlEventSource<Application::buttonpad_t>(&Application::bpm)
 );
 Application::tracks_t     Application::_tracks;
 Eeprom                    Application::eeprom;
