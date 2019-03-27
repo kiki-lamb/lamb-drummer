@@ -19,12 +19,12 @@ private:
   }
 
   inline virtual uint8_t impl_queue_count() const {
-    return event == 0 ? 0 : 1;
+    return event == 8 ? 0 : 1;
   }
 
   inline virtual event_t impl_dequeue_event() {
     uint8_t e = event;
-    event = 0;
+    event = 8;
     return e;
   };
 };
