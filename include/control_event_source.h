@@ -34,11 +34,10 @@ struct ControlEvent {
 template <class i_buttonpad_t>
 class ControlEventSource : public PolledEventSource<ControlEvent> {
 public:
-  ControlEventSource(uint8_t(*bpm_f_)()) :
+  ControlEventSource() :
+    _bpm(255),
     button_pad(new i_buttonpad_t()),
-    encoder_button(A7),
-    bpm_f(bpm_f_) {
-  }
+    encoder_button(A7) {}
 
   virtual ~ControlEventSource() {}
 
@@ -48,13 +47,13 @@ private:
   EncoderButton encoder_button;
   static  ControlEventType buttonpad_ordering[8];
   Buffer<ControlEvent, 8> event_buffer;
-  uint8_t(*bpm_f)();
+  //uint8_t(*bpm_f)();
 
   IButtonpad::Button buttonpad_button() const {
     return (IButtonpad::Button)(button_pad->buttonpad_button());
   }
 
-  virtual void impl_set_encoder(uint8_t val) {
+  virtual void set_encoder(uint8_t val) {
     Encoder::set_value(val);
   }
 
@@ -71,7 +70,7 @@ private:
   virtual void impl_poll() {
     uint8_t tmp_bpm = Encoder::value();
 
-    if (tmp_bpm != (*bpm_f)()) {
+    if (tmp_bpm != _bpm) {
       queue_event(EVT_BPM_SET, tmp_bpm);
       _bpm = tmp_bpm;
     }

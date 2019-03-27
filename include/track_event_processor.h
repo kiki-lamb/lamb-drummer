@@ -4,12 +4,12 @@
 #include "Arduino.h"
 #include "track.h"
 #include "i_buttonpad.h"
-#include "controls.h"
+#include "control_event_source.h"
 
-template <class controls_t>
+template <class control_event_source_t>
 class TrackEventProcessor {
 public:
-  static bool handle_event(Track & that, typename controls_t::event_t e) {
+  static bool handle_event(Track & that, typename control_event_source_t::event_t e) {
     if (e.type < 8) {
       (*button_handlers[e.type])(that);
       return true;
@@ -109,7 +109,7 @@ private:
   static button_handler button_handlers[8];
 };
 
-template <class controls_t> typename TrackEventProcessor<controls_t>::button_handler TrackEventProcessor<controls_t>::button_handlers[8] = {
+template <class control_event_source_t> typename TrackEventProcessor<control_event_source_t>::button_handler TrackEventProcessor<control_event_source_t>::button_handlers[8] = {
   &TrackEventProcessor::increase_mod_min,
   &TrackEventProcessor::decrease_mod_min,
   &TrackEventProcessor::increase_mod_maj,

@@ -1,8 +1,8 @@
 #include "application.h"
 #include "ui_data.h"
 
-Application::controls_t * Application::controls(
-  new ControlEventSource<Application::buttonpad_t>(&Application::bpm)
+Application::control_event_source_t * Application::control_event_source(
+  new Application::control_event_source_real_t()
 );
 Application::tracks_t     Application::_tracks;
 Eeprom                    Application::eeprom;
@@ -28,7 +28,7 @@ void Application::setup() {
   Serial.println();
   Serial.println(F("Begin setup"));
 
-  controls->setup();
+  control_event_source->setup();
   ui_data.tracks = &_tracks;
   update_ui_data();
   ui       .setup();
@@ -37,7 +37,17 @@ void Application::setup() {
   timer1   .setup();
   timer2   .setup();
   sei();
-  restore_state();
+  Eeprom::PersistantData<tracks_t> tmp(
+    &_tracks,
+    timer1.bpm(),
+    timer1.playback_state()
+  );
+  eeprom   .restore_all(tmp);
+  //control_event_source->set_encoder(tmp.bpm);
+
+  timer1   .set_bpm(tmp.bpm);
+  Application::set_playback_state(tmp.playback_state);
+  eeprom   .unflag_save_requested();
   ui       .enter_screen(ui_t::SCREEN_MAIN);
 
   Serial.println(F("Setup complete."));
@@ -89,29 +99,16 @@ void Application::save_state() {
    );
 }
 
-void Application::restore_state() {
-  Eeprom::PersistantData<tracks_t> tmp(
-    &_tracks,
-    timer1.bpm(),
-    timer1.playback_state()
-  );
-  eeprom.restore_all(tmp);
-  controls->set_encoder(tmp.bpm);
-  timer1.set_bpm(tmp.bpm);
-  Application::set_playback_state(tmp.playback_state);
-  eeprom.unflag_save_requested();
-}
-
-bool Application::process_control_event(Application::controls_t::event_t e) {
-  Serial.print(F("Dequeue "));
-  Serial.print(e.type);
-  Serial.println();
+bool Application::process_control_event(Application::control_event_source_t::event_t e) {
+  // Serial.print(F("Dequeue "));
+  // Serial.print(e.type);
+  // Serial.println();
 
   if (e.type == ControlEventType::EVT_NOT_AVAILABLE)
     return false;
 
   if (e.type < 8) {
-    TrackEventProcessor<controls_t>::handle_event(
+    TrackEventProcessor<control_event_source_t>::handle_event(
       _tracks.current(),
       e
     );
@@ -143,6 +140,6 @@ bool Application::process_control_event(Application::controls_t::event_t e) {
 }
 
 void Application::process_control_events() {
-  controls->poll();
-  while(process_control_event(controls->dequeue_event()));
+  control_event_source->poll();
+  while(process_control_event(control_event_source->dequeue_event()));
 }
