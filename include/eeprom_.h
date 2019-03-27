@@ -14,7 +14,6 @@ class Eeprom {
     tracks_t * tracks;
     uint8_t bpm;
     bool playback_state;
-
     PersistantData(
       tracks_t * tracks_,
       uint8_t bpm_,
@@ -25,30 +24,24 @@ class Eeprom {
       playback_state(playback_state_)
     {}
   };
-
   private:
     void save_playback_state(bool playback_state_) const;
     void save_bpm(uint8_t bpm_) const;
     bool playback_state() const;
     uint8_t bpm() const;
-
     void save_track(
       size_t eeprom_location,
       Track & track
     ) const;
-
     void restore_track(
       size_t eeprom_location,
       Track & track
     );
-
     Flag save_requested;
     unsigned long last_edit;
-
   public:
     void flag_save_requested();
     void unflag_save_requested();
-
     Eeprom();
     virtual ~Eeprom();
 

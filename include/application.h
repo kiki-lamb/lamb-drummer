@@ -21,12 +21,10 @@ public:
 private:
   Application();
   ~Application();
-
   typedef Buttonpad_PCF8754<0x3F>  buttonpad_t;
   typedef Controls<buttonpad_t>    controls_t;
   typedef UiData<tracks_t>         ui_data_t;
   typedef Ui<ui_data_t>            ui_t;
-
   static          Flag             popup_bpm_requested;
   static          Flag             redraw_track;
   static          Flag             redraw_selected_track_indicator;

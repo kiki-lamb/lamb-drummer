@@ -42,8 +42,10 @@ protected:
   LiquidCrystal & lcd() {
     return Lcd::lcd;
   }
+
 private:
   virtual void impl_update() = 0;
+  
   virtual void impl_enter() = 0;
 };
 

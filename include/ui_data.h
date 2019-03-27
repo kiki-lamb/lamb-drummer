@@ -17,9 +17,7 @@ public:
   Flag *  redraw_track;
   Flag *  redraw_selected_track_indicator;
   Flag *  redraw_playback_state;
-
   UiData() {}
-
   virtual ~UiData() {};
 };
 
