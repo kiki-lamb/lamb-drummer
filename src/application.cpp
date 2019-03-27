@@ -47,6 +47,7 @@ void Application::setup() {
   eeprom .unflag_save_requested();
   ui_data.tracks = &_tracks;
   update_ui_data();
+  ui     .flag_screen (ui_t::SCREEN_MAIN);
   ui     .enter_screen(ui_t::SCREEN_MAIN);
   sei();
   Serial .println(F("Setup complete."));
@@ -84,6 +85,7 @@ uint8_t Application::page() {
 void Application::set_playback_state(bool playback_state_) {
   timer1.set_playback_state(playback_state_);
   ui_data.redraw_playback_state.flag();
+  Serial.println(F("FLAG IN APPLICATION"));
   flag_main_screen();
   eeprom.flag_save_requested();
 }

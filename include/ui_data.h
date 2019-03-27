@@ -20,8 +20,8 @@ public:
   UiData() :
     popup_bpm_requested("pbr", true),
     redraw_track("rt", true),
-    redraw_selected_track_indicator("rsti", false),
-    redraw_playback_state("rps", false)
+    redraw_selected_track_indicator("rsti", true),
+    redraw_playback_state("rps", true)
   {}
   virtual ~UiData() {};
 };

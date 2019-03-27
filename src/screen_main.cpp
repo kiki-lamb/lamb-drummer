@@ -28,7 +28,6 @@ void SSMain::draw_bars() {
 
 void SSMain::impl_enter() {
   data->popup_bpm_requested.flag();
-  data->redraw_selected_track_indicator.unflag();
 
   draw_line0();
   Lcd::put_playstate(19,0); // Ugly...
@@ -40,9 +39,6 @@ void SSMain::impl_enter() {
     draw_column(step);
 
   draw_page_number();
-
-  data->redraw_playback_state.unflag();
-//  redraw_bpm->unflag();
 }
 
 void SSMain::draw_page_number() {
@@ -67,9 +63,7 @@ void SSMain::draw_line0(bool redraw_bpm) {
     snprintf(buf, 21, "%s hz", buf2);
     lcd().print(buf);
   }
-  else {
-    //Serial.println("Before rdsi!");
-    if (data->redraw_selected_track_indicator.consume()) {
+  else if (data->redraw_selected_track_indicator.consume()) {
     draw_channel_numbers();
 
     lcd().setCursor(0, 0);
@@ -96,9 +90,8 @@ void SSMain::draw_line0(bool redraw_bpm) {
     lcd().setCursor(15, 0);
     snprintf(buf, 21, "%-2d", (*data->tracks)[(*data->tracks).index()].phase_min());
     lcd().print(buf);
-  } }
+  }
 
-  //Serial.println("Before rps!");
   if (data->redraw_playback_state.consume()) {
     Lcd::select_playstate(! data->playback_state);
   }
