@@ -37,7 +37,9 @@ public:
   ControlEventSource(uint8_t bpm) :
     _bpm(bpm),
     button_pad(new i_buttonpad_t()),
-    encoder_button(A7) {}
+    encoder_button(A7) {
+    Encoder::set_value(_bpm);
+  }
 
   virtual ~ControlEventSource() {}
 
@@ -47,7 +49,6 @@ private:
   EncoderButton encoder_button;
   static  ControlEventType buttonpad_ordering[8];
   Buffer<ControlEvent, 8> event_buffer;
-  //uint8_t(*bpm_f)();
 
   IButtonpad::Button buttonpad_button() const {
     return (IButtonpad::Button)(button_pad->buttonpad_button());

@@ -34,6 +34,8 @@ void Application::setup() {
     timer1.playback_state()
   );
   eeprom .restore_all(tmp);
+  Serial.print(F("Found BPM in EEPROM: "));
+  Serial.println(tmp.bpm);
   control_event_source = new Application::control_event_source_real_t(tmp.bpm);
   control_event_source->setup();
   cli();
@@ -44,7 +46,7 @@ void Application::setup() {
   eeprom .unflag_save_requested();
   ui_data.tracks = &_tracks;
   update_ui_data();
-  ui       .enter_screen(ui_t::SCREEN_MAIN);
+  ui     .enter_screen(ui_t::SCREEN_MAIN);
   sei();
 
   Serial.println(F("Setup complete."));
@@ -76,7 +78,7 @@ uint8_t Application::page() {
   uint8_t tmp_tick        = timer1.ticker() >> 1;
   uint8_t tmp_inside_tick = tmp_tick % _tracks.max_mod_maj();
   uint8_t tmp_page        = tmp_inside_tick /  16;
-  return tmp_page;
+  return  tmp_page;
 }
 
 void Application::set_playback_state(bool playback_state_) {
@@ -94,6 +96,11 @@ void Application::save_state() {
        timer1.playback_state()
      )
    );
+}
+
+void Application::process_control_events() {
+  control_event_source->poll();
+  while(process_control_event(control_event_source->dequeue_event()));
 }
 
 bool Application::process_control_event(Application::control_event_source_t::event_t e) {
@@ -134,9 +141,4 @@ bool Application::process_control_event(Application::control_event_source_t::eve
 
     return false;
   }
-}
-
-void Application::process_control_events() {
-  control_event_source->poll();
-  while(process_control_event(control_event_source->dequeue_event()));
 }
