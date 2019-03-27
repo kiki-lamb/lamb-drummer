@@ -36,7 +36,6 @@ private:
   static          tracks_t         _tracks;
   static          ui_t             ui;
   static          ui_data_t        ui_data;
-
   static          void             restore_state();
   static          void             set_playback_state(bool playback_state_);
   static          bool             process_control(controls_t::ControlEvent e);
