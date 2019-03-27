@@ -160,7 +160,7 @@ void SSMain::draw_column(uint8_t col, bool highlit, bool log_this)  {
     16, 17, 18, 19
   };
 
-  uint8_t tmp = (*data->tracks).max_mod_maj();
+  // uint8_t tmp = (*data->tracks).max_mod_maj();
 
   for (uint8_t line = 1; line <= 3; line++) {
     uint8_t col_ = col_map[col % (*data->tracks).max_mod_maj() % 16];

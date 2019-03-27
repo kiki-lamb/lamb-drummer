@@ -5,12 +5,13 @@ Track::Track(
   uint8_t mod_min_,
   uint8_t phase_min_,
   uint8_t phase_maj_
-) : _mod_min(mod_min_),
+) :
+    modified("mod", false),
     _mod_maj(mod_maj_),
+    _mod_min(mod_min_),
     _phase_min(phase_min_),
-    _phase_maj(phase_maj_),
-    modified("mod", false) {
-};
+    _phase_maj(phase_maj_)
+{};
 
 Track::~Track() {};
 
@@ -19,6 +20,8 @@ Track & Track::operator=(Track const & other) {
   _phase_maj = other._phase_maj;
   _mod_min   = other._mod_min;
   _phase_min = other._mod_min;
+
+  return *this;
 }
 
 bool Track::trigger_state(uint8_t counter) const {

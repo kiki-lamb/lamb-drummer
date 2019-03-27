@@ -39,9 +39,9 @@ class Ui {
     }
 
     Ui(data_t * data_) :
+      data(data_),
 			current_screen(SCREEN_NONE),
-      screens(),
-      data(data_)
+      screens()
     {
       screens[0] = new SSIntro(data);
       screens[1] = new SSNone (data);

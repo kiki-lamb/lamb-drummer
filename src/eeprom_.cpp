@@ -4,7 +4,7 @@
 #define ADDR_BPM  3
 #define ADDR_PLAY 4
 
-Eeprom::Eeprom() : last_edit(0), save_requested("sr") {}
+Eeprom::Eeprom() : save_requested("sr"), last_edit(0) {}
 
 Eeprom::~Eeprom() {}
 

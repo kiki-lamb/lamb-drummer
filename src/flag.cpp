@@ -29,7 +29,6 @@ bool Flag::consume() {
   //   Serial.println();
   // }
 
-  bool tmp = value;
   if (value) {
     value = false;
     return true;

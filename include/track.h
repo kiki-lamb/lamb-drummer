@@ -26,8 +26,8 @@ public:
   );
   virtual ~Track();
 private:
-  uint8_t _mod_min;
   uint8_t _mod_maj;
+  uint8_t _mod_min;
   uint8_t _phase_min;
   uint8_t _phase_maj;
 };

@@ -1,16 +1,16 @@
 #ifndef SHELF_CLOCK_BUFFER_H
 #define SHELF_CLOCK_BUFFER_H
 
-template <typename T> 
+template <typename T>
 class Buffer256 {
-  private: 
+  private:
   uint8_t write_ix;
   uint8_t read_ix;
   uint8_t _count;
   volatile T buff[256];
-  
+
   public:
-  Buffer256() : read_ix(0), write_ix(0), _count(0) {}
+  Buffer256() : write_ix(0), read_ix(0), _count(0) {}
   ~Buffer256() {}
 
   uint8_t count() const {
@@ -27,7 +27,7 @@ class Buffer256 {
     T tmp = buff[read_ix];
     _count--;
     read_ix++;
-    return tmp; 
+    return tmp;
   }
 
   inline bool writeable() {
@@ -37,20 +37,20 @@ class Buffer256 {
   inline bool readable() {
     return _count;
   }
-};  
+};
 
-template <typename T, uint8_t SIZE> 
+template <typename T, uint8_t SIZE>
 class Buffer {
-  private: 
+  private:
    uint8_t write_ix;
    uint8_t read_ix;
    uint8_t _count;
    T buff[SIZE];
-  
+
   public:
-  Buffer() : read_ix(0), write_ix(0), _count(0) {}
+  Buffer() : write_ix(0), read_ix(0), _count(0) {}
   ~Buffer() {}
-  
+
   uint8_t count() const {
     return _count;
   }
@@ -67,8 +67,8 @@ class Buffer {
     _count--;
     read_ix++;
     read_ix %= SIZE;
-    
-    return tmp; 
+
+    return tmp;
   }
 
   inline bool writeable() {

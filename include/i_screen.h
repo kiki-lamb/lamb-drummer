@@ -14,8 +14,8 @@ public:
   data_t * data;
 
   IScreenState(data_t * data_) :
-    data(data_),
-    requires_update("requires_update", true) {
+    requires_update("requires_update", true),
+    data(data_) {
     flag();
   }
 
