@@ -23,9 +23,9 @@ void Application::update_ui_data() {
 }
 
 void Application::setup() {
-  Serial.begin(115200);
-  Serial.println();
-  Serial.println(F("Begin setup"));
+  Serial .begin(115200);
+  Serial .println();
+  Serial .println(F("Begin setup"));
   ui     .setup();
   ui     .enter_screen(ui_t::SCREEN_INTRO);
   Eeprom::PersistantData<tracks_t> tmp(
@@ -34,8 +34,8 @@ void Application::setup() {
     timer1.playback_state()
   );
   eeprom .restore_all(tmp);
-  Serial.print(F("Found BPM in EEPROM: "));
-  Serial.println(tmp.bpm);
+  Serial .print(F("Found BPM in EEPROM: "));
+  Serial .println(tmp.bpm);
   control_event_source =
     new Application::control_event_source_real_t(tmp.bpm);
   control_event_source->setup();
@@ -49,9 +49,8 @@ void Application::setup() {
   update_ui_data();
   ui     .enter_screen(ui_t::SCREEN_MAIN);
   sei();
-
-  Serial.println(F("Setup complete."));
-  Serial.println();
+  Serial .println(F("Setup complete."));
+  Serial .println();
 }
 
 void Application::loop() {
