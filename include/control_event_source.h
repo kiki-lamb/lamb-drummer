@@ -65,14 +65,13 @@ private:
     }
 
     encoder_button_source.poll();
-    if ( encoder_button_source.dequeue_event().event_type == encoder_button_source_t::event_t::event_type_t::EBE_ON)
+    if ( encoder_button_source.dequeue_event() )
       queue_event( EVT_PLAYBACK_STATE_TOGGLE);
 
     buttonpad_source.poll();
     typename buttonpad_source_t::event_t e = buttonpad_source.dequeue_event();
     if ( e != 8 )
       queue_event( (event_t::event_type_t)(buttonpad_ordering[e]) );
-
   }
 
   virtual ControlEvent impl_dequeue_event() {
