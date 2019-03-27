@@ -18,7 +18,7 @@ class Encoder {
     static          enc_t                                                       encoder;
 
   public:
-    static void     setup();
+    static void    setup();
     static void     set_value(uint8_t value);
     static uint8_t  value();
 };
