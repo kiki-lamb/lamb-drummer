@@ -14,9 +14,10 @@
 #include "ui.h"
 
 class Application {
+private:
+  static const    size_t           tracks_count = 3;
 public:
-  static const    size_t           track_count = 3;
-  typedef TrackCollection<track_count> // Public because tracks() returns it.
+  typedef TrackCollection<tracks_count> // Public because tracks() returns it.
                                    tracks_t;
 private:
   Application();
