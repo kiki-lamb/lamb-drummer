@@ -8,7 +8,7 @@ EncoderButton::EncoderButton(
   adc_state(adc_state_) {
 };
 
-EncoderButton::~EncoderButton() {}
+virtual EncoderButton::~EncoderButton() {}
 
 void EncoderButton::setup() {
   pinMode(pin, INPUT_PULLUP);

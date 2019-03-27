@@ -9,7 +9,7 @@ class EncoderButton {
       uint8_t pin_,
       bool adc_state_ = true
     );
-    ~EncoderButton();
+    virtual ~EncoderButton();
     bool read();
     void setup();
   private:
