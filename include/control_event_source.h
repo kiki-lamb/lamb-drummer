@@ -34,7 +34,6 @@ class ControlEventSource : public PolledEventSource<ControlEvent> {
 public:
   ControlEventSource(uint8_t bpm) :
     _bpm(bpm),
-//    buttonpad_source(new buttonpad_source_t()),
     encoder_button_source(A7) {
     Encoder::setup();
     encoder_button_source.setup();
@@ -53,10 +52,6 @@ private:
   static  ControlEventType buttonpad_ordering[8];
   lamb::RingBuffer<ControlEvent, 8> event_queue;
 
-  // uint8_t button() const {
-  //   return button_pad->button();
-  // }
-
   virtual uint8_t impl_queue_count() const {
     return event_queue.count();
   }
@@ -70,15 +65,14 @@ private:
     }
 
     encoder_button_source.poll();
-    if ( encoder_button_source.dequeue_event().event_type ==
-         encoder_button_source_t::event_t::event_type_t::EBE_ON
-       )
+    if ( encoder_button_source.dequeue_event().event_type == encoder_button_source_t::event_t::event_type_t::EBE_ON)
       queue_event( EVT_PLAYBACK_STATE_TOGGLE);
 
     buttonpad_source.poll();
     typename buttonpad_source_t::event_t e = buttonpad_source.dequeue_event();
     if ( e != 8 )
       queue_event( (event_t::event_type_t)(buttonpad_ordering[e]) );
+
   }
 
   virtual ControlEvent impl_dequeue_event() {
