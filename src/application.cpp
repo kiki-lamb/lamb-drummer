@@ -59,6 +59,7 @@ void Application::loop() {
   const uint16_t frame_delay = 1000 / frame_rate;
 
   update_ui_data();
+  flag_main_screen();
   ui.update_screen();
   delay(frame_delay);
 }
