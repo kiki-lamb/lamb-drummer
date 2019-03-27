@@ -36,7 +36,8 @@ void Application::setup() {
   eeprom .restore_all(tmp);
   Serial.print(F("Found BPM in EEPROM: "));
   Serial.println(tmp.bpm);
-  control_event_source = new Application::control_event_source_real_t(tmp.bpm);
+  control_event_source =
+    new Application::control_event_source_real_t(tmp.bpm);
   control_event_source->setup();
   cli();
   timer1 .setup();
