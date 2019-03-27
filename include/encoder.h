@@ -2,7 +2,7 @@
 #define SHELF_CLOCK_ENCODER_H
 
 #include "Arduino.h"
-#include <lambos.h>
+#include <lamb.h>
 
 class Encoder {
   private:
@@ -16,7 +16,7 @@ class Encoder {
     typedef         lamb::Encoders::Interfaces::NativePins<encoderA, encoderB>  enc_interface_t;
     typedef         lamb::Encoders::Custom<enc_state_t, enc_interface_t>        enc_t;
     static          enc_t                                                         encoder;
-    
+
   public:
     static void setup();
     static void set_value(uint8_t value);
