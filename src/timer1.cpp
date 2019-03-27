@@ -97,12 +97,12 @@ ISR(TIMER1_COMPA_vect) {
   uint8_t ticker = Timer1_::instance().ticker();
 
   if (! (ticker & 0b1)) {
+    Application::flag_main_screen(); // In ISR, not that ugly...
+
     if (! Timer1_::instance().playback_state()) {
       PORTC &= ~0b1111; // PORTC = 0;
       return;
     }
-
-    Application::flag_main_screen(); // In ISR, not that ugly...
 
     byte blast = 0;
 
