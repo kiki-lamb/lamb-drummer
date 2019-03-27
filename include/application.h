@@ -36,7 +36,7 @@ private:
   static          tracks_t         _tracks;
   static          void             restore_state();
   static          void             set_playback_state(bool playback_state_);
-  static          bool             process_control(controls_t::event_t e);
+  static          bool             process_control_event(controls_t::event_t e);
   static          void             update_ui_data();
   static          uint8_t          page();
   static          uint8_t          bpm();
@@ -45,7 +45,7 @@ public:
   static          void             loop();
   static          void             flag_main_screen(); // called by ISR for timer1.
   static          tracks_t const & tracks();           // called by ISR for time 1.
-  static          void             process_controls(); // called by ISR for timer2.
+  static          void             process_control_events(); // called by ISR for timer2.
   static          void             save_state();       // called by ISR for timer2.
 };
 

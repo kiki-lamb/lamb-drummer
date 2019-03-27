@@ -102,7 +102,7 @@ void Application::restore_state() {
   eeprom.unflag_save_requested();
 }
 
-bool Application::process_control(Application::controls_t::event_t e) {
+bool Application::process_control_event(Application::controls_t::event_t e) {
   Serial.print(F("Dequeue "));
   Serial.print(e.type);
   Serial.println();
@@ -142,7 +142,7 @@ bool Application::process_control(Application::controls_t::event_t e) {
   }
 }
 
-void Application::process_controls() {
+void Application::process_control_events() {
   controls->poll();
-  while(process_control(controls->dequeue_event()));
+  while(process_control_event(controls->dequeue_event()));
 }
