@@ -27,12 +27,9 @@ void Application::setup() {
   Serial.begin(115200);
   Serial.println();
   Serial.println(F("Begin setup"));
-
-  control_event_source->setup();
-  ui_data.tracks = &_tracks;
-  update_ui_data();
   ui       .setup();
   ui       .enter_screen(ui_t::SCREEN_INTRO);
+  control_event_source->setup();
   cli();
   timer1   .setup();
   timer2   .setup();
@@ -47,6 +44,8 @@ void Application::setup() {
   Application::set_playback_state(tmp.playback_state);
   ui       .enter_screen(ui_t::SCREEN_MAIN);
   eeprom   .unflag_save_requested();
+  ui_data.tracks = &_tracks;
+  update_ui_data();
   sei();
 
   Serial.println(F("Setup complete."));
