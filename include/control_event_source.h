@@ -70,7 +70,7 @@ private:
     if ( encoder_button.read() )
       queue_event( EVT_PLAYBACK_STATE_TOGGLE);
 
-    if ( button_pad->read() )
+    if ( button_pad->poll() )
       queue_event( (event_t::event_type_t)(buttonpad_ordering[button()]) );
   }
 

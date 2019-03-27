@@ -4,8 +4,8 @@ Buttonpad::Buttonpad() {}
 
 Buttonpad::~Buttonpad() {}
 
-bool Buttonpad::read() {
-  return impl_read();
+bool Buttonpad::poll() {
+  return impl_poll();
 }
 
 uint8_t Buttonpad::button() const {

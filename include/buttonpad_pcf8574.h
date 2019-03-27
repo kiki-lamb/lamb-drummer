@@ -29,7 +29,7 @@ class Buttonpad_PCF8754 : public Buttonpad {
       Serial.print(F("Done setup Buttonpad_PCF8754."));
     }
 
-    virtual bool impl_read() {
+    virtual bool impl_poll() {
       sei();
       uint8_t tmpval = device.read();
       cli();
