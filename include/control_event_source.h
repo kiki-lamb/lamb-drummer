@@ -51,8 +51,8 @@ private:
   static  ControlEventType buttonpad_ordering[8];
   lamb::RingBuffer<ControlEvent, 8> event_queue;
 
-  uint8_t buttonpad_button() const {
-    return button_pad->buttonpad_button();
+  uint8_t button() const {
+    return button_pad->button();
   }
 
   virtual uint8_t impl_queue_count() const {
@@ -71,7 +71,7 @@ private:
       queue_event( EVT_PLAYBACK_STATE_TOGGLE);
 
     if ( button_pad->read() )
-      queue_event( (event_t::event_type_t)(buttonpad_ordering[buttonpad_button()]) );
+      queue_event( (event_t::event_type_t)(buttonpad_ordering[button()]) );
   }
 
   virtual ControlEvent impl_dequeue_event() {

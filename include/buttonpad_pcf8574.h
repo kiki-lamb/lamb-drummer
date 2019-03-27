@@ -56,7 +56,7 @@ class Buttonpad_PCF8754 : public Buttonpad {
       return false;
     }
 
-    virtual uint8_t impl_buttonpad_button() const {
+    virtual uint8_t impl_button() const {
       return button;
     }
 };

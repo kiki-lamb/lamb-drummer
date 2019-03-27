@@ -8,11 +8,11 @@ public:
   Buttonpad();
   virtual ~Buttonpad();
   bool    read();
-  uint8_t buttonpad_button() const;
+  uint8_t button() const;
   void    setup();
 private:
   virtual bool    impl_read() = 0;
-  virtual uint8_t impl_buttonpad_button() const = 0;
+  virtual uint8_t impl_button() const = 0;
   virtual void    impl_setup() = 0;
 // protected:
 //   enum Button {

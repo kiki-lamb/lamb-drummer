@@ -12,7 +12,7 @@ void Buttonpad_ResistorLadder::impl_setup() {
   pinMode(BUTTONPAD_PIN, INPUT);
 }
 
-uint8_t Buttonpad_ResistorLadder::impl_buttonpad_button() const {
+uint8_t Buttonpad_ResistorLadder::impl_button() const {
   return button;
 }
 
