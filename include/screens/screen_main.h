@@ -15,7 +15,7 @@ private:
   virtual void  impl_update();
   void          draw_bars();
   void 				  draw_channel_numbers();
-  void 				  draw_column(uint8_t step, bool highlit = false, bool log_this = false);
+  void 				  draw_column(uint8_t step, bool highlit, uint8_t mod_maj);
   void 			 	  draw_line0(bool redraw_bpm = false);
   void 			    draw_page_number();
   unsigned long popup_bpm_time;

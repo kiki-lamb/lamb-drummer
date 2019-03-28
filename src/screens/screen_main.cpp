@@ -34,8 +34,8 @@ void SSMain::impl_enter() {
   draw_channel_numbers();
   draw_bars();
 
-  for (uint8_t step = 0; step < 16; step++)
-    draw_column(step);
+  for (uint8_t step = 0, mmm = (*data->tracks).max_mod_maj(); step < 16; step++)
+    draw_column(step, false, mmm);
 
   draw_page_number();
 }
@@ -132,19 +132,21 @@ void SSMain::impl_update() {
     }
   }
 
+  uint8_t mmm = (*data->tracks).max_mod_maj();
+
   if (redraw_page) {
     draw_page_number();
     for (uint8_t col = 0;  col <= 15; col++)
-      draw_column((data->page * 16) + col, false);
+      draw_column((data->page * 16) + col, false, mmm);
   }
 
-  draw_column(current, true);
+  draw_column(current, true, mmm);
 
   if (! redraw_page)
-    draw_column(prior, false);
+    draw_column(prior, false, mmm);
 }
 
-void SSMain::draw_column(uint8_t col, bool highlit, bool log_this)  {
+void SSMain::draw_column(uint8_t col, bool highlit, uint8_t mod_maj)  {
   static const uint8_t col_map[] = {
     1,   2,  3,  4,
     6,   7,  8,  9,
@@ -152,10 +154,9 @@ void SSMain::draw_column(uint8_t col, bool highlit, bool log_this)  {
     16, 17, 18, 19
   };
 
-  // uint8_t tmp = (*data->tracks).max_mod_maj();
+  uint8_t col_ = col_map[col % mod_maj % 16];
 
   for (uint8_t line = 1; line <= 3; line++) {
-    uint8_t col_       = col_map[col % (*data->tracks).max_mod_maj() % 16];
     uint8_t character  = Lcd::CHAR_REST;
     bool    on_barrier = ((col - (*data->tracks)[line-1].phase_maj() + 1) % (*data->tracks)[line-1].mod_maj()) == 0;
     bool    is_active  = (*data->tracks)[line-1].trigger_state(col);
