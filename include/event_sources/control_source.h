@@ -34,6 +34,14 @@ private:
     return event_queue.count();
   }
 
+  template <typename child_t>
+  void poll_and_queue_child(child_t & child) {
+    child.poll();
+    auto e = child.dequeue_event();
+    if ( e != EVT_NOT_AVAILABLE )
+      queue_event(e);
+  }
+
   virtual void impl_poll() {
     uint8_t tmp_bpm = Encoder::value();
 
@@ -42,19 +50,9 @@ private:
       _bpm = tmp_bpm;
     }
 
-    encoder_button_source.poll();
-    {
-      auto e = encoder_button_source.dequeue_event();
-      if ( e != EVT_NOT_AVAILABLE )
-        queue_event(e);
-    }
+    poll_and_queue_child( encoder_button_source );
 
-    buttonpad_source.poll();
-    {
-      auto e = buttonpad_source.dequeue_event();
-      if ( e != EVT_NOT_AVAILABLE )
-        queue_event( e );
-    }
+    poll_and_queue_child( buttonpad_source );
   }
 
   virtual event_t impl_dequeue_event() {
