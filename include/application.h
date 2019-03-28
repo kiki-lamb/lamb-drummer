@@ -27,13 +27,14 @@ private:
   typedef UiData<tracks_t>              ui_data_t;
   typedef Ui<ui_data_t>                 ui_t;
   typedef ControlSource<buttonpad_t>    control_event_source_t;
+
   static control_event_source_t         control_event_source;
   static ui_data_t                      ui_data;
   static ui_t                           ui;
+  static tracks_t                       _tracks;
   static Eeprom                         eeprom;
   static Timer1_                        timer1;
   static Timer2_                        timer2;
-  static tracks_t                       _tracks;
   static void                           set_playback_state(bool playback_state_);
   static bool                           process_control_event(control_event_source_t::event_t e);
   static void                           update_ui_data();
