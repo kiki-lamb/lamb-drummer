@@ -24,12 +24,12 @@ private:
   ~Application();
 
   typedef Buttonpad_PCF8754<0x3F>       buttonpad_t;
-  typedef Ui<ui_data_t>                 ui_t;
   typedef UiData<tracks_t>              ui_data_t;
+  typedef Ui<ui_data_t>                 ui_t;
   typedef ControlSource<buttonpad_t>    control_event_source_t;
   static control_event_source_t         control_event_source;
-  static ui_t                           ui;
   static ui_data_t                      ui_data;
+  static ui_t                           ui;
   static Eeprom                         eeprom;
   static Timer1_                        timer1;
   static Timer2_                        timer2;
