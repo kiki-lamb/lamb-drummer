@@ -155,27 +155,20 @@ void SSMain::draw_column(uint8_t col, bool highlit, bool log_this)  {
   // uint8_t tmp = (*data->tracks).max_mod_maj();
 
   for (uint8_t line = 1; line <= 3; line++) {
-    uint8_t col_ = col_map[col % (*data->tracks).max_mod_maj() % 16];
-    uint8_t tmp = 0;
+    uint8_t col_       = col_map[col % (*data->tracks).max_mod_maj() % 16];
+    uint8_t character  = Lcd::CHAR_REST;
+    bool    on_barrier = ((col - (*data->tracks)[line-1].phase_maj() + 1) % (*data->tracks)[line-1].mod_maj()) == 0;
+    bool    is_active  = (*data->tracks)[line-1].trigger_state(col);
 
-    if ( (*data->tracks)[line-1].trigger_state(col) ) {
-      if (highlit)
-        tmp = Lcd::CHAR_HIT_ACTIVE;
-      else if (((col - (*data->tracks)[line-1].phase_maj() + 1) % (*data->tracks)[line-1].mod_maj()) == 0)
-        tmp = Lcd::CHAR_HIT_BARRIER;
-      else
-        tmp = Lcd::CHAR_HIT;
-    }
-    else {
-      if (highlit)
-        tmp = Lcd::CHAR_REST_ACTIVE;
-      else if (((col - (*data->tracks)[line-1].phase_maj() + 1) % (*data->tracks)[line-1].mod_maj()) == 0)
-        tmp = Lcd::CHAR_REST_BARRIER;
-      else
-        tmp = Lcd::CHAR_REST;
-    }
+    if (highlit)
+      character = Lcd::CHAR_REST_ACTIVE;
+    else if (on_barrier)
+      character = Lcd::CHAR_REST_BARRIER;
+
+    if ( is_active )
+      character -= 3;
 
     lcd().setCursor(col_, line);
-    lcd().write(tmp);
+    lcd().write(character);
   }
 }

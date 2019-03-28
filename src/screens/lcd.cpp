@@ -153,6 +153,16 @@ const uint8_t Lcd::custom_chars[8][8] = {
     0b11111
   },
   {
+    0b01110, // CHAR_HIT_BARRIER
+    0b11011,
+    0b11111,
+    0b11011,
+    0b11111,
+    0b11011,
+    0b01110,
+    0b00000
+  },
+  {
     0b00000, // CHAR_REST
     0b00000,
     0b00000,
@@ -171,16 +181,6 @@ const uint8_t Lcd::custom_chars[8][8] = {
     0b11111,
     0b11011,
     0b11111
-  },
-  {
-    0b01110, // CHAR_HIT_BARRIER
-    0b11011,
-    0b11111,
-    0b11011,
-    0b11111,
-    0b11011,
-    0b01110,
-    0b00000
   },
   {
     0b00100, // CHAR_REST_BARRIER
