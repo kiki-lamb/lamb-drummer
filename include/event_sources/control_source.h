@@ -28,7 +28,7 @@ private:
   uint8_t                              _bpm;
   buttonpad_source_t                   buttonpad_source;
   EncoderButtonSource                  encoder_button_source;
-  lamb::RingBuffer<Event, 8>         event_queue;
+  lamb::RingBuffer<Event, 8>           event_queue;
 
   virtual uint8_t impl_queue_count() const {
     return event_queue.count();
@@ -51,14 +51,13 @@ private:
 
     buttonpad_source.poll();
     {
-      typename buttonpad_source_t::event_t e = buttonpad_source.dequeue_event();
-      if ( e != 8 )
-        queue_event( (event_t::event_type_t)(e) );
-        // queue_event( (event_t::event_type_t)(buttonpad_ordering[e]) );
+      auto e = buttonpad_source.dequeue_event();
+      if ( e != EVT_NOT_AVAILABLE )
+        queue_event(e);
     }
   }
 
-  virtual Event impl_dequeue_event() {
+  virtual event_t impl_dequeue_event() {
     if (! event_queue.readable() ) {
       Event e = { EVT_NOT_AVAILABLE};
       return e;

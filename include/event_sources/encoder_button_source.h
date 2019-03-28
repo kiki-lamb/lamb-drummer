@@ -11,7 +11,7 @@ public:
   inline EncoderButtonSource(uint8_t pin_, bool adc_state = true) : EncoderButton(pin_, adc_state), event(EVT_NOT_AVAILABLE) {}
   inline virtual ~EncoderButtonSource() {}
 private:
-  EventType event;
+  event_t event;
 
   inline virtual void    impl_poll() {
     if (read())
