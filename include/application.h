@@ -28,12 +28,11 @@ private:
   typedef Ui<ui_data_t>    ui_t;
   typedef PolledEventSource<Event>
                            control_event_source_t;
-public:
+private:
   typedef ControlSource<buttonpad_t>
                            control_event_source_real_t;
   static control_event_source_real_t *
                            control_event_source;
-private:
   static ui_t              ui;
   static ui_data_t         ui_data;
   static Eeprom            eeprom;
@@ -55,6 +54,7 @@ public:
   }
   static void              process_control_events(); // called by ISR for timer2.
   static void              save_state();             // called by ISR for timer2.
+  static void timer1_set_bpm(uint8_t bpm);
 };
 
 #endif

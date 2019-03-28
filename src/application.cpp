@@ -14,6 +14,10 @@ Application::Application() {};
 
 Application::~Application() {};
 
+void Application::timer1_set_bpm(uint8_t bpm) {
+  control_event_source->encoder_source.set_value(bpm);
+}
+
 void Application::update_ui_data() {
   ui_data.page           = page();
   ui_data.bpm            = timer1.bpm();
