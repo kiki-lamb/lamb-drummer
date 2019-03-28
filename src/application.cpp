@@ -1,7 +1,7 @@
 #include "application.h"
 #include "ui_data.h"
 
-Application::control_event_source_real_t *
+Application::control_event_source_t *
                           Application::control_event_source;
 Application::tracks_t     Application::_tracks;
 Eeprom                    Application::eeprom;
@@ -37,7 +37,7 @@ void Application::setup() {
   Serial .print(F("Found BPM in EEPROM: "));
   Serial .println(tmp.bpm);
   control_event_source =
-    new Application::control_event_source_real_t(tmp.bpm);
+    new Application::control_event_source_t(tmp.bpm);
   cli();
   timer1 .setup();
   timer1 .set_bpm(tmp.bpm);
