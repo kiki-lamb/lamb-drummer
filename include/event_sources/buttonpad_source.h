@@ -13,7 +13,7 @@ public:
   inline ButtonpadSource() : event(EVT_NOT_AVAILABLE) {}
   inline virtual ~ButtonpadSource() {}
 private:
-  static  ControlType                  buttonpad_ordering[8];
+  static  event_t buttonpad_ordering[8];
   event_t event;
 
   inline virtual void    impl_poll() {
