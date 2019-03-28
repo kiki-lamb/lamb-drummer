@@ -35,7 +35,7 @@ private:
   }
 
   template <typename child_t>
-  void poll_and_queue_child(child_t & child) {
+  void poll_child_and_queue_events(child_t & child) {
     child.poll();
     auto e = child.dequeue_event();
     if ( e != EVT_NOT_AVAILABLE )
@@ -50,9 +50,9 @@ private:
       _bpm = tmp_bpm;
     }
 
-    poll_and_queue_child( encoder_button_source );
+    poll_child_and_queue_events( encoder_button_source );
 
-    poll_and_queue_child( buttonpad_source );
+    poll_child_and_queue_events( buttonpad_source );
   }
 
   virtual event_t impl_dequeue_event() {
