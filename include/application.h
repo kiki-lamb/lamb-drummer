@@ -8,10 +8,10 @@
 #include "event_sources/control_source.h"
 #include "timers/timer1.h"
 #include "timers/timer2.h"
+#include "ui/ui.h"
+#include "ui_data.h"
 #include "track_collection.h"
 #include "eeprom_.h"
-#include "ui_data.h"
-#include "ui.h"
 
 class Application {
 private:

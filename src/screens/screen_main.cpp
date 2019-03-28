@@ -1,5 +1,4 @@
 #include "screens/screen_main.h"
-#include "ui.h"
 
 SSMain::SSMain(data_t * data) :
   Screen<UiData<TrackCollection<3, Track> > >(data),
