@@ -44,9 +44,11 @@ private:
     }
 
     encoder_button_source.poll();
-    auto e = encoder_button_source.dequeue_event();
-    if ( e != EVT_NOT_AVAILABLE)
-      queue_event(e);
+    {
+      auto e = encoder_button_source.dequeue_event();
+      if ( e != EVT_NOT_AVAILABLE )
+        queue_event(e);
+    }
 
     buttonpad_source.poll();
     {
