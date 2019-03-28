@@ -1,5 +1,5 @@
 #include "application.h"
-#include "ui_data.h"
+#include "process_track_control_event.h"
 
 Application::control_event_source_t
                           Application::control_event_source;
@@ -77,10 +77,6 @@ void Application::flag_main_screen() {
   ui.flag_screen(ui_t::SCREEN_MAIN);
 }
 
-uint8_t Application::bpm() {
-  return timer1.bpm();
-}
-
 uint8_t Application::page() {
   uint8_t tmp_tick        = timer1.ticker() >> 1;
   uint8_t tmp_inside_tick = tmp_tick % _tracks.max_mod_maj();
@@ -98,7 +94,7 @@ void Application::save_state() {
    eeprom.save_all(
      Eeprom::PersistantData<tracks_t>(
        &_tracks,
-       bpm(),
+       timer1.bpm(),
        timer1.playback_state()
      )
    );

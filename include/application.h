@@ -2,16 +2,15 @@
 #define SHELF_CLOCK_APPLICATION_H
 
 #include "Arduino.h"
+#include "track_collection.h"
 #include "buttonpads/buttonpad_resistor_ladder.h"
 #include "buttonpads/buttonpad_pcf8574.h"
-#include "process_track_control_event.h"
+#include "ui_data.h"
+#include "ui/ui.h"
 #include "event_sources/control_source.h"
+#include "eeprom/eeprom_.h"
 #include "timers/timer1.h"
 #include "timers/timer2.h"
-#include "eeprom/eeprom_.h"
-#include "ui/ui.h"
-#include "ui_data.h"
-#include "track_collection.h"
 
 class Application {
 private:
@@ -37,7 +36,6 @@ private:
   static  bool                          process_control_event(control_event_source_t::event_t e);
   static  void                          update_ui_data();
   static  uint8_t                       page();
-  static  uint8_t                       bpm();
 public:
   static  void                          setup();
   static  void                          loop();
