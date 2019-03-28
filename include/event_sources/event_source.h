@@ -4,13 +4,13 @@
 #include <Arduino.h>
 
 template<class event_t_>
-class PolledEventSource {
+class EventSource {
 public:
   typedef event_t_ event_t;
 
-  PolledEventSource() {}
+  EventSource() {}
 
-  virtual ~PolledEventSource() {}
+  virtual ~EventSource() {}
 
   bool poll() {
     impl_poll();

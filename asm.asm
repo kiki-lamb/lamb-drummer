@@ -747,7 +747,7 @@ Disassembly of section .text:
      598:	07 97       	sbiw	r24, 0x07	; 7
      59a:	0c 94 ca 02 	jmp	0x594	; 0x594 <_ZN15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEED0Ev.lto_priv.145>
 
-0000059e <_ZN17PolledEventSourceI5EventE13dequeue_eventEv>:
+0000059e <_ZN17EventSourceI5EventE13dequeue_eventEv>:
      59e:	dc 01       	movw	r26, r24
      5a0:	ed 91       	ld	r30, X+
      5a2:	fc 91       	ld	r31, X
@@ -769,7 +769,7 @@ Disassembly of section .text:
      5be:	c8 01       	movw	r24, r16
      5c0:	0e 94 54 02 	call	0x4a8	; 0x4a8 <_ZThn2_N13EncoderSource9impl_pollEv>
      5c4:	c8 01       	movw	r24, r16
-     5c6:	0e 94 cf 02 	call	0x59e	; 0x59e <_ZN17PolledEventSourceI5EventE13dequeue_eventEv>
+     5c6:	0e 94 cf 02 	call	0x59e	; 0x59e <_ZN17EventSourceI5EventE13dequeue_eventEv>
      5ca:	a8 2f       	mov	r26, r24
      5cc:	cb 01       	movw	r24, r22
      5ce:	8c 30       	cpi	r24, 0x0C	; 12
@@ -804,7 +804,7 @@ Disassembly of section .text:
      608:	c8 01       	movw	r24, r16
      60a:	0e 94 11 02 	call	0x422	; 0x422 <_ZThn4_N19EncoderButtonSource9impl_pollEv>
      60e:	c8 01       	movw	r24, r16
-     610:	0e 94 cf 02 	call	0x59e	; 0x59e <_ZN17PolledEventSourceI5EventE13dequeue_eventEv>
+     610:	0e 94 cf 02 	call	0x59e	; 0x59e <_ZN17EventSourceI5EventE13dequeue_eventEv>
      614:	a8 2f       	mov	r26, r24
      616:	cb 01       	movw	r24, r22
      618:	8c 30       	cpi	r24, 0x0C	; 12
@@ -838,7 +838,7 @@ Disassembly of section .text:
      650:	c8 01       	movw	r24, r16
      652:	0e 94 87 04 	call	0x90e	; 0x90e <_ZThn7_N15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEE9impl_pollEv>
      656:	c8 01       	movw	r24, r16
-     658:	0e 94 cf 02 	call	0x59e	; 0x59e <_ZN17PolledEventSourceI5EventE13dequeue_eventEv>
+     658:	0e 94 cf 02 	call	0x59e	; 0x59e <_ZN17EventSourceI5EventE13dequeue_eventEv>
      65c:	a8 2f       	mov	r26, r24
      65e:	cb 01       	movw	r24, r22
      660:	8c 30       	cpi	r24, 0x0C	; 12
@@ -2901,7 +2901,7 @@ Disassembly of section .text:
     1780:	19 e0       	ldi	r17, 0x09	; 9
     1782:	82 e9       	ldi	r24, 0x92	; 146
     1784:	94 e0       	ldi	r25, 0x04	; 4
-    1786:	0e 94 cf 02 	call	0x59e	; 0x59e <_ZN17PolledEventSourceI5EventE13dequeue_eventEv>
+    1786:	0e 94 cf 02 	call	0x59e	; 0x59e <_ZN17EventSourceI5EventE13dequeue_eventEv>
     178a:	d8 2f       	mov	r29, r24
     178c:	9b 01       	movw	r18, r22
     178e:	6c 30       	cpi	r22, 0x0C	; 12

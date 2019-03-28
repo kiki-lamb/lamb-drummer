@@ -3,10 +3,10 @@
 
 #include <Arduino.h>
 #include "controls/encoder.h"
-#include "polled_event_source.h"
+#include "event_source.h"
 #include "event/event.h"
 
-class EncoderSource : public Encoder, public PolledEventSource<Event>{
+class EncoderSource : public Encoder, public EventSource<Event>{
 public:
   EncoderSource(uint8_t bpm = 0) : _bpm(bpm) {
     event.type = EVT_NOT_AVAILABLE;

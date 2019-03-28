@@ -3,10 +3,10 @@
 
 #include <Arduino.h>
 #include "controls/encoder_button.h"
-#include "polled_event_source.h"
+#include "event_source.h"
 #include "event/event.h"
 
-class EncoderButtonSource : public EncoderButton, public PolledEventSource<Event>{
+class EncoderButtonSource : public EncoderButton, public EventSource<Event>{
 public:
   EncoderButtonSource(uint8_t pin_, bool adc_state = true) : EncoderButton(pin_, adc_state), event_type(EVT_NOT_AVAILABLE) {}
   virtual ~EncoderButtonSource() {}

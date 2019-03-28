@@ -285,7 +285,7 @@
 00002196 g     F .text     000000   02 .hidden _ZThn7_N15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEED1Ev.lto_priv.156
 00002198 g     F .text     000000   04 .hidden _ZN15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEED0Ev.lto_priv.152
 0000219c g     F .text     000000   06 .hidden _ZThn7_N15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEED0Ev
-000021a2 g     F .text     000000   10 .hidden _ZN17PolledEventSourceI5EventE13dequeue_eventEv
+000021a2 g     F .text     000000   10 .hidden _ZN17EventSourceI5EventE13dequeue_eventEv
 000021b2 g     F .text     000000   16 .hidden _ZNK15TrackCollectionILj3E5TrackE11max_mod_majEv
 000021c8 g     F .text     000000   02 .hidden _ZN13ControlSourceI17Buttonpad_PCF8754ILh63EEED1Ev.lto_priv.150
 000021c8 g     F .text     000000   02 .hidden _ZN13ControlSourceI17Buttonpad_PCF8754ILh63EEED2Ev.lto_priv.180
@@ -394,7 +394,7 @@
 008001fe g     O .data     000000   0e .hidden _ZTV17Buttonpad_PCF8754ILh63EE
 0080020c g     O .data     000000   22 .hidden _ZTV15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEE
 0080022e g     O .data     000000   10 .hidden _ZTV13ControlSourceI17Buttonpad_PCF8754ILh63EEE
-0080023e g     O .data     000000   0e .hidden _ZTV17PolledEventSourceI5EventE
+0080023e g     O .data     000000   0e .hidden _ZTV17EventSourceI5EventE
 0080023e g     O .data     000000   0e .hidden _ZTV9Buttonpad
 0080023e g     O .data     000000   0e .hidden _ZTVN4lamb8Encoders10Interfaces10IInterfaceE
 0080024c l     O .data     000000   12 _ZTV14HardwareSerial

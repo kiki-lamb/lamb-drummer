@@ -2,12 +2,12 @@
 #define SHELF_CLOCK_I_BUTTONPAD_SOURCE_H
 
 #include <Arduino.h>
-#include "polled_event_source.h"
+#include "event_source.h"
 #include "buttonpads/buttonpad.h"
 #include "event/event.h"
 
 template <class buttonpad_t_>
-class ButtonpadSource : public buttonpad_t_, public PolledEventSource<Event>{
+class ButtonpadSource : public buttonpad_t_, public EventSource<Event>{
 public:
   typedef buttonpad_t_ buttonpad_t;
   ButtonpadSource() : event_type(EVT_NOT_AVAILABLE) {}

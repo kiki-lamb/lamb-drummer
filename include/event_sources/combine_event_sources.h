@@ -2,14 +2,14 @@
 #define LAMB_DRUMMER_EVENT_SOURCE_COMBINE_H
 
 #include <lamb.h>
-#include "polled_event_source.h"
+#include "event_source.h"
 
 template <class event_t, size_t count_>
-class CombineEventSources : public PolledEventSource<event_t> {
+class CombineEventSources : public EventSource<event_t> {
 public:
   CombineEventSources() {}
   virtual ~CombineEventSources() {}
-  PolledEventSource<event_t> * sources[count_];
+  EventSource<event_t> * sources[count_];
 
 private:
   lamb::RingBuffer<event_t, 8>   event_queue;
@@ -20,7 +20,7 @@ private:
 
   virtual void impl_poll() {
     for (size_t ix = 0; ix < count_; ix++) {
-      PolledEventSource<event_t> & source = *(sources[ix]);
+      EventSource<event_t> & source = *(sources[ix]);
       if (source.poll()) {
         while (source.ready()) {
           auto e = source.dequeue_event();
