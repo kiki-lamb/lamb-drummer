@@ -105,8 +105,8 @@ void Application::save_state() {
 }
 
 void Application::process_control_events() {
-  control_event_source.poll();
-  while(process_control_event(control_event_source.dequeue_event()));
+  control_event_source->poll();
+  while(process_control_event(control_event_source->dequeue_event()));
 }
 
 bool Application::process_control_event(Application::control_event_source_t::event_t e) {
