@@ -22,11 +22,8 @@ private:
     for (size_t ix = 0; ix < count_; ix++) {
       EventSource<event_t> & source = *(sources[ix]);
       if (source.poll()) {
-        while (source.ready()) {
-          auto e = source.dequeue_event();
-          if ( e.valid() )
-          event_queue.write(e);
-        }
+        for (auto e = source.dequeue_event(); e.valid(); e = source.dequeue_event())
+            event_queue.write(e);
       }
     }
   }
