@@ -38,7 +38,7 @@ private:
   void poll_child_and_queue_events(child_t & child) {
     child.poll();
     auto e = child.dequeue_event();
-    if ( e != EVT_NOT_AVAILABLE )
+    if ( e.type != EVT_NOT_AVAILABLE )
       queue_event(e);
   }
 
@@ -64,7 +64,11 @@ private:
     return event_queue.read();
   }
 
-  void queue_event(EventType t, uint8_t param = 0) {
+  void queue_event(event_t e) {
+    event_queue.write(e);
+  }
+
+  void queue_event(event_t::event_type_t t, uint8_t param = 0) {
     if (! event_queue.writeable()) {
       Serial.println(F("Can't queue."));
       return;
@@ -75,8 +79,7 @@ private:
     Serial.print(F("Queue "));
     Serial.print(e.type);
     Serial.println();
-
-    event_queue.write(e);
+    queue_event(e);
   };
 };
 
