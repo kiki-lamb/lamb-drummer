@@ -18,20 +18,17 @@ private:
   static const size_t                   tracks_count = 3;
 public:
   typedef TrackCollection<tracks_count> tracks_t; // Public because tracks() returns it.
-
 private:
   Application();
   ~Application();
-
   typedef Buttonpad_PCF8754<0x3F>       buttonpad_t;
   typedef UiData<tracks_t>              ui_data_t;
   typedef Ui<ui_data_t>                 ui_t;
   typedef ControlSource<buttonpad_t>    control_event_source_t;
-
+  static tracks_t                       _tracks;
   static control_event_source_t         control_event_source;
   static ui_data_t                      ui_data;
   static ui_t                           ui;
-  static tracks_t                       _tracks;
   static Eeprom                         eeprom;
   static Timer1_                        timer1;
   static Timer2_                        timer2;
