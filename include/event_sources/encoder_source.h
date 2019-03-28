@@ -8,14 +8,14 @@
 
 class EncoderSource : public Encoder, public PolledEventSource<Event>{
 public:
-  inline EncoderSource(uint8_t bpm) : _bpm(bpm) {
+  EncoderSource(uint8_t bpm) : _bpm(bpm) {
     event.type = EVT_NOT_AVAILABLE;
     event.parameter = 0;
   }
 
-  inline virtual ~EncoderSource() {}
+  virtual ~EncoderSource() {}
 
-  inline virtual void setup() {
+  virtual void setup() {
     Encoder::setup();
     set_value(_bpm);
   }
@@ -24,7 +24,7 @@ private:
   event_t event;
   uint8_t _bpm;
 
-  inline virtual void impl_poll() {
+  virtual void impl_poll() {
     uint8_t tmp_bpm = value();
 
     if (tmp_bpm != _bpm) {
@@ -34,11 +34,11 @@ private:
     }
   }
 
-  inline virtual uint8_t impl_queue_count() const {
+  virtual uint8_t impl_queue_count() const {
     return event.type == EVT_NOT_AVAILABLE ? 0 : 1;
   }
 
-  inline virtual event_t impl_dequeue_event() {
+  virtual event_t impl_dequeue_event() {
     event_t e = event;
     event.type = EVT_NOT_AVAILABLE;
     event.parameter = 0;

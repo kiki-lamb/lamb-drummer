@@ -10,22 +10,22 @@ template <class buttonpad_t_>
 class ButtonpadSource : public buttonpad_t_, public PolledEventSource<Event>{
 public:
   typedef buttonpad_t_ buttonpad_t;
-  inline ButtonpadSource() : event_type(EVT_NOT_AVAILABLE) {}
-  inline virtual ~ButtonpadSource() {}
+  ButtonpadSource() : event_type(EVT_NOT_AVAILABLE) {}
+  virtual ~ButtonpadSource() {}
 private:
   static  event_t::event_type_t buttonpad_ordering[8];
   event_t::event_type_t event_type;
 
-  inline virtual void    impl_poll() {
+  virtual void    impl_poll() {
     if (buttonpad_t::read())
       event_type = buttonpad_ordering[buttonpad_t_::button()];
   }
 
-  inline virtual uint8_t impl_queue_count() const {
+  virtual uint8_t impl_queue_count() const {
     return event_type == EVT_NOT_AVAILABLE ? 0 : 1;
   }
 
-  inline virtual event_t impl_dequeue_event() {
+  virtual event_t impl_dequeue_event() {
     event_t::event_type_t et = event_type;
     event_type = EVT_NOT_AVAILABLE;
     return Event { et };
