@@ -7,22 +7,22 @@
 // event_t must have default constructor, operator bool() returning false
 // when no more event are availale. default must be false.
 
-template <class event_t, size_t count_>
+template <class event_t, size_t sources_count_, size_t queue_size_>
 class CombineEventSources : public EventSource<event_t> {
 public:
   CombineEventSources() {}
   virtual ~CombineEventSources() {}
-  EventSource<event_t> * sources[count_];
+  EventSource<event_t> * sources[sources_count_];
 
 private:
-  lamb::RingBuffer<event_t, 8>   event_queue;
+  lamb::RingBuffer<event_t, queue_size_> event_queue;
 
   virtual uint8_t impl_queue_count() const {
     return event_queue.count();
   }
 
   virtual void impl_poll() {
-    for (size_t ix = 0; ix < count_; ix++) {
+    for (size_t ix = 0; ix < sources_count_; ix++) {
       EventSource<event_t> & source = *(sources[ix]);
       if (source.poll()) {
         for (auto e = source.dequeue_event(); e; e = source.dequeue_event())
