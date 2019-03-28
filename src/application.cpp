@@ -1,5 +1,8 @@
 #include "application.h"
 #include "process_track_control_event.h"
+#include "event_sources/encoder_button_source.h"
+#include "event_sources/encoder_source.h"
+#include "event_sources/buttonpad_source.h"
 
 Application::control_event_source_t
                           Application::control_event_source;

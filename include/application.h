@@ -3,17 +3,15 @@
 
 #include "Arduino.h"
 #include "track_collection.h"
-#include "buttonpads/buttonpad_resistor_ladder.h"
-#include "buttonpads/buttonpad_pcf8574.h"
 #include "ui_data.h"
 #include "ui/ui.h"
 #include "eeprom/eeprom_.h"
 #include "timers/timer1.h"
 #include "timers/timer2.h"
 #include "event_sources/combine_event_sources.h"
-#include "event_sources/encoder_button_source.h"
-#include "event_sources/encoder_source.h"
-#include "event_sources/buttonpad_source.h"
+#include "buttonpads/buttonpad_resistor_ladder.h"
+#include "buttonpads/buttonpad_pcf8574.h"
+#include "event/event.h"
 
 class Application {
 private:
@@ -26,7 +24,7 @@ private:
   typedef Buttonpad_PCF8754<0x3F>       buttonpad_t;
   typedef UiData<tracks_t>              ui_data_t;
   typedef Ui<ui_data_t>                 ui_t;
-  typedef CombineEventSources<Event,3> control_event_source_t;
+  typedef CombineEventSources<Event,3>  control_event_source_t;
 private:
   static  tracks_t                      _tracks;
   static  ui_data_t                     ui_data;
