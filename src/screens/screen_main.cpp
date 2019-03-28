@@ -47,7 +47,7 @@ void SSMain::draw_page_number() {
 
 void SSMain::draw_line0(bool redraw_bpm) {
   char buf [21];
-  char buf2[21];
+  char buf2[6];
 
   if (redraw_bpm) {
     lcd().setCursor(0, 0);
@@ -63,31 +63,33 @@ void SSMain::draw_line0(bool redraw_bpm) {
     lcd().print(buf);
   }
   else if (data->redraw_selected_track_indicator.consume()) {
+    Track const & track  = (*data->tracks)[(*data->tracks).index()];
+
     draw_channel_numbers();
 
     lcd().setCursor(0, 0);
     lcd().print("                  ");
 
     lcd().setCursor(0, 0);
-    snprintf(buf, 21, "Maj%2d", (*data->tracks)[(*data->tracks).index()].mod_maj());
+    snprintf(buf, 21, "Maj%2d", track.mod_maj());
     lcd().print(buf);
 
     lcd().setCursor(5, 0);
     lcd().write(byte(223));
 
     lcd().setCursor(6, 0);
-    snprintf(buf, 21, "%-2d", (*data->tracks)[(*data->tracks).index()].phase_maj());
+    snprintf(buf, 21, "%-2d", track.phase_maj());
     lcd().print(buf);
 
     lcd().setCursor(9, 0);
-    snprintf(buf, 21, "Min%2d", (*data->tracks)[(*data->tracks).index()].mod_min());
+    snprintf(buf, 21, "Min%2d", track.mod_min());
     lcd().print(buf);
 
     lcd().setCursor(14, 0);
     lcd().write(byte(223));
 
     lcd().setCursor(15, 0);
-    snprintf(buf, 21, "%-2d", (*data->tracks)[(*data->tracks).index()].phase_min());
+    snprintf(buf, 21, "%-2d", track.phase_min());
     lcd().print(buf);
   }
 
