@@ -15,7 +15,7 @@ class Encoder {
     static enc_t                                                                _encoder;
   public:
     Encoder();
-    virtual ~Encoder();
+    virtual  ~Encoder();
     void     setup();
     void     set_value(uint8_t value);
     uint8_t  value();
