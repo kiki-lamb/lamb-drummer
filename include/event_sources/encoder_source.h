@@ -8,7 +8,7 @@
 
 class EncoderSource : public Encoder, public PolledEventSource<Event>{
 public:
-  EncoderSource(uint8_t bpm) : _bpm(bpm) {
+  EncoderSource(uint8_t bpm = 0) : _bpm(bpm) {
     event.type = EVT_NOT_AVAILABLE;
     event.parameter = 0;
   }

@@ -9,6 +9,9 @@ Timer1_                   Application::timer1;
 Timer2_                   Application::timer2;
 Application::ui_t         Application::ui(&ui_data);
 Application::ui_data_t    Application::ui_data;
+EncoderButtonSource       Application::encoder_button_source(A7);
+EncoderSource             Application::encoder_source;
+ButtonpadSource<Application::buttonpad_t> Application::buttonpad_source;
 
 Application::Application() {};
 
@@ -34,10 +37,15 @@ void Application::setup() {
     timer1.playback_state()
   );
   eeprom .restore_all(tmp);
-  //Serial .print(F("Found BPM in EEPROM: "));
-  //Serial .println(tmp.bpm);
-  control_event_source = control_event_source_t(tmp.bpm);
-  control_event_source.setup();
+  encoder_source = EncoderSource(tmp.bpm);
+  encoder_button_source.setup();
+  encoder_source.setup();
+  buttonpad_source.setup();
+//  control_event_source = control_event_source_t();
+  control_event_source.event_sources[0] = & encoder_button_source;
+  control_event_source.event_sources[1] = & encoder_source;
+  control_event_source.event_sources[2] = & buttonpad_source;
+  //control_event_source.setup();
   cli();
   timer1 .setup();
   timer1 .set_bpm(tmp.bpm);

@@ -24,8 +24,12 @@ struct Event {
   EventType type;
   uint8_t parameter;
 
-  inline bool valid() {
+  inline bool valid() const {
     return type != EVT_NOT_AVAILABLE;
+  }
+
+  inline void invalidate() {
+    type = EVT_NOT_AVAILABLE;
   }
 };
 

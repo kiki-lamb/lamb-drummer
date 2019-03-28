@@ -7,10 +7,13 @@
 #include "buttonpads/buttonpad_pcf8574.h"
 #include "ui_data.h"
 #include "ui/ui.h"
-#include "event_sources/control_source.h"
 #include "eeprom/eeprom_.h"
 #include "timers/timer1.h"
 #include "timers/timer2.h"
+#include "event_sources/combine.h"
+#include "event_sources/encoder_button_source.h"
+#include "event_sources/encoder_source.h"
+#include "event_sources/buttonpad_source.h"
 
 class Application {
 private:
@@ -23,12 +26,17 @@ private:
   typedef Buttonpad_PCF8754<0x3F>       buttonpad_t;
   typedef UiData<tracks_t>              ui_data_t;
   typedef Ui<ui_data_t>                 ui_t;
-  typedef ControlSource<buttonpad_t>    control_event_source_t;
+  //typedef ControlSource<buttonpad_t>    control_event_source_t;
+  typedef Combine<Event,3> control_event_source_t;
 private:
   static  tracks_t                      _tracks;
   static  ui_data_t                     ui_data;
   static  ui_t                          ui;
+  static ButtonpadSource<buttonpad_t>   buttonpad_source;
+  static EncoderButtonSource encoder_button_source;
+  static EncoderSource encoder_source;
   static  control_event_source_t        control_event_source;
+
   static  Eeprom                        eeprom;
   static  Timer1_                       timer1;
   static  Timer2_                       timer2;
