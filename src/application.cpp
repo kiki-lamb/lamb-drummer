@@ -1,6 +1,6 @@
 #include "application.h"
 #include "process_track_control_event.h"
-#include "event_sources/encoder_button_source.h"
+#include "event_sources/button_souce.h"
 #include "event_sources/encoder_source.h"
 #include "event_sources/buttonpad_source.h"
 #include "event/event.h"
@@ -55,7 +55,7 @@ void Application::setup_controls(uint8_t bpm) {
   static ButtonpadSource<Buttonpad_PCF8754<0x3F> >
                              buttonpad_source;
   static EncoderSource       encoder_source(EventType::EVT_BPM_SET, bpm);
-  static EncoderButtonSource encoder_button_source(EventType::EVT_PLAYBACK_STATE_TOGGLE, A7);
+  static ButtonSouce encoder_button_source(EventType::EVT_PLAYBACK_STATE_TOGGLE, A7);
   static CombineEventSources<Event,3>
                              combine_event_sources;
   buttonpad_source     .setup();
@@ -116,7 +116,7 @@ void Application::process_control_events() {
 }
 
 bool Application::process_control_event(Application::control_event_source_t::event_t e) {
-  if (e.type == EventType::EVT_NOT_AVAILABLE)
+  if (! e)
     return false;
   if (e.type < 8) {
     ProcessTrackControl<Event::event_type_t, 8>::apply(

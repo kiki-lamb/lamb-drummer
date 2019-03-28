@@ -111,7 +111,7 @@ Disassembly of section .text:
       fe:	5c 93       	st	X, r21
      100:	6b 6c       	ori	r22, 0xCB	; 203
      102:	f9 67       	ori	r31, 0x79	; 121
-     104:	6d c1       	rjmp	.+730    	; 0x3e0 <_ZN19EncoderButtonSource9impl_pollEv.lto_priv.153+0x12>
+     104:	6d c1       	rjmp	.+730    	; 0x3e0 <_ZN19ButtonSouce9impl_pollEv.lto_priv.153+0x12>
      106:	1b fc       	.word	0xfc1b	; ????
      108:	e0 e4       	ldi	r30, 0x40	; 64
      10a:	0d 47       	sbci	r16, 0x7D	; 125
@@ -435,7 +435,7 @@ Disassembly of section .text:
      374:	84 83       	std	Z+4, r24	; 0x04
      376:	08 95       	ret
 
-00000378 <_ZThn4_N19EncoderButtonSource18impl_dequeue_eventEv>:
+00000378 <_ZThn4_N19ButtonSouce18impl_dequeue_eventEv>:
      378:	fc 01       	movw	r30, r24
      37a:	34 97       	sbiw	r30, 0x04	; 4
      37c:	26 81       	ldd	r18, Z+6	; 0x06
@@ -450,7 +450,7 @@ Disassembly of section .text:
      38e:	b9 01       	movw	r22, r18
      390:	08 95       	ret
 
-00000392 <_ZN19EncoderButtonSource18impl_dequeue_eventEv.lto_priv.155>:
+00000392 <_ZN19ButtonSouce18impl_dequeue_eventEv.lto_priv.155>:
      392:	fc 01       	movw	r30, r24
      394:	26 81       	ldd	r18, Z+6	; 0x06
      396:	37 81       	ldd	r19, Z+7	; 0x07
@@ -464,33 +464,33 @@ Disassembly of section .text:
      3a6:	b9 01       	movw	r22, r18
      3a8:	08 95       	ret
 
-000003aa <_ZThn4_NK19EncoderButtonSource16impl_queue_countEv>:
+000003aa <_ZThn4_NK19ButtonSouce16impl_queue_countEv>:
      3aa:	21 e0       	ldi	r18, 0x01	; 1
      3ac:	fc 01       	movw	r30, r24
      3ae:	82 81       	ldd	r24, Z+2	; 0x02
      3b0:	93 81       	ldd	r25, Z+3	; 0x03
      3b2:	0c 97       	sbiw	r24, 0x0c	; 12
-     3b4:	09 f4       	brne	.+2      	; 0x3b8 <_ZThn4_NK19EncoderButtonSource16impl_queue_countEv+0xe>
+     3b4:	09 f4       	brne	.+2      	; 0x3b8 <_ZThn4_NK19ButtonSouce16impl_queue_countEv+0xe>
      3b6:	20 e0       	ldi	r18, 0x00	; 0
      3b8:	82 2f       	mov	r24, r18
      3ba:	08 95       	ret
 
-000003bc <_ZNK19EncoderButtonSource16impl_queue_countEv.lto_priv.154>:
+000003bc <_ZNK19ButtonSouce16impl_queue_countEv.lto_priv.154>:
      3bc:	21 e0       	ldi	r18, 0x01	; 1
      3be:	fc 01       	movw	r30, r24
      3c0:	86 81       	ldd	r24, Z+6	; 0x06
      3c2:	97 81       	ldd	r25, Z+7	; 0x07
      3c4:	0c 97       	sbiw	r24, 0x0c	; 12
-     3c6:	09 f4       	brne	.+2      	; 0x3ca <_ZNK19EncoderButtonSource16impl_queue_countEv.lto_priv.154+0xe>
+     3c6:	09 f4       	brne	.+2      	; 0x3ca <_ZNK19ButtonSouce16impl_queue_countEv.lto_priv.154+0xe>
      3c8:	20 e0       	ldi	r18, 0x00	; 0
      3ca:	82 2f       	mov	r24, r18
      3cc:	08 95       	ret
 
-000003ce <_ZN19EncoderButtonSource9impl_pollEv.lto_priv.153>:
+000003ce <_ZN19ButtonSouce9impl_pollEv.lto_priv.153>:
      3ce:	fc 01       	movw	r30, r24
      3d0:	92 81       	ldd	r25, Z+2	; 0x02
      3d2:	9e 30       	cpi	r25, 0x0E	; 14
-     3d4:	08 f0       	brcs	.+2      	; 0x3d8 <_ZN19EncoderButtonSource9impl_pollEv.lto_priv.153+0xa>
+     3d4:	08 f0       	brcs	.+2      	; 0x3d8 <_ZN19ButtonSouce9impl_pollEv.lto_priv.153+0xa>
      3d6:	9e 50       	subi	r25, 0x0E	; 14
      3d8:	97 70       	andi	r25, 0x07	; 7
      3da:	90 64       	ori	r25, 0x40	; 64
@@ -500,7 +500,7 @@ Disassembly of section .text:
      3e6:	80 93 7a 00 	sts	0x007A, r24	; 0x80007a <__TEXT_REGION_LENGTH__+0x7e007a>
      3ea:	80 91 7a 00 	lds	r24, 0x007A	; 0x80007a <__TEXT_REGION_LENGTH__+0x7e007a>
      3ee:	86 fd       	sbrc	r24, 6
-     3f0:	fc cf       	rjmp	.-8      	; 0x3ea <_ZN19EncoderButtonSource9impl_pollEv.lto_priv.153+0x1c>
+     3f0:	fc cf       	rjmp	.-8      	; 0x3ea <_ZN19ButtonSouce9impl_pollEv.lto_priv.153+0x1c>
      3f2:	20 91 78 00 	lds	r18, 0x0078	; 0x800078 <__TEXT_REGION_LENGTH__+0x7e0078>
      3f6:	80 91 79 00 	lds	r24, 0x0079	; 0x800079 <__TEXT_REGION_LENGTH__+0x7e0079>
      3fa:	30 e0       	ldi	r19, 0x00	; 0
@@ -524,11 +524,11 @@ Disassembly of section .text:
      41e:	83 83       	std	Z+3, r24	; 0x03
      420:	08 95       	ret
 
-00000422 <_ZThn4_N19EncoderButtonSource9impl_pollEv>:
+00000422 <_ZThn4_N19ButtonSouce9impl_pollEv>:
      422:	04 97       	sbiw	r24, 0x04	; 4
-     424:	0c 94 e7 01 	jmp	0x3ce	; 0x3ce <_ZN19EncoderButtonSource9impl_pollEv.lto_priv.153>
+     424:	0c 94 e7 01 	jmp	0x3ce	; 0x3ce <_ZN19ButtonSouce9impl_pollEv.lto_priv.153>
 
-00000428 <_ZThn4_N19EncoderButtonSourceD1Ev>:
+00000428 <_ZThn4_N19ButtonSouceD1Ev>:
      428:	08 95       	ret
 
 0000042a <_ZN13EncoderSource18impl_dequeue_eventEv.lto_priv.161>:
@@ -617,12 +617,12 @@ Disassembly of section .text:
 000004b8 <_ZN17Buttonpad_PCF8754ILh63EED0Ev>:
      4b8:	0c 94 4f 1a 	jmp	0x349e	; 0x349e <free>
 
-000004bc <_ZN19EncoderButtonSourceD0Ev.lto_priv.152>:
+000004bc <_ZN19ButtonSouceD0Ev.lto_priv.152>:
      4bc:	0c 94 4f 1a 	jmp	0x349e	; 0x349e <free>
 
-000004c0 <_ZThn4_N19EncoderButtonSourceD0Ev.lto_priv.156>:
+000004c0 <_ZThn4_N19ButtonSouceD0Ev.lto_priv.156>:
      4c0:	04 97       	sbiw	r24, 0x04	; 4
-     4c2:	0c 94 5e 02 	jmp	0x4bc	; 0x4bc <_ZN19EncoderButtonSourceD0Ev.lto_priv.152>
+     4c2:	0c 94 5e 02 	jmp	0x4bc	; 0x4bc <_ZN19ButtonSouceD0Ev.lto_priv.152>
 
 000004c6 <_ZN13EncoderSourceD0Ev.lto_priv.158>:
      4c6:	0c 94 4f 1a 	jmp	0x349e	; 0x349e <free>
@@ -802,7 +802,7 @@ Disassembly of section .text:
      604:	0f 5e       	subi	r16, 0xEF	; 239
      606:	1f 4f       	sbci	r17, 0xFF	; 255
      608:	c8 01       	movw	r24, r16
-     60a:	0e 94 11 02 	call	0x422	; 0x422 <_ZThn4_N19EncoderButtonSource9impl_pollEv>
+     60a:	0e 94 11 02 	call	0x422	; 0x422 <_ZThn4_N19ButtonSouce9impl_pollEv>
      60e:	c8 01       	movw	r24, r16
      610:	0e 94 cf 02 	call	0x59e	; 0x59e <_ZN17EventSourceI5EventE13dequeue_eventEv>
      614:	a8 2f       	mov	r26, r24
@@ -891,7 +891,7 @@ Disassembly of section .text:
 000006b4 <_ZN13ControlSourceI17Buttonpad_PCF8754ILh63EEED0Ev>:
      6b4:	0c 94 4f 1a 	jmp	0x349e	; 0x349e <free>
 
-000006b8 <_ZN19EncoderButtonSourceD1Ev.lto_priv.151>:
+000006b8 <_ZN19ButtonSouceD1Ev.lto_priv.151>:
      6b8:	08 95       	ret
 
 000006ba <_ZN13EncoderSourceD1Ev.lto_priv.157>:

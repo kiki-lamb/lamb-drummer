@@ -6,9 +6,9 @@
 #include "event_source.h"
 #include "event/event.h"
 
-class EncoderButtonSource : public EncoderButton, public EventSource<Event>{
+class ButtonSouce : public EncoderButton, public EventSource<Event>{
 public:
-  EncoderButtonSource(
+  ButtonSouce(
     event_t::event_type_t on_push_,
     uint8_t pin_,
     bool adc_state = true
@@ -16,7 +16,7 @@ public:
   EncoderButton(pin_, adc_state),
   on_push(on_push_),
   event_type(EVT_NOT_AVAILABLE) {}
-  virtual ~EncoderButtonSource() {}
+  virtual ~ButtonSouce() {}
 private:
   event_t::event_type_t on_push;
   event_t::event_type_t event_type;

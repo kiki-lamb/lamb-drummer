@@ -142,16 +142,16 @@ SYMBOL TABLE:
 00000332 g     F .text	00000012 .hidden _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE16increase_mod_majER5Track
 00000344 g     F .text	00000020 .hidden _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE16decrease_mod_minER5Track
 00000364 g     F .text	00000014 .hidden _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE16increase_mod_minER5Track
-00000378 g     F .text	0000001a .hidden _ZThn4_N19EncoderButtonSource18impl_dequeue_eventEv
-00000392 g     F .text	00000018 .hidden _ZN19EncoderButtonSource18impl_dequeue_eventEv.lto_priv.155
-000003aa g     F .text	00000012 .hidden _ZThn4_NK19EncoderButtonSource16impl_queue_countEv
-000003bc g     F .text	00000012 .hidden _ZNK19EncoderButtonSource16impl_queue_countEv.lto_priv.154
-000003ce g     F .text	00000054 .hidden _ZN19EncoderButtonSource9impl_pollEv.lto_priv.153
+00000378 g     F .text	0000001a .hidden _ZThn4_N19ButtonSouce18impl_dequeue_eventEv
+00000392 g     F .text	00000018 .hidden _ZN19ButtonSouce18impl_dequeue_eventEv.lto_priv.155
+000003aa g     F .text	00000012 .hidden _ZThn4_NK19ButtonSouce16impl_queue_countEv
+000003bc g     F .text	00000012 .hidden _ZNK19ButtonSouce16impl_queue_countEv.lto_priv.154
+000003ce g     F .text	00000054 .hidden _ZN19ButtonSouce9impl_pollEv.lto_priv.153
 00000400 g       *ABS*	00000000 __LOCK_REGION_LENGTH__
 00000400 g       *ABS*	00000000 __SIGNATURE_REGION_LENGTH__
 00000400 g       *ABS*	00000000 __USER_SIGNATURE_REGION_LENGTH__
-00000422 g     F .text	00000006 .hidden _ZThn4_N19EncoderButtonSource9impl_pollEv
-00000428 g     F .text	00000002 .hidden _ZThn4_N19EncoderButtonSourceD1Ev
+00000422 g     F .text	00000006 .hidden _ZThn4_N19ButtonSouce9impl_pollEv
+00000428 g     F .text	00000002 .hidden _ZThn4_N19ButtonSouceD1Ev
 0000042a g     F .text	00000014 .hidden _ZN13EncoderSource18impl_dequeue_eventEv.lto_priv.161
 0000043e g     F .text	00000006 .hidden _ZThn2_N13EncoderSource18impl_dequeue_eventEv
 00000444 g     F .text	00000012 .hidden _ZThn2_NK13EncoderSource16impl_queue_countEv
@@ -162,8 +162,8 @@ SYMBOL TABLE:
 000004b0 g     F .text	00000004 .hidden _ZN2UiI6UiDataI15TrackCollectionILj3E5TrackEEED0Ev
 000004b4 g     F .text	00000004 .hidden _ZN6UiDataI15TrackCollectionILj3E5TrackEED0Ev
 000004b8 g     F .text	00000004 .hidden _ZN17Buttonpad_PCF8754ILh63EED0Ev
-000004bc g     F .text	00000004 .hidden _ZN19EncoderButtonSourceD0Ev.lto_priv.152
-000004c0 g     F .text	00000006 .hidden _ZThn4_N19EncoderButtonSourceD0Ev.lto_priv.156
+000004bc g     F .text	00000004 .hidden _ZN19ButtonSouceD0Ev.lto_priv.152
+000004c0 g     F .text	00000006 .hidden _ZThn4_N19ButtonSouceD0Ev.lto_priv.156
 000004c6 g     F .text	00000004 .hidden _ZN13EncoderSourceD0Ev.lto_priv.158
 000004ca g     F .text	00000006 .hidden _ZThn2_N13EncoderSourceD0Ev.lto_priv.162
 000004d0 g     F .text	00000026 .hidden _ZN13EncoderSource5setupEv
@@ -191,8 +191,8 @@ SYMBOL TABLE:
 000006b2 g     F .text	00000002 .hidden _ZN13ControlSourceI17Buttonpad_PCF8754ILh63EEED1Ev.lto_priv.143
 000006b2 g     F .text	00000002 .hidden _ZN13ControlSourceI17Buttonpad_PCF8754ILh63EEED2Ev.lto_priv.173
 000006b4 g     F .text	00000004 .hidden _ZN13ControlSourceI17Buttonpad_PCF8754ILh63EEED0Ev
-000006b8 g     F .text	00000002 .hidden _ZN19EncoderButtonSourceD1Ev.lto_priv.151
-000006b8 g     F .text	00000002 .hidden _ZN19EncoderButtonSourceD2Ev.lto_priv.176
+000006b8 g     F .text	00000002 .hidden _ZN19ButtonSouceD1Ev.lto_priv.151
+000006b8 g     F .text	00000002 .hidden _ZN19ButtonSouceD2Ev.lto_priv.176
 000006ba g     F .text	00000002 .hidden _ZN13EncoderSourceD1Ev.lto_priv.157
 000006ba g     F .text	00000002 .hidden _ZN13EncoderSourceD2Ev.lto_priv.177
 000006bc g     F .text	0000000e .hidden _ZN11Application16flag_main_screenEv
@@ -391,7 +391,7 @@ SYMBOL TABLE:
 0080016f g     O .data	0000000a .hidden _ZTV7Encoder
 00800179 g     O .data	0000001e .hidden _ZTV13EncoderSource
 00800197 g     O .data	00000008 .hidden _ZTV13EncoderButton
-0080019f g     O .data	0000001c .hidden _ZTV19EncoderButtonSource
+0080019f g     O .data	0000001c .hidden _ZTV19ButtonSouce
 008001bb g     O .data	0000000e .hidden _ZTV17Buttonpad_PCF8754ILh63EE
 008001c9 g     O .data	00000022 .hidden _ZTV15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEE
 008001eb g     O .data	00000010 .hidden _ZTV13ControlSourceI17Buttonpad_PCF8754ILh63EEE
