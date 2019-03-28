@@ -110,9 +110,9 @@ private:
   static button_handler button_handlers[handlers_count_];
 };
 
-  template <class event_type_t, size_t hc>
-  typename ProcessTrackControl<event_type_t, hc>::button_handler
-  ProcessTrackControl<event_type_t, hc>::button_handlers[hc] = {
+template <class event_type_t, size_t hc>
+typename ProcessTrackControl<event_type_t, hc>::button_handler
+ProcessTrackControl<event_type_t, hc>::button_handlers[hc] = {
   &ProcessTrackControl::increase_mod_min,
   &ProcessTrackControl::decrease_mod_min,
   &ProcessTrackControl::increase_mod_maj,
