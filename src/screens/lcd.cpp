@@ -1,5 +1,5 @@
 #include "Arduino.h"
-#include "lcd.h"
+#include "screens/lcd.h"
 
 Lcd::Lcd() {}
 Lcd::~Lcd() {}

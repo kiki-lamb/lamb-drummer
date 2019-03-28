@@ -2,7 +2,6 @@
 #define SHELF_CLOCK_UI_H
 
 #include <lamb.h>
-#include "lcd.h"
 #include "screens/screen.h"
 #include "screens/screen_main.h"
 #include "screens/screens.h"

@@ -1,13 +1,13 @@
 #include "Arduino.h"
-#include "timer2.h"
+#include "timers/timer2.h"
 #include "application.h"
 
 Timer2_::Timer2_() {};
 
 Timer2_::~Timer2_() {};
 
-void Timer2_::setup() {  
-  DDRB |= 0b00010000;    
+void Timer2_::setup() {
+  DDRB |= 0b00010000;
 
   TCCR2A  = 0; // set entire TCCR2A register to 0
   TCCR2B  = 0; // same for TCCR2B
@@ -18,13 +18,13 @@ void Timer2_::setup() {
   TIMSK2 |= (1 << OCIE2A); // enable timer compare interrupt
 }
 
-ISR(TIMER2_COMPA_vect) { 
+ISR(TIMER2_COMPA_vect) {
   static uint16_t ix = 0;
-  
+
   if (! (ix++ & 0b11111111)) {
     PORTB ^= _BV(5);   // flip LED_BUILTIN
     Application::save_state(); // In ISR, not that ugly...
   }
-  
+
   Application  ::process_control_events(); // In ISR, not that ugly...
 }
