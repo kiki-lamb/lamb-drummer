@@ -53,13 +53,13 @@ private:
     {
       auto e = buttonpad_source.dequeue_event();
       if ( e != EVT_NOT_AVAILABLE )
-        queue_event(e);
+        queue_event( e );
     }
   }
 
   virtual event_t impl_dequeue_event() {
     if (! event_queue.readable() ) {
-      Event e = { EVT_NOT_AVAILABLE};
+      control_event_source_t e = { EVT_NOT_AVAILABLE};
       return e;
     }
 
@@ -72,7 +72,7 @@ private:
       return;
     }
 
-    Event e = { t, param };
+    event_t e = { t, param };
 
     Serial.print(F("Queue "));
     Serial.print(e.type);
