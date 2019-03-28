@@ -23,6 +23,10 @@ struct Event {
   typedef EventType event_type_t;
   EventType type;
   uint8_t parameter;
+
+  inline bool valid() {
+    return type != EVT_NOT_AVAILABLE;
+  }
 };
 
 #endif

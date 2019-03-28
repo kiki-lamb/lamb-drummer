@@ -39,8 +39,7 @@ private:
     return event_queue.count();
   }
 
-  template <typename child_t>
-  void poll_child_and_queue_events(child_t & child) {
+  void poll_child_and_queue_events(PolledEventSource<Event> & child) {
     if (child.poll()) {
       auto e = child.dequeue_event();
       if ( e.type != EVT_NOT_AVAILABLE )
@@ -49,6 +48,7 @@ private:
   }
 
   virtual void impl_poll() {
+
     poll_child_and_queue_events( encoder_source );
     poll_child_and_queue_events( encoder_button_source );
     poll_child_and_queue_events( buttonpad_source );
