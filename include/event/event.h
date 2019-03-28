@@ -27,10 +27,6 @@ public:
 
   Event(EventType type_ = EVT_NOT_AVAILABLE) : type(type_) {}
 
-  inline bool valid() const {
-    return type != EVT_NOT_AVAILABLE;
-  }
-
   inline operator bool() const {
     return type != EVT_NOT_AVAILABLE;
   }
