@@ -65,13 +65,6 @@ private:
   void queue_event(event_t e) {
     event_queue.write(e);
   }
-
-  void queue_event(event_t::event_type_t t, uint8_t param = 0) {
-    if (! event_queue.writeable())
-      return;
-    event_t e = { t, param };
-    queue_event(e);
-  };
 };
 
 #endif
