@@ -42,10 +42,11 @@ private:
 
   template <typename child_t>
   void poll_child_and_queue_events(child_t & child) {
-    child.poll();
-    auto e = child.dequeue_event();
-    if ( e.type != EVT_NOT_AVAILABLE )
-      queue_event(e);
+    if (child.poll()) {
+      auto e = child.dequeue_event();
+      if ( e.type != EVT_NOT_AVAILABLE )
+        queue_event(e);
+    }
   }
 
   virtual void impl_poll() {
@@ -59,7 +60,6 @@ private:
       event_t e = { EVT_NOT_AVAILABLE};
       return e;
     }
-
     return event_queue.read();
   }
 
@@ -68,16 +68,9 @@ private:
   }
 
   void queue_event(event_t::event_type_t t, uint8_t param = 0) {
-    if (! event_queue.writeable()) {
-      //Serial.println(F("Can't queue."));
+    if (! event_queue.writeable())
       return;
-    }
-
     event_t e = { t, param };
-
-    //Serial.print(F("Queue "));
-    //Serial.print(e.type);
-    //Serial.println();
     queue_event(e);
   };
 };

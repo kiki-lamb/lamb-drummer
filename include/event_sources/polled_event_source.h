@@ -12,8 +12,13 @@ public:
 
   virtual ~PolledEventSource() {}
 
-  void poll() {
+  bool poll() {
     impl_poll();
+    return ready();
+  }
+
+  bool ready() const {
+    return !!queue_count();
   }
 
   uint8_t queue_count() const {
