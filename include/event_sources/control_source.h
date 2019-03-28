@@ -15,14 +15,16 @@ public:
   ControlSource(uint8_t bpm = 120) :
     encoder_button_source(A7),
     encoder_source(bpm)
-  {
+  {}
+
+  virtual ~ControlSource() {}
+
+  virtual void setup() {
     encoder_source.setup();
     encoder_button_source.setup();
     buttonpad_source.setup();
   }
-
-  virtual ~ControlSource() {}
-
+  
 private:
   typedef ButtonpadSource<buttonpad_t> buttonpad_source_t;
   typedef EncoderButtonSource          encoder_button_source_t;
