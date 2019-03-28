@@ -54,8 +54,8 @@ void Timer1_::set_playback_state(bool playback_state_) {
 }
 
 void Timer1_::set_bpm(uint8_t tmp_bpm) {
-  Serial.print(F("Set BPM: "));
-  Serial.println(tmp_bpm);
+  //Serial.print(F("Set BPM: "));
+  //Serial.println(tmp_bpm);
 
   Timer1_::_bpm          = tmp_bpm;
   Timer1_::_hz           = Timer1_::_bpm / 60.0;

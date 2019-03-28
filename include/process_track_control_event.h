@@ -16,8 +16,8 @@ public:
      }
     else {
       ;
-      Serial.print(F("Track got unrecognized event: "));
-      Serial.println(e.type);
+      //Serial.print(F("Track got unrecognized event: "));
+      //Serial.println(e.type);
     }
 
     return false;
@@ -29,13 +29,13 @@ private:
   virtual ~ProcessTrackControl() {}
 
   static void increase_mod_maj(Track & that) {
-    Serial.println(F("Do BTN_MAJ_UP"));
+    //Serial.println(F("Do BTN_MAJ_UP"));
     if (that.mod_maj() <= 32)
       that.set_mod_maj( that.mod_maj() << 1);
   }
 
   static void decrease_mod_maj(Track & that) {
-    Serial.println(F("Do BTN_MAJ_DOWN"));
+    //Serial.println(F("Do BTN_MAJ_DOWN"));
     if (that.mod_maj() >= 2)
       that.set_mod_maj( that.mod_maj() >> 1);
 
@@ -53,7 +53,7 @@ private:
   }
 
   static void increase_mod_min(Track & that) {
-    Serial.println(F("Do BTN_MIN_UP"));
+    //Serial.println(F("Do BTN_MIN_UP"));
     if (that.mod_min() <
         that.mod_maj()
        )
@@ -61,7 +61,7 @@ private:
   }
 
   static void decrease_mod_min(Track & that) {
-    Serial.println(F("Do BTN_MIN_DOWN"));
+    //Serial.println(F("Do BTN_MIN_DOWN"));
     if (that.mod_min() > 1)
       that.set_mod_min( that.mod_min()-1 );
 
@@ -71,7 +71,7 @@ private:
   }
 
   static void increase_phase_maj(Track & that) {
-    Serial.println(F("Do BTN_PHASE_MAJ_UP"));
+    //Serial.println(F("Do BTN_PHASE_MAJ_UP"));
     if (that.phase_maj() < that.mod_maj() - 1)
       that.set_phase_maj( that.phase_maj() + 1);
     else if (that.phase_maj() ==
@@ -81,7 +81,7 @@ private:
   }
 
   static void decrease_phase_maj(Track & that) {
-    Serial.println(F("Do BTN_PHASE_MAJ_DOWN"));
+    //Serial.println(F("Do BTN_PHASE_MAJ_DOWN"));
     if (that.phase_maj() > 0)
       that.set_phase_maj( that.phase_maj() - 1);
     else if (that.phase_maj() == 0)
@@ -89,7 +89,7 @@ private:
   }
 
   static void increase_phase_min(Track & that) {
-    Serial.println(F("Do BTN_phase_MIN_UP"));
+    //Serial.println(F("Do BTN_phase_MIN_UP"));
     if (that.phase_min() <
       (that.mod_min() - 1)
     )
@@ -99,7 +99,7 @@ private:
   }
 
   static void decrease_phase_min(Track & that) {
-    Serial.println(F("Do BTN_PHASE_MIN_DOWN"));
+    //Serial.println(F("Do BTN_PHASE_MIN_DOWN"));
     if (that.phase_min() > 0)
       that.set_phase_min( that.phase_min() - 1);
     else if (that.phase_min() == 0)

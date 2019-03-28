@@ -98,7 +98,7 @@ void SSMain::draw_line0(bool redraw_bpm) {
 
 void SSMain::impl_update() {
   bool redraw_bpm = false;
-  //Serial.println("Before pbr!");
+  ////Serial.println("Before pbr!");
   if (data->popup_bpm_requested.consume()) {
     popup_bpm_time = millis();
     popup_bpm_state = true;
@@ -119,7 +119,7 @@ void SSMain::impl_update() {
   uint8_t prior   = ((uint8_t)((data->ticker>>1)-1)) % (*data->tracks).max_mod_maj(); // Don't remove this cast or the subtraction result becomes a signed type
   uint8_t current = (data->ticker>>1) % (*data->tracks).max_mod_maj();
 
-  //Serial.println("Before rt!");
+  ////Serial.println("Before rt!");
   bool redraw_page = data->redraw_track.consume();
 
   if (! redraw_page) {

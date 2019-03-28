@@ -18,7 +18,7 @@ class Buttonpad_PCF8754 : public Buttonpad {
     virtual ~Buttonpad_PCF8754() {}
 
     virtual void impl_setup() {
-      Serial.println(F("Setup Buttonpad_PCF8754..."));
+      //Serial.println(F("Setup Buttonpad_PCF8754..."));
 
       Wire.begin();
       device.begin(i2c_addr_);
@@ -26,7 +26,7 @@ class Buttonpad_PCF8754 : public Buttonpad {
       for (uint8_t ix = 0; ix < 8; ix++)
       device.pinMode(ix, INPUT);
 
-      Serial.print(F("Done setup Buttonpad_PCF8754."));
+      //Serial.print(F("Done setup Buttonpad_PCF8754."));
     }
 
     virtual bool impl_read() {
@@ -46,9 +46,9 @@ class Buttonpad_PCF8754 : public Buttonpad {
         _button = pin;
 
         if (_button != 8) {
-          Serial.print(F("Pressed button "));
-          Serial.print(pin);
-          Serial.println();
+          //Serial.print(F("Pressed button "));
+          //Serial.print(pin);
+          //Serial.println();
           return true;
         }
       }

@@ -41,23 +41,23 @@ bool Buttonpad_ResistorLadder::impl_read() {
   button          = pressed;
 
   if (0 != button) {
-    Serial.print(F("Press button "));
-    Serial.print(button);
-    Serial.print(F(" at "));
-    Serial.print(adc);
+    //Serial.print(F("Press button "));
+    //Serial.print(button);
+    //Serial.print(F(" at "));
+    //Serial.print(adc);
 
     static uint16_t avg = 1024;
     avg *= 3;
     avg += adc;
     avg >>= 2;
-    Serial.print(F(" previous = "));
-    Serial.print(previous_value);
-    Serial.print(F(" delta = "));
-    Serial.print(delta);
-    Serial.print(F(" average = "));
-    Serial.print(avg);
+    //Serial.print(F(" previous = "));
+    //Serial.print(previous_value);
+    //Serial.print(F(" delta = "));
+    //Serial.print(delta);
+    //Serial.print(F(" average = "));
+    //Serial.print(avg);
 
-    Serial.println();
+    //Serial.println();
 
     return true;
   }

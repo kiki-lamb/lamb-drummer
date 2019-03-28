@@ -29,25 +29,25 @@ bool Track::trigger_state(uint8_t counter) const {
 }
 
 void Track::set_mod_maj(uint8_t val) {
-  Serial.println(F("set_mod_maj!"));
+  //Serial.println(F("set_mod_maj!"));
   _mod_maj = val;
   modified.flag();
 }
 
 void Track::set_mod_min(uint8_t val) {
-  Serial.println(F("set_mod_min!"));
+  //Serial.println(F("set_mod_min!"));
   _mod_min = val;
   modified.flag();
 }
 
 void Track::set_phase_min  (uint8_t val) {
-  Serial.println(F("set_phase_min!"));
+  //Serial.println(F("set_phase_min!"));
   _phase_min = val;
   modified.flag();
 }
 
 void Track::set_phase_maj  (uint8_t val) {
-  Serial.println(F("set_phase_maj!"));
+  //Serial.println(F("set_phase_maj!"));
   _phase_maj = val;
   modified.flag();
 }

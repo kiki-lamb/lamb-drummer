@@ -24,7 +24,7 @@ public:
     encoder_button_source.setup();
     buttonpad_source.setup();
   }
-  
+
 private:
   typedef ButtonpadSource<buttonpad_t> buttonpad_source_t;
   typedef EncoderButtonSource          encoder_button_source_t;
@@ -69,15 +69,15 @@ private:
 
   void queue_event(event_t::event_type_t t, uint8_t param = 0) {
     if (! event_queue.writeable()) {
-      Serial.println(F("Can't queue."));
+      //Serial.println(F("Can't queue."));
       return;
     }
 
     event_t e = { t, param };
 
-    Serial.print(F("Queue "));
-    Serial.print(e.type);
-    Serial.println();
+    //Serial.print(F("Queue "));
+    //Serial.print(e.type);
+    //Serial.println();
     queue_event(e);
   };
 };

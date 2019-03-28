@@ -56,11 +56,11 @@ class Eeprom {
       ix < data.tracks->size();
       ix++, addr+= 4
     ) {
-       Serial.print(F("Restore TS #"));
-       Serial.print(ix);
-       Serial.print(F(" from "));
-       Serial.print(addr);
-       Serial.println();
+       //Serial.print(F("Restore TS #"));
+       //Serial.print(ix);
+       //Serial.print(F(" from "));
+       //Serial.print(addr);
+       //Serial.println();
        restore_track(addr,  (*data.tracks)[ix]);
      }
 
@@ -80,14 +80,14 @@ class Eeprom {
       return;
 
     if (delta < SAVE_DELAY) {
-      Serial.print(F("Must wait "));
-      Serial.print(SAVE_DELAY-delta);
-      Serial.println(F("ms before saving."));
+      //Serial.print(F("Must wait "));
+      //Serial.print(SAVE_DELAY-delta);
+      //Serial.println(F("ms before saving."));
       save_requested.flag();
       return;
     }
 
-    Serial.println(F("Save all to EEPROM..."));
+    //Serial.println(F("Save all to EEPROM..."));
 
     save_bpm(data.bpm);
     save_playback_state(data.playback_state);
@@ -99,7 +99,7 @@ class Eeprom {
     )
       save_track(addr,  (*data.tracks)[ix]);
 
-    Serial.println(F("Done save all to EEPROM"));
+    //Serial.println(F("Done save all to EEPROM"));
   }
 };
 

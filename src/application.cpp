@@ -23,9 +23,9 @@ void Application::update_ui_data() {
 }
 
 void Application::setup() {
-  Serial .begin(115200);
-  Serial .println();
-  Serial .println(F("Begin setup"));
+  //Serial .begin(115200);
+  //Serial .println();
+  //Serial .println(F("Begin setup"));
   ui     .setup();
   ui     .enter_screen(ui_t::SCREEN_INTRO);
   Eeprom::PersistantData<tracks_t> tmp(
@@ -34,8 +34,8 @@ void Application::setup() {
     timer1.playback_state()
   );
   eeprom .restore_all(tmp);
-  Serial .print(F("Found BPM in EEPROM: "));
-  Serial .println(tmp.bpm);
+  //Serial .print(F("Found BPM in EEPROM: "));
+  //Serial .println(tmp.bpm);
   control_event_source = control_event_source_t(tmp.bpm);
   control_event_source.setup();
   cli();
@@ -49,8 +49,8 @@ void Application::setup() {
   ui     .flag_screen (ui_t::SCREEN_MAIN);
   ui     .enter_screen(ui_t::SCREEN_MAIN);
   sei();
-  Serial .println(F("Setup complete."));
-  Serial .println();
+  //Serial .println(F("Setup complete."));
+  //Serial .println();
 }
 
 void Application::loop() {
@@ -115,9 +115,9 @@ bool Application::process_control_event(Application::control_event_source_t::eve
       e
     );
 
-    Serial.print(F(" for track "));
-    Serial.print(_tracks.index());
-    Serial.println();
+    //Serial.print(F(" for track "));
+    //Serial.print(_tracks.index());
+    //Serial.println();
     ui_data.redraw_track.flag();
     ui_data.redraw_selected_track_indicator.flag();
   #define SET_FLAGS_AND_RETURN_TRUE flag_main_screen(); eeprom.flag_save_requested(); return true;
