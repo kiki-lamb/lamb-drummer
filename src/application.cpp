@@ -1,7 +1,7 @@
 #include "application.h"
 #include "ui_data.h"
 
-Application::control_event_source_real_t *
+Application::control_event_source_t
                           Application::control_event_source;
 Application::tracks_t     Application::_tracks;
 Eeprom                    Application::eeprom;
@@ -36,8 +36,7 @@ void Application::setup() {
   eeprom .restore_all(tmp);
   Serial .print(F("Found BPM in EEPROM: "));
   Serial .println(tmp.bpm);
-  control_event_source =
-    new Application::control_event_source_real_t(tmp.bpm);
+  control_event_source = Application::control_event_source_t(tmp.bpm);
   cli();
   timer1 .setup();
   timer1 .set_bpm(tmp.bpm);
@@ -105,8 +104,8 @@ void Application::save_state() {
 }
 
 void Application::process_control_events() {
-  control_event_source->poll();
-  while(process_control_event(control_event_source->dequeue_event()));
+  control_event_source.poll();
+  while(process_control_event(control_event_source.dequeue_event()));
 }
 
 bool Application::process_control_event(Application::control_event_source_t::event_t e) {

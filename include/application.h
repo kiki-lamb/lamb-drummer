@@ -26,12 +26,10 @@ private:
                            buttonpad_t;
   typedef UiData<tracks_t> ui_data_t;
   typedef Ui<ui_data_t>    ui_t;
-  typedef PolledEventSource<Event>
+  typedef ControlSource<buttonpad_t>
                            control_event_source_t;
 private:
-  typedef ControlSource<buttonpad_t>
-                           control_event_source_real_t;
-  static control_event_source_real_t *
+  static control_event_source_t
                            control_event_source;
   static ui_t              ui;
   static ui_data_t         ui_data;

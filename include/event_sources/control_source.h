@@ -12,7 +12,7 @@
 template <class buttonpad_t>
 class ControlSource : public PolledEventSource<Event> {
 public:
-  ControlSource(uint8_t bpm) :
+  ControlSource(uint8_t bpm = 120) :
     encoder_button_source(A7),
     encoder_source(bpm)
   {
