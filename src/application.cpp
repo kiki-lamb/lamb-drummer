@@ -51,16 +51,16 @@ void Application::setup() {
 }
 
 void Application::setup_controls(uint8_t bpm) {
-  static EncoderButtonSource encoder_button_source(A7);
-  static EncoderSource       encoder_source(bpm);
   static ButtonpadSource<Buttonpad_PCF8754<0x3F> >
                              buttonpad_source;
-  encoder_button_source.setup();
-  encoder_source       .setup();
+  static EncoderSource       encoder_source(bpm);
+  static EncoderButtonSource encoder_button_source(A7);
   buttonpad_source     .setup();
-  control_event_source .sources[0] = &encoder_button_source;
+  encoder_source       .setup();
+  encoder_button_source.setup();
+  control_event_source .sources[0] = &buttonpad_source;
   control_event_source .sources[1] = &encoder_source;
-  control_event_source .sources[2] = &buttonpad_source;
+  control_event_source .sources[2] = &encoder_button_source;
 }
 
 void Application::loop() {
@@ -78,10 +78,6 @@ void Application::loop() {
   ui.update_screen();
   delay(frame_delay);
 }
-
-// constexpr Application::tracks_t const & Application::tracks() {
-//   return _tracks;
-// }
 
 void Application::flag_main_screen() {
   ui.flag_screen(ui_t::SCREEN_MAIN);
@@ -118,19 +114,14 @@ void Application::process_control_events() {
 bool Application::process_control_event(Application::control_event_source_t::event_t e) {
   if (e.type == EventType::EVT_NOT_AVAILABLE)
     return false;
-
   if (e.type < 8) {
     ProcessTrackControl<control_event_source_t>::apply(
       _tracks.current(),
       e
     );
-
-    //Serial.print(F(" for track "));
-    //Serial.print(_tracks.index());
-    //Serial.println();
     ui_data.redraw_track.flag();
     ui_data.redraw_selected_track_indicator.flag();
-  #define SET_FLAGS_AND_RETURN_TRUE flag_main_screen(); eeprom.flag_save_requested(); return true;
+    #define SET_FLAGS_AND_RETURN_TRUE flag_main_screen(); eeprom.flag_save_requested(); return true;
     SET_FLAGS_AND_RETURN_TRUE;
   }
   else {
@@ -143,10 +134,9 @@ bool Application::process_control_event(Application::control_event_source_t::eve
         timer1.set_bpm(e.parameter);
         ui_data.popup_bpm_requested.flag();
         SET_FLAGS_AND_RETURN_TRUE;
-#undef SET_FLAGS
+        #undef SET_FLAGS
         break;
     }
-
     return false;
   }
 }
