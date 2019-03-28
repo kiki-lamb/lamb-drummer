@@ -55,7 +55,8 @@ void Application::setup_controls(uint8_t bpm) {
                              buttonpad_source;
   static EncoderSource       encoder_source(bpm);
   static EncoderButtonSource encoder_button_source(A7);
-  static combine_event_sources_t combine_event_sources;
+  static CombineEventSources<Event,3> 
+                             combine_event_sources;
   buttonpad_source     .setup();
   encoder_source       .setup();
   encoder_button_source.setup();

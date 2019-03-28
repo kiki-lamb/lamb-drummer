@@ -24,13 +24,12 @@ private:
   ~Application();
   typedef UiData<tracks_t>               ui_data_t;
   typedef Ui<ui_data_t>                  ui_t;
-  typedef CombineEventSources<Event,3>   combine_event_sources_t;
   typedef BufferEventSource<Event,8>     control_event_source_t;
 private:
+  static  control_event_source_t         control_event_source;
   static  tracks_t                       _tracks;
   static  ui_data_t                      ui_data;
   static  ui_t                           ui;
-  static  control_event_source_t         control_event_source;
   static  Eeprom                         eeprom;
   static  Timer1_                        timer1;
   static  Timer2_                        timer2;
