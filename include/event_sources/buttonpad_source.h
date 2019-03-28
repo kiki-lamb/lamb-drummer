@@ -7,25 +7,27 @@
 #include "event/event.h"
 
 template <class buttonpad_t_>
-class ButtonpadSource : public buttonpad_t_, public PolledEventSource<uint8_t>{
+class ButtonpadSource : public buttonpad_t_, public PolledEventSource<ControlType>{
 public:
   typedef buttonpad_t_ buttonpad_t;
-  inline ButtonpadSource() : event(8) {}
+  inline ButtonpadSource() : event(EVT_NOT_AVAILABLE) {}
   inline virtual ~ButtonpadSource() {}
 private:
-  uint8_t event;
+  static  ControlType                  buttonpad_ordering[8];
+  event_t event;
+
   inline virtual void    impl_poll() {
     if (buttonpad_t::read())
-      event = buttonpad_t_::button();
+      event = buttonpad_ordering[buttonpad_t_::button()];
   }
 
   inline virtual uint8_t impl_queue_count() const {
-    return event == 8 ? 0 : 1;
+    return event == EVT_NOT_AVAILABLE ? 0 : 1;
   }
 
   inline virtual event_t impl_dequeue_event() {
     uint8_t e = event;
-    event = 8;
+    event = EVT_NOT_AVAILABLE;
     return e;
   };
 };

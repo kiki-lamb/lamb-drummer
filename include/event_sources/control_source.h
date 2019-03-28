@@ -25,7 +25,6 @@ public:
 private:
   typedef ButtonpadSource<buttonpad_t> buttonpad_source_t;
   typedef EncoderButtonSource          encoder_button_source_t;
-  static  ControlType                  buttonpad_ordering[8];
   uint8_t                              _bpm;
   buttonpad_source_t                   buttonpad_source;
   EncoderButtonSource                  encoder_button_source;
@@ -54,7 +53,8 @@ private:
     {
       typename buttonpad_source_t::event_t e = buttonpad_source.dequeue_event();
       if ( e != 8 )
-        queue_event( (event_t::event_type_t)(buttonpad_ordering[e]) );
+        queue_event( (event_t::event_type_t)(e) );
+        // queue_event( (event_t::event_type_t)(buttonpad_ordering[e]) );
     }
   }
 
