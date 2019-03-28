@@ -25,7 +25,6 @@ private:
   typedef UiData<tracks_t>               ui_data_t;
   typedef Ui<ui_data_t>                  ui_t;
   typedef BufferEventSource<Event,8>     control_event_source_t;
-private:
   static  control_event_source_t         control_event_source;
   static  tracks_t                       _tracks;
   static  ui_data_t                      ui_data;
