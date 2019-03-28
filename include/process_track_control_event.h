@@ -4,10 +4,10 @@
 #include "Arduino.h"
 #include "track.h"
 #include "buttonpad.h"
-#include "control_event_source.h"
+#include "event_sources/control_source.h"
 
 template <class control_event_source_t>
-class ProcessTrackControlEvent {
+class ProcessTrackControl {
 public:
   static bool apply(Track & that, typename control_event_source_t::event_t e) {
     if (e.type < 8) {
@@ -24,9 +24,9 @@ public:
   }
 
 private:
-  ProcessTrackControlEvent() {}
+  ProcessTrackControl() {}
 
-  virtual ~ProcessTrackControlEvent() {}
+  virtual ~ProcessTrackControl() {}
 
   static void increase_mod_maj(Track & that) {
     Serial.println(F("Do BTN_MAJ_UP"));
@@ -110,15 +110,15 @@ private:
   static button_handler button_handlers[8];
 };
 
-template <class control_event_source_t> typename ProcessTrackControlEvent<control_event_source_t>::button_handler ProcessTrackControlEvent<control_event_source_t>::button_handlers[8] = {
-  &ProcessTrackControlEvent::increase_mod_min,
-  &ProcessTrackControlEvent::decrease_mod_min,
-  &ProcessTrackControlEvent::increase_mod_maj,
-  &ProcessTrackControlEvent::decrease_mod_maj,
-  &ProcessTrackControlEvent::increase_phase_min,
-  &ProcessTrackControlEvent::decrease_phase_min,
-  &ProcessTrackControlEvent::increase_phase_maj,
-  &ProcessTrackControlEvent::decrease_phase_maj,
+template <class control_event_source_t> typename ProcessTrackControl<control_event_source_t>::button_handler ProcessTrackControl<control_event_source_t>::button_handlers[8] = {
+  &ProcessTrackControl::increase_mod_min,
+  &ProcessTrackControl::decrease_mod_min,
+  &ProcessTrackControl::increase_mod_maj,
+  &ProcessTrackControl::decrease_mod_maj,
+  &ProcessTrackControl::increase_phase_min,
+  &ProcessTrackControl::decrease_phase_min,
+  &ProcessTrackControl::increase_phase_maj,
+  &ProcessTrackControl::decrease_phase_maj,
 };
 
 #endif

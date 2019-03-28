@@ -1,7 +1,7 @@
 #ifndef SHELF_CLOCK_I_CONTROLS_H
 #define SHELF_CLOCK_I_CONTROLS_H
 
-#include "Arduino.h"
+#include <Arduino.h>
 
 template<class event_t_>
 class PolledEventSource {

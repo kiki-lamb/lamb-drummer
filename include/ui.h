@@ -3,9 +3,9 @@
 
 #include <lamb.h>
 #include "lcd.h"
-#include "screen.h"
-#include "screen_main.h"
-#include "screens.h"
+#include "screens/screen.h"
+#include "screens/screen_main.h"
+#include "screens/screens.h"
 
 template <class data_t>
 class Ui {

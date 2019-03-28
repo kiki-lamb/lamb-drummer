@@ -6,7 +6,7 @@
 #include "buttonpad_pcf8574.h"
 #include "process_track_control_event.h"
 #include "track_collection.h"
-#include "control_event_source.h"
+#include "event_sources/control_source.h"
 #include "eeprom_.h"
 #include "timer1.h"
 #include "timer2.h"
@@ -24,9 +24,9 @@ private:
   ~Application();
   typedef Buttonpad_PCF8754<0x3F>
                            buttonpad_t;
-  typedef ControlEventSource<buttonpad_t>
+  typedef ControlSource<buttonpad_t>
                            control_event_source_real_t;
-  typedef PolledEventSource<ControlEvent>
+  typedef PolledEventSource<Control>
                            control_event_source_t;
   typedef UiData<tracks_t> ui_data_t;
   typedef Ui<ui_data_t>    ui_t;

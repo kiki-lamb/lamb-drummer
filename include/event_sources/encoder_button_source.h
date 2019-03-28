@@ -1,8 +1,8 @@
 #ifndef SHELF_CLOCK_ENCODER_BUTTON_SOURCE_H
 #define SHELF_CLOCK_ENCODER_BUTTON_SOURCE_H
 
-#include "Arduino.h"
-#include "encoder_button.h"
+#include <Arduino.h>
+#include "../encoder_button.h"
 #include "polled_event_source.h"
 
 class EncoderButtonSource : public EncoderButton, public PolledEventSource<bool>{

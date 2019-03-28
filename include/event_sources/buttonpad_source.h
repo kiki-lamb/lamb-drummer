@@ -1,9 +1,9 @@
 #ifndef SHELF_CLOCK_I_BUTTONPAD_SOURCE_H
 #define SHELF_CLOCK_I_BUTTONPAD_SOURCE_H
 
-#include "Arduino.h"
+#include <Arduino.h>
 #include "polled_event_source.h"
-#include "buttonpad.h"
+#include "../buttonpad.h"
 
 template <class buttonpad_t_>
 class ButtonpadSource : public buttonpad_t_, public PolledEventSource<uint8_t>{

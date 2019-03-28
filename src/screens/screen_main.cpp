@@ -1,4 +1,4 @@
-#include "screen_main.h"
+#include "screens/screen_main.h"
 #include "ui.h"
 
 SSMain::SSMain(data_t * data) :
