@@ -6,7 +6,6 @@
 class Timer1_ {
   private:
     static       void    set_hz_by_bpm(uint8_t bpm);
-    static const uint8_t MIN_BPM;
     uint8_t              _bpm;
     bool                 _playback_state;
     uint8_t              _ticker;

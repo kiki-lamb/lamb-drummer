@@ -10,8 +10,6 @@ Timer1_::Timer1_() :
 
 Timer1_::~Timer1_() {}
 
-const uint8_t Timer1_::MIN_BPM = 5;
-
 Timer1_ * Timer1_::_instance = 0;
 
 Timer1_ & Timer1_::instance() {
@@ -56,11 +54,6 @@ void Timer1_::set_playback_state(bool playback_state_) {
 }
 
 void Timer1_::set_bpm(uint8_t tmp_bpm) {
-  if (tmp_bpm < Timer1_::MIN_BPM) {
-    Application::timer1_set_bpm(Timer1_::MIN_BPM);
-    tmp_bpm = Timer1_::MIN_BPM;
-  }
-
   Serial.print(F("Set BPM: "));
   Serial.println(tmp_bpm);
 

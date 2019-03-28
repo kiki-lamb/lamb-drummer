@@ -54,7 +54,6 @@ public:
   }
   static void              process_control_events(); // called by ISR for timer2.
   static void              save_state();             // called by ISR for timer2.
-  static void timer1_set_bpm(uint8_t bpm);
 };
 
 #endif

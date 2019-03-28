@@ -13,21 +13,25 @@ template <class buttonpad_t>
 class ControlSource : public PolledEventSource<Event> {
 public:
   ControlSource(uint8_t bpm) :
-    encoder_source(bpm),
-    encoder_button_source(A7) {
+    encoder_button_source(A7),
+    encoder_source(bpm)
+  {
     encoder_source.setup();
     encoder_button_source.setup();
     buttonpad_source.setup();
   }
 
   virtual ~ControlSource() {}
-  EncoderSource                        encoder_source;
 
 private:
   typedef ButtonpadSource<buttonpad_t> buttonpad_source_t;
   typedef EncoderButtonSource          encoder_button_source_t;
+  typedef EncoderSource                encoder_source_t;
+
   buttonpad_source_t                   buttonpad_source;
-  EncoderButtonSource                  encoder_button_source;
+  encoder_button_source_t              encoder_button_source;
+  encoder_source_t                     encoder_source;
+
   lamb::RingBuffer<Event, 8>           event_queue;
 
   virtual uint8_t impl_queue_count() const {
