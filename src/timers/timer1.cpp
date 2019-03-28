@@ -57,7 +57,7 @@ void Timer1_::set_playback_state(bool playback_state_) {
 
 void Timer1_::set_bpm(uint8_t tmp_bpm) {
   if (tmp_bpm < Timer1_::MIN_BPM) {
-    Encoder::set_value(Timer1_::MIN_BPM); // UGLY
+    Application::control_event_source-> encoder.set_value(Timer1_::MIN_BPM); // UGLY
     tmp_bpm = Timer1_::MIN_BPM;
   }
 

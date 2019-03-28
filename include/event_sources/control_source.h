@@ -14,13 +14,14 @@ public:
   ControlSource(uint8_t bpm) :
     _bpm(bpm),
     encoder_button_source(A7) {
-    Encoder::setup();
+    encoder.setup();
     encoder_button_source.setup();
     buttonpad_source.setup();
-    Encoder::set_value(_bpm);
+    encoder.set_value(_bpm);
   }
 
   virtual ~ControlSource() {}
+  Encoder                              encoder;
 
 private:
   typedef ButtonpadSource<buttonpad_t> buttonpad_source_t;
@@ -43,7 +44,7 @@ private:
   }
 
   virtual void impl_poll() {
-    uint8_t tmp_bpm = Encoder::value();
+    uint8_t tmp_bpm = encoder.value();
 
     if (tmp_bpm != _bpm) {
       queue_event(EVT_BPM_SET, tmp_bpm);

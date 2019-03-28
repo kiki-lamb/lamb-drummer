@@ -1,7 +1,7 @@
 #include "application.h"
 #include "ui_data.h"
 
-Application::control_event_source_t *
+Application::control_event_source_real_t *
                           Application::control_event_source;
 Application::tracks_t     Application::_tracks;
 Eeprom                    Application::eeprom;

@@ -24,14 +24,16 @@ private:
   ~Application();
   typedef Buttonpad_PCF8754<0x3F>
                            buttonpad_t;
-  typedef ControlSource<buttonpad_t>
-                           control_event_source_real_t;
-  typedef PolledEventSource<Event>
-                           control_event_source_t;
   typedef UiData<tracks_t> ui_data_t;
   typedef Ui<ui_data_t>    ui_t;
-  static control_event_source_t *
+  typedef PolledEventSource<Event>
+                           control_event_source_t;
+public:
+  typedef ControlSource<buttonpad_t>
+                           control_event_source_real_t;
+  static control_event_source_real_t *
                            control_event_source;
+private:
   static ui_t              ui;
   static ui_data_t         ui_data;
   static Eeprom            eeprom;
