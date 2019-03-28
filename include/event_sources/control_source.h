@@ -59,7 +59,7 @@ private:
 
   virtual event_t impl_dequeue_event() {
     if (! event_queue.readable() ) {
-      control_event_source_t e = { EVT_NOT_AVAILABLE};
+      event_t e = { EVT_NOT_AVAILABLE};
       return e;
     }
 
