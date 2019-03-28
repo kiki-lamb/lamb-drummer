@@ -9,7 +9,7 @@ class Combine : public PolledEventSource<event_t> {
 public:
   Combine() {}
   virtual ~Combine() {}
-  PolledEventSource<event_t> * event_sources[count_];
+  PolledEventSource<event_t> * sources[count_];
 
 private:
   lamb::RingBuffer<event_t, 8>   event_queue;
@@ -20,7 +20,7 @@ private:
 
   virtual void impl_poll() {
     for (size_t ix = 0; ix < count_; ix++) {
-      PolledEventSource<event_t> & source = *(event_sources[ix]);
+      PolledEventSource<event_t> & source = *(sources[ix]);
       if (source.poll()) {
         while (source.ready()) {
           auto e = source.dequeue_event();

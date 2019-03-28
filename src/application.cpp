@@ -37,15 +37,15 @@ void Application::setup() {
     timer1.playback_state()
   );
   eeprom .restore_all(tmp);
-  encoder_source = EncoderSource(tmp.bpm);
-  encoder_button_source.setup();
-  encoder_source.setup();
-  buttonpad_source.setup();
-//  control_event_source = control_event_source_t();
-  control_event_source.event_sources[0] = & encoder_button_source;
-  control_event_source.event_sources[1] = & encoder_source;
-  control_event_source.event_sources[2] = & buttonpad_source;
-  //control_event_source.setup();
+  {
+    encoder_source = EncoderSource(tmp.bpm);
+    encoder_button_source.setup();
+    encoder_source.setup();
+    buttonpad_source.setup();
+    control_event_source.sources[0] = & encoder_button_source;
+    control_event_source.sources[1] = & encoder_source;
+    control_event_source.sources[2] = & buttonpad_source;
+  }
   cli();
   timer1 .setup();
   timer1 .set_bpm(tmp.bpm);
