@@ -4,7 +4,7 @@
 
 .pioenvs/nanoatmega328/firmware.elf:     file format elf32-avr
 00000000  w      *ABS*	00000000 __heap_end
-00000000  w      *UND*	00000000 _Z14serialEventRunv
+00000000  w      *UND*	00000000 _Z11serialEventv
 00000000  w      .text	00000000 __vector_default
 00000000 g       .text	00000000 __vectors
 00000000 l       *ABS*	00000000 __tmp_reg__
@@ -90,384 +90,397 @@
 0000003f l       *ABS*	00000000 __SREG__
 00000068 g       .text	00000000 __trampolines_end
 00000068 g       .text	00000000 __trampolines_start
-00000162 l     O .text	0000000a port_to_input_PGM
-0000016c l     O .text	00000002 _ZZN6SSMain9draw_barsEvE3__c
-0000016e l     O .text	00000002 _ZZN7SSIntro10impl_enterEvE3__c_1
-00000170 l     O .text	00000002 _ZZN7SSIntro10impl_enterEvE3__c_0
-00000172 l     O .text	00000015 _ZZN7SSIntro10impl_enterEvE3__c
-00000187 l     O .text	0000000a port_to_mode_PGM
-00000191 l     O .text	0000000a port_to_output_PGM
-0000019b g     O .text	00000014 .hidden digital_pin_to_port_PGM
-000001af g     O .text	00000014 .hidden digital_pin_to_bit_mask_PGM
-000001c3 l     O .text	00000014 digital_pin_to_timer_PGM
-000001d8 g       .text	00000000 __ctors_start
-000001da g       .text	00000000 __ctors_end
-000001da g       .text	00000000 __dtors_start
-000001dc  w      .text	00000000 __init
-000001dc g       .text	00000000 __dtors_end
-000001e8 g       .text	00000016 .hidden __do_copy_data
-000001fe g       .text	00000010 .hidden __do_clear_bss
-00000206 l       .text	00000000 .do_clear_bss_loop
-00000208 l       .text	00000000 .do_clear_bss_start
-0000020e g       .text	00000016 .hidden __do_global_ctors
-0000022c  w      .text	00000000 __vector_10
-0000022c  w      .text	00000000 __vector_12
-0000022c  w      .text	00000000 __vector_13
-0000022c  w      .text	00000000 __vector_14
-0000022c  w      .text	00000000 __vector_15
-0000022c  w      .text	00000000 __vector_17
-0000022c  w      .text	00000000 __vector_18
-0000022c  w      .text	00000000 __vector_19
-0000022c  w      .text	00000000 __vector_20
-0000022c  w      .text	00000000 __vector_21
-0000022c  w      .text	00000000 __vector_22
-0000022c  w      .text	00000000 __vector_23
-0000022c  w      .text	00000000 __vector_25
-0000022c  w      .text	00000000 __vector_3
-0000022c  w      .text	00000000 __vector_4
-0000022c  w      .text	00000000 __vector_5
-0000022c  w      .text	00000000 __vector_6
-0000022c  w      .text	00000000 __vector_8
-0000022c  w      .text	00000000 __vector_9
-0000022c g       .text	00000000 __bad_interrupt
-00000230 g     F .text	00000046 .hidden _ZN13ControlSourceI17Buttonpad_PCF8754ILh63EEE18impl_dequeue_eventEv
-00000276 g     F .text	00000006 .hidden _ZNK13ControlSourceI17Buttonpad_PCF8754ILh63EEE16impl_queue_countEv
-0000027c g     F .text	00000014 .hidden _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE18decrease_phase_majER5Track
-00000290 g     F .text	00000028 .hidden _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE18increase_phase_majER5Track
-000002b8 g     F .text	00000014 .hidden _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE18decrease_phase_minER5Track
-000002cc g     F .text	00000028 .hidden _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE18increase_phase_minER5Track
-000002f4 g     F .text	0000003e .hidden _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE16decrease_mod_majER5Track
-00000332 g     F .text	00000012 .hidden _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE16increase_mod_majER5Track
-00000344 g     F .text	00000020 .hidden _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE16decrease_mod_minER5Track
-00000364 g     F .text	00000014 .hidden _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE16increase_mod_minER5Track
-00000378 g     F .text	0000001a .hidden _ZThn4_N19EncoderButtonSource18impl_dequeue_eventEv
-00000392 g     F .text	00000018 .hidden _ZN19EncoderButtonSource18impl_dequeue_eventEv.lto_priv.155
-000003aa g     F .text	00000012 .hidden _ZThn4_NK19EncoderButtonSource16impl_queue_countEv
-000003bc g     F .text	00000012 .hidden _ZNK19EncoderButtonSource16impl_queue_countEv.lto_priv.154
-000003ce g     F .text	00000054 .hidden _ZN19EncoderButtonSource9impl_pollEv.lto_priv.153
+00000162 l     O .text	0000000c _ZZN11Application5setupEvE3__c
+0000016e l     O .text	0000000a port_to_mode_PGM
+00000178 l     O .text	0000000a port_to_output_PGM
+00000182 g     O .text	00000014 .hidden digital_pin_to_port_PGM
+00000196 g     O .text	00000014 .hidden digital_pin_to_bit_mask_PGM
+000001aa l     O .text	00000014 digital_pin_to_timer_PGM
+000001be l     O .text	0000000a port_to_input_PGM
+000001c8 l     O .text	00000002 _ZZN6SSMain9draw_barsEvE3__c
+000001ca l     O .text	00000002 _ZZN7SSIntro10impl_enterEvE3__c_1
+000001cc l     O .text	00000002 _ZZN7SSIntro10impl_enterEvE3__c_0
+000001ce l     O .text	00000015 _ZZN7SSIntro10impl_enterEvE3__c
+000001e4 g       .text	00000000 __ctors_start
+000001e6 g       .text	00000000 __ctors_end
+000001e6 g       .text	00000000 __dtors_start
+000001e8  w      .text	00000000 __init
+000001e8 g       .text	00000000 __dtors_end
+000001f4 g       .text	00000016 .hidden __do_copy_data
+0000020a g       .text	00000010 .hidden __do_clear_bss
+00000212 l       .text	00000000 .do_clear_bss_loop
+00000214 l       .text	00000000 .do_clear_bss_start
+0000021a g       .text	00000016 .hidden __do_global_ctors
+00000238  w      .text	00000000 __vector_10
+00000238  w      .text	00000000 __vector_12
+00000238  w      .text	00000000 __vector_13
+00000238  w      .text	00000000 __vector_14
+00000238  w      .text	00000000 __vector_15
+00000238  w      .text	00000000 __vector_17
+00000238  w      .text	00000000 __vector_20
+00000238  w      .text	00000000 __vector_21
+00000238  w      .text	00000000 __vector_22
+00000238  w      .text	00000000 __vector_23
+00000238  w      .text	00000000 __vector_25
+00000238  w      .text	00000000 __vector_3
+00000238  w      .text	00000000 __vector_4
+00000238  w      .text	00000000 __vector_5
+00000238  w      .text	00000000 __vector_6
+00000238  w      .text	00000000 __vector_8
+00000238  w      .text	00000000 __vector_9
+00000238 g       .text	00000000 __bad_interrupt
+0000023c l     F .text	0000004a micros
+00000286 l     F .text	00000002 nothing
+00000288 g     F .text	00000054 .hidden _ZN5Print5writeEPKhj
+000002dc g     F .text	00000004 .hidden __cxa_pure_virtual
+000002e0 g     F .text	00000014 .hidden _Z17Serial0_availablev
+000002f4 g     F .text	0000007c .hidden _ZN6SSMain20draw_channel_numbersEv.constprop.16
+00000370 g     F .text	0000002c .hidden _ZN6SSMain16draw_page_numberEv.constprop.10
+
+0000039c g     F .text	000000f4 .hidden _ZN6SSMain11draw_columnEhbh.constprop.6
+
 00000400 g       *ABS*	00000000 __LOCK_REGION_LENGTH__
 00000400 g       *ABS*	00000000 __SIGNATURE_REGION_LENGTH__
 00000400 g       *ABS*	00000000 __USER_SIGNATURE_REGION_LENGTH__
-00000422 g     F .text	00000006 .hidden _ZThn4_N19EncoderButtonSource9impl_pollEv
-00000428 g     F .text	00000002 .hidden _ZThn4_N19EncoderButtonSourceD1Ev
-0000042a g     F .text	00000014 .hidden _ZN13EncoderSource18impl_dequeue_eventEv.lto_priv.161
-0000043e g     F .text	00000006 .hidden _ZThn2_N13EncoderSource18impl_dequeue_eventEv
-00000444 g     F .text	00000012 .hidden _ZThn2_NK13EncoderSource16impl_queue_countEv
-00000456 g     F .text	00000012 .hidden _ZNK13EncoderSource16impl_queue_countEv.lto_priv.160
-00000468 g     F .text	00000040 .hidden _ZN13EncoderSource9impl_pollEv.lto_priv.159
-000004a8 g     F .text	00000006 .hidden _ZThn2_N13EncoderSource9impl_pollEv
-000004ae g     F .text	00000002 .hidden _ZThn2_N13EncoderSourceD1Ev
-000004b0 g     F .text	00000004 .hidden _ZN19EncoderButtonSourceD0Ev.lto_priv.152
-000004b4 g     F .text	00000006 .hidden _ZThn4_N19EncoderButtonSourceD0Ev.lto_priv.156
-000004ba g     F .text	00000004 .hidden _ZN2UiI6UiDataI15TrackCollectionILj3E5TrackEEED0Ev
-000004be g     F .text	00000004 .hidden _ZN6UiDataI15TrackCollectionILj3E5TrackEED0Ev
-000004c2 g     F .text	00000004 .hidden _ZN17Buttonpad_PCF8754ILh63EED0Ev
-000004c6 g     F .text	00000004 .hidden _ZN13EncoderSourceD0Ev.lto_priv.158
-000004ca g     F .text	00000006 .hidden _ZThn2_N13EncoderSourceD0Ev.lto_priv.162
-000004d0 g     F .text	00000026 .hidden _ZN13EncoderSource5setupEv
-000004f6 g     F .text	00000020 .hidden _ZN13ControlSourceI17Buttonpad_PCF8754ILh63EEE5setupEv
-00000516 g     F .text	00000002 .hidden _ZN2UiI6UiDataI15TrackCollectionILj3E5TrackEEED1Ev.lto_priv.135
-00000516 g     F .text	00000002 .hidden _ZN2UiI6UiDataI15TrackCollectionILj3E5TrackEEED2Ev.lto_priv.165
-00000518 g     F .text	00000002 .hidden _ZN6UiDataI15TrackCollectionILj3E5TrackEED1Ev.lto_priv.140
-00000518 g     F .text	00000002 .hidden _ZN6UiDataI15TrackCollectionILj3E5TrackEED2Ev.lto_priv.170
-0000051a g     F .text	00000002 .hidden _ZN17Buttonpad_PCF8754ILh63EED1Ev.lto_priv.150
-0000051a g     F .text	00000002 .hidden _ZN17Buttonpad_PCF8754ILh63EED2Ev.lto_priv.175
-0000051c g     F .text	0000003e .hidden _ZN4lamb20PositionalFixedArrayILj3E5TrackED1Ev.lto_priv.134
-0000051c g     F .text	0000003e .hidden _ZN4lamb20PositionalFixedArrayILj3E5TrackED2Ev.lto_priv.164
-0000055a g     F .text	00000014 .hidden _ZN4lamb20PositionalFixedArrayILj3E5TrackED0Ev
-0000056e g     F .text	0000000e .hidden _ZN15TrackCollectionILj3E5TrackED1Ev.lto_priv.133
-0000056e g     F .text	0000000e .hidden _ZN15TrackCollectionILj3E5TrackED2Ev.lto_priv.163
-0000057c g     F .text	00000014 .hidden _ZN15TrackCollectionILj3E5TrackED0Ev
-00000590 g     F .text	00000002 .hidden _ZN15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEED1Ev.lto_priv.144
-00000590 g     F .text	00000002 .hidden _ZN15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEED2Ev.lto_priv.174
-00000592 g     F .text	00000002 .hidden _ZThn7_N15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEED1Ev.lto_priv.149
-00000594 g     F .text	00000004 .hidden _ZN15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEED0Ev.lto_priv.145
-00000598 g     F .text	00000006 .hidden _ZThn7_N15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEED0Ev
-0000059e g     F .text	00000010 .hidden _ZN17PolledEventSourceI5EventE13dequeue_eventEv
-000005ae g     F .text	000000ee .hidden _ZN13ControlSourceI17Buttonpad_PCF8754ILh63EEE9impl_pollEv
-0000069c g     F .text	00000016 .hidden _ZNK15TrackCollectionILj3E5TrackE11max_mod_majEv
-000006b2 g     F .text	00000002 .hidden _ZN13ControlSourceI17Buttonpad_PCF8754ILh63EEED1Ev.lto_priv.143
-000006b2 g     F .text	00000002 .hidden _ZN13ControlSourceI17Buttonpad_PCF8754ILh63EEED2Ev.lto_priv.173
-000006b4 g     F .text	00000004 .hidden _ZN13ControlSourceI17Buttonpad_PCF8754ILh63EEED0Ev
-000006b8 g     F .text	00000002 .hidden _ZN19EncoderButtonSourceD1Ev.lto_priv.151
-000006b8 g     F .text	00000002 .hidden _ZN19EncoderButtonSourceD2Ev.lto_priv.176
-000006ba g     F .text	00000002 .hidden _ZN13EncoderSourceD1Ev.lto_priv.157
-000006ba g     F .text	00000002 .hidden _ZN13EncoderSourceD2Ev.lto_priv.177
-000006bc g     F .text	0000000e .hidden _ZN11Application16flag_main_screenEv
-000006ca g     F .text	0000004a .hidden _ZN11Application14update_ui_dataEv
-00000714 g     F .text	0000004a .hidden _ZN4lamb8Encoders6States4UIntILc8ELb0EE7do_downEv
-0000075e g     F .text	0000004a .hidden _ZN4lamb8Encoders6States4UIntILc8ELb0EE5do_upEv
-000007a8 g     F .text	00000004 .hidden _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EE13poll_requiredEv
-000007ac l     F .text	000000ce _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EE6updateEv
-0000087a g     F .text	0000001a .hidden _ZThn7_N15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEE18impl_dequeue_eventEv
-00000894 g     F .text	00000018 .hidden _ZN15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEE18impl_dequeue_eventEv.lto_priv.148
-000008ac g     F .text	00000012 .hidden _ZThn7_NK15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEE16impl_queue_countEv
-000008be g     F .text	00000012 .hidden _ZNK15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEE16impl_queue_countEv.lto_priv.147
-000008d0 g     F .text	0000003e .hidden _ZN15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEE9impl_pollEv.lto_priv.146
+00000490 g     F .text	0000009a .hidden digitalWrite
+0000052a g     F .text	00000078 .hidden pinMode
+000005a2 g     F .text	00000074 .hidden delay
+00000616 g     F .text	00000094 __vector_16
+000006aa g     F .text	0000004e __vector_2
+000006f8 g     F .text	0000004e __vector_1
+00000746 g     F .text	00000048 .hidden _ZN5Print5printEPK19__FlashStringHelper
+0000078e g     F .text	0000002a .hidden _ZN5Print5writeEPKc
+000007b8 l     F .text	0000000a _ZN5Print5printEPKc.constprop.9
+000007c2 g     F .text	000002b2 .hidden _ZN6SSMain10draw_line0Eb.constprop.8
 000008ff  w      *ABS*	00000000 __stack
-0000090e g     F .text	00000006 .hidden _ZThn7_N15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEE9impl_pollEv
-00000914 g     F .text	00000006 .hidden _ZNK17Buttonpad_PCF8754ILh63EE11impl_buttonEv
-0000091a g     F .text	00000004 .hidden _ZN7Timer2_D0Ev
-0000091e g     F .text	00000004 .hidden _ZN7Timer1_D0Ev
-00000922 g     F .text	00000004 .hidden _ZN6SSNoneD0Ev
-00000926 g     F .text	00000004 .hidden _ZN7SSInstrD0Ev
-0000092a g     F .text	00000004 .hidden _ZN7SSIntroD0Ev
-0000092e g     F .text	00000004 .hidden _ZN6SSMainD0Ev
-00000932 g     F .text	00000004 .hidden _ZN6EepromD0Ev
-00000936 g     F .text	00000004 .hidden _ZN13EncoderButtonD0Ev
-0000093a g     F .text	00000004 .hidden _ZN4lamb8Encoders6States4UIntILc8ELb0EED0Ev
-0000093e g     F .text	00000004 .hidden _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EED0Ev
-00000942 g     F .text	00000004 .hidden _ZN7EncoderD0Ev
-00000946 g     F .text	000000c4 .hidden _ZN7SSIntro10impl_enterEv
-00000a0a g     F .text	00000142 .hidden _ZN6SSMain11impl_updateEv
-00000b4c g     F .text	0000008c .hidden _ZN6SSMain10impl_enterEv
-00000bd8 g     F .text	0000004a .hidden _ZN7Encoder5setupEv
-00000c22 g     F .text	00000066 .hidden _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EE5setupEPNS0_6States6IStateE
-00000c88 g     F .text	00000160 .hidden _ZN17Buttonpad_PCF8754ILh63EE10impl_setupEv
-00000de8 g     F .text	000000dc .hidden _ZN17Buttonpad_PCF8754ILh63EE9impl_readEv
-00000ec4 g     F .text	00000002 .hidden _ZN7Timer2_D1Ev
-00000ec4 g     F .text	00000002 .hidden _ZN7Timer2_D2Ev
-00000ec6 g     F .text	000000de __vector_11
-00000fa4 g     F .text	0000008c .hidden _ZN7Timer1_13set_hz_by_bpmEh
-00001030 g     F .text	00000002 .hidden _ZN7Timer1_D1Ev
-00001030 g     F .text	00000002 .hidden _ZN7Timer1_D2Ev
-00001032 g     F .text	00000002 .hidden _ZN6SSNoneD1Ev.lto_priv.137
-00001032 g     F .text	00000002 .hidden _ZN6SSNoneD2Ev.lto_priv.167
-00001034 g     F .text	00000002 .hidden _ZN7SSInstrD1Ev.lto_priv.139
-00001034 g     F .text	00000002 .hidden _ZN7SSInstrD2Ev.lto_priv.169
-00001036 g     F .text	00000002 .hidden _ZN7SSIntroD1Ev.lto_priv.136
-00001036 g     F .text	00000002 .hidden _ZN7SSIntroD2Ev.lto_priv.166
-00001038 g     F .text	00000002 .hidden _ZN6SSMainD1Ev.lto_priv.138
-00001038 g     F .text	00000002 .hidden _ZN6SSMainD2Ev.lto_priv.168
-0000103a g     F .text	00000004 .hidden _ZN11EEPROMClass5writeEih.isra.1.lto_priv.179
-0000103e g     F .text	00000004 .hidden _ZN11EEPROMClass4readEi.isra.0.lto_priv.178
-00001042 g     F .text	00000002 .hidden _ZN6EepromD1Ev
-00001042 g     F .text	00000002 .hidden _ZN6EepromD2Ev
-00001044 g     F .text	00000002 .hidden _ZN13EncoderButtonD1Ev
-00001044 g     F .text	00000002 .hidden _ZN13EncoderButtonD2Ev
-00001046 g     F .text	00000002 .hidden _ZN4lamb8Encoders6States4UIntILc8ELb0EED1Ev.lto_priv.142
-00001046 g     F .text	00000002 .hidden _ZN4lamb8Encoders6States4UIntILc8ELb0EED2Ev.lto_priv.172
-00001048 g     F .text	00000002 .hidden _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EED1Ev.lto_priv.141
-00001048 g     F .text	00000002 .hidden _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EED2Ev.lto_priv.171
-0000104a g     F .text	00000002 .hidden _ZN7EncoderD1Ev
-0000104a g     F .text	00000002 .hidden _ZN7EncoderD2Ev
-0000104c l     F .text	00000002 nothing
-0000104e g     F .text	00000054 .hidden _ZN5Print5writeEPKhj
-000010a2 l     F .text	00000014 twi_stop
-000010b6 l     F .text	00000050 twi_transmit
-00001106 g     F .text	00000002 .hidden _ZN7TwoWire16onRequestServiceEv
-00001108 g     F .text	00000002 .hidden _ZN7TwoWire16onReceiveServiceEPhi
-0000110a g     F .text	00000002 .hidden _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EE4pollEv
-0000110a g     F .text	00000002 .hidden _ZN6SSNone10impl_enterEv
-0000110a g     F .text	00000002 .hidden _ZN6SSNone11impl_updateEv
-0000110a g     F .text	00000002 .hidden _ZN7SSInstr10impl_enterEv
-0000110a g     F .text	00000002 .hidden _ZN7SSInstr11impl_updateEv
-0000110a g     F .text	00000002 .hidden _ZN7SSIntro11impl_updateEv
-0000110a g     F .text	00000002 .hidden _ZN7TwoWire5flushEv
-0000110c g     F .text	0000001e .hidden _ZN7TwoWire4peekEv
-0000112a g     F .text	00000028 .hidden _ZN7TwoWire4readEv
-00001152 g     F .text	00000010 .hidden _ZN7TwoWire9availableEv
-00001162 g     F .text	0000005a .hidden _ZN7TwoWire5writeEPKhj
-000011bc g     F .text	0000005e .hidden _ZN7TwoWire5writeEh
-0000121a g     F .text	00000002 .hidden _ZN5Print5flushEv
-0000121c g     F .text	00000006 .hidden _ZN5Print17availableForWriteEv
-00001222 g     F .text	00000024 .hidden _ZN5TrackaSERKS_
-00001246 g     F .text	00000004 .hidden __cxa_pure_virtual
-0000124a l     F .text	0000002c _ZN13LiquidCrystal11pulseEnableEv
-00001276 g     F .text	00000004 .hidden _ZN5TrackD0Ev
-0000127a g     F .text	0000004e __vector_2
-000012c8 g     F .text	0000004e __vector_1
-00001316 g     F .text	0000025c __vector_24
-00001572 g     F .text	0000005a .hidden _ZN13LiquidCrystal10write4bitsEh
-000015cc g     F .text	000000a6 .hidden _ZN13LiquidCrystal4sendEhh
-00001672 g     F .text	0000000c .hidden _ZN13LiquidCrystal5writeEh
-0000167e g     F .text	00000002 .hidden _ZN5TrackD1Ev
-0000167e g     F .text	00000002 .hidden _ZN5TrackD2Ev
-00001680 g     F .text	000001dc __vector_7
-0000185c l     F .text	0000000c _ZN13LiquidCrystal7commandEh.constprop.63
-00001868 g     F .text	00000028 .hidden _ZN6Eeprom19flag_save_requestedEv.constprop.82
-00001890 g     F .text	00000040 .hidden _ZN7Timer1_18set_playback_stateEb.constprop.81
-000018d0 g     F .text	00000010 .hidden _ZN13LiquidCrystal5clearEv.constprop.62
-000018e0 g     F .text	00000022 .hidden _ZN6ScreenI6UiDataI15TrackCollectionILj3E5TrackEEE5enterEv.constprop.61
-00001902 g     F .text	0000006c .hidden _ZN13ControlSourceI17Buttonpad_PCF8754ILh63EEEC2Eh.constprop.53
-0000196e g     F .text	0000003a .hidden _ZN13LiquidCrystal10createCharEhPh.constprop.38
-000019a8 g     F .text	00000144 .hidden _ZN13LiquidCrystal5beginEhhh.constprop.36
-00001aec g     F .text	00000024 .hidden _ZN13LiquidCrystal9setCursorEhh.constprop.21
-00001b10 g     F .text	00000024 .hidden _ZN5Print5writeEPKc.constprop.18
-00001b34 l     F .text	0000004a micros
-00001b7e l     F .text	00000082 _ZN5Print11printNumberEmh.constprop.17
-00001c00 l     F .text	00000004 _ZN5Print5printEPKc.constprop.5
-00001c04 g     F .text	0000007c .hidden _ZN6SSMain20draw_channel_numbersEv.constprop.13
-00001c80 g     F .text	00000034 .hidden _ZN5Print5printEPK19__FlashStringHelper.constprop.12
-00001cb4 g     F .text	0000002c .hidden _ZN6SSMain16draw_page_numberEv.constprop.6
-00001ce0 g     F .text	000002b2 .hidden _ZN6SSMain10draw_line0Eb.constprop.4
-
-00001f92 g     F .text	00000110 .hidden _ZN6SSMain11draw_columnEhbb.constprop.2
-
-000020a2 g     F .text	0000009a .hidden digitalWrite
-0000213c g     F .text	00000078 .hidden pinMode
-000021b4 g     F .text	00000074 .hidden delay
-00002228 g     F .text	00000094 __vector_16
-000022bc l     F .text	00000010 _GLOBAL__sub_D__ZN11Application20control_event_sourceE
-000022cc g     F .text	0000035c main
-00002628 l     F .text	00000336 _GLOBAL__I_65535_0_application.cpp.o.3869
-0000295e g     F .text	00000040 dtostrf
-0000299e g     F .text	000002b4 dtoa_prf
-00002c52 g     F .text	000001b0 __ftoa_engine
-00002e02 g     F .text	00000010 eeprom_read_byte
-00002e12 g     F .text	0000001c eeprom_write_byte
-00002e14 g       .text	00000000 eeprom_write_r18
-00002e2e g       .text	00000038 .hidden __prologue_saves__
-00002e66 g       .text	00000036 .hidden __epilogue_restores__
-00002e9c g       .text	00000018 .hidden __udivmodqi4
-00002ea2 l       .text	00000000 __udivmodqi4_loop
-00002eaa l       .text	00000000 __udivmodqi4_ep
-00002eb4 g       .text	00000000 .hidden _div
-00002eb4 g       .text	00000028 .hidden __divmodhi4
-00002ecc l       .text	00000000 __divmodhi4_neg1
-00002ed4 l       .text	00000000 __divmodhi4_neg2
-00002eda l       .text	00000000 __divmodhi4_exit
-00002edc g       .text	00000044 .hidden __udivmodsi4
-00002ee8 l       .text	00000000 __udivmodsi4_loop
-00002f02 l       .text	00000000 __udivmodsi4_ep
-00002f20 g       .text	00000028 .hidden __udivmodhi4
-00002f28 l       .text	00000000 __udivmodhi4_loop
-00002f36 l       .text	00000000 __udivmodhi4_ep
-00002f48 g       .text	0000000c .hidden __tablejump2__
-00002f54 g     F .text	0000000e __subsf3
-00002f56 g       .text	00000000 __addsf3
-00002f84 g     F .text	000000cc __addsf3x
-0000302e g     F .text	00000008 __divsf3
-00003056 g     F .text	000000dc __divsf3x
-0000305c g       .text	00000000 __divsf3_pse
-00003112 g     F .text	0000005e __fixunssfsi
-00003170 g     F .text	0000007a __floatunsisf
-00003174 g       .text	00000000 __floatsisf
-000031ea g     F .text	0000000c __fp_inf
-000031f6 g     F .text	00000006 __fp_nan
-000031fc g     F .text	0000000e __fp_pscA
-0000320a g     F .text	0000000e __fp_pscB
-00003218 g     F .text	00000022 __fp_round
-0000323a g     F .text	00000044 __fp_split3
-0000324a g       .text	00000000 __fp_splitA
-0000327e g     F .text	0000000e __fp_zero
-00003280 g       .text	00000000 __fp_szero
-0000328c g     F .text	00000008 __mulsf3
-000032b2 g     F .text	000000d2 __mulsf3x
-000032b8 g       .text	00000000 __mulsf3_pse
-00003366 g     F .text	00000130 malloc
-00003496 g     F .text	00000112 free
-000035a8 g     F .text	0000000a abort
-000035b2 g     F .text	00000060 snprintf
-00003612 g     F .text	000003c2 vfprintf
-000039d4 g     F .text	00000016 strnlen_P
-000039ea g     F .text	00000016 strnlen
-00003a00 g     F .text	00000078 fputc
-00003a78 g     F .text	000000bc __ultoa_invert
-00003b34  w      .text	00000000 .hidden exit
-00003b34 g       .text	00000000 .hidden _exit
-00003b34 g       .text	00000016 .hidden __do_global_dtors
-00003b4c l       .text	00000000 __stop_program
-00003b4e g       *ABS*	00000000 __data_load_start
-00003b4e g       .text	00000000 _etext
-00003d9a g       *ABS*	00000000 __data_load_end
+00000a74 g     F .text	0000004c __vector_19
+00000ac0 g     F .text	0000004a .hidden _ZN4lamb8Encoders6States4UIntILc8ELb0EE7do_downEv
+00000b0a g     F .text	0000004a .hidden _ZN4lamb8Encoders6States4UIntILc8ELb0EE5do_upEv
+00000b54 g     F .text	00000004 .hidden _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EE13poll_requiredEv
+00000b58 l     F .text	000000ce _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EE6updateEv
+00000c26 g     F .text	0000001a .hidden _ZThn7_N15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEE18impl_dequeue_eventEv
+00000c40 g     F .text	00000018 .hidden _ZN15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEE18impl_dequeue_eventEv.lto_priv.155
+00000c58 g     F .text	00000012 .hidden _ZThn7_NK15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEE16impl_queue_countEv
+00000c6a g     F .text	00000012 .hidden _ZNK15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEE16impl_queue_countEv.lto_priv.154
+00000c7c g     F .text	0000003e .hidden _ZN15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEE9impl_pollEv.lto_priv.153
+00000cba g     F .text	00000006 .hidden _ZThn7_N15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEE9impl_pollEv
+00000cc0 g     F .text	00000006 .hidden _ZNK17Buttonpad_PCF8754ILh63EE11impl_buttonEv
+00000cc6 g     F .text	00000046 .hidden _ZN13ControlSourceI17Buttonpad_PCF8754ILh63EEE18impl_dequeue_eventEv
+00000d0c g     F .text	00000006 .hidden _ZNK13ControlSourceI17Buttonpad_PCF8754ILh63EEE16impl_queue_countEv
+00000d12 g     F .text	00000162 .hidden _ZN6SSMain11impl_updateEv
+00000e74 g     F .text	00000098 .hidden _ZN6SSMain10impl_enterEv
+00000f0c g     F .text	00000004 .hidden _ZN6EepromD0Ev
+00000f10 g     F .text	00000004 .hidden _ZN13EncoderButtonD0Ev
+00000f14 g     F .text	00000004 .hidden _ZN4lamb8Encoders6States4UIntILc8ELb0EED0Ev
+00000f18 g     F .text	00000004 .hidden _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EED0Ev
+00000f1c g     F .text	00000004 .hidden _ZN7EncoderD0Ev
+00000f20 g     F .text	0000004a .hidden _ZN7Encoder5setupEv
+00000f6a g     F .text	00000066 .hidden _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EE5setupEPNS0_6States6IStateE
+00000fd0 g     F .text	00000160 .hidden _ZN17Buttonpad_PCF8754ILh63EE10impl_setupEv
+00001130 g     F .text	000000dc .hidden _ZN17Buttonpad_PCF8754ILh63EE9impl_readEv
+0000120c g     F .text	000000ee .hidden _ZN13ControlSourceI17Buttonpad_PCF8754ILh63EEE9impl_pollEv
+000012fa g     F .text	00000014 .hidden _ZN15TrackCollectionILj3E5TrackED0Ev
+0000130e g     F .text	00000004 .hidden _ZN11EEPROMClass5writeEih.isra.1.lto_priv.186
+00001312 g     F .text	00000004 .hidden _ZN11EEPROMClass4readEi.isra.0.lto_priv.185
+00001316 g     F .text	00000002 .hidden _ZN6EepromD1Ev
+00001316 g     F .text	00000002 .hidden _ZN6EepromD2Ev
+00001318 g     F .text	00000002 .hidden _ZN13EncoderButtonD1Ev
+00001318 g     F .text	00000002 .hidden _ZN13EncoderButtonD2Ev
+0000131a g     F .text	00000002 .hidden _ZN4lamb8Encoders6States4UIntILc8ELb0EED1Ev.lto_priv.149
+0000131a g     F .text	00000002 .hidden _ZN4lamb8Encoders6States4UIntILc8ELb0EED2Ev.lto_priv.179
+0000131c g     F .text	00000002 .hidden _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EED1Ev.lto_priv.148
+0000131c g     F .text	00000002 .hidden _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EED2Ev.lto_priv.178
+0000131e g     F .text	00000002 .hidden _ZN7EncoderD1Ev
+0000131e g     F .text	00000002 .hidden _ZN7EncoderD2Ev
+00001320 g     F .text	0000001e .hidden _ZN14HardwareSerial17availableForWriteEv
+0000133e g     F .text	00000028 .hidden _ZN14HardwareSerial4readEv
+00001366 g     F .text	0000001c .hidden _ZN14HardwareSerial4peekEv
+00001382 g     F .text	00000018 .hidden _ZN14HardwareSerial9availableEv
+0000139a g     F .text	00000014 .hidden _Z14serialEventRunv
+000013ae l     F .text	00000014 twi_stop
+000013c2 l     F .text	00000050 twi_transmit
+00001412 g     F .text	00000002 .hidden _ZN7TwoWire16onRequestServiceEv
+00001414 g     F .text	00000002 .hidden _ZN7TwoWire16onReceiveServiceEPhi
+00001416 g     F .text	00000002 .hidden _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EE4pollEv
+00001416 g     F .text	00000002 .hidden _ZN6SSNone10impl_enterEv
+00001416 g     F .text	00000002 .hidden _ZN6SSNone11impl_updateEv
+00001416 g     F .text	00000002 .hidden _ZN7SSInstr10impl_enterEv
+00001416 g     F .text	00000002 .hidden _ZN7SSInstr11impl_updateEv
+00001416 g     F .text	00000002 .hidden _ZN7SSIntro11impl_updateEv
+00001416 g     F .text	00000002 .hidden _ZN7TwoWire5flushEv
+00001418 g     F .text	0000001e .hidden _ZN7TwoWire4peekEv
+00001436 g     F .text	00000028 .hidden _ZN7TwoWire4readEv
+0000145e g     F .text	00000010 .hidden _ZN7TwoWire9availableEv
+0000146e g     F .text	0000005a .hidden _ZN7TwoWire5writeEPKhj
+000014c8 g     F .text	0000005e .hidden _ZN7TwoWire5writeEh
+00001526 g     F .text	00000002 .hidden _ZN5Print5flushEv
+00001528 g     F .text	00000006 .hidden _ZN5Print17availableForWriteEv
+0000152e g     F .text	00000024 .hidden _ZN5TrackaSERKS_
+00001552 l     F .text	0000002c _ZN13LiquidCrystal11pulseEnableEv
+0000157e g     F .text	00000004 .hidden _ZN5TrackD0Ev
+00001582 g     F .text	00000004 .hidden _ZN7Timer2_D0Ev
+00001586 g     F .text	00000004 .hidden _ZN7Timer1_D0Ev
+0000158a g     F .text	00000004 .hidden _ZN6SSNoneD0Ev
+0000158e g     F .text	00000004 .hidden _ZN7SSInstrD0Ev
+00001592 g     F .text	00000004 .hidden _ZN7SSIntroD0Ev
+00001596 g     F .text	00000004 .hidden _ZN6SSMainD0Ev
+0000159a g     F .text	00000064 __vector_18
+000015fe g     F .text	00000044 .hidden _ZN14HardwareSerial17_tx_udr_empty_irqEv
+00001642 g     F .text	0000009a .hidden _ZN14HardwareSerial5writeEh
+000016dc g     F .text	00000044 .hidden _ZN14HardwareSerial5flushEv
+00001720 g     F .text	0000025c __vector_24
+0000197c g     F .text	0000005a .hidden _ZN13LiquidCrystal10write4bitsEh
+000019d6 g     F .text	000000a6 .hidden _ZN13LiquidCrystal4sendEhh
+00001a7c g     F .text	0000000c .hidden _ZN13LiquidCrystal5writeEh
+00001a88 g     F .text	000000d0 .hidden _ZN7SSIntro10impl_enterEv
+00001b58 g     F .text	00000002 .hidden _ZN5TrackD1Ev
+00001b58 g     F .text	00000002 .hidden _ZN5TrackD2Ev
+00001b5a g     F .text	00000002 .hidden _ZN7Timer2_D1Ev
+00001b5a g     F .text	00000002 .hidden _ZN7Timer2_D2Ev
+00001b5c g     F .text	000000de __vector_11
+00001c3a g     F .text	0000008c .hidden _ZN7Timer1_13set_hz_by_bpmEh
+00001cc6 g     F .text	000001dc __vector_7
+00001ea2 g     F .text	00000002 .hidden _ZN7Timer1_D1Ev
+00001ea2 g     F .text	00000002 .hidden _ZN7Timer1_D2Ev
+00001ea4 g     F .text	00000002 .hidden _ZN6SSNoneD1Ev.lto_priv.144
+00001ea4 g     F .text	00000002 .hidden _ZN6SSNoneD2Ev.lto_priv.174
+00001ea6 g     F .text	00000002 .hidden _ZN7SSInstrD1Ev.lto_priv.146
+00001ea6 g     F .text	00000002 .hidden _ZN7SSInstrD2Ev.lto_priv.176
+00001ea8 g     F .text	00000002 .hidden _ZN7SSIntroD1Ev.lto_priv.143
+00001ea8 g     F .text	00000002 .hidden _ZN7SSIntroD2Ev.lto_priv.173
+00001eaa g     F .text	00000002 .hidden _ZN6SSMainD1Ev.lto_priv.145
+00001eaa g     F .text	00000002 .hidden _ZN6SSMainD2Ev.lto_priv.175
+00001eac g     F .text	00000014 .hidden _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE18decrease_phase_majER5Track
+00001ec0 g     F .text	00000028 .hidden _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE18increase_phase_majER5Track
+00001ee8 g     F .text	00000014 .hidden _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE18decrease_phase_minER5Track
+00001efc g     F .text	00000028 .hidden _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE18increase_phase_minER5Track
+00001f24 g     F .text	0000003e .hidden _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE16decrease_mod_majER5Track
+00001f62 g     F .text	00000012 .hidden _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE16increase_mod_majER5Track
+00001f74 g     F .text	00000020 .hidden _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE16decrease_mod_minER5Track
+00001f94 g     F .text	00000014 .hidden _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE16increase_mod_minER5Track
+00001fa8 g     F .text	0000001a .hidden _ZThn4_N19EncoderButtonSource18impl_dequeue_eventEv
+00001fc2 g     F .text	00000018 .hidden _ZN19EncoderButtonSource18impl_dequeue_eventEv.lto_priv.162
+00001fda g     F .text	00000012 .hidden _ZThn4_NK19EncoderButtonSource16impl_queue_countEv
+00001fec g     F .text	00000012 .hidden _ZNK19EncoderButtonSource16impl_queue_countEv.lto_priv.161
+00001ffe g     F .text	00000054 .hidden _ZN19EncoderButtonSource9impl_pollEv.lto_priv.160
+00002052 g     F .text	00000006 .hidden _ZThn4_N19EncoderButtonSource9impl_pollEv
+00002058 g     F .text	00000002 .hidden _ZThn4_N19EncoderButtonSourceD1Ev
+0000205a g     F .text	00000014 .hidden _ZN13EncoderSource18impl_dequeue_eventEv.lto_priv.168
+0000206e g     F .text	00000006 .hidden _ZThn2_N13EncoderSource18impl_dequeue_eventEv
+00002074 g     F .text	00000012 .hidden _ZThn2_NK13EncoderSource16impl_queue_countEv
+00002086 g     F .text	00000012 .hidden _ZNK13EncoderSource16impl_queue_countEv.lto_priv.167
+00002098 g     F .text	00000040 .hidden _ZN13EncoderSource9impl_pollEv.lto_priv.166
+000020d8 g     F .text	00000006 .hidden _ZThn2_N13EncoderSource9impl_pollEv
+000020de g     F .text	00000002 .hidden _ZThn2_N13EncoderSourceD1Ev
+000020e0 g     F .text	00000004 .hidden _ZN2UiI6UiDataI15TrackCollectionILj3E5TrackEEED0Ev
+000020e4 g     F .text	00000004 .hidden _ZN6UiDataI15TrackCollectionILj3E5TrackEED0Ev
+000020e8 g     F .text	00000004 .hidden _ZN17Buttonpad_PCF8754ILh63EED0Ev
+000020ec g     F .text	00000004 .hidden _ZN19EncoderButtonSourceD0Ev.lto_priv.159
+000020f0 g     F .text	00000006 .hidden _ZThn4_N19EncoderButtonSourceD0Ev.lto_priv.163
+000020f6 g     F .text	00000004 .hidden _ZN13EncoderSourceD0Ev.lto_priv.165
+000020fa g     F .text	00000006 .hidden _ZThn2_N13EncoderSourceD0Ev.lto_priv.169
+00002100 g     F .text	00000026 .hidden _ZN13EncoderSource5setupEv
+00002126 g     F .text	00000020 .hidden _ZN13ControlSourceI17Buttonpad_PCF8754ILh63EEE5setupEv
+00002146 g     F .text	00000002 .hidden _ZN2UiI6UiDataI15TrackCollectionILj3E5TrackEEED1Ev.lto_priv.142
+00002146 g     F .text	00000002 .hidden _ZN2UiI6UiDataI15TrackCollectionILj3E5TrackEEED2Ev.lto_priv.172
+00002148 g     F .text	00000002 .hidden _ZN6UiDataI15TrackCollectionILj3E5TrackEED1Ev.lto_priv.147
+00002148 g     F .text	00000002 .hidden _ZN6UiDataI15TrackCollectionILj3E5TrackEED2Ev.lto_priv.177
+0000214a g     F .text	00000002 .hidden _ZN17Buttonpad_PCF8754ILh63EED1Ev.lto_priv.157
+0000214a g     F .text	00000002 .hidden _ZN17Buttonpad_PCF8754ILh63EED2Ev.lto_priv.182
+0000214c g     F .text	0000003e .hidden _ZN4lamb20PositionalFixedArrayILj3E5TrackED1Ev.lto_priv.141
+0000214c g     F .text	0000003e .hidden _ZN4lamb20PositionalFixedArrayILj3E5TrackED2Ev.lto_priv.171
+0000218a g     F .text	00000014 .hidden _ZN4lamb20PositionalFixedArrayILj3E5TrackED0Ev
+0000219e g     F .text	0000000e .hidden _ZN15TrackCollectionILj3E5TrackED1Ev.lto_priv.140
+0000219e g     F .text	0000000e .hidden _ZN15TrackCollectionILj3E5TrackED2Ev.lto_priv.170
+000021ac g     F .text	00000002 .hidden _ZN15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEED1Ev.lto_priv.151
+000021ac g     F .text	00000002 .hidden _ZN15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEED2Ev.lto_priv.181
+000021ae g     F .text	00000002 .hidden _ZThn7_N15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEED1Ev.lto_priv.156
+000021b0 g     F .text	00000004 .hidden _ZN15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEED0Ev.lto_priv.152
+000021b4 g     F .text	00000006 .hidden _ZThn7_N15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEED0Ev
+000021ba g     F .text	00000010 .hidden _ZN17PolledEventSourceI5EventE13dequeue_eventEv
+000021ca g     F .text	00000016 .hidden _ZNK15TrackCollectionILj3E5TrackE11max_mod_majEv
+000021e0 g     F .text	00000002 .hidden _ZN13ControlSourceI17Buttonpad_PCF8754ILh63EEED1Ev.lto_priv.150
+000021e0 g     F .text	00000002 .hidden _ZN13ControlSourceI17Buttonpad_PCF8754ILh63EEED2Ev.lto_priv.180
+000021e2 g     F .text	00000004 .hidden _ZN13ControlSourceI17Buttonpad_PCF8754ILh63EEED0Ev
+000021e6 g     F .text	00000002 .hidden _ZN19EncoderButtonSourceD1Ev.lto_priv.158
+000021e6 g     F .text	00000002 .hidden _ZN19EncoderButtonSourceD2Ev.lto_priv.183
+000021e8 g     F .text	00000002 .hidden _ZN13EncoderSourceD1Ev.lto_priv.164
+000021e8 g     F .text	00000002 .hidden _ZN13EncoderSourceD2Ev.lto_priv.184
+000021ea g     F .text	0000000e .hidden _ZN11Application16flag_main_screenEv
+000021f8 g     F .text	0000004a .hidden _ZN11Application14update_ui_dataEv
+00002242 l     F .text	0000000c _ZN13LiquidCrystal7commandEh.constprop.67
+0000224e g     F .text	00000028 .hidden _ZN6Eeprom19flag_save_requestedEv.constprop.86
+00002276 g     F .text	00000040 .hidden _ZN7Timer1_18set_playback_stateEb.constprop.85
+000022b6 g     F .text	00000010 .hidden _ZN13LiquidCrystal5clearEv.constprop.66
+000022c6 g     F .text	00000022 .hidden _ZN6ScreenI6UiDataI15TrackCollectionILj3E5TrackEEE5enterEv.constprop.65
+000022e8 g     F .text	0000006c .hidden _ZN13ControlSourceI17Buttonpad_PCF8754ILh63EEEC2Eh.constprop.57
+00002354 g     F .text	0000003a .hidden _ZN13LiquidCrystal10createCharEhPh.constprop.42
+0000238e g     F .text	00000144 .hidden _ZN13LiquidCrystal5beginEhhh.constprop.40
+000024d2 g     F .text	00000024 .hidden _ZN13LiquidCrystal9setCursorEhh.constprop.23
+000024f6 g     F .text	00000086 .hidden _ZN5Print11printNumberEmh.constprop.20
+0000257c g     F .text	000003e0 main
+0000295c l     F .text	00000010 _GLOBAL__sub_D__ZN11Application20control_event_sourceE
+0000296c l     F .text	000003a4 _GLOBAL__I_65535_0_application.cpp.o.4023
+00002d10 g     F .text	00000040 dtostrf
+00002d50 g     F .text	000002b4 dtoa_prf
+00003004 g     F .text	000001b0 __ftoa_engine
+000031b4 g     F .text	00000010 eeprom_read_byte
+000031c4 g     F .text	0000001c eeprom_write_byte
+000031c6 g       .text	00000000 eeprom_write_r18
+000031e0 g       .text	00000038 .hidden __prologue_saves__
+00003218 g       .text	00000036 .hidden __epilogue_restores__
+0000324e g       .text	00000018 .hidden __udivmodqi4
+00003254 l       .text	00000000 __udivmodqi4_loop
+0000325c l       .text	00000000 __udivmodqi4_ep
+00003266 g       .text	00000000 .hidden _div
+00003266 g       .text	00000028 .hidden __divmodhi4
+0000327e l       .text	00000000 __divmodhi4_neg1
+00003286 l       .text	00000000 __divmodhi4_neg2
+0000328c l       .text	00000000 __divmodhi4_exit
+0000328e g       .text	00000044 .hidden __udivmodsi4
+0000329a l       .text	00000000 __udivmodsi4_loop
+000032b4 l       .text	00000000 __udivmodsi4_ep
+000032d2 g       .text	00000028 .hidden __udivmodhi4
+000032da l       .text	00000000 __udivmodhi4_loop
+000032e8 l       .text	00000000 __udivmodhi4_ep
+000032fa g       .text	0000000c .hidden __tablejump2__
+00003306 g     F .text	0000000e __subsf3
+00003308 g       .text	00000000 __addsf3
+00003336 g     F .text	000000cc __addsf3x
+000033e0 g     F .text	00000008 __divsf3
+00003408 g     F .text	000000dc __divsf3x
+0000340e g       .text	00000000 __divsf3_pse
+000034c4 g     F .text	0000005e __fixunssfsi
+00003522 g     F .text	0000007a __floatunsisf
+00003526 g       .text	00000000 __floatsisf
+0000359c g     F .text	0000000c __fp_inf
+000035a8 g     F .text	00000006 __fp_nan
+000035ae g     F .text	0000000e __fp_pscA
+000035bc g     F .text	0000000e __fp_pscB
+000035ca g     F .text	00000022 __fp_round
+000035ec g     F .text	00000044 __fp_split3
+000035fc g       .text	00000000 __fp_splitA
+00003630 g     F .text	0000000e __fp_zero
+00003632 g       .text	00000000 __fp_szero
+0000363e g     F .text	00000008 __mulsf3
+00003664 g     F .text	000000d2 __mulsf3x
+0000366a g       .text	00000000 __mulsf3_pse
+00003718 g     F .text	00000130 malloc
+00003848 g     F .text	00000112 free
+0000395a g     F .text	0000000a abort
+00003964 g     F .text	00000060 snprintf
+000039c4 g     F .text	000003c2 vfprintf
+00003d86 g     F .text	00000016 strnlen_P
+00003d9c g     F .text	00000016 strnlen
+00003db2 g     F .text	00000078 fputc
+00003e2a g     F .text	000000bc __ultoa_invert
+00003ee6  w      .text	00000000 .hidden exit
+00003ee6 g       .text	00000000 .hidden _exit
+00003ee6 g       .text	00000016 .hidden __do_global_dtors
+00003efe l       .text	00000000 __stop_program
+00003f00 g       *ABS*	00000000 __data_load_start
+00003f00 g       .text	00000000 _etext
+00004164 g       *ABS*	00000000 __data_load_end
 0000ffa0 g       *ABS*	00000000 __DATA_REGION_LENGTH__
 00010000 g       *ABS*	00000000 __EEPROM_REGION_LENGTH__
 00020000 g       *ABS*	00000000 __TEXT_REGION_LENGTH__
 00800100 g       .data	00000000 __data_start
-00800100 l     O .data	00000001 _ZZN6SSMain11impl_updateEvE9last_page
+00800100 g     O .data	00000004 .hidden intFunc.lto_priv.187
 00800100 l    d  .data	00000000 .data
-00800101 l     O .data	00000010 _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE15button_handlersE
-00800111 g     O .data	00000004 .hidden intFunc.lto_priv.180
+00800104 l     O .data	00000001 _ZZN6SSMain11impl_updateEvE9last_page
+00800105 l     O .data	00000010 _ZN19ProcessTrackControlI13ControlSourceI17Buttonpad_PCF8754ILh63EEEE15button_handlersE
 00800115 g     O .data	00000002 __malloc_heap_end
 00800117 g     O .data	00000002 __malloc_heap_start
 00800119 g     O .data	00000002 __malloc_margin
-0080011b l     O .data	00000010 _ZN15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEE18buttonpad_orderingE
-0080012b l     O .data	00000004 _ZZN4lamb8Encoders6States6IState6updateEcE6stages
-0080012f l     O .data	00000040 _ZN3Lcd12custom_charsE
-0080016f g     O .data	0000000a .hidden _ZTV7Encoder
-00800179 g     O .data	0000001e .hidden _ZTV13EncoderSource
-00800197 g     O .data	00000008 .hidden _ZTV13EncoderButton
-0080019f g     O .data	0000001c .hidden _ZTV19EncoderButtonSource
-008001bb g     O .data	0000000e .hidden _ZTV17Buttonpad_PCF8754ILh63EE
-008001c9 g     O .data	00000022 .hidden _ZTV15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEE
-008001eb g     O .data	00000010 .hidden _ZTV13ControlSourceI17Buttonpad_PCF8754ILh63EEE
-008001fb g     O .data	0000000e .hidden _ZTV17PolledEventSourceI5EventE
-008001fb g     O .data	0000000e .hidden _ZTV9Buttonpad
-008001fb g     O .data	0000000e .hidden _ZTVN4lamb8Encoders10Interfaces10IInterfaceE
-00800209 l     O .data	00000012 _ZTV7TwoWire
-0080021b l     O .data	0000000c _ZTV13LiquidCrystal
-00800227 g     O .data	0000000c .hidden _ZTVN4lamb8Encoders6States4UIntILc8ELb0EEE
-00800233 g     O .data	0000000c .hidden _ZTV6ScreenI6UiDataI15TrackCollectionILj3E5TrackEEE
-00800233 g     O .data	0000000c .hidden _ZTVN4lamb8Encoders6States6IStateE
-0080023f g     O .data	0000000e .hidden _ZTVN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EEE
-0080024d g     O .data	00000008 .hidden _ZTV6UiDataI15TrackCollectionILj3E5TrackEE
-00800255 g     O .data	0000000c .hidden _ZTV7SSInstr
-00800261 g     O .data	0000000c .hidden _ZTV6SSMain
-0080026d g     O .data	0000000c .hidden _ZTV6SSNone
-00800279 g     O .data	0000000c .hidden _ZTV7SSIntro
-00800285 g     O .data	00000008 .hidden _ZTV2UiI6UiDataI15TrackCollectionILj3E5TrackEEE
-0080028d g     O .data	00000008 .hidden _ZTV7Timer2_
-00800295 g     O .data	00000008 .hidden _ZTV7Timer1_
-0080029d g     O .data	00000008 .hidden _ZTV6Eeprom
-008002a5 g     O .data	0000000a .hidden _ZTV5Track
-008002af g     O .data	00000008 .hidden _ZTVN4lamb20PositionalFixedArrayILj3E5TrackEE
-008002b7 g     O .data	00000008 .hidden _ZTV15TrackCollectionILj3E5TrackE
-008002bf l     O .data	00000010 _ZZN6SSMain11draw_columnEhbbE7col_map
-008002cf l     O .data	00000010 _ZZN3Lcd16select_playstateEbE10playstates
-008002df l     O .data	00000020 _ZZN3Lcd16select_inversionEhE10inversions
-0080034c g       .bss	00000000 __bss_start
-0080034c g       .data	00000000 __data_end
-0080034c g       .data	00000000 _edata
-0080034c l     O .bss	00000001 _ZN7TwoWire9txAddressE
-0080034c l    d  .bss	00000000 .bss
-0080034d l     O .bss	00000002 _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EE9pin1_portE
-0080034f l     O .bss	00000002 _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EE9pin0_portE
-00800351 l     O .bss	00000001 _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EE9pin1_maskE
-00800352 l     O .bss	00000001 _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EE9pin0_maskE
-00800353 l     O .bss	00000002 _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EE5stateE
-00800355 g     O .bss	00000020 .hidden _ZN7TwoWire8txBufferE
-00800375 g     O .bss	00000001 .hidden _ZN7TwoWire12transmittingE
-00800376 g     O .bss	00000020 .hidden _ZN7TwoWire8rxBufferE
-00800396 g     O .bss	00000001 .hidden _ZN7TwoWire14rxBufferLengthE
-00800397 g     O .bss	00000001 .hidden _ZN7TwoWire13rxBufferIndexE
-00800398 g     O .bss	00000001 .hidden _ZN7TwoWire14txBufferLengthE
-00800399 g     O .bss	00000001 .hidden _ZN7TwoWire13txBufferIndexE
-0080039a g     O .bss	00000002 .hidden twi_onSlaveTransmit.lto_priv.189
-0080039c g     O .bss	00000002 .hidden twi_onSlaveReceive.lto_priv.190
-0080039e g     O .bss	00000001 .hidden twi_error.lto_priv.183
-0080039f g     O .bss	00000001 .hidden twi_state.lto_priv.181
-008003a0 g     O .bss	00000001 .hidden twi_inRepStart.lto_priv.188
-008003a1 g     O .bss	00000001 .hidden twi_sendStop.lto_priv.182
-008003a2 g     O .bss	00000020 .hidden twi_masterBuffer.lto_priv.186
-008003c2 g     O .bss	00000001 .hidden twi_masterBufferLength.lto_priv.185
-008003c3 g     O .bss	00000001 .hidden twi_masterBufferIndex.lto_priv.184
-008003c4 g     O .bss	00000001 .hidden twi_slarw.lto_priv.187
-008003c5 g     O .bss	00000002 .hidden _ZN7Timer1_9_instanceE
-008003c7 l     O .bss	00000002 _ZZ10__vector_7E2ix
-008003c9 l     O .bss	00000020 twi_txBuffer
-008003e9 l     O .bss	00000001 twi_txBufferLength
-008003ea l     O .bss	00000001 twi_txBufferIndex
-008003eb l     O .bss	00000020 twi_rxBuffer
-0080040b l     O .bss	00000001 twi_rxBufferIndex
-0080040c l     O .bss	00000001 _ZZN11Application4loopEvE3clk
-0080040d g     O .bss	00000004 .hidden timer0_millis
-00800411 g     O .bss	0000000c .hidden Wire
-0080041d g     O .bss	00000018 .hidden _ZN3Lcd3lcdE
-00800435 g     O .bss	00000004 .hidden _ZN7Encoder8_encoderE
-00800439 g     O .bss	00000018 .hidden _ZN11Application7ui_dataE
-00800451 g     O .bss	0000000e .hidden _ZN11Application2uiE
-0080045f g     O .bss	00000002 .hidden _ZN11Application6timer2E
-00800461 g     O .bss	00000009 .hidden _ZN11Application6timer1E
-0080046a g     O .bss	00000009 .hidden _ZN11Application6eepromE
-00800473 g     O .bss	0000001f .hidden _ZN11Application7_tracksE
-00800492 g     O .bss	00000038 .hidden _ZN11Application20control_event_sourceE
-008004ca l     O .bss	00000001 timer0_fract
-008004cb l     O .bss	00000004 timer0_overflow_count
-008004cf g     O .bss	00000002 __brkval
-008004d1 g     O .bss	00000002 __flp
-008004d3 g       .bss	00000000 __bss_end
-008004d3 g       .comment	00000000 __heap_start
-008004d3 g       .comment	00000000 _end
+0080011b l     O .data	00000040 _ZN3Lcd12custom_charsE
+0080015b l     O .data	00000010 _ZZN6SSMain11draw_columnEhbhE7col_map
+0080016b l     O .data	00000010 _ZZN3Lcd16select_playstateEbE10playstates
+0080017b l     O .data	00000020 _ZZN3Lcd16select_inversionEhE10inversions
+0080019b l     O .data	00000010 _ZN15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEE18buttonpad_orderingE
+008001ab l     O .data	00000004 _ZZN4lamb8Encoders6States6IState6updateEcE6stages
+008001af l     O .data	00000003 _ZZN6SSMain9draw_barsEvE7gap_map
+008001b2 g     O .data	0000000a .hidden _ZTV7Encoder
+008001bc g     O .data	0000001e .hidden _ZTV13EncoderSource
+008001da g     O .data	00000008 .hidden _ZTV13EncoderButton
+008001e2 g     O .data	0000001c .hidden _ZTV19EncoderButtonSource
+008001fe g     O .data	0000000e .hidden _ZTV17Buttonpad_PCF8754ILh63EE
+0080020c g     O .data	00000022 .hidden _ZTV15ButtonpadSourceI17Buttonpad_PCF8754ILh63EEE
+0080022e g     O .data	00000010 .hidden _ZTV13ControlSourceI17Buttonpad_PCF8754ILh63EEE
+0080023e g     O .data	0000000e .hidden _ZTV17PolledEventSourceI5EventE
+0080023e g     O .data	0000000e .hidden _ZTV9Buttonpad
+0080023e g     O .data	0000000e .hidden _ZTVN4lamb8Encoders10Interfaces10IInterfaceE
+0080024c l     O .data	00000012 _ZTV14HardwareSerial
+0080025e l     O .data	00000012 _ZTV7TwoWire
+00800270 l     O .data	0000000c _ZTV13LiquidCrystal
+0080027c g     O .data	0000000c .hidden _ZTVN4lamb8Encoders6States4UIntILc8ELb0EEE
+00800288 g     O .data	0000000c .hidden _ZTV6ScreenI6UiDataI15TrackCollectionILj3E5TrackEEE
+00800288 g     O .data	0000000c .hidden _ZTVN4lamb8Encoders6States6IStateE
+00800294 g     O .data	0000000e .hidden _ZTVN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EEE
+008002a2 g     O .data	00000008 .hidden _ZTV6UiDataI15TrackCollectionILj3E5TrackEE
+008002aa g     O .data	0000000c .hidden _ZTV7SSInstr
+008002b6 g     O .data	0000000c .hidden _ZTV6SSMain
+008002c2 g     O .data	0000000c .hidden _ZTV6SSNone
+008002ce g     O .data	0000000c .hidden _ZTV7SSIntro
+008002da g     O .data	00000008 .hidden _ZTV2UiI6UiDataI15TrackCollectionILj3E5TrackEEE
+008002e2 g     O .data	00000008 .hidden _ZTV7Timer2_
+008002ea g     O .data	00000008 .hidden _ZTV7Timer1_
+008002f2 g     O .data	00000008 .hidden _ZTV6Eeprom
+008002fa g     O .data	0000000a .hidden _ZTV5Track
+00800304 g     O .data	00000008 .hidden _ZTVN4lamb20PositionalFixedArrayILj3E5TrackEE
+0080030c g     O .data	00000008 .hidden _ZTV15TrackCollectionILj3E5TrackE
+00800364 g       .bss	00000000 __bss_start
+00800364 g       .data	00000000 __data_end
+00800364 g       .data	00000000 _edata
+00800364 g     O .bss	00000002 .hidden _ZN7Timer1_9_instanceE
+00800364 l    d  .bss	00000000 .bss
+00800366 l     O .bss	00000001 _ZZN11Application4loopEvE3clk
+00800367 l     O .bss	00000001 timer0_fract
+00800368 l     O .bss	00000004 timer0_overflow_count
+0080036c l     O .bss	00000001 _ZN7TwoWire9txAddressE
+0080036d l     O .bss	00000002 _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EE9pin1_portE
+0080036f l     O .bss	00000002 _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EE9pin0_portE
+00800371 l     O .bss	00000001 _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EE9pin1_maskE
+00800372 l     O .bss	00000001 _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EE9pin0_maskE
+00800373 l     O .bss	00000002 _ZN4lamb8Encoders10Interfaces10NativePinsILc2ELc3EE5stateE
+00800375 g     O .bss	00000020 .hidden _ZN7TwoWire8txBufferE
+00800395 g     O .bss	00000001 .hidden _ZN7TwoWire12transmittingE
+00800396 g     O .bss	00000020 .hidden _ZN7TwoWire8rxBufferE
+008003b6 g     O .bss	00000001 .hidden _ZN7TwoWire14rxBufferLengthE
+008003b7 g     O .bss	00000001 .hidden _ZN7TwoWire13rxBufferIndexE
+008003b8 g     O .bss	00000001 .hidden _ZN7TwoWire14txBufferLengthE
+008003b9 g     O .bss	00000001 .hidden _ZN7TwoWire13txBufferIndexE
+008003ba g     O .bss	00000002 .hidden twi_onSlaveTransmit.lto_priv.196
+008003bc g     O .bss	00000002 .hidden twi_onSlaveReceive.lto_priv.197
+008003be g     O .bss	00000001 .hidden twi_error.lto_priv.190
+008003bf g     O .bss	00000001 .hidden twi_state.lto_priv.188
+008003c0 g     O .bss	00000001 .hidden twi_inRepStart.lto_priv.195
+008003c1 g     O .bss	00000001 .hidden twi_sendStop.lto_priv.189
+008003c2 g     O .bss	00000020 .hidden twi_masterBuffer.lto_priv.193
+008003e2 g     O .bss	00000001 .hidden twi_masterBufferLength.lto_priv.192
+008003e3 g     O .bss	00000001 .hidden twi_masterBufferIndex.lto_priv.191
+008003e4 g     O .bss	00000001 .hidden twi_slarw.lto_priv.194
+008003e5 l     O .bss	00000002 _ZZ10__vector_7E2ix
+008003e7 l     O .bss	00000020 twi_txBuffer
+00800407 l     O .bss	00000001 twi_txBufferLength
+00800408 l     O .bss	00000001 twi_txBufferIndex
+00800409 l     O .bss	00000020 twi_rxBuffer
+00800429 l     O .bss	00000001 twi_rxBufferIndex
+0080042a g     O .bss	00000004 .hidden timer0_millis
+0080042e g     O .bss	0000009d .hidden Serial
+008004cb g     O .bss	0000000c .hidden Wire
+008004d7 g     O .bss	00000018 .hidden _ZN3Lcd3lcdE
+008004ef g     O .bss	00000004 .hidden _ZN7Encoder8_encoderE
+008004f3 g     O .bss	00000018 .hidden _ZN11Application7ui_dataE
+0080050b g     O .bss	0000000e .hidden _ZN11Application2uiE
+00800519 g     O .bss	00000002 .hidden _ZN11Application6timer2E
+0080051b g     O .bss	00000009 .hidden _ZN11Application6timer1E
+00800524 g     O .bss	00000009 .hidden _ZN11Application6eepromE
+0080052d g     O .bss	0000001f .hidden _ZN11Application7_tracksE
+0080054c g     O .bss	00000038 .hidden _ZN11Application20control_event_sourceE
+00800584 g     O .bss	00000002 __brkval
+00800586 g     O .bss	00000002 __flp
+00800588 g       .bss	00000000 __bss_end
+00800588 g       .comment	00000000 __heap_start
+00800588 g       .comment	00000000 _end
 00810000 g       .comment	00000000 __eeprom_end
 SYMBOL TABLE:

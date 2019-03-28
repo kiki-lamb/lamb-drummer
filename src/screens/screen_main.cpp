@@ -157,9 +157,11 @@ void SSMain::draw_column(uint8_t col, bool highlit, uint8_t mod_maj)  {
   uint8_t col_ = col_map[col % mod_maj % 16];
 
   for (uint8_t line = 1; line <= 3; line++) {
+    Track const & t = (*data->tracks)[line-1];
+
     uint8_t character  = Lcd::CHAR_REST;
-    bool    on_barrier = ((col - (*data->tracks)[line-1].phase_maj() + 1) % (*data->tracks)[line-1].mod_maj()) == 0;
-    bool    is_hit     = (*data->tracks)[line-1].trigger_state(col);
+    bool    on_barrier = ((col - t.phase_maj() + 1) % t.mod_maj()) == 0;
+    bool    is_hit     = t.trigger_state(col);
 
     if (highlit)
       character |= 0b001;
