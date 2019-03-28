@@ -37,18 +37,7 @@ void Application::setup() {
     timer1.playback_state()
   );
   eeprom .restore_all(tmp);
-  {
-    static EncoderButtonSource encoder_button_source(A7);
-    static EncoderSource       encoder_source(tmp.bpm);
-    static ButtonpadSource<Buttonpad_PCF8754<0x3F> >
-                               buttonpad_source;
-    encoder_button_source.setup();
-    encoder_source       .setup();
-    buttonpad_source     .setup();
-    control_event_source .sources[0] = &encoder_button_source;
-    control_event_source .sources[1] = &encoder_source;
-    control_event_source .sources[2] = &buttonpad_source;
-  }
+  setup_controls(tmp.bpm);
   cli();
   timer1 .setup();
   timer1 .set_bpm(tmp.bpm);
@@ -60,8 +49,19 @@ void Application::setup() {
   ui     .flag_screen (ui_t::SCREEN_MAIN);
   ui     .enter_screen(ui_t::SCREEN_MAIN);
   sei();
-  //Serial .println(F("Setup complete."));
-  //Serial .println();
+}
+
+void Application::setup_controls(uint8_t bpm) {
+  static EncoderButtonSource encoder_button_source(A7);
+  static EncoderSource       encoder_source(bpm);
+  static ButtonpadSource<Buttonpad_PCF8754<0x3F> >
+                             buttonpad_source;
+  encoder_button_source.setup();
+  encoder_source       .setup();
+  buttonpad_source     .setup();
+  control_event_source .sources[0] = &encoder_button_source;
+  control_event_source .sources[1] = &encoder_source;
+  control_event_source .sources[2] = &buttonpad_source;
 }
 
 void Application::loop() {

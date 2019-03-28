@@ -32,6 +32,7 @@ private:
   static  Eeprom                        eeprom;
   static  Timer1_                       timer1;
   static  Timer2_                       timer2;
+  static  void                          setup_controls(uint8_t bpm);
   static  void                          set_playback_state(bool playback_state_);
   static  bool                          process_control_event(control_event_source_t::event_t e);
   static  void                          update_ui_data();
