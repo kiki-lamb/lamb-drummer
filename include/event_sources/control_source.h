@@ -33,7 +33,6 @@ private:
   buttonpad_source_t                   buttonpad_source;
   encoder_button_source_t              encoder_button_source;
   encoder_source_t                     encoder_source;
-
   lamb::RingBuffer<Event, 8>           event_queue;
 
   virtual uint8_t impl_queue_count() const {
