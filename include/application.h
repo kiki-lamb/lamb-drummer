@@ -26,7 +26,7 @@ private:
                            buttonpad_t;
   typedef ControlSource<buttonpad_t>
                            control_event_source_real_t;
-  typedef PolledEventSource<Control>
+  typedef PolledEventSource<Event>
                            control_event_source_t;
   typedef UiData<tracks_t> ui_data_t;
   typedef Ui<ui_data_t>    ui_t;

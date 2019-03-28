@@ -9,7 +9,7 @@
 #include "buttonpad_source.h"
 
 template <class buttonpad_t>
-class ControlSource : public PolledEventSource<Control> {
+class ControlSource : public PolledEventSource<Event> {
 public:
   ControlSource(uint8_t bpm) :
     _bpm(bpm),
@@ -28,7 +28,7 @@ private:
   uint8_t                              _bpm;
   buttonpad_source_t                   buttonpad_source;
   EncoderButtonSource                  encoder_button_source;
-  lamb::RingBuffer<Control, 8>         event_queue;
+  lamb::RingBuffer<Event, 8>         event_queue;
 
   virtual uint8_t impl_queue_count() const {
     return event_queue.count();
@@ -58,22 +58,22 @@ private:
     }
   }
 
-  virtual Control impl_dequeue_event() {
+  virtual Event impl_dequeue_event() {
     if (! event_queue.readable() ) {
-      Control e = { EVT_NOT_AVAILABLE};
+      Event e = { EVT_NOT_AVAILABLE};
       return e;
     }
 
     return event_queue.read();
   }
 
-  void queue_event(ControlType t, uint8_t param = 0) {
+  void queue_event(EventType t, uint8_t param = 0) {
     if (! event_queue.writeable()) {
       Serial.println(F("Can't queue."));
       return;
     }
 
-    Control e = { t, param };
+    Event e = { t, param };
 
     Serial.print(F("Queue "));
     Serial.print(e.type);

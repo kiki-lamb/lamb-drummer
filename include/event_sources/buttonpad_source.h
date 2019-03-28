@@ -7,7 +7,7 @@
 #include "event/event.h"
 
 template <class buttonpad_t_>
-class ButtonpadSource : public buttonpad_t_, public PolledEventSource<ControlType>{
+class ButtonpadSource : public buttonpad_t_, public PolledEventSource<EventType>{
 public:
   typedef buttonpad_t_ buttonpad_t;
   inline ButtonpadSource() : event(EVT_NOT_AVAILABLE) {}

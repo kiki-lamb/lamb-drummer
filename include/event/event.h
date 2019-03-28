@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-enum ControlType {
+enum EventType {
   EVT_MIN_UP,
   EVT_MIN_DN,
   EVT_MAJ_UP,
@@ -19,9 +19,9 @@ enum ControlType {
   EVT_NOT_AVAILABLE
 };
 
-struct Control {
-  typedef ControlType event_type_t;
-  ControlType type;
+struct Event {
+  typedef EventType event_type_t;
+  EventType type;
   uint8_t parameter;
 };
 

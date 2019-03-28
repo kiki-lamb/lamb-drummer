@@ -6,12 +6,12 @@
 #include "polled_event_source.h"
 #include "event/event.h"
 
-class EncoderButtonSource : public EncoderButton, public PolledEventSource<ControlType>{
+class EncoderButtonSource : public EncoderButton, public PolledEventSource<EventType>{
 public:
   inline EncoderButtonSource(uint8_t pin_, bool adc_state = true) : EncoderButton(pin_, adc_state), event(EVT_NOT_AVAILABLE) {}
   inline virtual ~EncoderButtonSource() {}
 private:
-  ControlType event;
+  EventType event;
 
   inline virtual void    impl_poll() {
     if (read())
@@ -23,7 +23,7 @@ private:
   }
 
   inline virtual event_t impl_dequeue_event() {
-    ControlType e = event;
+    EventType e = event;
     event = EVT_NOT_AVAILABLE;
     return e;
   };

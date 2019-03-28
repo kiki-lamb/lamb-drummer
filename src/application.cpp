@@ -110,7 +110,7 @@ void Application::process_control_events() {
 }
 
 bool Application::process_control_event(Application::control_event_source_t::event_t e) {
-  if (e.type == ControlType::EVT_NOT_AVAILABLE)
+  if (e.type == EventType::EVT_NOT_AVAILABLE)
     return false;
 
   if (e.type < 8) {
@@ -129,11 +129,11 @@ bool Application::process_control_event(Application::control_event_source_t::eve
   }
   else {
     switch (e.type) {
-      case ControlType::EVT_PLAYBACK_STATE_TOGGLE:
+      case EventType::EVT_PLAYBACK_STATE_TOGGLE:
         set_playback_state(! timer1.playback_state());
         SET_FLAGS_AND_RETURN_TRUE;
         break;
-      case ControlType::EVT_BPM_SET:
+      case EventType::EVT_BPM_SET:
         timer1.set_bpm(e.parameter);
         ui_data.popup_bpm_requested.flag();
         SET_FLAGS_AND_RETURN_TRUE;
