@@ -5,10 +5,10 @@
 #include "track.h"
 #include "buttonpads/buttonpad.h"
 
-template <class control_event_source_t>
+template <class event_t>
 class ProcessTrackControl {
 public:
-  static bool apply(Track & that, typename control_event_source_t::event_t e) {
+  static bool apply(Track & that, event_t e) {
     if (e.type < 8) {
       (*button_handlers[e.type])(that);
       return true;
@@ -109,7 +109,7 @@ private:
   static button_handler button_handlers[8];
 };
 
-template <class control_event_source_t> typename ProcessTrackControl<control_event_source_t>::button_handler ProcessTrackControl<control_event_source_t>::button_handlers[8] = {
+template <class event_t> typename ProcessTrackControl<event_t>::button_handler ProcessTrackControl<event_t>::button_handlers[8] = {
   &ProcessTrackControl::increase_mod_min,
   &ProcessTrackControl::decrease_mod_min,
   &ProcessTrackControl::increase_mod_maj,

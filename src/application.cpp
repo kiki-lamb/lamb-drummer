@@ -119,7 +119,7 @@ bool Application::process_control_event(Application::control_event_source_t::eve
   if (e.type == EventType::EVT_NOT_AVAILABLE)
     return false;
   if (e.type < 8) {
-    ProcessTrackControl<control_event_source_t>::apply(
+    ProcessTrackControl<Event>::apply(
       _tracks.current(),
       e
     );
