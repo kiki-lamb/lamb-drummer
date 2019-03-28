@@ -3,6 +3,7 @@
 #include "event_sources/encoder_button_source.h"
 #include "event_sources/encoder_source.h"
 #include "event_sources/buttonpad_source.h"
+#include "event/event.h"
 
 Application::control_event_source_t
                           Application::control_event_source;
@@ -53,9 +54,9 @@ void Application::setup() {
 void Application::setup_controls(uint8_t bpm) {
   static ButtonpadSource<Buttonpad_PCF8754<0x3F> >
                              buttonpad_source;
-  static EncoderSource       encoder_source(bpm);
-  static EncoderButtonSource encoder_button_source(A7);
-  static CombineEventSources<Event,3> 
+  static EncoderSource       encoder_source(EventType::EVT_BPM_SET, bpm);
+  static EncoderButtonSource encoder_button_source(EventType::EVT_PLAYBACK_STATE_TOGGLE, A7);
+  static CombineEventSources<Event,3>
                              combine_event_sources;
   buttonpad_source     .setup();
   encoder_source       .setup();

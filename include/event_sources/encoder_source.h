@@ -8,7 +8,13 @@
 
 class EncoderSource : public Encoder, public EventSource<Event>{
 public:
-  EncoderSource(uint8_t bpm = 0) : _bpm(bpm) {
+  EncoderSource(
+    event_t::event_type_t on_change_,
+    uint8_t initial_value = 0
+  ) :
+    on_change(on_change_),
+    _initial_value(initial_value)
+  {
     event.type = EVT_NOT_AVAILABLE;
     event.parameter = 0;
   }
@@ -17,20 +23,21 @@ public:
 
   virtual void setup() {
     Encoder::setup();
-    set_value(_bpm);
+    set_value(_initial_value);
   }
 
 private:
   event_t event;
-  uint8_t _bpm;
+  event_t::event_type_t on_change;
+  uint8_t _initial_value;
 
   virtual void impl_poll() {
-    uint8_t tmp_bpm = value();
+    uint8_t tmp_value = value();
 
-    if (tmp_bpm != _bpm) {
-      event.type = EVT_BPM_SET;
-      event.parameter = tmp_bpm;
-      _bpm = tmp_bpm;
+    if (tmp_value != _initial_value) {
+      event.type = on_change;
+      event.parameter = tmp_value;
+      _initial_value = tmp_value;
     }
   }
 

@@ -8,14 +8,22 @@
 
 class EncoderButtonSource : public EncoderButton, public EventSource<Event>{
 public:
-  EncoderButtonSource(uint8_t pin_, bool adc_state = true) : EncoderButton(pin_, adc_state), event_type(EVT_NOT_AVAILABLE) {}
+  EncoderButtonSource(
+    event_t::event_type_t on_push_,
+    uint8_t pin_,
+    bool adc_state = true
+  ) :
+  EncoderButton(pin_, adc_state),
+  on_push(on_push_),
+  event_type(EVT_NOT_AVAILABLE) {}
   virtual ~EncoderButtonSource() {}
 private:
+  event_t::event_type_t on_push;
   event_t::event_type_t event_type;
 
   virtual void    impl_poll() {
     if (read())
-      event_type = EVT_PLAYBACK_STATE_TOGGLE;
+      event_type = on_push;
   }
 
   virtual uint8_t impl_queue_count() const {
