@@ -11,7 +11,13 @@ void Encoder::set_value(uint8_t value) {
 }
 
 uint8_t Encoder::value() {
-  return _encoder.state().value();
+  static const uint8_t MIN = 8;
+  uint8_t val = _encoder.state().value();
+  if (val < MIN) {
+    val = MIN;
+    _encoder.state().set_value(val);
+  }
+  return val;
 }
 
 void Encoder::setup() {
