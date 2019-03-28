@@ -56,11 +56,7 @@ void SSIntro::impl_enter() {
     delay(MS);
   }
 
-  delay(300);
-
   lcd().clear();
-
-  delay(300);
 }
 
 void SSIntro::impl_update() {

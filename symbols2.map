@@ -136,9 +136,7 @@
 000002e0 g     F .text	00000014 .hidden _Z17Serial0_availablev
 000002f4 g     F .text	0000007c .hidden _ZN6SSMain20draw_channel_numbersEv.constprop.16
 00000370 g     F .text	0000002c .hidden _ZN6SSMain16draw_page_numberEv.constprop.10
-
 0000039c g     F .text	000000f4 .hidden _ZN6SSMain11draw_columnEhbh.constprop.6
-
 00000400 g       *ABS*	00000000 __LOCK_REGION_LENGTH__
 00000400 g       *ABS*	00000000 __SIGNATURE_REGION_LENGTH__
 00000400 g       *ABS*	00000000 __USER_SIGNATURE_REGION_LENGTH__
