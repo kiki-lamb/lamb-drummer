@@ -167,7 +167,7 @@ void SSMain::draw_column(uint8_t col, bool highlit, uint8_t mod_maj)  {
       character = Lcd::CHAR_REST_BARRIER;
 
     if ( is_active )
-      character -= 3;
+      character += 3;
 
     lcd().setCursor(col_, line);
     lcd().write(character);
