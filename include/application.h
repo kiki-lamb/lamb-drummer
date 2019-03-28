@@ -32,11 +32,10 @@ private:
   static  tracks_t                      _tracks;
   static  ui_data_t                     ui_data;
   static  ui_t                          ui;
-  static ButtonpadSource<buttonpad_t>   buttonpad_source;
-  static EncoderButtonSource encoder_button_source;
-  static EncoderSource encoder_source;
+  static  ButtonpadSource<buttonpad_t>  buttonpad_source;
+  static  EncoderButtonSource           encoder_button_source;
+  static  EncoderSource                 encoder_source;
   static  control_event_source_t        control_event_source;
-
   static  Eeprom                        eeprom;
   static  Timer1_                       timer1;
   static  Timer2_                       timer2;
