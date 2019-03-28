@@ -26,7 +26,8 @@ class Ui {
       if (screen == current_screen)
         return;
       current_screen = screen;
-      screens[screen]->enter();
+      flag_screen(current_screen);
+      screens[current_screen]->enter();
     }
 
     void setup() {

@@ -46,7 +46,6 @@ void Application::setup() {
   eeprom .unflag_save_requested();
   ui_data.tracks = &_tracks;
   update_ui_data();
-  ui     .flag_screen (ui_t::SCREEN_MAIN);
   ui     .enter_screen(ui_t::SCREEN_MAIN);
   sei();
 }
