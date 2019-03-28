@@ -29,7 +29,7 @@ void Lcd::put_inversion(
 ) {
   select_inversion(number);
   lcd.setCursor(col, line);
-  lcd.write(byte(0));
+  lcd.write(byte(CHAR_INVERSION));
 }
 
 void Lcd::select_inversion(uint8_t number) {
@@ -76,12 +76,12 @@ void Lcd::select_inversion(uint8_t number) {
     }
   };
 
-  lcd.createChar(0, const_cast<uint8_t *>(inversions[number]));
+  lcd.createChar(CHAR_INVERSION, const_cast<uint8_t *>(inversions[number]));
 }
 
 void Lcd::put_playstate(uint8_t col, uint8_t line) {
   lcd.setCursor(col, line);
-  lcd.write(byte(1));
+  lcd.write(byte(CHAR_PLAYSTATE));
 }
 
 void Lcd::select_playstate(bool paused) {
@@ -108,30 +108,10 @@ void Lcd::select_playstate(bool paused) {
     }
   };
 
-  lcd.createChar(1, const_cast<uint8_t *>(playstates[paused ? 0 : 1]));
+  lcd.createChar(CHAR_PLAYSTATE, const_cast<uint8_t *>(playstates[paused ? 0 : 1]));
 }
 
 const uint8_t Lcd::custom_chars[8][8] = {
-  {
-    0b11111, // CHAR_STOP
-    0b11111,
-    0b11111,
-    0b11111,
-    0b11111,
-    0b11111,
-    0b11111,
-    0b00000
-  },
-  {
-    0b00000, // CHAR_PLAYSTATE
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000
-  },
   {
     0b00000, // CHAR_REST
     0b00000,
@@ -151,6 +131,16 @@ const uint8_t Lcd::custom_chars[8][8] = {
     0b11111,
     0b11011,
     0b11111
+  },
+  {
+    0b11111, // CHAR_INVERSION
+    0b11111,
+    0b11111,
+    0b11111,
+    0b11111,
+    0b11111,
+    0b11111,
+    0b00000
   },
   {
     0b00100, // CHAR_REST_BARRIER
@@ -181,6 +171,16 @@ const uint8_t Lcd::custom_chars[8][8] = {
     0b00000,
     0b10001,
     0b11111
+  },
+  {
+    0b00000, // CHAR_PLAYSTATE
+    0b00000,
+    0b00000,
+    0b00000,
+    0b00000,
+    0b00000,
+    0b00000,
+    0b00000
   },
   {
     0b01110, // CHAR_HIT_BARRIER

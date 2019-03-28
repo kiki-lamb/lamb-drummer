@@ -23,9 +23,9 @@ void Application::update_ui_data() {
 }
 
 void Application::setup() {
-  //Serial .begin(115200);
-  //Serial .println();
-  //Serial .println(F("Begin setup"));
+  Serial .begin(115200);
+  Serial .println();
+  Serial .println(F("Begin setup"));
   ui     .setup();
   ui     .enter_screen(ui_t::SCREEN_INTRO);
   Eeprom::PersistantData<tracks_t> tmp(

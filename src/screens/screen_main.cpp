@@ -159,15 +159,16 @@ void SSMain::draw_column(uint8_t col, bool highlit, uint8_t mod_maj)  {
   for (uint8_t line = 1; line <= 3; line++) {
     uint8_t character  = Lcd::CHAR_REST;
     bool    on_barrier = ((col - (*data->tracks)[line-1].phase_maj() + 1) % (*data->tracks)[line-1].mod_maj()) == 0;
-    bool    is_active  = (*data->tracks)[line-1].trigger_state(col);
+    bool    is_hit     = (*data->tracks)[line-1].trigger_state(col);
 
     if (highlit)
-      character = Lcd::CHAR_REST_ACTIVE;
-    else if (on_barrier)
-      character = Lcd::CHAR_REST_BARRIER;
+      character |= 0b001;
 
-    if ( is_active )
-      character += 3;
+    if (on_barrier && ! highlit)
+      character |= 0b011;
+
+    if ( is_hit )
+      character |= 0b100;
 
     lcd().setCursor(col_, line);
     lcd().write(character);
