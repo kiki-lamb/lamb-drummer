@@ -5,10 +5,10 @@
 #include "polled_event_source.h"
 
 template <class event_t, size_t count_>
-class Combine : public PolledEventSource<event_t> {
+class CombineEventSources : public PolledEventSource<event_t> {
 public:
-  Combine() {}
-  virtual ~Combine() {}
+  CombineEventSources() {}
+  virtual ~CombineEventSources() {}
   PolledEventSource<event_t> * sources[count_];
 
 private:

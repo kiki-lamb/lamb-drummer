@@ -9,9 +9,6 @@ Timer1_                   Application::timer1;
 Timer2_                   Application::timer2;
 Application::ui_t         Application::ui(&ui_data);
 Application::ui_data_t    Application::ui_data;
-EncoderButtonSource       Application::encoder_button_source(A7);
-EncoderSource             Application::encoder_source;
-ButtonpadSource<Application::buttonpad_t> Application::buttonpad_source;
 
 Application::Application() {};
 
@@ -38,7 +35,9 @@ void Application::setup() {
   );
   eeprom .restore_all(tmp);
   {
-    encoder_source = EncoderSource(tmp.bpm);
+    static EncoderButtonSource                       encoder_button_source(A7);
+    static EncoderSource                             encoder_source(tmp.bpm);
+    static ButtonpadSource<Application::buttonpad_t> buttonpad_source;
     encoder_button_source.setup();
     encoder_source.setup();
     buttonpad_source.setup();
