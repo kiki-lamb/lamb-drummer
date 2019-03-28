@@ -1,4 +1,4 @@
-#include "buttonpad.h"
+#include "buttonpads/buttonpad.h"
 
 Buttonpad::Buttonpad() {}
 

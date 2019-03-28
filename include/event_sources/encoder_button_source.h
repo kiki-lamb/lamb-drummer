@@ -2,7 +2,7 @@
 #define SHELF_CLOCK_ENCODER_BUTTON_SOURCE_H
 
 #include <Arduino.h>
-#include "../encoder_button.h"
+#include "../controls/encoder_button.h"
 #include "polled_event_source.h"
 
 class EncoderButtonSource : public EncoderButton, public PolledEventSource<bool>{

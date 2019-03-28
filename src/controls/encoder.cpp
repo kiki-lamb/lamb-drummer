@@ -1,4 +1,4 @@
-#include "encoder.h"
+#include "controls/encoder.h"
 
 Encoder::enc_t Encoder::encoder;
 

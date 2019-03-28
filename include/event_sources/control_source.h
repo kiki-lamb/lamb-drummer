@@ -2,7 +2,7 @@
 #define SHELF_CLOCK_CONTROLS_H
 
 #include <lamb.h>
-#include "../encoder.h"
+#include "../controls/encoder.h"
 #include "polled_event_source.h"
 #include "encoder_button_source.h"
 #include "buttonpad_source.h"

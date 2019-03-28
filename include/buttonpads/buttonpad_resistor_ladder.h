@@ -1,7 +1,7 @@
 #ifndef SHELF_CLOCK_BUTTONPAD_PIN_H
 #define SHELF_CLOCK_BUTTONPAD_PIN_H
 
-#include "Arduino.h"
+#include <Arduino.h>
 #include "buttonpad.h"
 
 class Buttonpad_ResistorLadder : public Buttonpad {

@@ -2,8 +2,8 @@
 #define SHELF_CLOCK_APPLICATION_H
 
 #include "Arduino.h"
-#include "buttonpad_resistor_ladder.h"
-#include "buttonpad_pcf8574.h"
+#include "buttonpads/buttonpad_resistor_ladder.h"
+#include "buttonpads/buttonpad_pcf8574.h"
 #include "process_track_control_event.h"
 #include "track_collection.h"
 #include "event_sources/control_source.h"

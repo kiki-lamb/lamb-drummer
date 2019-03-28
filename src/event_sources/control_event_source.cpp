@@ -1,5 +1,5 @@
 #include "event_sources/control_source.h"
-#include "buttonpad_pcf8574.h"
+#include "buttonpads/buttonpad_pcf8574.h"
 
 template <> ControlType ControlSource<Buttonpad_PCF8754<0x3F> >::buttonpad_ordering[8] = {
   EVT_MAJ_UP,

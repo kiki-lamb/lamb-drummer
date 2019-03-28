@@ -1,4 +1,4 @@
-#include "encoder_button.h"
+#include "controls/encoder_button.h"
 
 EncoderButton::EncoderButton(
   uint8_t pin_,

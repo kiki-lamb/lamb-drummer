@@ -1,4 +1,4 @@
-#include "buttonpad_resistor_ladder.h"
+#include "buttonpads/buttonpad_resistor_ladder.h"
 
 const uint8_t  Buttonpad_ResistorLadder::BUTTONPAD_PIN   = A6;
 
