@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include "polled_event_source.h"
 #include "buttonpads/buttonpad.h"
+#include "event/event.h"
 
 template <class buttonpad_t_>
 class ButtonpadSource : public buttonpad_t_, public PolledEventSource<uint8_t>{

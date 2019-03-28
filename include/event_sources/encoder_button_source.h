@@ -4,30 +4,28 @@
 #include <Arduino.h>
 #include "controls/encoder_button.h"
 #include "polled_event_source.h"
+#include "event/event.h"
 
-class EncoderButtonSource : public EncoderButton, public PolledEventSource<bool>{
+class EncoderButtonSource : public EncoderButton, public PolledEventSource<ControlType>{
 public:
-  inline EncoderButtonSource(uint8_t pin_, bool adc_state = true) : EncoderButton(pin_, adc_state), event(false) {}
+  inline EncoderButtonSource(uint8_t pin_, bool adc_state = true) : EncoderButton(pin_, adc_state), event(EVT_NOT_AVAILABLE) {}
   inline virtual ~EncoderButtonSource() {}
 private:
-  bool event;
+  ControlType event;
 
   inline virtual void    impl_poll() {
     if (read())
-      event = true;
+      event = EVT_PLAYBACK_STATE_TOGGLE;
   }
 
   inline virtual uint8_t impl_queue_count() const {
-    return event ? 0 : 1;
+    return event == EVT_NOT_AVAILABLE ? 0 : 1;
   }
 
   inline virtual event_t impl_dequeue_event() {
-    if (event) {
-      event = false;
-      return true;
-    }
-
-    return false;
+    ControlType e = event;
+    event = EVT_NOT_AVAILABLE;
+    return e;
   };
 };
 #endif

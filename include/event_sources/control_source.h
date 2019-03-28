@@ -25,11 +25,11 @@ public:
 private:
   typedef ButtonpadSource<buttonpad_t> buttonpad_source_t;
   typedef EncoderButtonSource          encoder_button_source_t;
-  static  ControlType             buttonpad_ordering[8];
+  static  ControlType                  buttonpad_ordering[8];
   uint8_t                              _bpm;
   buttonpad_source_t                   buttonpad_source;
   EncoderButtonSource                  encoder_button_source;
-  lamb::RingBuffer<Control, 8>    event_queue;
+  lamb::RingBuffer<Control, 8>         event_queue;
 
   virtual uint8_t impl_queue_count() const {
     return event_queue.count();
@@ -44,13 +44,16 @@ private:
     }
 
     encoder_button_source.poll();
-    if ( encoder_button_source.dequeue_event() )
-      queue_event( EVT_PLAYBACK_STATE_TOGGLE);
+    auto e = encoder_button_source.dequeue_event();
+    if ( e != EVT_NOT_AVAILABLE)
+      queue_event(e);
 
     buttonpad_source.poll();
-    typename buttonpad_source_t::event_t e = buttonpad_source.dequeue_event();
-    if ( e != 8 )
-      queue_event( (event_t::event_type_t)(buttonpad_ordering[e]) );
+    {
+      typename buttonpad_source_t::event_t e = buttonpad_source.dequeue_event();
+      if ( e != 8 )
+        queue_event( (event_t::event_type_t)(buttonpad_ordering[e]) );
+    }
   }
 
   virtual Control impl_dequeue_event() {
