@@ -19,17 +19,20 @@ enum EventType {
   EVT_NOT_AVAILABLE
 };
 
-struct Event {
+class Event {
+public:
   typedef EventType event_type_t;
   EventType type;
   uint8_t parameter;
+
+  Event(EventType type_ = EVT_NOT_AVAILABLE) : type(type_) {}
 
   inline bool valid() const {
     return type != EVT_NOT_AVAILABLE;
   }
 
-  inline void invalidate() {
-    type = EVT_NOT_AVAILABLE;
+  inline operator bool() const {
+    return type != EVT_NOT_AVAILABLE;
   }
 };
 

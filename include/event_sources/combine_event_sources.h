@@ -4,6 +4,9 @@
 #include <lamb.h>
 #include "event_source.h"
 
+// event_t must have default constructor, operator bool() returning false
+// when no more event are availale. default must be false.
+
 template <class event_t, size_t count_>
 class CombineEventSources : public EventSource<event_t> {
 public:
@@ -22,7 +25,7 @@ private:
     for (size_t ix = 0; ix < count_; ix++) {
       EventSource<event_t> & source = *(sources[ix]);
       if (source.poll()) {
-        for (auto e = source.dequeue_event(); e.valid(); e = source.dequeue_event())
+        for (auto e = source.dequeue_event(); e; e = source.dequeue_event())
             event_queue.write(e);
       }
     }
@@ -30,9 +33,7 @@ private:
 
   virtual event_t impl_dequeue_event() {
     if (! event_queue.readable() ) {
-      event_t e;
-      e.invalidate(); //  = { EVT_NOT_AVAILABLE};
-      return e;
+      return event_t();
     }
     return event_queue.read();
   }
