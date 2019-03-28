@@ -1,5 +1,5 @@
 #include "Arduino.h"
-#include "eeprom_.h"
+#include "eeprom/eeprom_.h"
 
 #define ADDR_BPM  3
 #define ADDR_PLAY 4
