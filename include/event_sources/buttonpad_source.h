@@ -26,7 +26,7 @@ private:
   }
 
   inline virtual event_t impl_dequeue_event() {
-    uint8_t e = event;
+    event_t e = event;
     event = EVT_NOT_AVAILABLE;
     return e;
   };
