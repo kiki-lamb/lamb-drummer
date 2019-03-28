@@ -15,13 +15,17 @@ public:
 
   inline virtual ~EncoderSource() {}
 
+  inline virtual void setup() {
+    Encoder::setup();
+    set_value(_bpm);
+  }
+
 private:
   event_t event;
   uint8_t _bpm;
-  Encoder encoder;
 
   inline virtual void impl_poll() {
-    uint8_t tmp_bpm = encoder.value();
+    uint8_t tmp_bpm = value();
 
     if (tmp_bpm != _bpm) {
       event.type = EVT_BPM_SET;

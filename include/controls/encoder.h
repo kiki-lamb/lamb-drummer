@@ -15,10 +15,10 @@ class Encoder {
     static enc_t                                                                _encoder;
   public:
     Encoder();
-    virtual  ~Encoder();
-    void     setup();
-    void     set_value(uint8_t value);
-    uint8_t  value();
+    virtual      ~Encoder();
+    virtual void setup();
+    void         set_value(uint8_t value);
+    uint8_t      value();
 };
 
 #endif
