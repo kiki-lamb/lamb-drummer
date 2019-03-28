@@ -21,7 +21,6 @@ public:
 private:
   Application();
   ~Application();
-  typedef Buttonpad_PCF8754<0x3F>       buttonpad_t;
   typedef UiData<tracks_t>              ui_data_t;
   typedef Ui<ui_data_t>                 ui_t;
   typedef CombineEventSources<Event,3>  control_event_source_t;

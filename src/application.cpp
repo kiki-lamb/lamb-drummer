@@ -38,15 +38,16 @@ void Application::setup() {
   );
   eeprom .restore_all(tmp);
   {
-    static EncoderButtonSource                       encoder_button_source(A7);
-    static EncoderSource                             encoder_source(tmp.bpm);
-    static ButtonpadSource<Application::buttonpad_t> buttonpad_source;
+    static EncoderButtonSource encoder_button_source(A7);
+    static EncoderSource       encoder_source(tmp.bpm);
+    static ButtonpadSource<Buttonpad_PCF8754<0x3F> >
+                               buttonpad_source;
     encoder_button_source.setup();
-    encoder_source.setup();
-    buttonpad_source.setup();
-    control_event_source.sources[0] = & encoder_button_source;
-    control_event_source.sources[1] = & encoder_source;
-    control_event_source.sources[2] = & buttonpad_source;
+    encoder_source       .setup();
+    buttonpad_source     .setup();
+    control_event_source .sources[0] = &encoder_button_source;
+    control_event_source .sources[1] = &encoder_source;
+    control_event_source .sources[2] = &buttonpad_source;
   }
   cli();
   timer1 .setup();
