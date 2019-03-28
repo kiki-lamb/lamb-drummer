@@ -3,6 +3,9 @@
 
 #include <Arduino.h>
 
+// event_t must have default constructor, operator bool() returning false
+// when no more event are availale. default must be false.
+
 template<class event_t_>
 class EventSource {
 public:

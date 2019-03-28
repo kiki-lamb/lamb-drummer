@@ -55,12 +55,14 @@ void Application::setup_controls(uint8_t bpm) {
                              buttonpad_source;
   static EncoderSource       encoder_source(bpm);
   static EncoderButtonSource encoder_button_source(A7);
+  static combine_event_sources_t combine_event_sources;
   buttonpad_source     .setup();
   encoder_source       .setup();
   encoder_button_source.setup();
-  control_event_source .sources[0] = &buttonpad_source;
-  control_event_source .sources[1] = &encoder_source;
-  control_event_source .sources[2] = &encoder_button_source;
+  combine_event_sources.sources[0] = &buttonpad_source;
+  combine_event_sources.sources[1] = &encoder_source;
+  combine_event_sources.sources[2] = &encoder_button_source;
+  control_event_source.source = &combine_event_sources;
 }
 
 void Application::loop() {

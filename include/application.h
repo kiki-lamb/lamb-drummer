@@ -9,6 +9,7 @@
 #include "timers/timer1.h"
 #include "timers/timer2.h"
 #include "event_sources/combine_event_sources.h"
+#include "event_sources/buffer_event_source.h"
 #include "buttonpads/buttonpad_resistor_ladder.h"
 #include "buttonpads/buttonpad_pcf8574.h"
 #include "event/event.h"
@@ -23,7 +24,8 @@ private:
   ~Application();
   typedef UiData<tracks_t>               ui_data_t;
   typedef Ui<ui_data_t>                  ui_t;
-  typedef CombineEventSources<Event,3,8> control_event_source_t;
+  typedef CombineEventSources<Event,3>   combine_event_sources_t;
+  typedef BufferEventSource<Event,8>     control_event_source_t;
 private:
   static  tracks_t                       _tracks;
   static  ui_data_t                      ui_data;

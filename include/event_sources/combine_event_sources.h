@@ -1,13 +1,9 @@
 #ifndef LAMB_DRUMMER_EVENT_SOURCE_COMBINE_H
 #define LAMB_DRUMMER_EVENT_SOURCE_COMBINE_H
 
-#include <lamb.h>
 #include "event_source.h"
 
-// event_t must have default constructor, operator bool() returning false
-// when no more event are availale. default must be false.
-
-template <class event_t, size_t sources_count_, size_t queue_size_>
+template <class event_t, size_t sources_count_>
 class CombineEventSources : public EventSource<event_t> {
 public:
   CombineEventSources() {}
@@ -15,27 +11,23 @@ public:
   EventSource<event_t> * sources[sources_count_];
 
 private:
-  lamb::RingBuffer<event_t, queue_size_> event_queue;
-
   virtual uint8_t impl_queue_count() const {
-    return event_queue.count();
+    size_t tmp = 0;
+    for (size_t ix = 0; ix < sources_count_; ix++)
+      tmp += sources[ix]->queue_count();
+    return tmp;
   }
 
   virtual void impl_poll() {
-    for (size_t ix = 0; ix < sources_count_; ix++) {
-      EventSource<event_t> & source = *(sources[ix]);
-      if (source.poll()) {
-        for (auto e = source.dequeue_event(); e; e = source.dequeue_event())
-            event_queue.write(e);
-      }
-    }
+    for (size_t ix = 0; ix < sources_count_; ix++)
+      sources[ix]->poll();
   }
 
   virtual event_t impl_dequeue_event() {
-    if (! event_queue.readable() ) {
-      return event_t();
-    }
-    return event_queue.read();
+    for (size_t ix = 0; ix < sources_count_; ix++)
+      if (sources[ix]->ready())
+        return sources[ix]->dequeue_event();
+    return event_t();
   }
 };
 
