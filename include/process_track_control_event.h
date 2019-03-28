@@ -5,21 +5,22 @@
 #include "track.h"
 #include "buttonpads/buttonpad.h"
 
-template <class event_t>
+template <class event_type_t, size_t handlers_count_>
 class ProcessTrackControl {
 public:
-  static bool apply(Track & that, event_t e) {
-    if (e.type < 8) {
-      (*button_handlers[e.type])(that);
-      return true;
-     }
-    else {
-      ;
-      //Serial.print(F("Track got unrecognized event: "));
-      //Serial.println(e.type);
-    }
-
-    return false;
+  static void apply(Track & that, event_type_t e) {
+  //static bool apply(Track & that, event_type_t e) {
+//    if (e < handlers_count_) {
+      (*button_handlers[e])(that);
+    //   return true;
+    //  }
+    // else {
+    //   ;
+    //   //Serial.print(F("Track got unrecognized event: "));
+    //   //Serial.println(e.type);
+    // }
+    //
+    // return false;
   }
 
 private:
@@ -106,10 +107,12 @@ private:
   }
 
   typedef void (*button_handler)(Track &);
-  static button_handler button_handlers[8];
+  static button_handler button_handlers[handlers_count_];
 };
 
-template <class event_t> typename ProcessTrackControl<event_t>::button_handler ProcessTrackControl<event_t>::button_handlers[8] = {
+  template <class event_type_t, size_t hc>
+  typename ProcessTrackControl<event_type_t, hc>::button_handler
+  ProcessTrackControl<event_type_t, hc>::button_handlers[hc] = {
   &ProcessTrackControl::increase_mod_min,
   &ProcessTrackControl::decrease_mod_min,
   &ProcessTrackControl::increase_mod_maj,

@@ -119,9 +119,9 @@ bool Application::process_control_event(Application::control_event_source_t::eve
   if (e.type == EventType::EVT_NOT_AVAILABLE)
     return false;
   if (e.type < 8) {
-    ProcessTrackControl<Event>::apply(
+    ProcessTrackControl<Event::event_type_t, 8>::apply(
       _tracks.current(),
-      e
+      e.type
     );
     ui_data.redraw_track.flag();
     ui_data.redraw_selected_track_indicator.flag();
