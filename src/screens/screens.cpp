@@ -28,7 +28,7 @@ void SSIntro::impl_enter() {
   lcd().setCursor(0, 0);
   lcd().print(F("    Lamb Drummer    "));
 
-  static const int MS = 10;
+  static const int MS = 7;
 
   for (uint8_t iix = 0; iix < 4; iix++) {
     for (uint8_t ix = 0; ix < 20; ix++) {
