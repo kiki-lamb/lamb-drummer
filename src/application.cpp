@@ -71,14 +71,12 @@ void Application::setup_controls(uint8_t bpm) {
 void Application::loop() {
   const uint8_t  max_frame_rate  = 50;
   const uint16_t frame_delay = 1000 / max_frame_rate;
-
   // v roughly 6.25 hz. this is mainly so that popups (like BPM) are still
   // removed in a faily timely maner when playback is paused or when
   // bpm is set absurdly low.
   static uint8_t clk = 0;
   if (clk++ & 0b111)
     flag_main_screen();
-
   update_ui_data();
   ui.update_screen();
   delay(frame_delay);
