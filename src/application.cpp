@@ -138,6 +138,7 @@ bool Application::process_control_event(Application::control_event_source_t::eve
         goto success;
     }
     return false;
+    
     success:
       flag_main_screen();
       eeprom.flag_save_requested();
