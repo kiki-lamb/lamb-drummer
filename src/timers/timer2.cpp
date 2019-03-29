@@ -26,13 +26,11 @@ void Timer2_::setup() {
 }
 
 void Timer2_::isr() {
-    static uint16_t ix = 0;
-
+  static uint16_t ix = 0;
   if (! (ix++ & 0b11111111)) {
     PORTB ^= _BV(5);   // flip LED_BUILTIN
     Application::save_state(); // In ISR, not that ugly...
   }
-
   Application  ::process_control_events(); // In ISR, not that ugly...
 }
 
