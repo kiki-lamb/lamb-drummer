@@ -44,6 +44,7 @@ void Application::setup() {
   timer1 .set_bpm(tmp.bpm);
   timer2 .setup();
   set_playback_state(tmp.playback_state);
+  while (track_collection.increment_index());
   eeprom .unflag_save_requested();
   ui_data.tracks = &_tracks;
   update_ui_data();
