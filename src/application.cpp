@@ -65,7 +65,7 @@ void Application::setup_controls(uint8_t bpm) {
   combine_event_sources.sources[0] = &buttonpad_source;
   combine_event_sources.sources[1] = &encoder_source;
   combine_event_sources.sources[2] = &encoder_button_source;
-  control_event_source.source = &combine_event_sources;
+  control_event_source .source     = &combine_event_sources;
 }
 
 void Application::loop() {
