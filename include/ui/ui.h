@@ -1,5 +1,5 @@
-#ifndef SHELF_CLOCK_UI_H
-#define SHELF_CLOCK_UI_H
+#ifndef LAMB_DRUMMER_UI_H
+#define LAMB_DRUMMER_UI_H
 
 #include <lamb.h>
 #include "screens/screen.h"

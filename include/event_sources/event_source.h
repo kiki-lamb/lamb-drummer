@@ -1,5 +1,5 @@
-#ifndef SHELF_CLOCK_I_CONTROLS_H
-#define SHELF_CLOCK_I_CONTROLS_H
+#ifndef LAMB_DRUMMER_I_CONTROLS_H
+#define LAMB_DRUMMER_I_CONTROLS_H
 
 #include <Arduino.h>
 

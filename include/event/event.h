@@ -1,5 +1,5 @@
-#ifndef SHELF_CLOCK_EVENT_H
-#define SHELF_CLOCK_EVENT_H
+#ifndef LAMB_DRUMMER_EVENT_H
+#define LAMB_DRUMMER_EVENT_H
 
 #include <Arduino.h>
 

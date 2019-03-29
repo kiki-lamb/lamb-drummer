@@ -1,5 +1,5 @@
-#ifndef SHELF_CLOCK_LCD_H
-#define SHELF_CLOCK_LCD_H
+#ifndef LAMB_DRUMMER_LCD_H
+#define LAMB_DRUMMER_LCD_H
 
 #include <LiquidCrystal.h>
 

@@ -1,5 +1,5 @@
-#ifndef SHELF_CLOCK_I_SCREEN_STATE_H
-#define SHELF_CLOCK_I_SCREEN_STATE_H
+#ifndef LAMB_DRUMMER_I_SCREEN_STATE_H
+#define LAMB_DRUMMER_I_SCREEN_STATE_H
 
 #include <lamb.h>
 #include "lcd.h"

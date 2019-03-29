@@ -1,5 +1,5 @@
-#ifndef SHELF_CLOCK_TIMER1_H
-#define SHELF_CLOCK_TIMER1_H
+#ifndef LAMB_DRUMMER_TIMER1_H
+#define LAMB_DRUMMER_TIMER1_H
 
 #include "Arduino.h"
 

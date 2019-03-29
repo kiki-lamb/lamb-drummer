@@ -1,5 +1,5 @@
-#ifndef SHELF_CLOCK_I_BUTTONPAD_SOURCE_H
-#define SHELF_CLOCK_I_BUTTONPAD_SOURCE_H
+#ifndef LAMB_DRUMMER_I_BUTTONPAD_SOURCE_H
+#define LAMB_DRUMMER_I_BUTTONPAD_SOURCE_H
 
 #include <Arduino.h>
 #include "event_source.h"

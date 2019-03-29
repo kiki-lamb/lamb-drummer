@@ -1,5 +1,5 @@
-#ifndef SHELF_CLOCK_APPLICATION_H
-#define SHELF_CLOCK_APPLICATION_H
+#ifndef LAMB_DRUMMER_APPLICATION_H
+#define LAMB_DRUMMER_APPLICATION_H
 
 #include "Arduino.h"
 #include "track_collection/track_collection.h"

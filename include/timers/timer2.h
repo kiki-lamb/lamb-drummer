@@ -1,5 +1,5 @@
-#ifndef SHELF_CLOCK_TIMER2_H
-#define SHELF_CLOCK_TIMER2_H
+#ifndef LAMB_DRUMMER_TIMER2_H
+#define LAMB_DRUMMER_TIMER2_H
 
 class Timer2_ {
 private:

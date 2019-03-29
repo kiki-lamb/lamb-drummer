@@ -1,5 +1,5 @@
-#ifndef SHELF_CLOCK_EEPROM_H
-#define SHELF_CLOCK_EEPROM_H
+#ifndef LAMB_DRUMMER_EEPROM_H
+#define LAMB_DRUMMER_EEPROM_H
 
 #include <EEPROM.h>
 #include <lamb.h>

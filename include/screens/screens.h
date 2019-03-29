@@ -1,5 +1,5 @@
-#ifndef SHELF_CLOCK_SCREEN_STATES_H
-#define SHELF_CLOCK_SCREEN_STATES_H
+#ifndef LAMB_DRUMMER_SCREEN_STATES_H
+#define LAMB_DRUMMER_SCREEN_STATES_H
 
 #include "Arduino.h"
 #include "screen.h"

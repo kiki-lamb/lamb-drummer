@@ -1,5 +1,5 @@
-#ifndef SHELF_CLOCK_ENCODER_H
-#define SHELF_CLOCK_ENCODER_H
+#ifndef LAMB_DRUMMER_ENCODER_H
+#define LAMB_DRUMMER_ENCODER_H
 
 #include "Arduino.h"
 #include <lamb.h>

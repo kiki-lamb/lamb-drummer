@@ -1,5 +1,5 @@
-#ifndef SHELF_CLOCK_ENCODER_SOURCE_H
-#define SHELF_CLOCK_ENCODER_SOURCE_H
+#ifndef LAMB_DRUMMER_ENCODER_SOURCE_H
+#define LAMB_DRUMMER_ENCODER_SOURCE_H
 
 #include <Arduino.h>
 #include "controls/encoder.h"
