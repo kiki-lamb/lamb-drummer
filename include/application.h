@@ -16,34 +16,34 @@
 
 class Application {
 private:
-  static  const size_t                   tracks_count = 3;
+  static  const size_t                  tracks_count = 3;
 public:
-  typedef TrackCollection<tracks_count>  tracks_t; // Public because tracks() returns it.
+  typedef TrackCollection<tracks_count> tracks_t; // Public because tracks() returns it.
 private:
   Application();
   ~Application();
-  typedef UiData<tracks_t>               ui_data_t;
-  typedef Ui<ui_data_t>                  ui_t;
-  typedef BufferEventSource<Event,8>     control_event_source_t;
-  static  control_event_source_t         control_event_source;
-  static  tracks_t                       _tracks;
-  static  ui_data_t                      ui_data;
-  static  ui_t                           ui;
-  static  Eeprom                         eeprom;
-  static  Timer1_                        timer1;
-  static  Timer2_                        timer2;
-  static  void                           setup_controls(uint8_t bpm);
-  static  void                           set_playback_state(bool playback_state_);
-  static  bool                           process_control_event(control_event_source_t::event_t e);
-  static  void                           update_ui_data();
-  static  uint8_t                        page();
+  typedef UiData<tracks_t>              ui_data_t;
+  typedef Ui<ui_data_t>                 ui_t;
+  typedef BufferEventSource<Event,8>    control_event_source_t;
+  static  control_event_source_t        control_event_source;
+  static  tracks_t                      _tracks;
+  static  ui_data_t                     ui_data;
+  static  ui_t                          ui;
+  static  Eeprom                        eeprom;
+  static  Timer1_                       timer1;
+  static  Timer2_                       timer2;
+  static  void                          setup_controls(uint8_t bpm);
+  static  void                          set_playback_state(bool playback_state_);
+  static  bool                          process_control_event(control_event_source_t::event_t e);
+  static  void                          update_ui_data();
+  static  uint8_t                       page();
 public:
-  static  void                           setup();
-  static  void                           loop();
-  static  void                           process_control_events(); // called by ISR for timer2.
-  static  void                           save_state();             // called by ISR for timer2.
-  static  void                           flag_main_screen();       // called by ISR for timer1.
-  static  constexpr tracks_t const &     tracks()  {               // called by ISR for timer1.
+  static  void                          setup();
+  static  void                          loop();
+  static  void                          process_control_events(); // called by ISR for timer2.
+  static  void                          save_state();             // called by ISR for timer2.
+  static  void                          flag_main_screen();       // called by ISR for timer1.
+  static  constexpr tracks_t const &    tracks()  {               // called by ISR for timer1.
     return _tracks;
   }
 };
