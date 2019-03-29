@@ -132,7 +132,7 @@ bool Application::process_control_event(
     switch (e.type) {
       case EventType::EVT_PLAYBACK_STATE_TOGGLE:
         set_playback_state(! timer1.playback_state());
-        goto success; // SET_FLAGS_AND_RETURN_TRUE;
+        goto success;
       case EventType::EVT_BPM_SET:
         timer1.set_bpm(e.parameter);
         ui_data.popup_bpm_requested.flag();
