@@ -141,7 +141,6 @@ bool Application::process_control_event(
         goto success;
     }
     return false;
-
     success:
       flag_main_screen();
       eeprom.flag_save_requested();
