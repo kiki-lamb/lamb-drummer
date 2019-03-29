@@ -125,22 +125,21 @@ bool Application::process_control_event(Application::control_event_source_t::eve
     );
     ui_data.redraw_track.flag();
     ui_data.redraw_selected_track_indicator.flag();
-    #define SET_FLAGS_AND_RETURN_TRUE flag_main_screen(); eeprom.flag_save_requested(); return true;
-    SET_FLAGS_AND_RETURN_TRUE;
+    goto success;
   }
   else {
     switch (e.type) {
       case EventType::EVT_PLAYBACK_STATE_TOGGLE:
         set_playback_state(! timer1.playback_state());
-        SET_FLAGS_AND_RETURN_TRUE;
-        break;
+        goto success; // SET_FLAGS_AND_RETURN_TRUE;
       case EventType::EVT_BPM_SET:
         timer1.set_bpm(e.parameter);
         ui_data.popup_bpm_requested.flag();
         SET_FLAGS_AND_RETURN_TRUE;
-        #undef SET_FLAGS
-        break;
+        goto success;
     }
     return false;
+success:
+    flag_main_screen(); eeprom.flag_save_requested(); return true;
   }
 }
