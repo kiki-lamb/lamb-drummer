@@ -112,5 +112,5 @@ void Timer1_::isr() {
 }
 
 ISR(TIMER1_COMPA_vect) {
-  TImer1_::instance().isr();
+  Timer1_::instance().isr();
 }
