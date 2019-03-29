@@ -44,7 +44,7 @@ void Application::setup() {
   timer1 .set_bpm(tmp.bpm);
   timer2 .setup();
   set_playback_state(tmp.playback_state);
-  while (track_collection.increment_index());
+  while (_tracks.increment_index());
   eeprom .unflag_save_requested();
   ui_data.tracks = &_tracks;
   update_ui_data();
@@ -54,12 +54,11 @@ void Application::setup() {
 
 void Application::setup_controls(uint8_t bpm) {
   static ButtonpadSource<Buttonpad_PCF8754<0x3F> >
-                             buttonpad_source;
-  static EncoderSource       encoder_source(EventType::EVT_BPM_SET, bpm);
-  static ButtonSouce
-                             encoder_button_source(EventType::EVT_PLAYBACK_STATE_TOGGLE, A7);
+                       buttonpad_source;
+  static EncoderSource encoder_source(EventType::EVT_BPM_SET, bpm);
+  static ButtonSouce   encoder_button_source(EventType::EVT_PLAYBACK_STATE_TOGGLE, A7);
   static CombineEventSources<Event,3>
-                             combine_event_sources;
+                       combine_event_sources;
   buttonpad_source     .setup();
   encoder_source       .setup();
   encoder_button_source.setup();
