@@ -9,18 +9,7 @@ template <class event_type_t, size_t handlers_count_>
 class ProcessTrackControl {
 public:
   static void apply(Track & that, event_type_t e) {
-  //static bool apply(Track & that, event_type_t e) {
-//    if (e < handlers_count_) {
       (*button_handlers[e])(that);
-    //   return true;
-    //  }
-    // else {
-    //   ;
-    //   //Serial.print(F("Track got unrecognized event: "));
-    //   //Serial.println(e.type);
-    // }
-    //
-    // return false;
   }
 
 private:
