@@ -37,7 +37,6 @@ bool Timer1_::playback_state() const {
 
 void Timer1_::set_playback_state(bool playback_state_) {
   _playback_state = playback_state_;
-
   if (_playback_state) {
     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
       TCCR1A |= (1 << COM1A0);
@@ -88,26 +87,20 @@ void Timer1_::increment_ticker() {
 
 void Timer1_::isr() {
   uint8_t ticker_ = ticker();
-
   if (! (ticker_ & 0b1)) {
     Application::flag_main_screen(); // In ISR, not that ugly...
-
     if (! playback_state()) {
       PORTC &= ~0b1111; // PORTC = 0;
       return;
     }
-
     byte blast = 0;
-
     for (byte ix = 0; ix <= 2; ix++)
       if (Application::tracks()[ix].trigger_state(ticker_ >> 1)) // In ISR, not that ugly...
         blast |= _BV(ix);
-
     PORTC = blast;
   }
   else
     PORTC &= ~0b1111;
-
   increment_ticker();
 }
 
