@@ -3,7 +3,7 @@
 
 #include "Arduino.h"
 #include <lamb.h>
-#include "track.h"
+#include "track/track.h"
 
 template <size_t size_, class track_t = Track>
 class TrackCollection : public lamb::PositionalFixedArray<size_, track_t> {

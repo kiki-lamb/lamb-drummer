@@ -3,7 +3,7 @@
 
 #include <EEPROM.h>
 #include <lamb.h>
-#include "track.h"
+#include "track/track.h"
 
 class Eeprom {
   public:

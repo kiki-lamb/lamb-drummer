@@ -2,7 +2,7 @@
 #define SHELF_CLOCK_APPLICATION_H
 
 #include "Arduino.h"
-#include "track_collection.h"
+#include "track_collection/track_collection.h"
 #include "ui_data.h"
 #include "ui/ui.h"
 #include "eeprom/eeprom_.h"

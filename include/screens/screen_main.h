@@ -5,7 +5,7 @@
 #include "Arduino.h"
 #include "screen.h"
 #include "ui_data.h"
-#include "track_collection.h"
+#include "track_collection/track_collection.h"
 
 class SSMain : public Screen<UiData<TrackCollection<3, Track> > > {
 public:

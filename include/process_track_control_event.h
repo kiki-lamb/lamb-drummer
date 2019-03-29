@@ -2,7 +2,7 @@
 #define SHELF_CLOCK_TRACK_STATE_CONTROL_BINDING_H
 
 #include "Arduino.h"
-#include "track.h"
+#include "track/track.h"
 #include "buttonpads/buttonpad.h"
 
 template <class event_type_t, size_t handlers_count_>
