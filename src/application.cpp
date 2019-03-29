@@ -135,11 +135,12 @@ bool Application::process_control_event(Application::control_event_source_t::eve
       case EventType::EVT_BPM_SET:
         timer1.set_bpm(e.parameter);
         ui_data.popup_bpm_requested.flag();
-        SET_FLAGS_AND_RETURN_TRUE;
         goto success;
     }
     return false;
-success:
-    flag_main_screen(); eeprom.flag_save_requested(); return true;
+    success:
+      flag_main_screen();
+      eeprom.flag_save_requested();
+      return true;
   }
 }
