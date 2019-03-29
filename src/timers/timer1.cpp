@@ -87,12 +87,12 @@ void Timer1_::increment_ticker() {
 }
 
 void Timer1_::isr() {
-  uint8_t ticker = Timer1_::instance().ticker();
+  uint8_t ticker_ = ticker();
 
-  if (! (ticker & 0b1)) {
+  if (! (ticker_ & 0b1)) {
     Application::flag_main_screen(); // In ISR, not that ugly...
 
-    if (! Timer1_::instance().playback_state()) {
+    if (! playback_state()) {
       PORTC &= ~0b1111; // PORTC = 0;
       return;
     }
@@ -100,7 +100,7 @@ void Timer1_::isr() {
     byte blast = 0;
 
     for (byte ix = 0; ix <= 2; ix++)
-      if (Application::tracks()[ix].trigger_state(ticker >> 1)) // In ISR, not that ugly...
+      if (Application::tracks()[ix].trigger_state(ticker_ >> 1)) // In ISR, not that ugly...
         blast |= _BV(ix);
 
     PORTC = blast;
@@ -108,7 +108,7 @@ void Timer1_::isr() {
   else
     PORTC &= ~0b1111;
 
-  Timer1_::instance().increment_ticker();
+  increment_ticker();
 }
 
 ISR(TIMER1_COMPA_vect) {

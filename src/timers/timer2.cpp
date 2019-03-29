@@ -6,7 +6,14 @@ Timer2_::Timer2_() {};
 
 Timer2_::~Timer2_() {};
 
+Timer2_ * Timer2_::_instance = 0;
+
+Timer2_ & Timer2_::instance() {
+  return *_instance;
+}
+
 void Timer2_::setup() {
+  _instance = this;
   DDRB |= 0b00010000;
 
   TCCR2A  = 0; // set entire TCCR2A register to 0
@@ -18,8 +25,8 @@ void Timer2_::setup() {
   TIMSK2 |= (1 << OCIE2A); // enable timer compare interrupt
 }
 
-ISR(TIMER2_COMPA_vect) {
-  static uint16_t ix = 0;
+void Timer2_::isr() {
+    static uint16_t ix = 0;
 
   if (! (ix++ & 0b11111111)) {
     PORTB ^= _BV(5);   // flip LED_BUILTIN
@@ -27,4 +34,8 @@ ISR(TIMER2_COMPA_vect) {
   }
 
   Application  ::process_control_events(); // In ISR, not that ugly...
+}
+
+ISR(TIMER2_COMPA_vect) {
+  Timer2_::isr();
 }
