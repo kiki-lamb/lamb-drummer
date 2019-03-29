@@ -1,6 +1,6 @@
 #include "application.h"
 #include "process_track_control_event.h"
-#include "event_sources/button_souce.h"
+#include "event_sources/button_source.h"
 #include "event_sources/encoder_source.h"
 #include "event_sources/buttonpad_source.h"
 #include "event/event.h"

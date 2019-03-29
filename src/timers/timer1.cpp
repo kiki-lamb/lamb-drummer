@@ -86,7 +86,7 @@ void Timer1_::increment_ticker() {
   Timer1_::_ticker++;
 }
 
-ISR(TIMER1_COMPA_vect) {
+void Timer1_::isr() {
   uint8_t ticker = Timer1_::instance().ticker();
 
   if (! (ticker & 0b1)) {
@@ -109,4 +109,8 @@ ISR(TIMER1_COMPA_vect) {
     PORTC &= ~0b1111;
 
   Timer1_::instance().increment_ticker();
+}
+
+ISR(TIMER1_COMPA_vect) {
+  TImer1_::instance().isr();
 }

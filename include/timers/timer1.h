@@ -12,6 +12,7 @@ class Timer1_ {
     double               _hz;
     static Timer1_ *     _instance;
   public:
+    void                 isr();
     static Timer1_ &     instance();
     void                 setup();
     void                 set_playback_state(bool playback_state_);
