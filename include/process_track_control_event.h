@@ -99,9 +99,6 @@ private:
   static button_handler button_handlers[handlers_count_];
 };
 
-// template <class event_type_t, size_t hc>
-// typename ProcessTrackControl<event_type_t, hc>::button_handler
-// ProcessTrackControl<event_type_t, hc>::button_handlers[hc] = {
 template <>
 typename ProcessTrackControl<EventType, 8>::button_handler
 ProcessTrackControl<EventType, 8>::button_handlers[8] = {
