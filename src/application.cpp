@@ -56,15 +56,15 @@ void Application::setup_controls(uint8_t bpm) {
   static ButtonpadSource<Buttonpad_PCF8754<0x3F> >
                        buttonpad_source;
   static EncoderSource encoder_source(EventType::EVT_BPM_SET, bpm);
-  static ButtonSouce   encoder_button_source(EventType::EVT_PLAYBACK_STATE_TOGGLE, A7);
+  static ButtonSouce   button_source(EventType::EVT_PLAYBACK_STATE_TOGGLE, A7);
   static CombineEventSources<Event,3>
                        combine_event_sources;
   buttonpad_source     .setup();
   encoder_source       .setup();
-  encoder_button_source.setup();
+  button_source.setup();
   combine_event_sources.sources[0] = &buttonpad_source;
   combine_event_sources.sources[1] = &encoder_source;
-  combine_event_sources.sources[2] = &encoder_button_source;
+  combine_event_sources.sources[2] = &button_source;
   control_event_source .source     = &combine_event_sources;
 }
 
@@ -72,7 +72,7 @@ void Application::loop() {
   const uint8_t  max_frame_rate  = 50;
   const uint16_t frame_delay = 1000 / max_frame_rate;
   // v roughly 6.25 hz. this is mainly so that popups (like BPM) are still
-  // removed in a faily timely maner when playback is paused or when
+  // removed in a faily timely manner when playback is paused or when
   // bpm is set absurdly low.
   static uint8_t clk = 0;
   if (clk++ & 0b111)

@@ -1,6 +1,6 @@
-#include "controls/encoder_button.h"
+#include "controls/button.h"
 
-EncoderButton::EncoderButton(
+Button::Button(
   uint8_t pin_,
   bool adc_state_
 ) :
@@ -8,20 +8,18 @@ EncoderButton::EncoderButton(
   adc_state(adc_state_) {
 };
 
-EncoderButton::~EncoderButton() {}
+Button::~Button() {}
 
-void EncoderButton::setup() {
+void Button::setup() {
   pinMode(pin, INPUT_PULLUP);
 }
 
-bool EncoderButton::read() {
+bool Button::read() {
   uint16_t adc_last = analogRead(pin);
 
-  if      (adc_state    && (adc_last < 0b01000000)) {
+  if      (adc_state    && (adc_last < 0b01000000))
     adc_state = false;
-    return true;
-  }
   else if ((!adc_state) && (adc_last > 0b11000000))
     adc_state = true;
-    return false;
+  return ! adc_state;
 }

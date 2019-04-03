@@ -1,15 +1,15 @@
-#ifndef LAMB_DRUMMER_ENCODER_BUTTON_H
-#define LAMB_DRUMMER_ENCODER_BUTTON_H
+#ifndef LAMB_DRUMMER_button_H
+#define LAMB_DRUMMER_button_H
 
 #include "Arduino.h"
 
-class EncoderButton {
+class Button {
   public:
-    EncoderButton(
+    Button(
       uint8_t pin_,
       bool adc_state_ = true
     );
-    virtual ~EncoderButton();
+    virtual ~Button();
     bool read();
     void setup();
   private:
