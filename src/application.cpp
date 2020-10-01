@@ -28,8 +28,6 @@ void Application::update_ui_data() {
 
 void Application::setup() {
   Serial .begin(115200);
-  Serial .println();
-  Serial .println(F("Begin setup"));
   ui     .setup();
   ui     .enter_screen(ui_t::SCREEN_INTRO);
   Eeprom::PersistantData<tracks_t> tmp(
@@ -46,17 +44,21 @@ void Application::setup() {
   set_playback_state(tmp.playback_state);
   while (_tracks++);
   eeprom .unflag_save_requested();
+
+  eeprom .flag_save_requested();
+  save_state();
+  
   ui_data.tracks = &_tracks;
   update_ui_data();
-  ui     .enter_screen(ui_t::SCREEN_MAIN);
   sei();
+  ui     .enter_screen(ui_t::SCREEN_MAIN);
 }
 
 void Application::setup_controls(uint8_t bpm) {
   static ButtonpadSource<Buttonpad_PCF8754<0x3F> >
                        buttonpad_source;
   static EncoderSource encoder_source(EventType::EVT_BPM_SET, bpm);
-  static ButtonSouce   button_source(EventType::EVT_PLAYBACK_STATE_TOGGLE, A7);
+  static ButtonSource  button_source(EventType::EVT_PLAYBACK_STATE_TOGGLE, A7);
   static CombineEventSources<Event,3>
                        combine_event_sources;
   buttonpad_source     .setup();
@@ -117,6 +119,8 @@ void Application::process_control_events() {
 bool Application::process_control_event(
   Application::control_event_source_t::event_t e
 ) {
+  return false;
+  
   if (! e)
     return false;
   if (e.type < 8) {
@@ -145,3 +149,4 @@ bool Application::process_control_event(
       return true;
   }
 }
+
