@@ -1,7 +1,7 @@
 #ifndef LAMB_DRUMMER_LCD_H
 #define LAMB_DRUMMER_LCD_H
 
-#include <LiquidCrystal.h>
+#include "LiquidCrystal_I2C.h"
 
 class Lcd {
 private:
@@ -22,7 +22,7 @@ public:
     CHAR_REST, CHAR_REST_ACTIVE, CHAR_INVERSION, CHAR_REST_BARRIER,   
     CHAR_HIT,  CHAR_HIT_ACTIVE,  CHAR_PLAYSTATE, CHAR_HIT_BARRIER
     };
-  static       LiquidCrystal lcd;  // RE-PRIVATE
+  static       LiquidCrystal_I2C lcd;
   static void put_inversion(
     uint8_t col,
     uint8_t line,

@@ -1,11 +1,14 @@
 #include "Arduino.h"
 #include "screens/lcd.h"
 
+#include "LiquidCrystal_I2C.h"
+
 Lcd::Lcd() {}
 Lcd::~Lcd() {}
 
 void Lcd::setup() {
-  lcd.begin(LCD_COLS, LCD_LINES);
+  lcd.init();
+  lcd.backlight();
 
   for (uint8_t ix = 0; ix < 8; ix++)
     lcd.createChar(ix, (uint8_t *)(custom_chars[ix]));
@@ -20,7 +23,7 @@ const uint8_t Lcd::LCD_D5    = 8;
 const uint8_t Lcd::LCD_D6    = 7;
 const uint8_t Lcd::LCD_D7    = 4;
 
-LiquidCrystal Lcd::lcd(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
+LiquidCrystal_I2C Lcd::lcd(0x27, 20, 4);
 
 void Lcd::put_inversion(
   uint8_t col,
