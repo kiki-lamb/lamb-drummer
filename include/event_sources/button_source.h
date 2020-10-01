@@ -6,9 +6,9 @@
 #include "event_source.h"
 #include "event/event.h"
 
-class ButtonSouce : public Button, public EventSource<Event>{
+class ButtonSource : public Button, public EventSource<Event>{
 public:
-  ButtonSouce(
+  ButtonSource(
     event_t::event_type_t on_push_,
     uint8_t pin_,
     bool adc_state = true
@@ -16,7 +16,7 @@ public:
   Button(pin_, adc_state),
   on_push(on_push_),
   event_type(EVT_NOT_AVAILABLE) {}
-  virtual ~ButtonSouce() {}
+  virtual ~ButtonSource() {}
 private:
   event_t::event_type_t on_push;
   event_t::event_type_t event_type;
@@ -34,6 +34,7 @@ private:
     event_t::event_type_t e = event_type;
     event_type = EVT_NOT_AVAILABLE;
     return Event { e };
+    
   };
 };
 #endif
