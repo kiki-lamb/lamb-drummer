@@ -25,18 +25,29 @@ void SSMain::draw_bars() {
     }
 }
 
+#include "Adafruit_MCP23017.h"
+Adafruit_MCP23017 mcp1;
+
 void SSMain::impl_enter() {
+  mcp1.begin(0x4);
+  for (size_t ix = 0; ix < 16; ix++) {
+    mcp1.pinMode(ix, OUTPUT);
+  }
+  
   data->popup_bpm_requested.flag();
 
   draw_line0();
+
   Lcd::put_playstate(19,0); // Ugly...
 
   draw_channel_numbers();
+  
   draw_bars();
 
   for (uint8_t step = 0, mmm = (*data->tracks).max_mod_maj(); step < 16; step++)
     draw_column(step, false, mmm);
-
+  Serial.println("Six."); Serial.flush();
+  
   draw_page_number();
 }
 
@@ -146,6 +157,8 @@ void SSMain::impl_update() {
 
   if (! redraw_page)
     draw_column(prior, false, mmm);
+
+  mcp1.writeGPIOAB(1 << ((current^8)%16));
 }
 
 void SSMain::draw_column(uint8_t col, bool highlit, uint8_t mod_maj)  {
