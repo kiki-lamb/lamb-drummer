@@ -46,7 +46,6 @@ void SSMain::impl_enter() {
 
   for (uint8_t step = 0, mmm = (*data->tracks).max_mod_maj(); step < 16; step++)
     draw_column(step, false, mmm);
-  Serial.println("Six."); Serial.flush();
   
   draw_page_number();
 }
