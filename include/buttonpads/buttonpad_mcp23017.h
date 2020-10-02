@@ -32,7 +32,7 @@ public:
   }
 
   virtual bool impl_read() {
-    Serial.print(F("Buttonpad_MCP23017::impl_read "));  if (! I2CLock::claim()) return false;
+    Serial.print(F("B:ir "));  if (! I2CLock::claim()) return false;
 
     char cSREG = SREG;    
 
@@ -40,23 +40,24 @@ public:
 
     uint16_t tmpval = device.readGPIOAB();
 
-    Serial.print(F("Buttonpad_MCP23017::impl_read "));  I2CLock::release();
+    Serial.print(F("B:ir "));  I2CLock::release();
 
     SREG = cSREG;    
     
-    Serial.print(F("READ: "));
+    Serial.print(F("=>   "));
+
+    Serial.print(tmpval);
     
-    {
-      for(uint16_t mask = 0xF0; mask; mask >>= 1) {
-        if(mask  & tmpval)
-          Serial.print('1');
-        else
-          Serial.print('0');
-      }
-    }
+    // {
+    //   for(uint16_t mask = 0xF0; mask; mask >>= 1) {
+    //     if(mask  & tmpval)
+    //       Serial.print('1');
+    //     else
+    //       Serial.print('0');
+    //   }
+    // }
 
     Serial.print(F(" "));
-    Serial.println(millis());
           
     uint8_t pin = 0;
 

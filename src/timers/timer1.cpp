@@ -88,7 +88,7 @@ void Timer1_::increment_ticker() {
 }
 
 void Timer1_::isr() {
-  Serial.println(F("Fire Timer1_::isr()."));
+  Serial.println(F("1:isr +"));
     
   char cTIMSK1 = TIMSK1;
   TIMSK1 = 0;
@@ -104,7 +104,7 @@ void Timer1_::isr() {
     if (! playback_state()) {
       PORTC &= ~0b1111; // PORTC = 0;
 
-      Serial.println(F("Abort Timer1_::isr()."));
+      Serial.println(F("1:isr !"));
 
       return;
     }
@@ -129,7 +129,7 @@ void Timer1_::isr() {
   TIMSK1 = cTIMSK1;
   TIMSK2 = cTIMSK2;
 
-  Serial.println(F("Abort Timer1_::isr()."));
+  Serial.println(F("1:isr -"));
 }
 
 ISR(TIMER1_COMPA_vect) {

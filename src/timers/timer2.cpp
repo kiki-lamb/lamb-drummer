@@ -26,7 +26,7 @@ void Timer2_::setup() {
 }
 
 void Timer2_::isr() {
-  Serial.println(F("Fire Timer2_::isr()."));
+  Serial.println(F("2:isr +"));
 
   char cTIMSK1 = TIMSK1;
   TIMSK1 = 0;
@@ -48,7 +48,7 @@ void Timer2_::isr() {
   TIMSK1 = cTIMSK1;
   TIMSK2 = cTIMSK2;
   
-  Serial.println(F("Complete Timer2_::isr()."));
+  Serial.println(F("2:isr -"));
 }
 
 ISR(TIMER2_COMPA_vect) {
