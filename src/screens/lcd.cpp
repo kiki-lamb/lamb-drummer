@@ -28,27 +28,45 @@ LiquidCrystal_I2C Lcd::lcd(0x27, 20, 4);
 // new ////////////////////////////////////////////////////////////////////////
 
 void Lcd::clear() {
-  Serial.print(F("L:c  ")); if (! I2CLock::claim()) return;
+#ifdef LOG_I2C_LOCK
+  Serial.print(F("L:c  "));
+#endif
+  if (! I2CLock::claim()) return;
 
   lcd.clear();
 
-  Serial.print(F("L:c  ")); I2CLock::release();
+#ifdef LOG_I2C_LOCK
+  Serial.print(F("L:c  "));
+#endif
+  I2CLock::release();
 }
 
 void Lcd::set_cursor(uint8_t x, uint8_t y) {
-  Serial.print(F("L:sc ")); if (! I2CLock::claim()) return;
+#ifdef LOG_I2C_LOCK
+  Serial.print(F("L:sc "));
+#endif
+  if (! I2CLock::claim()) return;
   
   lcd.setCursor(x, y);
 
-  Serial.print(F("L:sc ")); I2CLock::release();
+#ifdef LOG_I2C_LOCK
+  Serial.print(F("L:sc "));
+#endif
+  I2CLock::release();
 }
 
 void Lcd::write(uint8_t byte) {
-  Serial.print(F("L:w  ")); if (! I2CLock::claim()) return;
+#ifdef LOG_I2C_LOCK
+  Serial.print(F("L:w  "));
+#endif
+  if (! I2CLock::claim()) return;
       
   lcd.write(byte);
 
-  Serial.print(F("L:w  ")); I2CLock::release();
+#ifdef LOG_I2C_LOCK
+  Serial.print(F("L:w  "));
+#endif
+  I2CLock::release();
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -64,7 +82,10 @@ void Lcd::put_inversion(
 }
 
 void Lcd::select_inversion(uint8_t number) {
-  Serial.print(F("L:si ")); if (! I2CLock::claim()) return;
+#ifdef LOG_I2C_LOCK
+  Serial.print(F("L:si "));
+#endif
+  if (! I2CLock::claim()) return;
   
   static const uint8_t inversions[][8] = {
     {
@@ -111,20 +132,32 @@ void Lcd::select_inversion(uint8_t number) {
 
   lcd.createChar(CHAR_INVERSION, const_cast<uint8_t *>(inversions[number]));
 
-  Serial.print(F("L:si ")); I2CLock::release();
+#ifdef LOG_I2C_LOCK
+  Serial.print(F("L:si "));
+#endif
+  I2CLock::release();
 }
 
 void Lcd::put_playstate(uint8_t col, uint8_t line) {
-  Serial.print(F("L:pp ")); if (! I2CLock::claim()) return;
+#ifdef LOG_I2C_LOCK
+  Serial.print(F("L:pp "));
+#endif
+  if (! I2CLock::claim()) return;
   
   lcd.setCursor(col, line);
   lcd.write(byte(CHAR_PLAYSTATE));
 
-  Serial.print(F("L:pp ")); I2CLock::release();
+#ifdef LOG_I2C_LOCK
+  Serial.print(F("L:pp "));
+#endif
+  I2CLock::release();
 }
 
 void Lcd::select_playstate(bool paused) {
-  Serial.print(F("L:sp ")); if (! I2CLock::claim()) return;
+#ifdef LOG_I2C_LOCK
+  Serial.print(F("L:sp "));
+#endif
+  if (! I2CLock::claim()) return;
   
   static const uint8_t playstates[][8] = {
     {

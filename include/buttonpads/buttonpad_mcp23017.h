@@ -32,33 +32,38 @@ public:
   }
 
   virtual bool impl_read() {
-    Serial.print(F("B:ir "));  if (! I2CLock::claim()) return false;
+#ifdef LOG_I2C_LOCK
+    Serial.print(F("B:ir "));
+#endif
+    if (! I2CLock::claim()) return false;
 
     char cSREG = SREG;    
 
     sei();
 
-    uint16_t tmpval = device.readGPIOAB();
-
-    Serial.print(F("B:ir "));  I2CLock::release();
+    uint16_t tmpval = device.readGPIO(1);
+#ifdef LOG_I2C_LOCK
+    Serial.print(F("B:ir "));
+#endif
+    I2CLock::release();
 
     SREG = cSREG;    
-    
+
+#ifdef LOG_BUTTONPAD_MCP_RAW_READING
     Serial.print(F("=>   "));
+#endif
 
-    Serial.print(tmpval);
-    
-    // {
-    //   for(uint16_t mask = 0xF0; mask; mask >>= 1) {
-    //     if(mask  & tmpval)
-    //       Serial.print('1');
-    //     else
-    //       Serial.print('0');
-    //   }
-    // }
+    {
+      for(uint16_t mask = 0x80; mask; mask >>= 1) {
+        if(mask  & tmpval)
+          Serial.print('1');
+        else
+          Serial.print('0');
+      }
+    }
+    Serial.println();
 
-    Serial.print(F(" "));
-          
+   
     uint8_t pin = 0;
 
     for (uint8_t mask = 0b1; pin < 8; pin++, mask <<= 1) {

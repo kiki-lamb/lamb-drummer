@@ -53,9 +53,6 @@ void Timer1_::set_playback_state(bool playback_state_) {
 }
 
 void Timer1_::set_bpm(uint8_t tmp_bpm) {
-  //Serial.print(F("Set BPM: "));
-  //Serial.println(tmp_bpm);
-
   Timer1_::_bpm          = tmp_bpm;
   Timer1_::_hz           = Timer1_::_bpm / 60.0;
   Timer1_::set_hz_by_bpm ( Timer1_::_bpm ); // This should probably be in the ISR...
@@ -88,7 +85,9 @@ void Timer1_::increment_ticker() {
 }
 
 void Timer1_::isr() {
+#ifdef LOG_TIMERS
   Serial.println(F("1:isr +"));
+#endif
     
   char cTIMSK1 = TIMSK1;
   TIMSK1 = 0;
@@ -104,7 +103,9 @@ void Timer1_::isr() {
     if (! playback_state()) {
       PORTC &= ~0b1111; // PORTC = 0;
 
+#ifdef LOG_TIMERS
       Serial.println(F("1:isr !"));
+#endif
 
       return;
     }
@@ -129,7 +130,9 @@ void Timer1_::isr() {
   TIMSK1 = cTIMSK1;
   TIMSK2 = cTIMSK2;
 
+#ifdef LOG_TIMERS
   Serial.println(F("1:isr -"));
+#endif
 }
 
 ISR(TIMER1_COMPA_vect) {

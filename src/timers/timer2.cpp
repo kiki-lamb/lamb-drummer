@@ -26,7 +26,9 @@ void Timer2_::setup() {
 }
 
 void Timer2_::isr() {
+#ifdef LOG_TIMERS
   Serial.println(F("2:isr +"));
+#endif
 
   char cTIMSK1 = TIMSK1;
   TIMSK1 = 0;
@@ -41,14 +43,14 @@ void Timer2_::isr() {
     Application::save_state(); // In ISR, not that ugly...
   }
 
-  // Serial.println(F("Timer2_::isr() process_control_events..."));  
   Application  ::process_control_events(); // In ISR, not that ugly...
-  // Serial.println(F("Timer2_::isr() done process_control_events."));
 
   TIMSK1 = cTIMSK1;
   TIMSK2 = cTIMSK2;
   
+#ifdef LOG_TIMERS
   Serial.println(F("2:isr -"));
+#endif
 }
 
 ISR(TIMER2_COMPA_vect) {
