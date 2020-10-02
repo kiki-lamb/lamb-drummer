@@ -25,14 +25,14 @@ void SSMain::draw_bars() {
     }
 }
 
-#include "Adafruit_MCP23017.h"
-Adafruit_MCP23017 mcp1;
+// #include "Adafruit_MCP23017.h"
+// Adafruit_MCP23017 mcp1;
 
 void SSMain::impl_enter() {
-  mcp1.begin(0x4);
-  for (size_t ix = 0; ix < 16; ix++) {
-    mcp1.pinMode(ix, OUTPUT);
-  }
+  // mcp1.begin(0x4);
+  // for (size_t ix = 0; ix < 16; ix++) {
+  //   mcp1.pinMode(ix, OUTPUT);
+  // }
   
   data->popup_bpm_requested.flag();
 
@@ -157,7 +157,7 @@ void SSMain::impl_update() {
   if (! redraw_page)
     draw_column(prior, false, mmm);
 
-  mcp1.writeGPIOAB(1 << ((current^8)%16));
+  // mcp1.writeGPIOAB(1 << ((current^8)%16));
 }
 
 void SSMain::draw_column(uint8_t col, bool highlit, uint8_t mod_maj)  {

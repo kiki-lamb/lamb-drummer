@@ -1,37 +1,40 @@
-#ifndef LAMB_DRUMMER_BUTTONPAD_PIN_PCF8574_H
-#define LAMB_DRUMMER_BUTTONPAD_PIN_PCF8574_H
+#ifndef LAMB_DRUMMER_BUTTONPAD_PIN_MCP23017_H
+#define LAMB_DRUMMER_BUTTONPAD_PIN_MCP23017_H
 
 #include <Arduino.h>
 #include "buttonpad.h"
 #include <Wire.h>
-#include <jm_PCF8574.h>
+#include "Adafruit_MCP23017.h"
 
 template <uint8_t i2c_addr_>
-class Buttonpad_PCF8754 : public Buttonpad {
+class Buttonpad_MCP23017 : public Buttonpad {
   private:
-    uint8_t  _button;
-    jm_PCF8574 device;
+    uint8_t           _button;
+    Adafruit_MCP23017 device;
 
   public:
-    Buttonpad_PCF8754() : _button(8) {}
+    Buttonpad_MCP23017() : _button(8) {}
 
-    virtual ~Buttonpad_PCF8754() {}
+    virtual ~Buttonpad_MCP23017() {}
 
     virtual void impl_setup() {
-      //Serial.println(F("Setup Buttonpad_PCF8754..."));
+      Serial.println(F("Setup Buttonpad_MCP23017..."));
 
       Wire.begin();
       device.begin(i2c_addr_);
 
-      for (uint8_t ix = 0; ix < 8; ix++)
-      device.pinMode(ix, INPUT);
+      for (uint8_t ix = 0; ix < 8; ix++) {
+        device.pinMode(ix, INPUT);
+        device.pullUp(ix, HIGH);
+      }
 
-      //Serial.print(F("Done setup Buttonpad_PCF8754."));
+      Serial.print(F("Done setup Buttonpad_MCP23017."));
     }
 
     virtual bool impl_read() {
       sei();
-      uint8_t tmpval = device.read();
+//      uint8_t tmpval = device.readGPIO(1);
+      uint8_t tmpval = 0xff;
       cli();
 
       uint8_t pin = 0;

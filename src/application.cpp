@@ -55,19 +55,22 @@ void Application::setup() {
 }
 
 void Application::setup_controls(uint8_t bpm) {
-  static ButtonpadSource<Buttonpad_PCF8754<0x3F> >
+  static ButtonpadSource<Buttonpad_MCP23017<0x2> >
                        buttonpad_source;
-  static EncoderSource encoder_source(EventType::EVT_BPM_SET, bpm);
-  static ButtonSource  button_source(EventType::EVT_PLAYBACK_STATE_TOGGLE, A7);
-  static CombineEventSources<Event,3>
-                       combine_event_sources;
+//  static EncoderSource encoder_source(EventType::EVT_BPM_SET, bpm);
+//  static ButtonSource  button_source(
+//    EventType::EVT_PLAYBACK_STATE_TOGGLE,
+//    A7
+//  );
+//  static CombineEventSources<Event,3>
+//                       combine_event_sources;
   buttonpad_source     .setup();
-  encoder_source       .setup();
-  button_source.setup();
-  combine_event_sources.sources[0] = &buttonpad_source;
-  combine_event_sources.sources[1] = &encoder_source;
-  combine_event_sources.sources[2] = &button_source;
-  control_event_source .source     = &combine_event_sources;
+//  encoder_source       .setup();
+//  button_source.setup();
+//  combine_event_sources.sources[0] = &buttonpad_source;
+//  combine_event_sources.sources[1] = &encoder_source;
+//  combine_event_sources.sources[2] = &button_source;
+  control_event_source .source     = &buttonpad_source; //combine_event_sources;
 }
 
 void Application::loop() {
@@ -124,8 +127,6 @@ void Application::process_control_events() {
 bool Application::process_control_event(
   Application::control_event_source_t::event_t e
 ) {
-  return false;
-  
   if (! e)
     return false;
   if (e.type < 8) {
