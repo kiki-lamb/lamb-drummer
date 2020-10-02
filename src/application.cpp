@@ -77,10 +77,15 @@ void Application::loop() {
   // removed in a faily timely manner when playback is paused or when
   // bpm is set absurdly low.
   static uint8_t clk = 0;
-  if (clk++ & 0b111)
+
+  if (clk++ & 0b111) {
     flag_main_screen();
+  }
+
   update_ui_data();
+
   ui.update_screen();
+
   delay(frame_delay);
 }
 
