@@ -26,7 +26,9 @@ void Timer2_::setup() {
 }
 
 void Timer2_::isr() {
-  static uint16_t ix = 0;
+  Serial.println("Fire Timer2_::isr().")
+
+    static uint16_t ix = 0;
   
   if (! (ix++ & 0b11111111)) {
     PORTB ^= _BV(5);   // flip LED_BUILTIN
@@ -34,6 +36,8 @@ void Timer2_::isr() {
   }
   
   Application  ::process_control_events(); // In ISR, not that ugly...
+
+  Serial.println("Complete Timer2_::isr().");
 }
 
 ISR(TIMER2_COMPA_vect) {

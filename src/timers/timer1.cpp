@@ -86,6 +86,8 @@ void Timer1_::increment_ticker() {
 }
 
 void Timer1_::isr() {
+  Serial.println("Fire Timer1_::isr().")
+    
   uint8_t ticker_ = ticker();
 
   if (! (ticker_ & 0b1)) {
@@ -93,6 +95,9 @@ void Timer1_::isr() {
 
     if (! playback_state()) {
       PORTC &= ~0b1111; // PORTC = 0;
+
+      Serial.println("Abort Timer1_::isr().");
+
       return;
     }
 
@@ -112,6 +117,8 @@ void Timer1_::isr() {
   }
 
   increment_ticker();
+  
+  Serial.println("Abort Timer1_::isr().");
 }
 
 ISR(TIMER1_COMPA_vect) {
