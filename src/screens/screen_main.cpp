@@ -12,7 +12,11 @@ void SSMain::draw_channel_numbers() {
     Lcd::print(line);
   }
 
-  Lcd::put_inversion(0, (*data->tracks).index() + 1, (*data->tracks).index() + 1);
+  Lcd::put_inversion(
+    0,
+    (*data->tracks).index() + 1,
+    (*data->tracks).index() + 1
+  );
 }
 
 void SSMain::draw_bars() {
