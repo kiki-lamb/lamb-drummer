@@ -34,13 +34,9 @@ public:
   void enter() {
     requires_update.consume();
 
-    lcd().clear();
+    Lcd::clear();
 
     impl_enter();
-  }
-protected:
-  constexpr LiquidCrystal_I2C & lcd() {
-    return Lcd::lcd;
   }
 
 private:

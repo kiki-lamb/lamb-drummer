@@ -25,6 +25,20 @@ const uint8_t Lcd::LCD_D7    = 4;
 
 LiquidCrystal_I2C Lcd::lcd(0x27, 20, 4);
 
+// new ////////////////////////////////////////////////////////////////////////
+void Lcd::clear() {
+  lcd.clear();
+}
+
+void Lcd::set_cursor(uint8_t x, uint8_t y) {
+  lcd.setCursor(x, y);
+}
+
+void Lcd::write(uint8_t byte) {
+  lcd.write(byte);
+}
+
+///////////////////////////////////////////////////////////////////////////////                                                                               
 void Lcd::put_inversion(
   uint8_t col,
   uint8_t line,

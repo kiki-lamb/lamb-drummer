@@ -25,24 +25,24 @@ void SSInstr::impl_update() {
 }
 
 void SSIntro::impl_enter() {
-  lcd().setCursor(0, 0);
-  lcd().print(F("    Lamb Drummer    "));
+  Lcd::set_cursor(0, 0);
+  Lcd::print(F("    Lamb Drummer    "));
 
   static const int MS = 7;
 
   for (uint8_t iix = 0; iix < 4; iix++) {
     for (uint8_t ix = 0; ix < 20; ix++) {
       for (uint8_t iiix = 1; iiix < 4; iiix++) {
-        lcd().setCursor(ix, iiix);
-        lcd().print(F(" ")); // write(Lcd::CHAR_REST);
+        Lcd::set_cursor(ix, iiix);
+        Lcd::print(F(" ")); // write(Lcd::CHAR_REST);
       }
       delay(MS);
     }
 
     for (uint8_t ix = 0; ix < 20; ix++) {
       for (uint8_t iiix = 1; iiix < 4; iiix++) {
-        lcd().setCursor(ix, iiix);
-        lcd().write(Lcd::CHAR_HIT);
+        Lcd::set_cursor(ix, iiix);
+        Lcd::write(Lcd::CHAR_HIT);
       }
       delay(MS);
     }
@@ -50,13 +50,13 @@ void SSIntro::impl_enter() {
 
   for (uint8_t ix = 0; ix < 20; ix++) {
     for (uint8_t iiix = 1; iiix < 4; iiix++) {
-      lcd().setCursor(ix, iiix);
-      lcd().print(F(" "));
+      Lcd::set_cursor(ix, iiix);
+      Lcd::print(F(" "));
     }
     delay(MS);
   }
 
-  lcd().clear();
+  Lcd::clear();
 }
 
 void SSIntro::impl_update() {
