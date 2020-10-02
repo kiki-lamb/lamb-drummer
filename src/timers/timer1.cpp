@@ -87,20 +87,30 @@ void Timer1_::increment_ticker() {
 
 void Timer1_::isr() {
   uint8_t ticker_ = ticker();
+
   if (! (ticker_ & 0b1)) {
     Application::flag_main_screen(); // In ISR, not that ugly...
+
     if (! playback_state()) {
       PORTC &= ~0b1111; // PORTC = 0;
       return;
     }
+
     byte blast = 0;
-    for (byte ix = 0; ix <= 2; ix++)
-      if (Application::tracks()[ix].trigger_state(ticker_ >> 1)) // In ISR, not that ugly...
+
+    for (byte ix = 0; ix <= 2; ix++) {
+      // v In ISR, not that ugly...
+      if (Application::tracks()[ix].trigger_state(ticker_ >> 1)) {
         blast |= _BV(ix);
-    PORTC = blast;
+      }
+
+      PORTC = blast;
+    }
   }
-  else
+  else {
     PORTC &= ~0b1111;
+  }
+
   increment_ticker();
 }
 
