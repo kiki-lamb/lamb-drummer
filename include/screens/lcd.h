@@ -2,6 +2,7 @@
 #define LAMB_DRUMMER_LCD_H
 
 #include "LiquidCrystal_I2C.h"
+#include "i2c_lock.h"
 
 class Lcd {
 private:
@@ -37,7 +38,11 @@ public:
   static void set_cursor(uint8_t x, uint8_t y);
   static void write(uint8_t byte);
   template <typename T> static void print(T t) {
+    if (! I2CLock::claim()) return;
+    
     lcd.print(t);
+
+    I2CLock::release();
   }
 
 };

@@ -26,16 +26,29 @@ const uint8_t Lcd::LCD_D7    = 4;
 LiquidCrystal_I2C Lcd::lcd(0x27, 20, 4);
 
 // new ////////////////////////////////////////////////////////////////////////
+
 void Lcd::clear() {
+  if (! I2CLock::claim()) return;
+
   lcd.clear();
+
+  I2CLock::release();
 }
 
 void Lcd::set_cursor(uint8_t x, uint8_t y) {
+  if (! I2CLock::claim()) return;
+  
   lcd.setCursor(x, y);
+
+  I2CLock::release();
 }
 
 void Lcd::write(uint8_t byte) {
+  if (! I2CLock::claim()) return;
+      
   lcd.write(byte);
+
+  I2CLock::release();
 }
 
 ///////////////////////////////////////////////////////////////////////////////                                                                               
@@ -44,12 +57,18 @@ void Lcd::put_inversion(
   uint8_t line,
   uint8_t number
 ) {
+  if (! I2CLock::claim()) return;
+  
   select_inversion(number);
   lcd.setCursor(col, line);
   lcd.write(byte(CHAR_INVERSION));
+
+  I2CLock::release();
 }
 
 void Lcd::select_inversion(uint8_t number) {
+  if (! I2CLock::claim()) return;
+  
   static const uint8_t inversions[][8] = {
     {
       0b10001,
@@ -94,14 +113,22 @@ void Lcd::select_inversion(uint8_t number) {
   };
 
   lcd.createChar(CHAR_INVERSION, const_cast<uint8_t *>(inversions[number]));
+
+  I2CLock::release();
 }
 
 void Lcd::put_playstate(uint8_t col, uint8_t line) {
+  if (! I2CLock::claim()) return;
+  
   lcd.setCursor(col, line);
   lcd.write(byte(CHAR_PLAYSTATE));
+
+  I2CLock::release();
 }
 
 void Lcd::select_playstate(bool paused) {
+  if (! I2CLock::claim()) return;
+  
   static const uint8_t playstates[][8] = {
     {
       0b11011, // CHAR_PAUSE
@@ -125,7 +152,12 @@ void Lcd::select_playstate(bool paused) {
     }
   };
 
-  lcd.createChar(CHAR_PLAYSTATE, const_cast<uint8_t *>(playstates[paused ? 0 : 1]));
+  lcd.createChar(
+    CHAR_PLAYSTATE,
+    const_cast<uint8_t *>(playstates[paused ? 0 : 1])
+  );
+
+  I2CLock::release();
 }
 
 const uint8_t Lcd::custom_chars[8][8] = {
