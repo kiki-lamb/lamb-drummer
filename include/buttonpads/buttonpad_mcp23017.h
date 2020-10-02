@@ -21,8 +21,6 @@ public:
   virtual void impl_setup() {
     Serial.println(F("Setup Buttonpad_MCP23017..."));
 
-    Wire.begin();
-
     device.begin(i2c_addr_);
 
     for (uint8_t ix = 0; ix < 8; ix++) {
@@ -34,7 +32,7 @@ public:
   }
 
   virtual bool impl_read() {
-    /* Serial.print(F("Buttonpad_MCP23017::impl_read ")); */ if (! I2CLock::claim()) return false;
+    Serial.print(F("Buttonpad_MCP23017::impl_read "));  if (! I2CLock::claim()) return false;
 
     char cSREG = SREG;    
 
@@ -42,7 +40,7 @@ public:
 
     uint16_t tmpval = device.readGPIOAB();
 
-    /* Serial.print(F("Buttonpad_MCP23017::impl_read ")); */ I2CLock::release();
+    Serial.print(F("Buttonpad_MCP23017::impl_read "));  I2CLock::release();
 
     SREG = cSREG;    
     

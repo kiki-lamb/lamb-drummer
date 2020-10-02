@@ -38,11 +38,11 @@ public:
   static void set_cursor(uint8_t x, uint8_t y);
   static void write(uint8_t byte);
   template <typename T> static void print(T t) {
-    /* Serial.print("Lcd::print "); */ if (! I2CLock::claim()) return;
+    Serial.print("Lcd::print ");  if (! I2CLock::claim()) return;
     
     lcd.print(t);
 
-    /* Serial.print("Lcd::print "); */ I2CLock::release();
+    Serial.print("Lcd::print ");  I2CLock::release();
   }
 
 };

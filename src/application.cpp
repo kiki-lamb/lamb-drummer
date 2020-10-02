@@ -27,7 +27,9 @@ void Application::update_ui_data() {
 }
 
 void Application::setup() {
-  Serial .begin(115200);
+  Serial .begin(230400);
+  Wire   .begin();
+  Wire   .setClock(400000);
   ui     .setup();
   ui     .enter_screen(ui_t::SCREEN_INTRO);
   Eeprom::PersistantData<tracks_t> tmp(
