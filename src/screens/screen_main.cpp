@@ -75,8 +75,6 @@ void SSMain::draw_line0(bool redraw_bpm) {
   else if (data->redraw_selected_track_indicator.consume()) {
     Track const & track  = (*data->tracks)[(*data->tracks).index()];
 
-    draw_channel_numbers();
-
     Lcd::set_cursor(0, 0);
     Lcd::print("                  ");
 
@@ -128,6 +126,8 @@ void SSMain::impl_update() {
 
   draw_line0(redraw_bpm);
 
+  draw_channel_numbers();
+  
   uint8_t prior   = ((uint8_t)((data->ticker>>1)-1)) % (*data->tracks).max_mod_maj(); // Don't remove this cast or the subtraction result becomes a signed type
   uint8_t current = (data->ticker>>1) % (*data->tracks).max_mod_maj();
 

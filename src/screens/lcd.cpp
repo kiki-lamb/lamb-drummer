@@ -57,13 +57,9 @@ void Lcd::put_inversion(
   uint8_t line,
   uint8_t number
 ) {
-  if (! I2CLock::claim()) return;
-  
   select_inversion(number);
   lcd.setCursor(col, line);
   lcd.write(byte(CHAR_INVERSION));
-
-  I2CLock::release();
 }
 
 void Lcd::select_inversion(uint8_t number) {
