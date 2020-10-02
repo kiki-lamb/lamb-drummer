@@ -37,21 +37,32 @@ void Application::setup() {
   );
   eeprom .restore_all(tmp);
   setup_controls(tmp.bpm);
+
   cli();
+  Serial.println(F("Stop all interrupts..."));
+  
   timer1 .setup();
   timer1 .set_bpm(tmp.bpm);
   timer2 .setup();
+  
   set_playback_state(tmp.playback_state);
-  while (_tracks++);
-  eeprom .unflag_save_requested();
 
+  while (_tracks++);
+
+  eeprom .unflag_save_requested();
   eeprom .flag_save_requested();
   save_state();
   
   ui_data.tracks = &_tracks;
   update_ui_data();
+
+  Serial.println(F("Enable all interrupts."));
   sei();
+  
+  Serial.println(F("Enter SCREEN_MAIN..."));
   ui     .enter_screen(ui_t::SCREEN_MAIN);
+  Serial.println(F("Enteerd SCREEN_MAIN."));
+    
 }
 
 void Application::setup_controls(uint8_t bpm) {

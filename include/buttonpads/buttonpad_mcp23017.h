@@ -30,26 +30,26 @@ public:
       device.pullUp(ix, HIGH);
     }
 
-    Serial.print(F("Done setup Buttonpad_MCP23017."));
+    Serial.println(F("Done setup Buttonpad_MCP23017."));
   }
 
   virtual bool impl_read() {
-    Serial.print("Buttonpad_MCP23017::impl_read "); if (! I2CLock::claim()) return false;
+    /* Serial.print(F("Buttonpad_MCP23017::impl_read ")); */ if (! I2CLock::claim()) return false;
 
     char cSREG = SREG;    
 
     sei();
 
-    uint8_t tmpval = device.readGPIO(1);
+    uint16_t tmpval = device.readGPIOAB();
 
-    SREG = cSREG;
+    /* Serial.print(F("Buttonpad_MCP23017::impl_read ")); */ I2CLock::release();
+
+    SREG = cSREG;    
     
-    Serial.print("Buttonpad_MCP23017::impl_read "); I2CLock::release();
-    
-    Serial.print("READ: ");
+    Serial.print(F("READ: "));
     
     {
-      for(byte mask = 0x80; mask; mask >>= 1) {
+      for(uint16_t mask = 0xF0; mask; mask >>= 1) {
         if(mask  & tmpval)
           Serial.print('1');
         else
@@ -57,7 +57,7 @@ public:
       }
     }
 
-    Serial.print(" ");
+    Serial.print(F(" "));
     Serial.println(millis());
           
     uint8_t pin = 0;

@@ -19,25 +19,36 @@ void Timer2_::setup() {
   TCCR2A  = 0; // set entire TCCR2A register to 0
   TCCR2B  = 0; // same for TCCR2B
   TCNT2   = 0; // initialize counter value to 0
-  OCR2A   = 255;//99; // 255; // = 16000000 / (64 * 1000) - 1 (must be <256) // set compare match register for 977 Hz increments
-  TCCR2B |= (1 << WGM21); // turn on CTC mode
-  TCCR2B |= (1 << CS22) | (0 << CS21) | (0 << CS20); // Set CS22, CS21 and CS20 bits for 64 prescaler
+  OCR2A   = 254;
+  TCCR2B |= (1 << WGM21);
+  TCCR2B |= (1 << CS22) | (1 << CS21) | (1 << CS20); // Prescale = 1024
   TIMSK2 |= (1 << OCIE2A); // enable timer compare interrupt
 }
 
 void Timer2_::isr() {
-  Serial.println("Fire Timer2_::isr().")
+  Serial.println(F("Fire Timer2_::isr()."));
 
-    static uint16_t ix = 0;
+  char cTIMSK1 = TIMSK1;
+  TIMSK1 = 0;
+  
+  char cTIMSK2 = TIMSK2;
+  TIMSK2 = 0;
+
+  static uint16_t ix = 0;
   
   if (! (ix++ & 0b11111111)) {
     PORTB ^= _BV(5);   // flip LED_BUILTIN
     Application::save_state(); // In ISR, not that ugly...
   }
-  
-  Application  ::process_control_events(); // In ISR, not that ugly...
 
-  Serial.println("Complete Timer2_::isr().");
+  // Serial.println(F("Timer2_::isr() process_control_events..."));  
+  Application  ::process_control_events(); // In ISR, not that ugly...
+  // Serial.println(F("Timer2_::isr() done process_control_events."));
+
+  TIMSK1 = cTIMSK1;
+  TIMSK2 = cTIMSK2;
+  
+  Serial.println(F("Complete Timer2_::isr()."));
 }
 
 ISR(TIMER2_COMPA_vect) {

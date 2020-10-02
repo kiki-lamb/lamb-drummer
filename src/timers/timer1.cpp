@@ -75,7 +75,9 @@ double Timer1_::hz() const {
 
 void Timer1_::set_hz_by_bpm(uint8_t bpm_) {
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    OCR1A = 16000000 / (256 * (bpm_ / 60.0 * 8)) - 1; //   // do not un-float the '60.0'!
+    OCR1A = 16000000 / (256 * (bpm_ / 60.0 * 8)) - 1;
+    // ^ do not un-float the '60.0'!
+
     if (TCNT1 > OCR1A)
       TCNT1 = OCR1A - 1;
   }
@@ -86,8 +88,14 @@ void Timer1_::increment_ticker() {
 }
 
 void Timer1_::isr() {
-  Serial.println("Fire Timer1_::isr().")
+  Serial.println(F("Fire Timer1_::isr()."));
     
+  char cTIMSK1 = TIMSK1;
+  TIMSK1 = 0;
+  
+  char cTIMSK2 = TIMSK2;
+  TIMSK2 = 0;
+
   uint8_t ticker_ = ticker();
 
   if (! (ticker_ & 0b1)) {
@@ -96,7 +104,7 @@ void Timer1_::isr() {
     if (! playback_state()) {
       PORTC &= ~0b1111; // PORTC = 0;
 
-      Serial.println("Abort Timer1_::isr().");
+      Serial.println(F("Abort Timer1_::isr()."));
 
       return;
     }
@@ -117,8 +125,11 @@ void Timer1_::isr() {
   }
 
   increment_ticker();
-  
-  Serial.println("Abort Timer1_::isr().");
+
+  TIMSK1 = cTIMSK1;
+  TIMSK2 = cTIMSK2;
+
+  Serial.println(F("Abort Timer1_::isr()."));
 }
 
 ISR(TIMER1_COMPA_vect) {
