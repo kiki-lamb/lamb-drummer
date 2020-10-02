@@ -53,8 +53,8 @@ void Eeprom::save_track(
   size_t eeprom_location,
   Track & track
 ) const {
-  if (! track.modified.consume() )
-    return;
+  // if (! track.modified.consume() )
+  //  return;
 
   EEPROM.write(eeprom_location + 0, track.mod_maj());
   Serial.print(F("Save mod_maj ")); Serial.print(track.mod_maj()); Serial.println();
@@ -75,16 +75,16 @@ void Eeprom::restore_track(
   size_t eeprom_location,
   Track & track
 ) {
-  track.set_mod_maj(32); //EEPROM.read(eeprom_location + 0));
+  track.set_mod_maj(EEPROM.read(eeprom_location + 0));
   Serial.print(F("Restore mod_maj ")); Serial.print(track.mod_maj()); Serial.println();
 
-  track.set_mod_min(6); //EEPROM.read(eeprom_location + 1));
+  track.set_mod_min(EEPROM.read(eeprom_location + 1));
   Serial.print(F("Restore mod_min ")); Serial.print(track.mod_min()); Serial.println();
 
-  track.set_phase_min(2); //EEPROM.read(eeprom_location + 2));
+  track.set_phase_min(EEPROM.read(eeprom_location + 2));
   Serial.print(F("Restore phase_min ")); Serial.print(track.phase_min()); Serial.println();
 
-  track.set_phase_maj(0); //  (EEPROM.read(eeprom_location + 3));
+  track.set_phase_maj(EEPROM.read(eeprom_location + 3));
   Serial.print(F("Restore phase_maj ")); Serial.print(track.phase_maj()); Serial.println();
 
   Serial.print(F("(Unflag a track state) "));
