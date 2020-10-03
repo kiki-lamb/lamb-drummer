@@ -4,7 +4,7 @@
 
 template <>
 typename Event::event_type_t
-ButtonpadSource<Buttonpad_MCP23017<0x2> >::buttonpad_ordering[8] = {
+ButtonpadSource<Buttonpad_MCP23017<0x0> >::buttonpad_ordering[8] = {
   EVT_MAJ_UP,
   EVT_PHASE_MAJ_UP,
   EVT_MIN_UP,

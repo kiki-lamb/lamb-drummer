@@ -51,8 +51,6 @@ public:
 
 #ifdef LOG_BUTTONPAD_MCP_RAW_READING
     Serial.print(F("=>   "));
-#endif
-
     {
       for(uint16_t mask = 0x80; mask; mask >>= 1) {
         if(mask  & tmpval)
@@ -62,7 +60,7 @@ public:
       }
     }
     Serial.println();
-
+#endif
    
     uint8_t pin = 0;
 

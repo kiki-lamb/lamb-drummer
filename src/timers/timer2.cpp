@@ -42,8 +42,7 @@ void Timer2_::isr() {
     PORTB ^= _BV(5);   // flip LED_BUILTIN
     Application::save_state(); // In ISR, not that ugly...
   }
-
-  Application  ::process_control_events(); // In ISR, not that ugly...
+  Application::flag_controls();
 
   TIMSK1 = cTIMSK1;
   TIMSK2 = cTIMSK2;

@@ -13,6 +13,7 @@ Timer1_                   Application::timer1;
 Timer2_                   Application::timer2;
 Application::ui_t         Application::ui(&ui_data);
 Application::ui_data_t    Application::ui_data;
+lamb::Flag                Application::controls_flag;
 
 Application::Application() {};
 
@@ -98,6 +99,9 @@ void Application::loop() {
     flag_main_screen();
   }
 
+  if (controls_flag.consume())
+    process_control_events();
+    
   update_ui_data();
 
   ui.update_screen();
@@ -130,6 +134,10 @@ void Application::save_state() {
        timer1.playback_state()
      )
    );
+}
+
+void Application::flag_controls() {
+  controls_flag.flag();
 }
 
 void Application::process_control_events() {

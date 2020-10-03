@@ -37,17 +37,19 @@ private:
   static  Eeprom       eeprom;
   static  Timer1_      timer1;
   static  Timer2_      timer2;
+  static  lamb::Flag   controls_flag;
   static  void         setup_controls(uint8_t bpm);
   static  void         set_playback_state(bool playback_state_);
   static  bool         process_control_event(control_event_source_t::event_t e);
   static  void         update_ui_data();
   static  uint8_t      page();
+  static  void         process_control_events(); // called by ISR for timer2.
 public:
   static  void         setup();
   static  void         loop();
-  static  void         process_control_events(); // called by ISR for timer2.
   static  void         save_state();             // called by ISR for timer2.
   static  void         flag_main_screen();       // called by ISR for timer1.
+  static  void         flag_controls();       // called by ISR for timer1.
   static  constexpr tracks_t const &             // called by ISR for timer1.
                        tracks()  {
     return _tracks;
