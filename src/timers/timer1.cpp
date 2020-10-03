@@ -118,10 +118,14 @@ void Timer1_::isr() {
         blast |= _BV(ix);
       }
 
+      Application::flag_output(blast);
+      
       PORTC = blast;
     }
   }
   else {
+    Application::flag_output(~0b1111);
+          
     PORTC &= ~0b1111;
   }
 

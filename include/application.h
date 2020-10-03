@@ -13,10 +13,15 @@
 #include "buttonpads/buttonpad_resistor_ladder.h"
 #include "buttonpads/buttonpad_mcp23017.h"
 #include "event/event.h"
+#include <jm_PCF8574.h>
 
 class Application {
 private:
-  static  const size_t tracks_count = 3;
+  static  const size_t  tracks_count = 3;
+  static  const uint8_t encBtn = D7;
+  static  const uint8_t encA = A0;
+  static  const uint8_t encB = A1;
+
 public:
   typedef TrackCollection<tracks_count>
                        tracks_t; // Public because tracks() returns it.
@@ -38,6 +43,9 @@ private:
   static  Timer1_      timer1;
   static  Timer2_      timer2;
   static  lamb::Flag   controls_flag;
+  static  lamb::Flag   output_flag;
+  static  jm_PCF8574   output_device;
+  static  uint8_t      queued_output;  
   static  void         setup_controls(uint8_t bpm);
   static  void         set_playback_state(bool playback_state_);
   static  bool         process_control_event(control_event_source_t::event_t e);
@@ -49,7 +57,8 @@ public:
   static  void         loop();
   static  void         save_state();             // called by ISR for timer2.
   static  void         flag_main_screen();       // called by ISR for timer1.
-  static  void         flag_controls();       // called by ISR for timer1.
+  static  void         flag_controls();       // called by ISR for timer2.
+  static  void         flag_output(uint8_t output);       // called by ISR for timer1.
   static  constexpr tracks_t const &             // called by ISR for timer1.
                        tracks()  {
     return _tracks;

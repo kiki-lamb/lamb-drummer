@@ -14,6 +14,9 @@ Timer2_                   Application::timer2;
 Application::ui_t         Application::ui(&ui_data);
 Application::ui_data_t    Application::ui_data;
 lamb::Flag                Application::controls_flag;
+lamb::Flag                Application::output_flag;
+jm_PCF8574                Application::output_device;
+uint8_t                   Application::queued_output = 0;
 
 Application::Application() {};
 
@@ -31,16 +34,27 @@ void Application::setup() {
   Serial .begin(230400);
   Wire   .begin();
   Wire   .setClock(400000);
+  
+  output_device.begin(0x3A);
+  for (uint8_t ix = 0; ix < 8; ix++) {
+    output_device.pinMode(ix, OUTPUT);
+  }
+  output_device.write(0);
+
   ui     .setup();
   ui     .enter_screen(ui_t::SCREEN_INTRO);
+
   Eeprom::PersistantData<tracks_t> tmp(
     &_tracks,
     timer1.bpm(),
     timer1.playback_state()
   );
+
   eeprom .restore_all(tmp);
+
   setup_controls(tmp.bpm);
 
+  
   cli();
   Serial.println(F("Stop all interrupts..."));
   
@@ -99,6 +113,11 @@ void Application::loop() {
     flag_main_screen();
   }
 
+  if (output_flag.consume()) {
+    output_device.write(queued_output);
+    queued_output = 0;
+  }
+  
   if (controls_flag.consume())
     process_control_events();
     
@@ -140,6 +159,11 @@ void Application::flag_controls() {
   controls_flag.flag();
 }
 
+void Application::flag_output(uint8_t output) {
+  queued_output = output;
+  output_flag.flag();
+}
+
 void Application::process_control_events() {
   control_event_source.poll();
   while(process_control_event(control_event_source.dequeue_event()));
@@ -176,4 +200,3 @@ bool Application::process_control_event(
       return true;
   }
 }
-
