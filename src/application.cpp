@@ -30,12 +30,27 @@ void Application::update_ui_data() {
   ui_data.ticker         = timer1.ticker();
 }
 
+uint16_t lights = 0x00;
+Adafruit_MCP23017 lightsMcp;;
+lamb::Flag lightsFlag;
+
 void Application::setup() {
   Serial .begin(230400);
   Wire   .begin();
   Wire   .setClock(400000);
-  
-  output_device.begin(0x3A);
+
+  lightsMcp.begin(0x4);
+  for (size_t ix = 0; ix < 16; ix++) {
+     lightsMcp.pinMode(ix, OUTPUT);
+     lightsMcp.digitalWrite(ix, LOW);
+  }
+
+  // for (size_t ix = 0; ix < 16; ix++) {
+  //    lightsMcp.digitalWrite(ix, HIGH);
+  //    delay(500);
+  // }
+
+  output_device.begin(0x3a);
   for (uint8_t ix = 0; ix < 8; ix++) {
     output_device.pinMode(ix, OUTPUT);
   }
@@ -160,7 +175,6 @@ bool Application::output() {
   return true;
 }
 
-
 void Application::loop() {
 //  Serial.print(F("output();")); Serial.flush();
   output();
@@ -173,6 +187,22 @@ void Application::loop() {
 
 //  Serial.println(F("ui.update_screen();")); Serial.flush();
   ui.update_screen();
+
+  if (lightsFlag.consume()) {
+    Serial.print("Write lights: ");
+
+    uint8_t a = lights >> 8;
+    uint8_t b = lights &  0xff;
+
+    print_bits(a);
+    print_bits(b);
+
+    Serial.println();
+
+    uint16_t c = (((uint16_t)b) << 8) | a;
+    
+    lightsMcp.writeGPIOAB(c);
+  }
 }
 
 void Application::flag_main_screen() {
@@ -237,7 +267,7 @@ bool Application::process_control_event(
 ) {
   if (! e)
     return false;
-  if (e.type < 8) {
+  if ((e.type >= 20) && (e.type <= 27)) {
     ProcessTrackControl<Event::event_type_t, 8>::apply(
       _tracks.current(),
       e.type
@@ -248,6 +278,29 @@ bool Application::process_control_event(
   }
   else {
     switch (e.type) {
+    case EVT_PAD0_ON:
+    case EVT_PAD1_ON:
+    case EVT_PAD2_ON:
+    case EVT_PAD3_ON:
+    case EVT_PAD4_ON:
+    case EVT_PAD5_ON:
+    case EVT_PAD6_ON:
+    case EVT_PAD7_ON:
+    case EVT_PAD8_ON:
+    case EVT_PAD9_ON:
+    case EVT_PAD10_ON:
+    case EVT_PAD11_ON:
+    case EVT_PAD12_ON:
+    case EVT_PAD13_ON:
+    case EVT_PAD14_ON:
+    case EVT_PAD15_ON:
+      Serial.print("Light up ");
+      Serial.print(e.type);
+      Serial.println();
+      Serial.flush();      
+      lights ^= ((uint16_t)1) << e.type;
+      lightsFlag.flag();
+      goto success;
     case EventType::EVT_SELECTED_TRACK_UP:
       _tracks++;
       ui_data.redraw_track.flag();

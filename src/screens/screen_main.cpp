@@ -29,14 +29,18 @@ void SSMain::draw_bars() {
     }
 }
 
+#ifdef RUNNING_LIGHTS
 #include "Adafruit_MCP23017.h"
 Adafruit_MCP23017 mcp1;
+#endif
 
 void SSMain::impl_enter() {
+#ifdef RUNNING_LIGHTS
   mcp1.begin(0x4);
   for (size_t ix = 0; ix < 16; ix++) {
      mcp1.pinMode(ix, OUTPUT);
   }
+#endif
   
   data->popup_bpm_requested.flag();
 

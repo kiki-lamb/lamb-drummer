@@ -19,23 +19,23 @@ ButtonpadSource<Buttonpad_MCP23017<0x0, 8, 8> >::buttonpad_ordering[16] = {
 template <>
 typename Event::event_type_t
 ButtonpadSource<Buttonpad_MCP23017<0x3> >::buttonpad_ordering[16] = {
-  EVG_PAD0_ON,
-  EVG_PAD1_ON,
-  EVG_PAD2_ON,
-  EVG_PAD3_ON,
+  EVT_PAD0_ON,
+  EVT_PAD1_ON,
+  EVT_PAD2_ON,
+  EVT_PAD3_ON,
   
-  EVG_PAD4_ON,
-  EVG_PAD5_ON,
-  EVG_PAD6_ON,
-  EVG_PAD7_ON,
+  EVT_PAD4_ON,
+  EVT_PAD5_ON,
+  EVT_PAD6_ON,
+  EVT_PAD7_ON,
 
-  EVG_PAD8_ON,
-  EVG_PAD9_ON,
-  EVG_PAD10_ON,
-  EVG_PAD11_ON,
+  EVT_PAD8_ON,
+  EVT_PAD9_ON,
+  EVT_PAD10_ON,
+  EVT_PAD11_ON,
 
-  EVG_PAD12_ON,
-  EVG_PAD13_ON,
-  EVG_PAD14_ON,
-  EVG_PAD15_ON,
+  EVT_PAD12_ON,
+  EVT_PAD13_ON,
+  EVT_PAD14_ON,
+  EVT_PAD15_ON,
 };

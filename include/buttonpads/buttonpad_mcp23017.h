@@ -58,7 +58,7 @@ public:
 #endif
 
 #ifdef LOG_BUTTONPAD_MCP_RAW_READING
-    if (0x3 == i2c_addr_) {
+//    if (0x3 == i2c_addr_) {
       Serial.print(F("=>   ")); Serial.flush();
       {
         for(uint16_t mask = 32768; mask; mask >>= 1) {
@@ -71,7 +71,7 @@ public:
         }
       }
       Serial.println(); Serial.flush();
-    }
+//    }
 #endif
     
     uint8_t pin = button_range_start;
