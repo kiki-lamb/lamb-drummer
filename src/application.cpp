@@ -147,9 +147,11 @@ void Application::loop() {
   }
 
   if (output_flag.consume()) {
+#ifdef LOG_OUTPUT
     Serial.print("Output: ");
     print_bits(queued_output);
     Serial.println();
+#endif
     
     output_device.write(queued_output);
   }
@@ -197,11 +199,11 @@ void Application::flag_controls() {
 }
 
 void Application::flag_output(uint8_t output) {
-//  if (output != 0xff) {
-    Serial.print("Flagging: ");
-    print_bits(output);
-    Serial.println();
-//  }
+#ifdef LOG_OUTPUT
+  Serial.print("Flagging: ");
+  print_bits(output);
+  Serial.println();
+#endif
   
   queued_output = output;
 

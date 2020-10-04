@@ -131,20 +131,23 @@ void Timer1_::isr() {
 //    Serial.println();
 
 
-//    if (blast != 0) {
-      Serial.println();
-      Serial.print("blast   ");
-      Serial.print(ticker_);
-      Serial.print(" = ");
-      Application::print_bits(~blast);
-      Serial.println();
-//    }
+#ifdef LOG_OUTPUT
+    Serial.println();
+    Serial.print("blast   ");
+    Serial.print(ticker_);
+    Serial.print(" = ");
+    Application::print_bits(blast);
+    Serial.println();
+#endif
     
-    Application::flag_output(~blast);
+    Application::flag_output(blast);
   }
   else {
+#ifdef LOG_OUTPUT
     Serial.println();
     Serial.println("unblast ");
+#endif
+    
     Application::flag_output(0xff);
   }
 

@@ -39,7 +39,7 @@ bool Eeprom::playback_state() const {
 }
 
 uint8_t Eeprom::bpm() const {
-  return 100; // TEMPORARY
+  return 120; // TEMPORARY
   
   uint8_t tmp = EEPROM.read(ADDR_BPM);
 
