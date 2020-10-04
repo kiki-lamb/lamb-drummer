@@ -13,7 +13,8 @@ public:
   ButtonpadSource() : event_type(EVT_NOT_AVAILABLE) {}
   virtual ~ButtonpadSource() {}
 private:
-  static  event_t::event_type_t buttonpad_ordering[8];
+  static  event_t::event_type_t buttonpad_ordering[16];
+
   event_t::event_type_t event_type;
 
   virtual void    impl_poll() {

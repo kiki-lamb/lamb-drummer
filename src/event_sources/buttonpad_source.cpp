@@ -4,13 +4,48 @@
 
 template <>
 typename Event::event_type_t
-ButtonpadSource<Buttonpad_MCP23017<0x0> >::buttonpad_ordering[8] = {
+ButtonpadSource<Buttonpad_MCP23017<0x0> >::buttonpad_ordering[16] = {
   EVT_MAJ_UP,
   EVT_PHASE_MAJ_UP,
   EVT_MIN_UP,
   EVT_PHASE_MIN_UP,
+
   EVT_MAJ_DN,
   EVT_PHASE_MAJ_DN,
   EVT_MIN_DN,
-  EVT_PHASE_MIN_DN
+  EVT_PHASE_MIN_DN,
+
+  EVT_NOT_AVAILABLE,
+  EVT_NOT_AVAILABLE,
+  EVT_NOT_AVAILABLE,
+  EVT_NOT_AVAILABLE,
+  
+  EVT_NOT_AVAILABLE,
+  EVT_NOT_AVAILABLE,
+  EVT_NOT_AVAILABLE,
+  EVT_NOT_AVAILABLE,
+};
+
+template <>
+typename Event::event_type_t
+ButtonpadSource<Buttonpad_MCP23017<0x5> >::buttonpad_ordering[16] = {
+  EVG_PAD0_ON,
+  EVG_PAD1_ON,
+  EVG_PAD2_ON,
+  EVG_PAD3_ON,
+  
+  EVG_PAD4_ON,
+  EVG_PAD5_ON,
+  EVG_PAD6_ON,
+  EVG_PAD7_ON,
+
+  EVG_PAD8_ON,
+  EVG_PAD9_ON,
+  EVG_PAD10_ON,
+  EVG_PAD11_ON,
+
+  EVG_PAD12_ON,
+  EVG_PAD13_ON,
+  EVG_PAD14_ON,
+  EVG_PAD15_ON,
 };

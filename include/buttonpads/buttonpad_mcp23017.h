@@ -23,7 +23,7 @@ public:
 
     device.begin(i2c_addr_);
 
-    for (uint8_t ix = 0; ix < 8; ix++) {
+    for (uint8_t ix = 0; ix < 16; ix++) {
       device.pinMode(ix, INPUT);
       device.pullUp(ix, HIGH);
     }
@@ -41,18 +41,20 @@ public:
 
     sei();
 
-    uint16_t tmpval = device.readGPIO(1);
-#ifdef LOG_I2C_LOCK
-    Serial.print(F("B:ir "));
-#endif
+    uint16_t tmpval = device.readGPIOAB();
+
     I2CLock::release();
 
     SREG = cSREG;    
 
+#ifdef LOG_I2C_LOCK
+    Serial.print(F("B:ir "));
+#endif
+
 #ifdef LOG_BUTTONPAD_MCP_RAW_READING
     Serial.print(F("=>   "));
     {
-      for(uint16_t mask = 0x80; mask; mask >>= 1) {
+      for(uint16_t mask = 32768; mask; mask >>= 1) {
         if(mask  & tmpval)
           Serial.print('1');
         else
@@ -64,7 +66,7 @@ public:
    
     uint8_t pin = 0;
 
-    for (uint8_t mask = 0b1; pin < 8; pin++, mask <<= 1) {
+    for (uint8_t mask = 0b1; pin < 16; pin++, mask <<= 1) {
       if (! (tmpval & mask)) {
         break;
       }
@@ -73,10 +75,11 @@ public:
     if (pin != _button) {
       _button = pin;
 
-      if (_button != 8) {
-        //Serial.print(F("Pressed button "));
-        //Serial.print(pin);
-        //Serial.println();
+      if (_button != 16) {
+        Serial.print(F("Pressed button "));
+        Serial.print(pin);
+        Serial.println();
+
         return true;
       }
     }
