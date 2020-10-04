@@ -33,7 +33,7 @@ void Application::update_ui_data() {
 void Application::setup() {
   Serial .begin(230400);
   Wire   .begin();
-  Wire   .setClock(100000);
+  Wire   .setClock(400000);
   
   output_device.begin(0x3A);
   for (uint8_t ix = 0; ix < 8; ix++) {
@@ -135,41 +135,35 @@ void Application::print_bits(uint8_t t0) {
   }
 }
 
-void Application::loop() {
-  const uint16_t frame_delay = 10;
-  // v roughly 6.25 hz. this is mainly so that popups (like BPM) are still
-  // removed in a faily timely manner when playback is paused or when
-  // bpm is set absurdly low.
-  static uint8_t clk = 0;
-
-  if (clk++ & 0b111) {
-    flag_main_screen();
-  }
-
-  if (output_flag.consume()) {
-//#ifdef LOG_OUTPUT
-    if (Application::timer1.ticker() & 0b1) {
-      Serial.print(Application::timer1.ticker());
-      Serial.print(" ");
-      Serial.print("Output: ");
-      print_bits(queued_output);
-
-      Serial.println();
-    }
-//#endif
-    
-    output_device.write(queued_output);
-  }
+bool Application::output() {
+  if (! output_flag.consume())
+    return false;
   
-  if (controls_flag.consume()) {
-    process_control_events();
+//#ifdef LOG_OUTPUT
+  if (Application::timer1.ticker() & 0b1) {
+    Serial.print(Application::timer1.ticker());
+    Serial.print(" ");
+    Serial.print("Output: ");
+    print_bits(queued_output);
+    
+    Serial.println();
   }
+//#endif
+  
+  output_device.write(queued_output);
+
+  return true;
+}
+
+
+void Application::loop() {
+  output();
+  
+  process_control_events();
     
   update_ui_data();
 
   ui.update_screen();
-
-  // delay(frame_delay);
 }
 
 void Application::flag_main_screen() {
@@ -215,9 +209,14 @@ void Application::flag_output(uint8_t output) {
   output_flag.flag();
 }
 
-void Application::process_control_events() {
+bool Application::process_control_events() {
+  if (! controls_flag.consume())
+    return false;
+  
   control_event_source.poll();
   while(process_control_event(control_event_source.dequeue_event()));
+
+  return true;
 }
 
 bool Application::process_control_event(

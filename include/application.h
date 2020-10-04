@@ -51,7 +51,8 @@ private:
   static  bool         process_control_event(control_event_source_t::event_t e);
   static  void         update_ui_data();
   static  uint8_t      page();
-  static  void         process_control_events(); // called by ISR for timer2.
+  static  bool         output();
+  static  bool         process_control_events(); // called by ISR for timer2.
 public:
   static  void         print_bits(uint8_t t0);
   static  void         setup();
