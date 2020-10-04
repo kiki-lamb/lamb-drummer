@@ -72,7 +72,7 @@ double Timer1_::hz() const {
 
 void Timer1_::set_hz_by_bpm(uint8_t bpm_) {
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    OCR1A = 16000000 / (256 * (bpm_ / 60.0 * 8)) - 1;
+    OCR1A = 16000000 / (256 * (bpm_ / 30.0 * 8)) - 1;
     // ^ do not un-float the '60.0'!
 
     if (TCNT1 > OCR1A)

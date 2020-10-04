@@ -77,13 +77,13 @@ void Application::setup() {
   eeprom .restore_all(tmp);
 
   setup_controls(tmp.bpm);
-
   
   cli();
   Serial.println(F("Stop all interrupts..."));
   
   timer1 .setup();
-  timer1 .set_bpm(tmp.bpm);
+
+  timer1 .set_bpm(120);
   timer2 .setup();
   
   set_playback_state(tmp.playback_state);
@@ -162,7 +162,7 @@ void Application::loop() {
     
   update_ui_data();
 
-  // ui.update_screen();
+  ui.update_screen();
 
   // delay(frame_delay);
 }

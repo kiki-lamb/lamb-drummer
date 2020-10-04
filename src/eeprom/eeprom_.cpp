@@ -39,8 +39,6 @@ bool Eeprom::playback_state() const {
 }
 
 uint8_t Eeprom::bpm() const {
-  return 120; // TEMPORARY
-  
   uint8_t tmp = EEPROM.read(ADDR_BPM);
 
   Serial.print(F("Load BPM: "));
