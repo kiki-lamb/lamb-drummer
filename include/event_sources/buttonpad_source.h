@@ -18,7 +18,13 @@ private:
   event_t::event_type_t event_type;
 
   virtual void    impl_poll() {
-    if (buttonpad_t::read())
+    Serial.println(F("Reading...")); Serial.flush();
+
+    bool succeeded = buttonpad_t::read();
+    
+    Serial.println(F("Read.")); Serial.flush();
+      
+    if (succeeded)
       event_type = buttonpad_ordering[buttonpad_t_::button()];
   }
 

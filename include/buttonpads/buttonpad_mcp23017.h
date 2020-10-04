@@ -36,6 +36,8 @@ public:
   }
 
   virtual bool impl_read() {
+    Serial.println("MCP read..."); Serial.flush();
+    
 #ifdef LOG_I2C_LOCK
     Serial.print(F("B:ir ")); Serial.flush();
 #endif

@@ -105,11 +105,10 @@ void Application::setup() {
   Serial.println(F("Entered SCREEN_MAIN.")); Serial.flush();
 }
 
+ButtonpadSource<Buttonpad_MCP23017<0x0, 8, 8> > buttonpad_source0;
+ButtonpadSource<Buttonpad_MCP23017<0x5, 16, 0> > buttonpad_source1;
+
 void Application::setup_controls(uint8_t bpm) {
-  static ButtonpadSource<Buttonpad_MCP23017<0x0, 8, 8> >
-                       buttonpad_source0;
-  static ButtonpadSource<Buttonpad_MCP23017<0x5, 16, 0> >
-                       buttonpad_source1;
 //  static EncoderSource encoder_source(EventType::EVT_BPM_SET, bpm);
 //  static ButtonSource  button_source(
 //    EventType::EVT_PLAYBACK_STATE_TOGGLE,
@@ -122,7 +121,7 @@ void Application::setup_controls(uint8_t bpm) {
 //  encoder_source       .setup();
 //  button_source.setup();
   combine_event_sources.sources[0] = &buttonpad_source0;
-  combine_event_sources.sources[0] = &buttonpad_source1;
+  combine_event_sources.sources[1] = &buttonpad_source1;
 //  combine_event_sources.sources[1] = &encoder_source;
 //  combine_event_sources.sources[2] = &button_source;
   control_event_source .source     = &combine_event_sources; //combine_event_sources;
@@ -148,8 +147,8 @@ bool Application::output() {
 //#ifdef LOG_OUTPUT
   if (Application::timer1.ticker() & 0b1) {
     Serial.print(Application::timer1.ticker()); Serial.flush();
-    Serial.print(" "); Serial.flush();
-    Serial.print("Output: "); Serial.flush();
+    Serial.print(F(" ")); Serial.flush();
+    Serial.print(F("Output: ")); Serial.flush();
     print_bits(queued_output);
     
     Serial.println(); Serial.flush();
@@ -163,16 +162,16 @@ bool Application::output() {
 
 
 void Application::loop() {
-  Serial.print("output();"); Serial.flush();
+  Serial.print(F("output();")); Serial.flush();
   output();
   
-  Serial.println("process_control_events();"); Serial.flush();
+  Serial.println(F("process_control_events();")); Serial.flush();
   process_control_events();
     
-  Serial.println("update_ui_data();"); Serial.flush();
+  Serial.println(F("update_ui_data();")); Serial.flush();
   update_ui_data();
 
-  Serial.println("ui.update_screen();"); Serial.flush();
+  Serial.println(F("ui.update_screen();")); Serial.flush();
   ui.update_screen();
 }
 
@@ -209,7 +208,7 @@ void Application::flag_controls() {
 
 void Application::flag_output(uint8_t output) {
 #ifdef LOG_OUTPUT
-  Serial.print("Flagging: "); Serial.flush();
+  Serial.print(F("Flagging: ")); Serial.flush();
   print_bits(output);
   Serial.println(); Serial.flush();
 #endif
@@ -223,13 +222,13 @@ bool Application::process_control_events() {
   if (! controls_flag.consume())
     return false;
 
-  Serial.println("control_event_source.poll();"); Serial.flush();
+  Serial.println(F("control_event_source.poll();")); Serial.flush();
   control_event_source.poll();
 
-  Serial.println("dequeue..."); Serial.flush();
+  Serial.println(F("dequeue...")); Serial.flush();
   while(process_control_event(control_event_source.dequeue_event()));
 
-  Serial.println("return..."); Serial.flush();
+  Serial.println(F("return...")); Serial.flush();
   return true;
 }
 

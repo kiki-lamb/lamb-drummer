@@ -19,8 +19,13 @@ private:
   }
 
   virtual void impl_poll() {
-    for (size_t ix = 0; ix < sources_count_; ix++)
+    for (size_t ix = 0; ix < sources_count_; ix++) {
+      Serial.print("Poll combined source ");
+      Serial.println(ix);
+      Serial.flush();
+      
       sources[ix]->poll();
+    }
   }
 
   virtual event_t impl_dequeue_event() {

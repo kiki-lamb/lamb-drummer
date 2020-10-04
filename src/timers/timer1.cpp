@@ -114,7 +114,7 @@ void Timer1_::isr() {
 
     byte blast = 0xff;
 
-//    Serial.print("Triggers: ");
+//    Serial.print(F("Triggers: "));
 
     for (byte ix = 0; ix <= 2; ix++) {
       if (Application::tracks()[ix].trigger_state(ticker_ >> 1)) {
@@ -133,9 +133,9 @@ void Timer1_::isr() {
 
 #ifdef LOG_OUTPUT
     Serial.println();
-    Serial.print("blast   ");
+    Serial.print(F("blast   "));
     Serial.print(ticker_);
-    Serial.print(" = ");
+    Serial.print(F(" = "));
     Application::print_bits(blast);
     Serial.println();
 #endif
@@ -145,7 +145,7 @@ void Timer1_::isr() {
   else {
 #ifdef LOG_OUTPUT
     Serial.println();
-    Serial.println("unblast ");
+    Serial.println(F("unblast "));
 #endif
     
     Application::flag_output(0xff);
