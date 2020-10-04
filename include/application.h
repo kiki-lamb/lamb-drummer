@@ -18,16 +18,10 @@
 class Application {
 private:
   static  const size_t  tracks_count = 3;
-  static  const uint8_t encBtn = D7;
-  static  const uint8_t encA = A0;
-  static  const uint8_t encB = A1;
-
 public:
   typedef TrackCollection<tracks_count>
                        tracks_t; // Public because tracks() returns it.
 private:
-  Application();
-  ~Application();
   typedef UiData<tracks_t>
                        ui_data_t;
   typedef Ui<ui_data_t>
@@ -46,6 +40,12 @@ private:
   static  lamb::Flag   output_flag;
   static  jm_PCF8574   output_device;
   static  uint8_t      queued_output;  
+  static  const uint8_t encBtn = D7;
+  static  const uint8_t encA = A0;
+  static  const uint8_t encB = A1;
+private:
+  Application();
+  ~Application();
   static  void         setup_controls(uint8_t bpm);
   static  void         set_playback_state(bool playback_state_);
   static  bool         process_control_event(control_event_source_t::event_t e);
