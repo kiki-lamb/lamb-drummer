@@ -214,6 +214,7 @@ bool Application::process_control_events() {
     return false;
   
   control_event_source.poll();
+  
   while(process_control_event(control_event_source.dequeue_event()));
 
   return true;
