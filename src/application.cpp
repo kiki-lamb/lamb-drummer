@@ -144,7 +144,7 @@ bool Application::output() {
   if (! output_flag.consume())
     return false;
   
-//#ifdef LOG_OUTPUT
+#ifdef LOG_OUTPUT
   if (Application::timer1.ticker() & 0b1) {
     Serial.print(Application::timer1.ticker()); Serial.flush();
     Serial.print(F(" ")); Serial.flush();
@@ -153,7 +153,7 @@ bool Application::output() {
     
     Serial.println(); Serial.flush();
   }
-//#endif
+#endif
   
   output_device.write(queued_output);
 
