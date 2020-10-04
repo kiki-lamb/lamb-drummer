@@ -23,7 +23,7 @@ public:
   virtual ~Buttonpad_MCP23017() {}
 
   virtual void impl_setup() {
-    Serial.println(F("Setup Buttonpad_MCP23017..."));
+    Serial.println(F("Setup Buttonpad_MCP23017...")); Serial.flush();
 
     device.begin(i2c_addr_);
 
@@ -32,12 +32,12 @@ public:
       device.pullUp(ix, HIGH);
     }
 
-    Serial.println(F("Done setup Buttonpad_MCP23017."));
+    Serial.println(F("Done setup Buttonpad_MCP23017.")); Serial.flush();
   }
 
   virtual bool impl_read() {
 #ifdef LOG_I2C_LOCK
-    Serial.print(F("B:ir "));
+    Serial.print(F("B:ir ")); Serial.flush();
 #endif
     if (! I2CLock::claim()) return false;
 
@@ -52,20 +52,20 @@ public:
     SREG = cSREG;    
 
 #ifdef LOG_I2C_LOCK
-    Serial.print(F("B:ir "));
+    Serial.print(F("B:ir ")); Serial.flush();
 #endif
 
 #ifdef LOG_BUTTONPAD_MCP_RAW_READING
-    Serial.print(F("=>   "));
+    Serial.print(F("=>   ")); Serial.flush();
     {
       for(uint16_t mask = 32768; mask; mask >>= 1) {
         if(mask  & tmpval)
-          Serial.print('1');
+          Serial.print('1'); Serial.flush();
         else
-          Serial.print('0');
+          Serial.print('0'); Serial.flush();
       }
     }
-    Serial.println();
+    Serial.println(); Serial.flush();
 #endif
     
     uint8_t pin = button_range_start;
@@ -96,9 +96,9 @@ public:
       }
     }
 
-//    Serial.print("Break at pin ");
-//    Serial.print(pin);
-//    Serial.print(", ");
+//    Serial.print("Break at pin "); Serial.flush();
+//    Serial.print(pin); Serial.flush();
+//    Serial.print(", "); Serial.flush();
 
     pin -= button_range_start;
     
@@ -106,19 +106,19 @@ public:
       _button = pin;
       
       if (_button < button_count) {
-        Serial.print(F("Pressed button "));
-        Serial.print(_button);
-        Serial.println();
+        Serial.print(F("Pressed button ")); Serial.flush();
+        Serial.print(_button); Serial.flush();
+        Serial.println(); Serial.flush();
 
         return true;
       }
     }
 
-//    Serial.print(F("No button, pin = ")); // = "));
-//    Serial.print(pin);
-//    Serial.print(", button = ");
-//    Serial.print(_button);
-//    Serial.println();
+//    Serial.print(F("No button, pin = ")); // = ")); Serial.flush();
+//    Serial.print(pin); Serial.flush();
+//    Serial.print(", button = "); Serial.flush();
+//    Serial.print(_button); Serial.flush();
+//    Serial.println(); Serial.flush();
     
     return false;
   }

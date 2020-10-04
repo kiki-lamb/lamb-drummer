@@ -79,7 +79,7 @@ void Application::setup() {
   setup_controls(tmp.bpm);
   
   cli();
-  Serial.println(F("Stop all interrupts..."));
+  Serial.println(F("Stop all interrupts...")); Serial.flush();
   
   timer1 .setup();
 
@@ -97,12 +97,12 @@ void Application::setup() {
   ui_data.tracks = &_tracks;
   update_ui_data();
 
-  Serial.println(F("Enable all interrupts."));
+  Serial.println(F("Enable all interrupts.")); Serial.flush();
   sei();
   
-  Serial.println(F("Enter SCREEN_MAIN..."));
+  Serial.println(F("Enter SCREEN_MAIN...")); Serial.flush();
   ui     .enter_screen(ui_t::SCREEN_MAIN);
-  Serial.println(F("Entered SCREEN_MAIN."));
+  Serial.println(F("Entered SCREEN_MAIN.")); Serial.flush();
 }
 
 void Application::setup_controls(uint8_t bpm) {
@@ -131,10 +131,12 @@ void Application::setup_controls(uint8_t bpm) {
 void Application::print_bits(uint8_t t0) {
   {
     for(uint16_t mask = 0x80; mask; mask >>= 1) {
-      if (mask & t0)
-        Serial.print('1');
-      else
-        Serial.print('0');
+      if (mask & t0) {
+        Serial.print('1'); Serial.flush();
+      }
+      else {
+        Serial.print('0'); Serial.flush();
+      }
     }
   }
 }
@@ -145,12 +147,12 @@ bool Application::output() {
   
 //#ifdef LOG_OUTPUT
   if (Application::timer1.ticker() & 0b1) {
-    Serial.print(Application::timer1.ticker());
-    Serial.print(" ");
-    Serial.print("Output: ");
+    Serial.print(Application::timer1.ticker()); Serial.flush();
+    Serial.print(" "); Serial.flush();
+    Serial.print("Output: "); Serial.flush();
     print_bits(queued_output);
     
-    Serial.println();
+    Serial.println(); Serial.flush();
   }
 //#endif
   
@@ -161,12 +163,16 @@ bool Application::output() {
 
 
 void Application::loop() {
+  Serial.print("output();"); Serial.flush();
   output();
   
+  Serial.println("process_control_events();"); Serial.flush();
   process_control_events();
     
+  Serial.println("update_ui_data();"); Serial.flush();
   update_ui_data();
 
+  Serial.println("ui.update_screen();"); Serial.flush();
   ui.update_screen();
 }
 
@@ -203,9 +209,9 @@ void Application::flag_controls() {
 
 void Application::flag_output(uint8_t output) {
 #ifdef LOG_OUTPUT
-  Serial.print("Flagging: ");
+  Serial.print("Flagging: "); Serial.flush();
   print_bits(output);
-  Serial.println();
+  Serial.println(); Serial.flush();
 #endif
   
   queued_output = output;
@@ -216,11 +222,14 @@ void Application::flag_output(uint8_t output) {
 bool Application::process_control_events() {
   if (! controls_flag.consume())
     return false;
-  
+
+  Serial.println("control_event_source.poll();"); Serial.flush();
   control_event_source.poll();
-  
+
+  Serial.println("dequeue..."); Serial.flush();
   while(process_control_event(control_event_source.dequeue_event()));
 
+  Serial.println("return..."); Serial.flush();
   return true;
 }
 
@@ -244,17 +253,17 @@ bool Application::process_control_event(
       _tracks++;
       ui_data.redraw_track.flag();
       ui_data.redraw_selected_track_indicator.flag();
-      Serial.print("GO UP A TRACK TO ");
-      Serial.print(_tracks.index()); // 
-      Serial.println();
+      Serial.print("GO UP A TRACK TO "); Serial.flush();
+      Serial.print(_tracks.index()); //  Serial.flush();
+      Serial.println(); Serial.flush();
       break;
     case EventType::EVT_SELECTED_TRACK_DN:
       _tracks--;
       ui_data.redraw_track.flag();
       ui_data.redraw_selected_track_indicator.flag();
-      Serial.print("GO DOWN A TRACK TO ");
-      Serial.print(_tracks.index());
-      Serial.println();
+      Serial.print("GO DOWN A TRACK TO "); Serial.flush();
+      Serial.print(_tracks.index()); Serial.flush();
+      Serial.println(); Serial.flush();
       break;      
     case EventType::EVT_PLAYBACK_STATE_TOGGLE:
       set_playback_state(! timer1.playback_state());
