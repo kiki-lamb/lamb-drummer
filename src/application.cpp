@@ -107,21 +107,25 @@ void Application::setup() {
 
 void Application::setup_controls(uint8_t bpm) {
   static ButtonpadSource<Buttonpad_MCP23017<0x0, 8, 8> >
-                       buttonpad_source;
+                       buttonpad_source0;
+  static ButtonpadSource<Buttonpad_MCP23017<0x5, 16, 0> >
+                       buttonpad_source1;
 //  static EncoderSource encoder_source(EventType::EVT_BPM_SET, bpm);
 //  static ButtonSource  button_source(
 //    EventType::EVT_PLAYBACK_STATE_TOGGLE,
 //    A7
 //  );
-//  static CombineEventSources<Event,3>
-//                       combine_event_sources;
-  buttonpad_source     .setup();
+  static CombineEventSources<Event,2>
+                       combine_event_sources;
+  buttonpad_source0     .setup();
+  buttonpad_source1     .setup();
 //  encoder_source       .setup();
 //  button_source.setup();
-//  combine_event_sources.sources[0] = &buttonpad_source;
+  combine_event_sources.sources[0] = &buttonpad_source0;
+  combine_event_sources.sources[0] = &buttonpad_source1;
 //  combine_event_sources.sources[1] = &encoder_source;
 //  combine_event_sources.sources[2] = &button_source;
-  control_event_source .source     = &buttonpad_source; //combine_event_sources;
+  control_event_source .source     = &combine_event_sources; //combine_event_sources;
 }
 
 void Application::print_bits(uint8_t t0) {
