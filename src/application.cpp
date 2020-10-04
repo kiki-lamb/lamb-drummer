@@ -105,10 +105,10 @@ void Application::setup() {
   Serial.println(F("Entered SCREEN_MAIN.")); Serial.flush();
 }
 
-ButtonpadSource<Buttonpad_MCP23017<0x0, 8, 8> > buttonpad_source0;
-ButtonpadSource<Buttonpad_MCP23017<0x5, 16, 0> > buttonpad_source1;
-
 void Application::setup_controls(uint8_t bpm) {
+  static ButtonpadSource<Buttonpad_MCP23017<0x0, 8,  8> > buttonpad_source0;
+  static ButtonpadSource<Buttonpad_MCP23017<0x3, 16, 0> > buttonpad_source1;
+
 //  static EncoderSource encoder_source(EventType::EVT_BPM_SET, bpm);
 //  static ButtonSource  button_source(
 //    EventType::EVT_PLAYBACK_STATE_TOGGLE,

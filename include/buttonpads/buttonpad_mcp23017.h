@@ -58,16 +58,20 @@ public:
 #endif
 
 #ifdef LOG_BUTTONPAD_MCP_RAW_READING
-    Serial.print(F("=>   ")); Serial.flush();
-    {
-      for(uint16_t mask = 32768; mask; mask >>= 1) {
-        if(mask  & tmpval)
-          Serial.print('1'); Serial.flush();
-        else
-          Serial.print('0'); Serial.flush();
+    if (0x3 == i2c_addr_) {
+      Serial.print(F("=>   ")); Serial.flush();
+      {
+        for(uint16_t mask = 32768; mask; mask >>= 1) {
+          if(mask  & tmpval) {
+            Serial.print('1'); Serial.flush();
+          }
+          else {
+            Serial.print('0'); Serial.flush();
+          }
+        }
       }
+      Serial.println(); Serial.flush();
     }
-    Serial.println(); Serial.flush();
 #endif
     
     uint8_t pin = button_range_start;
