@@ -147,11 +147,16 @@ void Application::loop() {
   }
 
   if (output_flag.consume()) {
-#ifdef LOG_OUTPUT
-    Serial.print("Output: ");
-    print_bits(queued_output);
-    Serial.println();
-#endif
+//#ifdef LOG_OUTPUT
+    if (Application::timer1.ticker() & 0b1) {
+      Serial.print(Application::timer1.ticker());
+      Serial.print(" ");
+      Serial.print("Output: ");
+      print_bits(queued_output);
+
+      Serial.println();
+    }
+//#endif
     
     output_device.write(queued_output);
   }
