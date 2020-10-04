@@ -161,7 +161,9 @@ void SSMain::impl_update() {
   if (! redraw_page)
     draw_column(prior, false, mmm);
 
+#ifdef RUNNING_LIGHTS
   mcp1.writeGPIOAB(1 << ((current^8)%16));
+#endif
 }
 
 void SSMain::draw_column(uint8_t col, bool highlit, uint8_t mod_maj)  {
