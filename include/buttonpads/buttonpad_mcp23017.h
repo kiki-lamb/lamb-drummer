@@ -7,14 +7,18 @@
 #include "Adafruit_MCP23017.h"
 #include "i2c_lock.h"
 
-template <uint8_t i2c_addr_>
+template <
+  uint8_t i2c_addr_,
+  uint8_t button_count = 16,
+  uint8_t button_range_start = 0
+  > 
 class Buttonpad_MCP23017 : public Buttonpad {
 private:
   uint8_t           _button;
   Adafruit_MCP23017 device;
 
 public:
-  Buttonpad_MCP23017() : _button(8) {}
+  Buttonpad_MCP23017() : _button(button_range_start+button_count+1) {}
 
   virtual ~Buttonpad_MCP23017() {}
 
@@ -63,29 +67,57 @@ public:
     }
     Serial.println();
 #endif
-   
-    uint8_t pin = 0;
+    
+    uint8_t pin = button_range_start;
+    uint16_t mask = 0b1 << (button_range_start);
 
-    for (uint8_t mask = 0b1; pin < 16; pin++, mask <<= 1) {
+    
+    // 7   6   5   4   3   2   1   0
+    //                             1
+    //                             pin
+    
+    // 7   6   5   4   3   2   1   0
+    //                         1   0
+    //                         pin
+
+    ////
+    
+    // 7   6   5   4   3   2   1   0
+    //             1   0   0   0   0
+    //             pin
+    
+    // 7   6   5   4   3   2   1   0
+    //         1   0
+    //         pin
+
+    for (; pin < (button_range_start+button_count); pin++, mask <<= 1) {
       if (! (tmpval & mask)) {
         break;
       }
     }
 
+    Serial.print("Break at pin ");
+    Serial.print(pin);
+    Serial.print(", ");
+
+    pin -= button_range_start;
+    
     if (pin != _button) {
       _button = pin;
-
-      if (_button != 16) {
+      
+      if (_button < button_count) {
         Serial.print(F("Pressed button "));
-        Serial.print(pin);
+        Serial.print(_button);
         Serial.println();
 
         return true;
       }
     }
 
-    Serial.print(F("No button = "));
+    Serial.print(F("No button, pin = ")); // = "));
     Serial.print(pin);
+    Serial.print(", button = ");
+    Serial.print(_button);
     Serial.println();
     
     return false;

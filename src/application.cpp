@@ -83,7 +83,7 @@ void Application::setup() {
 }
 
 void Application::setup_controls(uint8_t bpm) {
-  static ButtonpadSource<Buttonpad_MCP23017<0x0> >
+  static ButtonpadSource<Buttonpad_MCP23017<0x0, 8, 8> >
                        buttonpad_source;
 //  static EncoderSource encoder_source(EventType::EVT_BPM_SET, bpm);
 //  static ButtonSource  button_source(
