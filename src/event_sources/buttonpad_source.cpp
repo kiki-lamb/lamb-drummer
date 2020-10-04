@@ -8,12 +8,12 @@ ButtonpadSource<Buttonpad_MCP23017<0x0, 8, 8> >::buttonpad_ordering[16] = {
   EVT_MAJ_UP,
   EVT_PHASE_MAJ_UP,
   EVT_MIN_UP,
-  EVT_PHASE_MIN_UP,
+  EVT_SELECTED_TRACK_UP, // EVT_PHASE_MIN_UP,
 
   EVT_MAJ_DN,
   EVT_PHASE_MAJ_DN,
   EVT_MIN_DN,
-  EVT_PHASE_MIN_DN,
+  EVT_SELECTED_TRACK_DN, // EVT_PHASE_MIN_DN,
 };
 
 template <>
