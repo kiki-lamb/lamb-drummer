@@ -97,7 +97,7 @@ void Application::setup() {
   ui_data.tracks = &_tracks;
   update_ui_data();
 
-  Serial.println(F("Enable all interrupts.")); Serial.flush();
+  //Serial.println(F("Enable all interrupts.")); Serial.flush();
   sei();
   
   Serial.println(F("Enter SCREEN_MAIN...")); Serial.flush();
@@ -162,16 +162,16 @@ bool Application::output() {
 
 
 void Application::loop() {
-  Serial.print(F("output();")); Serial.flush();
+//  Serial.print(F("output();")); Serial.flush();
   output();
   
-  Serial.println(F("process_control_events();")); Serial.flush();
+//  Serial.println(F("process_control_events();")); Serial.flush();
   process_control_events();
     
-  Serial.println(F("update_ui_data();")); Serial.flush();
+//  Serial.println(F("update_ui_data();")); Serial.flush();
   update_ui_data();
 
-  Serial.println(F("ui.update_screen();")); Serial.flush();
+//  Serial.println(F("ui.update_screen();")); Serial.flush();
   ui.update_screen();
 }
 
@@ -222,13 +222,13 @@ bool Application::process_control_events() {
   if (! controls_flag.consume())
     return false;
 
-  Serial.println(F("control_event_source.poll();")); Serial.flush();
+  // Serial.println(F("control_event_source.poll();")); Serial.flush();
   control_event_source.poll();
 
-  Serial.println(F("dequeue...")); Serial.flush();
+  // Serial.println(F("dequeue...")); Serial.flush();
   while(process_control_event(control_event_source.dequeue_event()));
 
-  Serial.println(F("return...")); Serial.flush();
+  // Serial.println(F("return...")); Serial.flush();
   return true;
 }
 
