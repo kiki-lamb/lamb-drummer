@@ -96,9 +96,9 @@ public:
       }
     }
 
-    Serial.print("Break at pin ");
-    Serial.print(pin);
-    Serial.print(", ");
+//    Serial.print("Break at pin ");
+//    Serial.print(pin);
+//    Serial.print(", ");
 
     pin -= button_range_start;
     
@@ -114,11 +114,11 @@ public:
       }
     }
 
-    Serial.print(F("No button, pin = ")); // = "));
-    Serial.print(pin);
-    Serial.print(", button = ");
-    Serial.print(_button);
-    Serial.println();
+//    Serial.print(F("No button, pin = ")); // = "));
+//    Serial.print(pin);
+//    Serial.print(", button = ");
+//    Serial.print(_button);
+//    Serial.println();
     
     return false;
   }

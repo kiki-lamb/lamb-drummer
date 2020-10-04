@@ -53,6 +53,7 @@ private:
   static  uint8_t      page();
   static  void         process_control_events(); // called by ISR for timer2.
 public:
+  static  void         print_bits(uint8_t t0);
   static  void         setup();
   static  void         loop();
   static  void         save_state();             // called by ISR for timer2.

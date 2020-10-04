@@ -25,7 +25,7 @@ void Timer1_::setup() {
   TCNT1   = 0; // initialize counter value to 0
   OCR1A   = 31249; // = 16000000 / (256 * 2) - 1 (must be <655) // set compare match register for 2 Hz increments
   TCCR1B |= (1 << WGM12); // TURN ON OUTPUT
-  TCCR1B |= (1 << CS12) | (0 << CS11) | (0 << CS10); // Set CS12, CS11 and CS10 bits for 256 prescaler
+  TCCR1B |= (1 << CS12) | (0 << CS11) | (1 << CS10); // Set CS12, CS11 and CS10 bits for 512 prescaler
   TIMSK1 |= (1 << OCIE1A);
   TCCR1A |= (1 << COM1A0);
   DDRB   |= _BV(1);
@@ -85,6 +85,8 @@ void Timer1_::increment_ticker() {
 }
 
 void Timer1_::isr() {
+  cli();
+  
 #ifdef LOG_TIMERS
   Serial.println(F("1:isr +"));
 #endif
@@ -110,23 +112,40 @@ void Timer1_::isr() {
       return;
     }
 
-    byte blast = 0;
+    byte blast = 0xff;
+
+//    Serial.print("Triggers: ");
 
     for (byte ix = 0; ix <= 2; ix++) {
-      // v In ISR, not that ugly...
       if (Application::tracks()[ix].trigger_state(ticker_ >> 1)) {
-        blast |= _BV(ix);
-      }
+        blast &= ~_BV(ix);
 
-      Application::flag_output(blast);
-      
-      PORTC = blast;
+//        Serial.print(ix);
+//        Serial.print(" ");                
+//        Serial.print(" = ");     
+//        Application::print_bits(_BV(ix));
+//        Serial.print(", ");
+      }
     }
+
+//    Serial.println();
+
+
+//    if (blast != 0) {
+      Serial.println();
+      Serial.print("blast   ");
+      Serial.print(ticker_);
+      Serial.print(" = ");
+      Application::print_bits(~blast);
+      Serial.println();
+//    }
+    
+    Application::flag_output(~blast);
   }
   else {
-    Application::flag_output(~0b1111);
-          
-    PORTC &= ~0b1111;
+    Serial.println();
+    Serial.println("unblast ");
+    Application::flag_output(0xff);
   }
 
   increment_ticker();
@@ -137,6 +156,8 @@ void Timer1_::isr() {
 #ifdef LOG_TIMERS
   Serial.println(F("1:isr -"));
 #endif
+
+  sei();
 }
 
 ISR(TIMER1_COMPA_vect) {
