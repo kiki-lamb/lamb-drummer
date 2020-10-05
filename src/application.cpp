@@ -270,10 +270,11 @@ bool Application::process_control_event(
   if ((e.type >= 20) && (e.type <= 27)) {
     ProcessTrackControl<Event::event_type_t, 8>::apply(
       _tracks.current(),
-      e.type
+      ((EventType)(e.type - 20))
     );
     ui_data.redraw_track.flag();
     ui_data.redraw_selected_track_indicator.flag();
+    eeprom.flag_save_requested();
     goto success;
   }
   else {
@@ -319,16 +320,18 @@ bool Application::process_control_event(
       break;      
     case EventType::EVT_PLAYBACK_STATE_TOGGLE:
       set_playback_state(! timer1.playback_state());
+      eeprom.flag_save_requested();
       goto success;
     case EventType::EVT_BPM_SET:
       timer1.set_bpm(e.parameter);
       ui_data.popup_bpm_requested.flag();
+      eeprom.flag_save_requested();
       goto success;
     }
     return false;
-    success:
+
+  success:
       flag_main_screen();
-      eeprom.flag_save_requested();
       return true;
   }
 }
