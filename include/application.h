@@ -52,10 +52,11 @@ public:
   static  void              write_x0x_leds_xor(uint16_t const & value);
 private:
   Application();
-  ~Application();
+  ~Application();  
   static  void         setup_controls(uint8_t bpm);
   static  void         setup_trigger_outputs();
   static  void         setup_x0x_leds();
+  static  void         update_x0x_leds();
   static  void         set_playback_state(bool playback_state_);
   static  bool         process_control_event(control_event_source_t::event_t e);
   static  void         update_ui_data();

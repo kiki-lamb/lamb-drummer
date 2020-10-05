@@ -183,11 +183,16 @@ void Application::loop() {
 //  Serial.println(F("ui.update_screen();")); Serial.flush();
   ui.update_screen();
 
-  if (x0x_leds_flag.consume()) {
-    Serial.print("Write x0x_leds: ");
-    
-    x0x_leds.writeGPIOAB(x0x_leds_values_);
-  }
+  update_x0x_leds();
+}
+
+void Application::update_x0x_leds() {
+  if (! x0x_leds_flag.consume())
+    return;
+  
+  Serial.print("Write x0x_leds: ");
+  
+  x0x_leds.writeGPIOAB(x0x_leds_values());
 }
 
 uint16_t Application::x0x_leds_values() {
