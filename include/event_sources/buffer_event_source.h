@@ -23,7 +23,7 @@ private:
       return;
     
     for (auto e = source->dequeue_event(); e; e = source->dequeue_event()) {
-      event_queue.write(e);
+      event_queue.enqueue(e);
     }
   }
 
@@ -32,7 +32,7 @@ private:
       return event_t();
     }
 
-    return event_queue.read();
+    return event_queue.dequeue();
   }
 };
 

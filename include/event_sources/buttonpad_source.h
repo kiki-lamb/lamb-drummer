@@ -22,7 +22,7 @@ private:
   
   virtual void    impl_poll() {    
     while (queue.writable() && buttonpad_t::read()) {
-      queue.write(buttonpad_ordering[buttonpad_t_::button()]);
+      queue.enqueue(buttonpad_ordering[buttonpad_t_::button()]);
     }
   }
 
@@ -33,7 +33,7 @@ private:
   virtual event_t impl_dequeue_event() {
     return Event {
       queue.readable() ?
-        queue.read() :
+        queue.dequeue() :
         EVT_NOT_AVAILABLE
     };    
   };
