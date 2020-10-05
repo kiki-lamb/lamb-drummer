@@ -21,7 +21,6 @@ lamb::Flag                Application::x0x_leds_flag;
 uint16_t                  Application::x0x_leds_values_ = 0x00;
 uint8_t                   Application::queued_output = 0xff;
 
-
 Application::Application() {};
 
 Application::~Application() {};
