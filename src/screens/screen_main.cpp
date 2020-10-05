@@ -157,8 +157,8 @@ void SSMain::impl_update() {
   }
 
 #ifdef RUNNING_LIGHTS
-  Application::x0x_leds.writeGPIOAB(
-    Application::x0x_leds_values_ ^ (1 << ((current^8)%16))
+  Application::write_x0x_leds(
+    Application::x0x_leds_values() ^ (1 << ((current^8)%16))
   ); 
 #endif
 }

@@ -190,6 +190,14 @@ void Application::loop() {
   }
 }
 
+uint16_t Application::x0x_leds_values() {
+  return x0x_leds_values_;
+}
+
+void Application::write_x0x_leds(uint16_t const & value) {
+  x0x_leds.writeGPIOAB(value);
+}
+
 void Application::flag_main_screen() {
   ui.flag_screen(ui_t::SCREEN_MAIN);
 }
@@ -305,7 +313,7 @@ bool Application::process_control_event(
 
       uint16_t tmp = flip_bytes(((uint16_t)1) << e.type);
       
-      x0x_leds_values_ ^= tmp;
+      x0x_leds_values_ = x0x_leds_values() ^ tmp;
       
       x0x_leds_flag.flag();
 
