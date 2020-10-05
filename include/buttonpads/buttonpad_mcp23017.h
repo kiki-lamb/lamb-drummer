@@ -36,8 +36,6 @@ public:
   }
 
   virtual bool impl_read() {
-//    Serial.println("MCP read..."); Serial.flush();
-    
 #ifdef LOG_I2C_LOCK
     Serial.print(F("B:ir ")); Serial.flush();
 #endif
@@ -58,7 +56,6 @@ public:
 #endif
 
 #ifdef LOG_BUTTONPAD_MCP_RAW_READING
-//    if (0x3 == i2c_addr_) {
       Serial.print(F("=>   ")); Serial.flush();
       {
         for(uint16_t mask = 32768; mask; mask >>= 1) {
@@ -71,40 +68,16 @@ public:
         }
       }
       Serial.println(); Serial.flush();
-//    }
 #endif
     
     uint8_t pin = button_range_start;
     uint16_t mask = 0b1 << (button_range_start);
-
     
-    // 7   6   5   4   3   2   1   0
-    //                             1
-    //                             pin
-    
-    // 7   6   5   4   3   2   1   0
-    //                         1   0
-    //                         pin
-
-    ////
-    
-    // 7   6   5   4   3   2   1   0
-    //             1   0   0   0   0
-    //             pin
-    
-    // 7   6   5   4   3   2   1   0
-    //         1   0
-    //         pin
-
     for (; pin < (button_range_start+button_count); pin++, mask <<= 1) {
       if (! (tmpval & mask)) {
         break;
       }
     }
-
-//    Serial.print("Break at pin "); Serial.flush();
-//    Serial.print(pin); Serial.flush();
-//    Serial.print(", "); Serial.flush();
 
     pin -= button_range_start;
     
@@ -119,12 +92,6 @@ public:
         return true;
       }
     }
-
-//    Serial.print(F("No button, pin = ")); // = ")); Serial.flush();
-//    Serial.print(pin); Serial.flush();
-//    Serial.print(", button = "); Serial.flush();
-//    Serial.print(_button); Serial.flush();
-//    Serial.println(); Serial.flush();
     
     return false;
   }
