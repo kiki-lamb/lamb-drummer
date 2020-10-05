@@ -3,7 +3,7 @@
 #include "Adafruit_MCP23017.h"
 
 screen_main::screen_main(data_t * data) :
-  screen<UiData<track_collection<3, track> > >(data),
+  screen<ui_data<track_collection<3, track> > >(data),
   popup_bpm_time(0),
   popup_bpm_state(false)
   {}

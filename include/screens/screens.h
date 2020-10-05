@@ -6,7 +6,7 @@
 #include "ui_data/ui_data.h"
 #include "track_collection/track_collection.h"
 
-class screen_intro : public screen<UiData<track_collection<3, track> > > {
+class screen_intro : public screen<ui_data<track_collection<3, track> > > {
 public:
   screen_intro(data_t * data);
 private:
@@ -14,7 +14,7 @@ private:
   virtual void impl_update();
 };
 
-class screen_instr : public screen<UiData<track_collection<3, track> > > {
+class screen_instr : public screen<ui_data<track_collection<3, track> > > {
 public:
   screen_instr(data_t * data);
 private:
@@ -22,7 +22,7 @@ private:
   virtual void impl_update();
 };
 
-class screen_none : public screen<UiData<track_collection<3, track> > > {
+class screen_none : public screen<ui_data<track_collection<3, track> > > {
 public:
   screen_none(data_t * data);
 private:

@@ -10,8 +10,8 @@ application::control_event_source_t
                           application::control_event_source;
 Adafruit_MCP23017         application::x0x_leds;
 application::tracks_t     application::_tracks;
-application::ui_data_t    application::ui_data;
-application::ui_t         application::ui(&ui_data);
+application::ui_data_t    application::ui_data_;
+application::ui_t         application::ui_(&ui_data_);
 eeprom_                   application::eeprom;
 timer1_                   application::timer1;
 timer2_                   application::timer2;
@@ -27,11 +27,11 @@ application::application() {};
 application::~application() {};
 
 void application::update_ui_data() {
-  ui_data.page           = page();
-  ui_data.bpm            = timer1.bpm();
-  ui_data.hz             = timer1.hz();
-  ui_data.playback_state = timer1.playback_state();
-  ui_data.ticker         = timer1.ticker();
+  ui_data_.page           = page();
+  ui_data_.bpm            = timer1.bpm();
+  ui_data_.hz             = timer1.hz();
+  ui_data_.playback_state = timer1.playback_state();
+  ui_data_.ticker         = timer1.ticker();
 }
 
 void application::setup_trigger_outputs() {
@@ -68,8 +68,8 @@ void application::setup() {
   
   static const uint16_t step = 150;
 
-  ui     .setup();
-  ui     .enter_screen(ui_t::SCREEN_INTRO);
+  ui_   .setup();
+  ui_   .enter_screen(ui_t::SCREEN_INTRO);
   
   eeprom_::PersistantData<tracks_t> tmp(
     &_tracks,
@@ -99,7 +99,7 @@ void application::setup() {
 
   save_state();
   
-  ui_data.tracks = &_tracks;
+  ui_data_.tracks = &_tracks;
 
   update_ui_data();
 
@@ -108,7 +108,7 @@ void application::setup() {
   
   Serial.println(F("Enter SCREEN_MAIN...")); Serial.flush();
 
-  ui     .enter_screen(ui_t::SCREEN_MAIN);
+  ui_    .enter_screen(ui_t::SCREEN_MAIN);
 
   Serial.println(F("Entered SCREEN_MAIN.")); Serial.flush();
 }
@@ -183,7 +183,7 @@ void application::loop() {
   update_ui_data();
 
 //  Serial.println(F("ui.update_screen();")); Serial.flush();
-  ui.update_screen();
+  ui_.update_screen();
 
   update_x0x_leds();
 }
@@ -210,7 +210,7 @@ void application::write_x0x_leds(uint16_t const & value) {
 }
 
 void application::flag_main_screen() {
-  ui.flag_screen(ui_t::SCREEN_MAIN);
+  ui_.flag_screen(ui_t::SCREEN_MAIN);
 }
 
 uint8_t application::page() {
@@ -223,7 +223,7 @@ uint8_t application::page() {
 void application::set_playback_state(bool playback_state_) {
   timer1.set_playback_state(playback_state_);
 
-  ui_data.redraw_playback_state.set();
+  ui_data_.redraw_playback_state.set();
 
   flag_main_screen();
 
@@ -291,8 +291,8 @@ bool application::process_control_event(
       ((event_type)(e.type - 20))
     );
     
-    ui_data.redraw_track.set();
-    ui_data.redraw_selected_track_indicator.set();
+    ui_data_.redraw_track.set();
+    ui_data_.redraw_selected_track_indicator.set();
 
     eeprom.flag_save_requested();
     
@@ -334,8 +334,8 @@ bool application::process_control_event(
     {
       _tracks++;
 
-      ui_data.redraw_track.set();
-      ui_data.redraw_selected_track_indicator.set();
+      ui_data_.redraw_track.set();
+      ui_data_.redraw_selected_track_indicator.set();
 
       Serial.print("GO UP A TRACK TO "); Serial.flush();
       Serial.print(_tracks.index()); //  Serial.flush();
@@ -347,8 +347,8 @@ bool application::process_control_event(
     {
       _tracks--;
       
-      ui_data.redraw_track.set();
-      ui_data.redraw_selected_track_indicator.set();
+      ui_data_.redraw_track.set();
+      ui_data_.redraw_selected_track_indicator.set();
       
       Serial.print("GO DOWN A TRACK TO "); Serial.flush();
       Serial.print(_tracks.index()); Serial.flush();
@@ -368,7 +368,7 @@ bool application::process_control_event(
     {
       timer1.set_bpm(e.parameter);
 
-      ui_data.popup_bpm_requested.set();
+      ui_data_.popup_bpm_requested.set();
       
       eeprom.flag_save_requested();
       

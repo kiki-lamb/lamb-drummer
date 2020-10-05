@@ -7,7 +7,7 @@
 #include "screens/screens.h"
 
 template <class data_t>
-class Ui {
+class ui {
 public:
   enum screen_t {
     SCREEN_INTRO,
@@ -36,7 +36,7 @@ public:
     screens[screen]->flag();
   }
 
-  Ui(data_t * data_) :
+  ui(data_t * data_) :
     data(data_),
     current_screen(SCREEN_NONE),
     screens()
@@ -47,7 +47,7 @@ public:
       screens[3] = new screen_instr(data);
     }
 
-  virtual ~Ui() {}
+  virtual ~ui() {}
 
 private:
   data_t         * data;

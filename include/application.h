@@ -25,8 +25,8 @@ public:
   typedef track_collection<tracks_count> tracks_t;
 
 private:
-  typedef UiData<tracks_t>               ui_data_t;
-  typedef Ui<ui_data_t>                  ui_t;
+  typedef ui_data<tracks_t>              ui_data_t;
+  typedef ui<ui_data_t>                  ui_t;
   typedef buffer_event_source<event,8>   control_event_source_t;
   static  Adafruit_MCP23017              x0x_leds;
   static  eeprom_                        eeprom;
@@ -38,8 +38,8 @@ private:
   static  lamb::flag                     output_flag;
   static  lamb::flag                     x0x_leds_flag;  
   static  tracks_t                       _tracks;
-  static  ui_data_t                      ui_data;
-  static  ui_t                           ui;
+  static  ui_data_t                      ui_data_;
+  static  ui_t                           ui_;
   static  uint16_t                       x0x_leds_values_;
   static  uint8_t                        queued_output;  
 

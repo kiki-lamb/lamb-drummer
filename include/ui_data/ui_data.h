@@ -4,7 +4,7 @@
 #include "Arduino.h"
 
 template <class tracks_t>
-class UiData {
+class ui_data {
 public:
   tracks_t const * tracks;
   uint8_t          page;
@@ -16,13 +16,13 @@ public:
   lamb::flag       redraw_track;
   lamb::flag       redraw_selected_track_indicator;
   lamb::flag       redraw_playback_state;
-  UiData() :
+  ui_data() :
     popup_bpm_requested            ("pbr" , true),
     redraw_track                   ("rt"  , true),
     redraw_selected_track_indicator("rsti", true),
     redraw_playback_state          ("rps" , true)
   {}
-  virtual ~UiData() {};
+  virtual ~ui_data() {};
 };
 
 #endif
