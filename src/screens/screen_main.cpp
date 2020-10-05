@@ -3,7 +3,7 @@
 #include "Adafruit_MCP23017.h"
 
 SSMain::SSMain(data_t * data) :
-  Screen<UiData<TrackCollection<3, Track> > >(data),
+  Screen<UiData<track_collection<3, track> > >(data),
   popup_bpm_time(0),
   popup_bpm_state(false)
   {}
@@ -71,7 +71,7 @@ void SSMain::draw_line0(bool redraw_bpm) {
     Lcd::print(buf);
   }
   else if (data->redraw_selected_track_indicator.consume()) {
-    Track const & track  = (*data->tracks)[(*data->tracks).index()];
+    track const & track  = (*data->tracks)[(*data->tracks).index()];
     
     Lcd::set_cursor(0, 0);
     Lcd::print("                  ");
@@ -172,7 +172,7 @@ void SSMain::draw_column(uint8_t col, bool highlit, uint8_t mod_maj)  {
   int8_t col_ = col_map[col % mod_maj % 16];
   
   for (uint8_t line = 1; line <= 3; line++) {
-    Track const & t = (*data->tracks)[line-1];
+    track const & t = (*data->tracks)[line-1];
     
     uint8_t character  = Lcd::CHAR_REST;
     bool    on_barrier = ((col - t.phase_maj() + 1) % t.mod_maj()) == 0;

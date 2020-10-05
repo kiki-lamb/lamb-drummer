@@ -23,7 +23,7 @@ private:
   static  const uint8_t                 encBtn = D7;
 
 public:
-  typedef TrackCollection<tracks_count> tracks_t;
+  typedef track_collection<tracks_count> tracks_t;
 
 private:
   typedef UiData<tracks_t>              ui_data_t;

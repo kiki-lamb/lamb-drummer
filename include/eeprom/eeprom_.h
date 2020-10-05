@@ -30,11 +30,11 @@ private:
   uint8_t bpm() const;
   void save_track(
     size_t eeprom_location,
-    Track & track
+    track & track
   ) const;
   void restore_track(
     size_t eeprom_location,
-    Track & track
+    track & track
   );
   lamb::flag save_requested;
   unsigned long last_edit;

@@ -5,12 +5,12 @@
 #include <lamb.h>
 #include "track/track.h"
 
-template <size_t size_, class track_t = Track>
-class TrackCollection : public lamb::positional_fixed_array<size_, track_t> {
+template <size_t size_, class track_t = track>
+class track_collection : public lamb::positional_fixed_array<size_, track_t> {
 public:
-  TrackCollection() {}
+  track_collection() {}
 
-  virtual ~TrackCollection() {}
+  virtual ~track_collection() {}
 
   uint8_t max_mod_maj() const {
     uint8_t max = 0;
