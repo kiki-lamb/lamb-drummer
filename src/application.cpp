@@ -191,17 +191,17 @@ void Application::loop() {
   if (lightsFlag.consume()) {
     Serial.print("Write lights: ");
 
-    uint8_t a = lights >> 8;
-    uint8_t b = lights &  0xff;
-
-    print_bits(a);
-    print_bits(b);
-
-    Serial.println();
-
-    uint16_t c = (((uint16_t)b) << 8) | a;
+//    uint8_t a = lights >> 8;
+//    uint8_t b = lights &  0xff;
+//
+//    print_bits(a);
+//    print_bits(b);
+//
+//    Serial.println();
+//
+//    uint16_t c = (((uint16_t)b) << 8) | a;
     
-    lightsMcp.writeGPIOAB(c);
+    lightsMcp.writeGPIOAB(lights);
   }
 }
 
@@ -295,13 +295,21 @@ bool Application::process_control_event(
     case EVT_PAD13_ON:
     case EVT_PAD14_ON:
     case EVT_PAD15_ON:
+    {
       Serial.print("Light up ");
       Serial.print(e.type);
       Serial.println();
       Serial.flush();      
-      lights ^= ((uint16_t)1) << e.type;
+      uint16_t tmp = ((uint16_t)1) << e.type;
+      uint8_t  a = tmp >> 8;
+      uint8_t  b = tmp &  0xff;      
+      uint16_t c = (((uint16_t)b) << 8) | a;
+      
+      lights ^= c;
+      
       lightsFlag.flag();
       goto success;
+    }
     case EventType::EVT_SELECTED_TRACK_UP:
       _tracks++;
       ui_data.redraw_track.flag();
