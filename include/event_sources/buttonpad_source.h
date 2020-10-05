@@ -5,36 +5,36 @@
 #include "event_source.h"
 #include "buttonpads/buttonpad.h"
 #include "event/event.h"
+#include "lamb.h"
 
-template <class buttonpad_t_>
+template <class buttonpad_t_, size_t buffer_size = 8>
 class ButtonpadSource : public buttonpad_t_, public EventSource<Event>{
 public:
   typedef buttonpad_t_ buttonpad_t;
-  ButtonpadSource() : event_type(EVT_NOT_AVAILABLE) {}
+  
+  ButtonpadSource() {}
   virtual ~ButtonpadSource() {}
 
 private:
   static  event_t::event_type_t buttonpad_ordering[16];
-
-  event_t::event_type_t event_type;
-
+  
+  lamb::ring_buffer<event_t::event_type_t, buffer_size> queue;
+  
   virtual void    impl_poll() {    
-    if (! buttonpad_t::read())
-      return;
-    
-    event_type = buttonpad_ordering[buttonpad_t_::button()];
+    while (queue.writable() && buttonpad_t::read())
+      queue.write(buttonpad_ordering[buttonpad_t_::button()]);
   }
 
   virtual uint8_t impl_queue_count() const {
-    return event_type == EVT_NOT_AVAILABLE ? 0 : 1;
+    return queue.count();
   }
 
   virtual event_t impl_dequeue_event() {
-    event_t::event_type_t et = event_type;
-
-    event_type = EVT_NOT_AVAILABLE;
-
-    return Event { et };
+    return Event {
+      queue.readable() ?
+        queue.read() :
+        EVT_NOT_AVAILABLE
+    };    
   };
 };
 

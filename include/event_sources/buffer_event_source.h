@@ -12,7 +12,7 @@ public:
   EventSource<event_t> * source;
 
 private:
-  lamb::RingBuffer<event_t, queue_size_> event_queue;
+  lamb::ring_buffer<event_t, queue_size_> event_queue;
 
   virtual uint8_t impl_queue_count() const {
     return event_queue.count();
