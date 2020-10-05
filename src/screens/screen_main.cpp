@@ -2,13 +2,13 @@
 #include "application.h"
 #include "Adafruit_MCP23017.h"
 
-SSMain::SSMain(data_t * data) :
-  Screen<UiData<track_collection<3, track> > >(data),
+screen_main::screen_main(data_t * data) :
+  screen<UiData<track_collection<3, track> > >(data),
   popup_bpm_time(0),
   popup_bpm_state(false)
   {}
 
-void SSMain::draw_channel_numbers() {
+void screen_main::draw_channel_numbers() {
   for (uint8_t line = 1; line <= 3; line++) {
     lcd::set_cursor(0, line);
     lcd::print(line);
@@ -21,7 +21,7 @@ void SSMain::draw_channel_numbers() {
   );
 }
 
-void SSMain::draw_bars() {
+void screen_main::draw_bars() {
   static const uint8_t gap_map[] = { 5, 10, 15 };
 
   for (uint8_t line = 1; line <= 3; line++)
@@ -31,7 +31,7 @@ void SSMain::draw_bars() {
     }
 }
 
-void SSMain::impl_enter() {
+void screen_main::impl_enter() {
   data->popup_bpm_requested.set();
 
   draw_line0();
@@ -48,12 +48,12 @@ void SSMain::impl_enter() {
   draw_page_number();
 }
 
-void SSMain::draw_page_number() {
+void screen_main::draw_page_number() {
   lcd::set_cursor(18,0);
   lcd::print(data->page+1);
 }
 
-void SSMain::draw_line0(bool redraw_bpm) {
+void screen_main::draw_line0(bool redraw_bpm) {
   char buf [21];
   char buf2[6];
 
@@ -104,7 +104,7 @@ void SSMain::draw_line0(bool redraw_bpm) {
   }
 }
 
-void SSMain::impl_update() {
+void screen_main::impl_update() {
   bool redraw_bpm = false;
   ////Serial.println("Before pbr!");
   if (data->popup_bpm_requested.consume()) {
@@ -161,7 +161,7 @@ void SSMain::impl_update() {
 #endif
 }
 
-void SSMain::draw_column(uint8_t col, bool highlit, uint8_t mod_maj)  {
+void screen_main::draw_column(uint8_t col, bool highlit, uint8_t mod_maj)  {
   static const uint8_t col_map[] = {
     1,   2,  3,  4,
     6,   7,  8,  9,

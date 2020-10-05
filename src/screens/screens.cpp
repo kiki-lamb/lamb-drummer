@@ -1,30 +1,30 @@
 #include "screens/screens.h"
 
-SSNone::SSNone(
-  SSNone::data_t * data
-) : Screen<SSNone::data_t>(data) {}
+screen_none::screen_none(
+  screen_none::data_t * data
+) : screen<screen_none::data_t>(data) {}
 
-SSIntro::SSIntro(
-  SSIntro::data_t * data
-) : Screen<SSIntro::data_t>(data) {}
+screen_intro::screen_intro(
+  screen_intro::data_t * data
+) : screen<screen_intro::data_t>(data) {}
 
-SSInstr::SSInstr(
-  SSInstr::data_t * data
-) : Screen<SSIntro::data_t>(data) {}
+screen_instr::screen_instr(
+  screen_instr::data_t * data
+) : screen<screen_intro::data_t>(data) {}
 
-void SSNone::impl_enter() {
+void screen_none::impl_enter() {
 }
 
-void SSNone::impl_update() {
+void screen_none::impl_update() {
 }
 
-void SSInstr::impl_enter() {
+void screen_instr::impl_enter() {
 }
 
-void SSInstr::impl_update() {
+void screen_instr::impl_update() {
 }
 
-void SSIntro::impl_enter() {
+void screen_intro::impl_enter() {
   lcd::set_cursor(0, 0);
   lcd::print(F("    Lamb Drummer    "));
 
@@ -59,5 +59,5 @@ void SSIntro::impl_enter() {
   lcd::clear();
 }
 
-void SSIntro::impl_update() {
+void screen_intro::impl_update() {
 }

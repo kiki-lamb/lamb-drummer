@@ -5,7 +5,7 @@
 #include "lcd.h"
 
 template <class data_t_>
-class Screen {
+class screen {
 private:
   lamb::flag requires_update;
 
@@ -13,13 +13,13 @@ public:
   typedef data_t_ data_t;
   data_t * data;
 
-  Screen(data_t * data_) :
+  screen(data_t * data_) :
     requires_update("ru", true),
     data(data_) {
     flag();
   }
 
-  virtual ~Screen() {
+  virtual ~screen() {
   }
 
   void flag() {

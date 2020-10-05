@@ -41,10 +41,10 @@ public:
     current_screen(SCREEN_NONE),
     screens()
     {
-      screens[0] = new SSIntro(data);
-      screens[1] = new SSNone (data);
-      screens[2] = new SSMain (data);
-      screens[3] = new SSInstr(data);
+      screens[0] = new screen_intro(data);
+      screens[1] = new screen_none (data);
+      screens[2] = new screen_main (data);
+      screens[3] = new screen_instr(data);
     }
 
   virtual ~Ui() {}
@@ -52,7 +52,7 @@ public:
 private:
   data_t         * data;
   screen_t         current_screen;
-  Screen<data_t> * screens[4];
+  screen<data_t> * screens[4];
 };
 
 #endif

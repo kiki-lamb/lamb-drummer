@@ -7,9 +7,9 @@
 #include "ui_data/ui_data.h"
 #include "track_collection/track_collection.h"
 
-class SSMain : public Screen<UiData<track_collection<3, track> > > {
+class screen_main : public screen<UiData<track_collection<3, track> > > {
 public:
-  SSMain(data_t * data);
+  screen_main(data_t * data);
 private:
   virtual void  impl_enter();
   virtual void  impl_update();
