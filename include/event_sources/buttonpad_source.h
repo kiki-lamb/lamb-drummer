@@ -18,15 +18,11 @@ private:
 
   event_t::event_type_t event_type;
 
-  virtual void    impl_poll() {
-    // Serial.println(F("Reading...")); Serial.flush();
-
-    bool succeeded = buttonpad_t::read();
+  virtual void    impl_poll() {    
+    if (! buttonpad_t::read())
+      return;
     
-    // Serial.println(F("Read.")); Serial.flush();
-      
-    if (succeeded)              // 
-      event_type = buttonpad_ordering[buttonpad_t_::button()];
+    event_type = buttonpad_ordering[buttonpad_t_::button()];
   }
 
   virtual uint8_t impl_queue_count() const {
@@ -35,7 +31,9 @@ private:
 
   virtual event_t impl_dequeue_event() {
     event_t::event_type_t et = event_type;
+
     event_type = EVT_NOT_AVAILABLE;
+
     return Event { et };
   };
 };
