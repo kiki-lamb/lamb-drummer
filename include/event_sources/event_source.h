@@ -1,19 +1,19 @@
-#ifndef LAMB_DRUMMER_I_CONTROLS_H
-#define LAMB_DRUMMER_I_CONTROLS_H
+#ifndef LAMB_DRUMMER_EVENT_SOURCE_H
+#define LAMB_DRUMMER_EVENT_SOURCE_H
 
 #include <Arduino.h>
 
 // event_t must have default constructor, operator bool() returning false
-// when no more event are availale. default must be false.
+// when no more events are availale. default must be false.
 
 template<class event_t_>
-class EventSource {
+class event_source {
 public:
   typedef event_t_ event_t;
 
-  EventSource() {}
+  event_source() {}
 
-  virtual ~EventSource() {}
+  virtual ~event_source() {}
 
   bool poll() {
     impl_poll();

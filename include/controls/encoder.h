@@ -4,7 +4,7 @@
 #include "Arduino.h"
 #include <lamb.h>
 
-class Encoder {
+class encoder {
   private:
     static const    uint8_t                                                     encoderA = 2;
     static const    uint8_t                                                     encoderB = 3;
@@ -14,8 +14,8 @@ class Encoder {
     typedef         lamb::encoders::custom<enc_state_t, enc_interface_t>        enc_t;
     static enc_t                                                                _encoder;
   public:
-    Encoder();
-    virtual      ~Encoder();
+    encoder();
+    virtual      ~encoder();
     virtual void setup();
     void         set_value(uint8_t value);
     uint8_t      value();

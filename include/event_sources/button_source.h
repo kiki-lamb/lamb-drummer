@@ -6,9 +6,9 @@
 #include "event_source.h"
 #include "event/event.h"
 
-class ButtonSource : public Button, public EventSource<event>{
+class button_source : public Button, public event_source<event>{
 public:
-  ButtonSource(
+  button_source(
     event_t::event_type_t on_push_,
     uint8_t pin_,
     bool adc_state = true
@@ -16,7 +16,7 @@ public:
   Button(pin_, adc_state),
   on_push(on_push_),
   event_type(EVT_NOT_AVAILABLE) {}
-  virtual ~ButtonSource() {}
+  virtual ~button_source() {}
 private:
   event_t::event_type_t on_push;
   event_t::event_type_t event_type;

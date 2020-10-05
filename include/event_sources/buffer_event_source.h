@@ -5,11 +5,11 @@
 #include "event_source.h"
 
 template <class event_t, size_t queue_size_>
-class BufferEventSource : public EventSource<event_t> {
+class buffer_event_source : public event_source<event_t> {
 public:
-  BufferEventSource() {}
-  virtual ~BufferEventSource() {}
-  EventSource<event_t> * source;
+  buffer_event_source() {}
+  virtual ~buffer_event_source() {}
+  event_source<event_t> * source;
 
 private:
   lamb::ring_buffer<event_t, queue_size_> event_queue;

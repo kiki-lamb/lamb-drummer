@@ -6,9 +6,9 @@
 #include "event_source.h"
 #include "event/event.h"
 
-class EncoderSource : public Encoder, public EventSource<event>{
+class encoder_source : public encoder, public event_source<event>{
 public:
-  EncoderSource(
+  encoder_source(
     event_t::event_type_t on_change_,
     uint8_t initial_value = 0
   ) :
@@ -19,10 +19,10 @@ public:
     event.parameter = 0;
   }
 
-  virtual ~EncoderSource() {}
+  virtual ~encoder_source() {}
 
   virtual void setup() {
-    Encoder::setup();
+    encoder::setup();
     set_value(_initial_value);
   }
 

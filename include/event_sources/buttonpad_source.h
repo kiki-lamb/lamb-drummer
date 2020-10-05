@@ -8,7 +8,7 @@
 #include "lamb.h"
 
 template <class buttonpad_t_, size_t buffer_size = 8>
-class button_pad_source : public buttonpad_t_, public EventSource<event>{
+class button_pad_source : public buttonpad_t_, public event_source<event>{
 public:
   typedef buttonpad_t_ buttonpad_t;
   

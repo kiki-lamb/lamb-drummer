@@ -1,16 +1,16 @@
 #include "controls/encoder.h"
 
-Encoder::enc_t Encoder::_encoder;
+encoder::enc_t encoder::_encoder;
 
-Encoder::Encoder() {};
+encoder::encoder() {};
 
-Encoder::~Encoder() {}
+encoder::~encoder() {}
 
-void Encoder::set_value(uint8_t value) {
+void encoder::set_value(uint8_t value) {
   _encoder.state().set_value(value);
 }
 
-uint8_t Encoder::value() {
+uint8_t encoder::value() {
   static const uint8_t MIN = 8;
   uint8_t val = _encoder.state().value();
   if (val < MIN) {
@@ -20,7 +20,7 @@ uint8_t Encoder::value() {
   return val;
 }
 
-void Encoder::setup() {
+void encoder::setup() {
   _encoder.setup();
 
   // Attaching from inside setup() is fucking broken for some reason. Manually attach until it's fixed:

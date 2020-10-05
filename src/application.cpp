@@ -288,7 +288,7 @@ bool application::process_control_event(
   if ((e.type >= 20) && (e.type <= 27)) {
     ProcessTrackControl<event::event_type_t, 8>::apply(
       _tracks.current(),
-      ((EventType)(e.type - 20))
+      ((event_type)(e.type - 20))
     );
     
     ui_data.redraw_track.set();
@@ -330,7 +330,7 @@ bool application::process_control_event(
 
       goto success;
     }
-    case EventType::EVT_SELECTED_TRACK_UP:
+    case event_type::EVT_SELECTED_TRACK_UP:
     {
       _tracks++;
 
@@ -343,7 +343,7 @@ bool application::process_control_event(
 
       break;
     }
-    case EventType::EVT_SELECTED_TRACK_DN:
+    case event_type::EVT_SELECTED_TRACK_DN:
     {
       _tracks--;
       
@@ -356,7 +356,7 @@ bool application::process_control_event(
       
       break;
     }
-    case EventType::EVT_PLAYBACK_STATE_TOGGLE:
+    case event_type::EVT_PLAYBACK_STATE_TOGGLE:
     {
       set_playback_state(! timer1.playback_state());
       
@@ -364,7 +364,7 @@ bool application::process_control_event(
       
       goto success;
     }
-    case EventType::EVT_BPM_SET:
+    case event_type::EVT_BPM_SET:
     {
       timer1.set_bpm(e.parameter);
 

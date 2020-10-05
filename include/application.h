@@ -16,33 +16,33 @@
 
 class application {
 private:
-  static  const size_t                  tracks_count = 3;
-  static  const uint8_t                 encA = A0;
-  static  const uint8_t                 encB = A1;
-  static  const uint8_t                 encBtn = D7;
+  static  const size_t                   tracks_count = 3;
+  static  const uint8_t                  encA = A0;
+  static  const uint8_t                  encB = A1;
+  static  const uint8_t                  encBtn = D7;
 
 public:
   typedef track_collection<tracks_count> tracks_t;
 
 private:
-  typedef UiData<tracks_t>              ui_data_t;
-  typedef Ui<ui_data_t>                 ui_t;
-  typedef BufferEventSource<event,8>    control_event_source_t;
+  typedef UiData<tracks_t>               ui_data_t;
+  typedef Ui<ui_data_t>                  ui_t;
+  typedef buffer_event_source<event,8>   control_event_source_t;
 
-  static  Adafruit_MCP23017             x0x_leds;
-  static  Eeprom                        eeprom;
-  static  timer1_                       timer1;
-  static  timer2_                       timer2;
-  static  control_event_source_t        control_event_source;
-  static  jm_PCF8574                    trigger_outputs;
-  static  lamb::flag                    controls_flag;
-  static  lamb::flag                    output_flag;
-  static  lamb::flag                    x0x_leds_flag;  
-  static  tracks_t                      _tracks;
-  static  ui_data_t                     ui_data;
-  static  ui_t                          ui;
-  static  uint16_t                      x0x_leds_values_;
-  static  uint8_t                       queued_output;  
+  static  Adafruit_MCP23017              x0x_leds;
+  static  Eeprom                         eeprom;
+  static  timer1_                        timer1;
+  static  timer2_                        timer2;
+  static  control_event_source_t         control_event_source;
+  static  jm_PCF8574                     trigger_outputs;
+  static  lamb::flag                     controls_flag;
+  static  lamb::flag                     output_flag;
+  static  lamb::flag                     x0x_leds_flag;  
+  static  tracks_t                       _tracks;
+  static  ui_data_t                      ui_data;
+  static  ui_t                           ui;
+  static  uint16_t                       x0x_leds_values_;
+  static  uint8_t                        queued_output;  
 
 private:
   ~application();  

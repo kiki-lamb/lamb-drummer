@@ -4,11 +4,11 @@
 #include "event_source.h"
 
 template <class event_t, size_t sources_count_>
-class combine_event_sources : public EventSource<event_t> {
+class combine_event_sources : public event_source<event_t> {
 public:
   combine_event_sources() {}
   virtual ~combine_event_sources() {}
-  EventSource<event_t> * sources[sources_count_];
+  event_source<event_t> * sources[sources_count_];
 
 private:
   virtual uint8_t impl_queue_count() const {
