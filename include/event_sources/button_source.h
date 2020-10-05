@@ -6,14 +6,14 @@
 #include "event_source.h"
 #include "event/event.h"
 
-class button_source : public Button, public event_source<event>{
+class button_source : public button, public event_source<event>{
 public:
   button_source(
     event_t::event_type_t on_push_,
     uint8_t pin_,
     bool adc_state = true
   ) :
-  Button(pin_, adc_state),
+  button(pin_, adc_state),
   on_push(on_push_),
   event_type(EVT_NOT_AVAILABLE) {}
   virtual ~button_source() {}

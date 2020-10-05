@@ -1,6 +1,6 @@
 #include "controls/button.h"
 
-Button::Button(
+button::button(
   uint8_t pin_,
   bool adc_state_
 ) :
@@ -8,13 +8,13 @@ Button::Button(
   adc_state(adc_state_) {
 };
 
-Button::~Button() {}
+button::~button() {}
 
-void Button::setup() {
+void button::setup() {
   pinMode(pin, INPUT_PULLUP);
 }
 
-bool Button::read() {
+bool button::read() {
   uint16_t adc_last = analogRead(pin);
 
   if      (adc_state    && (adc_last < 0b01000000))

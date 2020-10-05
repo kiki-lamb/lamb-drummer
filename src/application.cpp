@@ -12,7 +12,7 @@ Adafruit_MCP23017         application::x0x_leds;
 application::tracks_t     application::_tracks;
 application::ui_data_t    application::ui_data;
 application::ui_t         application::ui(&ui_data);
-Eeprom                    application::eeprom;
+eeprom_                   application::eeprom;
 timer1_                   application::timer1;
 timer2_                   application::timer2;
 jm_PCF8574                application::trigger_outputs;
@@ -71,7 +71,7 @@ void application::setup() {
   ui     .setup();
   ui     .enter_screen(ui_t::SCREEN_INTRO);
   
-  Eeprom::PersistantData<tracks_t> tmp(
+  eeprom_::PersistantData<tracks_t> tmp(
     &_tracks,
     timer1.bpm(),
     timer1.playback_state()
@@ -232,7 +232,7 @@ void application::set_playback_state(bool playback_state_) {
 
 void application::save_state() {
    eeprom.save_all(
-     Eeprom::PersistantData<tracks_t>(
+     eeprom_::PersistantData<tracks_t>(
        &_tracks,
        timer1.bpm(),
        timer1.playback_state()

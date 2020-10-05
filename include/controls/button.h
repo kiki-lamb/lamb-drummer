@@ -3,13 +3,13 @@
 
 #include "Arduino.h"
 
-class Button {
+class button {
   public:
-    Button(
+    button(
       uint8_t pin_,
       bool adc_state_ = true
     );
-    virtual ~Button();
+    virtual ~button();
     bool read();
     void setup();
   private:

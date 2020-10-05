@@ -28,9 +28,8 @@ private:
   typedef UiData<tracks_t>               ui_data_t;
   typedef Ui<ui_data_t>                  ui_t;
   typedef buffer_event_source<event,8>   control_event_source_t;
-
   static  Adafruit_MCP23017              x0x_leds;
-  static  Eeprom                         eeprom;
+  static  eeprom_                        eeprom;
   static  timer1_                        timer1;
   static  timer2_                        timer2;
   static  control_event_source_t         control_event_source;

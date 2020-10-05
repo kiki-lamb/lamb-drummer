@@ -5,7 +5,7 @@
 #include <lamb.h>
 #include "track/track.h"
 
-class Eeprom {
+class eeprom_ {
 public:
   template <class tracks_t>
   class PersistantData {
@@ -29,11 +29,11 @@ private:
   bool playback_state() const;
   uint8_t bpm() const;
   void save_track(
-    size_t eeprom_location,
+    size_t eeprom__location,
     track & track
   ) const;
   void restore_track(
-    size_t eeprom_location,
+    size_t eeprom__location,
     track & track
   );
   lamb::flag save_requested;
@@ -41,8 +41,8 @@ private:
 public:
   void flag_save_requested();
   void unflag_save_requested();
-  Eeprom();
-  virtual ~Eeprom();
+  eeprom_();
+  virtual ~eeprom_();
 
   template <class tracks_t>
   void restore_all(
