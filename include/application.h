@@ -46,9 +46,10 @@ private:
   static  lamb::Flag        x0x_leds_flag;  
   static  Adafruit_MCP23017 x0x_leds;
   static  uint16_t          x0x_leds_values_;
-public:
   static  uint16_t          x0x_leds_values();
   static  void              write_x0x_leds(uint16_t const & value);
+public:
+  static  void              write_x0x_leds_xor(uint16_t const & value);
 private:
   Application();
   ~Application();

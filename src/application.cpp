@@ -194,6 +194,10 @@ uint16_t Application::x0x_leds_values() {
   return x0x_leds_values_;
 }
 
+void Application::write_x0x_leds_xor(uint16_t const & value) {
+  write_x0x_leds(x0x_leds_values() ^ value);
+}
+
 void Application::write_x0x_leds(uint16_t const & value) {
   x0x_leds.writeGPIOAB(value);
 }
