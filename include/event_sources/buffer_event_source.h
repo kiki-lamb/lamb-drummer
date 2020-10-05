@@ -19,9 +19,11 @@ private:
   }
 
   virtual void impl_poll() {
-    if (source->poll()) {
-      for (auto e = source->dequeue_event(); e; e = source->dequeue_event())
-          event_queue.write(e);
+    if (! source->poll())
+      return;
+    
+    for (auto e = source->dequeue_event(); e; e = source->dequeue_event()) {
+      event_queue.write(e);
     }
   }
 
@@ -29,6 +31,7 @@ private:
     if (! event_queue.readable() ) {
       return event_t();
     }
+
     return event_queue.read();
   }
 };

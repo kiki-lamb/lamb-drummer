@@ -21,8 +21,9 @@ private:
   lamb::ring_buffer<event_t::event_type_t, buffer_size> queue;
   
   virtual void    impl_poll() {    
-    while (queue.writable() && buttonpad_t::read())
+    while (queue.writable() && buttonpad_t::read()) {
       queue.write(buttonpad_ordering[buttonpad_t_::button()]);
+    }
   }
 
   virtual uint8_t impl_queue_count() const {
