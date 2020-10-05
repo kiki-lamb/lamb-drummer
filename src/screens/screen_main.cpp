@@ -168,16 +168,6 @@ void SSMain::impl_update() {
   }
 
 #ifdef RUNNING_LIGHTS
-//  for (size_t ix = 0; ix < 16; ix++) {
-//    mcp1.pinMode(ix, INPUT);
-//  }
-
-//  uint16_t tmp = mcp1.readGPIOAB();
-
-//  for (size_t ix = 0; ix < 16; ix++) {
-//    mcp1.pinMode(ix, OUTPUT);
-//  }
-  
   mcp1.writeGPIOAB(Application::lights ^ (1 << ((current^8)%16)));
 #endif
 }
