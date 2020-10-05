@@ -34,7 +34,7 @@ public:
   void enter() {
     requires_update.consume();
 
-    Lcd::clear();
+    lcd::clear();
 
     impl_enter();
   }

@@ -4,10 +4,10 @@
 #include "LiquidCrystal_I2C.h"
 #include "i2c_lock.h"
 
-class Lcd {
+class lcd {
 private:
-  Lcd();
-  ~Lcd();
+  lcd();
+  ~lcd();
   static const uint8_t     LCD_COLS;
   static const uint8_t     LCD_LINES;
   static const uint8_t     LCD_RS;
@@ -18,7 +18,7 @@ private:
   static const uint8_t     LCD_D7;
   static const uint8_t     custom_chars[8][8];
   static void              select_inversion(uint8_t number);
-  static LiquidCrystal_I2C lcd;
+  static LiquidCrystal_I2C device;
 public:
   enum chars {
     CHAR_REST, CHAR_REST_ACTIVE, CHAR_INVERSION, CHAR_REST_BARRIER,   
@@ -43,7 +43,7 @@ public:
 #endif
     if (! I2CLock::claim()) return;
     
-    lcd.print(t);
+    device.print(t);
 
 #ifdef LOG_I2C_LOCK
     Serial.print("L:p  ");

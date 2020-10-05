@@ -29,7 +29,7 @@ public:
   }
 
   void setup() {
-    Lcd::setup();
+    lcd::setup();
   }
 
   void flag_screen(screen_t screen) {

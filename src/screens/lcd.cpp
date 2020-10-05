@@ -3,37 +3,37 @@
 
 #include "LiquidCrystal_I2C.h"
 
-Lcd::Lcd() {}
-Lcd::~Lcd() {}
+lcd::lcd() {}
+lcd::~lcd() {}
 
-void Lcd::setup() {
-  lcd.init();
-  lcd.backlight();
+void lcd::setup() {
+  device.init();
+  device.backlight();
 
   for (uint8_t ix = 0; ix < 8; ix++)
-    lcd.createChar(ix, (uint8_t *)(custom_chars[ix]));
+    device.createChar(ix, (uint8_t *)(custom_chars[ix]));
 }
 
-const uint8_t Lcd::LCD_COLS  = 20;
-const uint8_t Lcd::LCD_LINES = 4;
-const uint8_t Lcd::LCD_RS    = 12;
-const uint8_t Lcd::LCD_EN    = 11;
-const uint8_t Lcd::LCD_D4    = 10;
-const uint8_t Lcd::LCD_D5    = 8;
-const uint8_t Lcd::LCD_D6    = 7;
-const uint8_t Lcd::LCD_D7    = 4;
+const uint8_t lcd::LCD_COLS  = 20;
+const uint8_t lcd::LCD_LINES = 4;
+const uint8_t lcd::LCD_RS    = 12;
+const uint8_t lcd::LCD_EN    = 11;
+const uint8_t lcd::LCD_D4    = 10;
+const uint8_t lcd::LCD_D5    = 8;
+const uint8_t lcd::LCD_D6    = 7;
+const uint8_t lcd::LCD_D7    = 4;
 
-LiquidCrystal_I2C Lcd::lcd(0x27, 20, 4);
+LiquidCrystal_I2C lcd::device(0x27, 20, 4);
 
 // new ////////////////////////////////////////////////////////////////////////
 
-void Lcd::clear() {
+void lcd::clear() {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:c  "));
 #endif
   if (! I2CLock::claim()) return;
 
-  lcd.clear();
+  device.clear();
 
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:c  "));
@@ -41,13 +41,13 @@ void Lcd::clear() {
   I2CLock::release();
 }
 
-void Lcd::set_cursor(uint8_t x, uint8_t y) {
+void lcd::set_cursor(uint8_t x, uint8_t y) {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:sc "));
 #endif
   if (! I2CLock::claim()) return;
   
-  lcd.setCursor(x, y);
+  device.setCursor(x, y);
 
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:sc "));
@@ -55,13 +55,13 @@ void Lcd::set_cursor(uint8_t x, uint8_t y) {
   I2CLock::release();
 }
 
-void Lcd::write(uint8_t byte) {
+void lcd::write(uint8_t byte) {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:w  "));
 #endif
   if (! I2CLock::claim()) return;
       
-  lcd.write(byte);
+  device.write(byte);
 
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:w  "));
@@ -71,17 +71,17 @@ void Lcd::write(uint8_t byte) {
 
 //////////////////////////////////////////////////////////////////////////////
 
-void Lcd::put_inversion(
+void lcd::put_inversion(
   uint8_t col,
   uint8_t line,
   uint8_t number
 ) {
   select_inversion(number);
-  lcd.setCursor(col, line);
-  lcd.write(byte(CHAR_INVERSION));
+  device.setCursor(col, line);
+  device.write(byte(CHAR_INVERSION));
 }
 
-void Lcd::select_inversion(uint8_t number) {
+void lcd::select_inversion(uint8_t number) {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:si "));
 #endif
@@ -130,7 +130,7 @@ void Lcd::select_inversion(uint8_t number) {
     }
   };
 
-  lcd.createChar(CHAR_INVERSION, const_cast<uint8_t *>(inversions[number]));
+  device.createChar(CHAR_INVERSION, const_cast<uint8_t *>(inversions[number]));
 
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:si "));
@@ -138,14 +138,14 @@ void Lcd::select_inversion(uint8_t number) {
   I2CLock::release();
 }
 
-void Lcd::put_playstate(uint8_t col, uint8_t line) {
+void lcd::put_playstate(uint8_t col, uint8_t line) {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:pp "));
 #endif
   if (! I2CLock::claim()) return;
   
-  lcd.setCursor(col, line);
-  lcd.write(byte(CHAR_PLAYSTATE));
+  device.setCursor(col, line);
+  device.write(byte(CHAR_PLAYSTATE));
 
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:pp "));
@@ -153,7 +153,7 @@ void Lcd::put_playstate(uint8_t col, uint8_t line) {
   I2CLock::release();
 }
 
-void Lcd::select_playstate(bool paused) {
+void lcd::select_playstate(bool paused) {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:sp "));
 #endif
@@ -182,7 +182,7 @@ void Lcd::select_playstate(bool paused) {
     }
   };
 
-  lcd.createChar(
+  device.createChar(
     CHAR_PLAYSTATE,
     const_cast<uint8_t *>(playstates[paused ? 0 : 1])
   );
@@ -190,7 +190,7 @@ void Lcd::select_playstate(bool paused) {
   Serial.print(F("L:sp ")); I2CLock::release();
 }
 
-const uint8_t Lcd::custom_chars[8][8] = {
+const uint8_t lcd::custom_chars[8][8] = {
   {
     0b00000, // CHAR_REST
     0b00000,

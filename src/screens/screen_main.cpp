@@ -10,11 +10,11 @@ SSMain::SSMain(data_t * data) :
 
 void SSMain::draw_channel_numbers() {
   for (uint8_t line = 1; line <= 3; line++) {
-    Lcd::set_cursor(0, line);
-    Lcd::print(line);
+    lcd::set_cursor(0, line);
+    lcd::print(line);
   }
 
-  Lcd::put_inversion(
+  lcd::put_inversion(
     0,
     (*data->tracks).index() + 1,
     (*data->tracks).index() + 1
@@ -26,8 +26,8 @@ void SSMain::draw_bars() {
 
   for (uint8_t line = 1; line <= 3; line++)
     for (uint8_t gap = 0; gap <= 2; gap++) {
-      Lcd::set_cursor(gap_map[gap], line);
-      Lcd::print(F("|"));
+      lcd::set_cursor(gap_map[gap], line);
+      lcd::print(F("|"));
     }
 }
 
@@ -36,7 +36,7 @@ void SSMain::impl_enter() {
 
   draw_line0();
 
-  Lcd::put_playstate(19,0); // Ugly...
+  lcd::put_playstate(19,0); // Ugly...
 
   draw_channel_numbers();
 
@@ -49,8 +49,8 @@ void SSMain::impl_enter() {
 }
 
 void SSMain::draw_page_number() {
-  Lcd::set_cursor(18,0);
-  Lcd::print(data->page+1);
+  lcd::set_cursor(18,0);
+  lcd::print(data->page+1);
 }
 
 void SSMain::draw_line0(bool redraw_bpm) {
@@ -58,49 +58,49 @@ void SSMain::draw_line0(bool redraw_bpm) {
   char buf2[6];
 
   if (redraw_bpm) {
-    Lcd::set_cursor(0, 0);
-    Lcd::print("                  ");
+    lcd::set_cursor(0, 0);
+    lcd::print("                  ");
 
-    Lcd::set_cursor(0, 0);
+    lcd::set_cursor(0, 0);
     snprintf(buf, 21, "%d BPM", data->bpm);
-    Lcd::print(buf);
+    lcd::print(buf);
 
-    Lcd::set_cursor(9, 0);
+    lcd::set_cursor(9, 0);
     dtostrf(data->hz, 2, 3, buf2);
     snprintf(buf, 21, "%s hz", buf2);
-    Lcd::print(buf);
+    lcd::print(buf);
   }
   else if (data->redraw_selected_track_indicator.consume()) {
     track const & track  = (*data->tracks)[(*data->tracks).index()];
     
-    Lcd::set_cursor(0, 0);
-    Lcd::print("                  ");
+    lcd::set_cursor(0, 0);
+    lcd::print("                  ");
     
-    Lcd::set_cursor(0, 0);
+    lcd::set_cursor(0, 0);
     snprintf(buf, 21, "Maj%2d", track.mod_maj());
-    Lcd::print(buf);
+    lcd::print(buf);
 
-    Lcd::set_cursor(5, 0);
-    Lcd::write(byte(223));
+    lcd::set_cursor(5, 0);
+    lcd::write(byte(223));
 
-    Lcd::set_cursor(6, 0);
+    lcd::set_cursor(6, 0);
     snprintf(buf, 21, "%-2d", track.phase_maj());
-    Lcd::print(buf);
+    lcd::print(buf);
 
-    Lcd::set_cursor(9, 0);
+    lcd::set_cursor(9, 0);
     snprintf(buf, 21, "Min%2d", track.mod_min());
-    Lcd::print(buf);
+    lcd::print(buf);
 
-    Lcd::set_cursor(14, 0);
-    Lcd::write(byte(223));
+    lcd::set_cursor(14, 0);
+    lcd::write(byte(223));
 
-    Lcd::set_cursor(15, 0);
+    lcd::set_cursor(15, 0);
     snprintf(buf, 21, "%-2d", track.phase_min());
-    Lcd::print(buf);
+    lcd::print(buf);
   }
 
   if (data->redraw_playback_state.consume()) {
-    Lcd::select_playstate(! data->playback_state);
+    lcd::select_playstate(! data->playback_state);
   }
 }
 
@@ -174,7 +174,7 @@ void SSMain::draw_column(uint8_t col, bool highlit, uint8_t mod_maj)  {
   for (uint8_t line = 1; line <= 3; line++) {
     track const & t = (*data->tracks)[line-1];
     
-    uint8_t character  = Lcd::CHAR_REST;
+    uint8_t character  = lcd::CHAR_REST;
     bool    on_barrier = ((col - t.phase_maj() + 1) % t.mod_maj()) == 0;
     bool    is_hit     = t.trigger_state(col);
     
@@ -187,7 +187,7 @@ void SSMain::draw_column(uint8_t col, bool highlit, uint8_t mod_maj)  {
     if ( is_hit )
       character |= 0b100;
     
-    Lcd::set_cursor(col_, line);
-    Lcd::write(character);
+    lcd::set_cursor(col_, line);
+    lcd::write(character);
   }
 }
