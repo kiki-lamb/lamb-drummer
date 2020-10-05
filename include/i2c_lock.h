@@ -4,7 +4,7 @@
 #include "Arduino.h"
 #include <util/atomic.h>
 
-class I2CLock {
+class i2c_lock {
 public:
   static volatile bool lock;
   static volatile bool claim();

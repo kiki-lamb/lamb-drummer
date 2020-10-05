@@ -41,14 +41,14 @@ public:
 #ifdef LOG_I2C_LOCK
     Serial.print("L:p  ");
 #endif
-    if (! I2CLock::claim()) return;
+    if (! i2c_lock::claim()) return;
     
     device.print(t);
 
 #ifdef LOG_I2C_LOCK
     Serial.print("L:p  ");
 #endif
-    I2CLock::release();
+    i2c_lock::release();
   }
 
 };

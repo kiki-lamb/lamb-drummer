@@ -39,7 +39,7 @@ public:
 #ifdef LOG_I2C_LOCK
     Serial.print(F("B:ir ")); Serial.flush();
 #endif
-    if (! I2CLock::claim()) return false;
+    if (! i2c_lock::claim()) return false;
 
     char cSREG = SREG;    
 
@@ -47,7 +47,7 @@ public:
 
     uint16_t tmpval = device.readGPIOAB();
 
-    I2CLock::release();
+    i2c_lock::release();
 
     SREG = cSREG;    
 

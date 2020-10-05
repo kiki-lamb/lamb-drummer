@@ -1,8 +1,8 @@
 #include "i2c_lock.h"
 
-volatile bool I2CLock::lock = false;
+volatile bool i2c_lock::lock = false;
 
-volatile bool I2CLock::claim() {
+volatile bool i2c_lock::claim() {
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     if (! lock) { 
 #ifdef LOG_I2C_LOCK
@@ -19,7 +19,7 @@ volatile bool I2CLock::claim() {
   return false;
 }
 
-volatile void I2CLock::release() {
+volatile void i2c_lock::release() {
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
 #ifdef LOG_I2C_LOCK
     Serial.println(F("-i2c"));
