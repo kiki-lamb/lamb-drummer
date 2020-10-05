@@ -3,8 +3,8 @@
 #include "buttonpads/buttonpad_mcp23017.h"
 
 template <>
-typename Event::event_type_t
-ButtonpadSource<Buttonpad_MCP23017<0x0, 8, 8> >::buttonpad_ordering[16] = {
+typename event::event_type_t
+button_pad_source<button_pad_mcp23017<0x0, 8, 8> >::buttonpad_ordering[16] = {
   EVT_MAJ_UP,
   EVT_PHASE_MAJ_UP,
   EVT_MIN_UP,
@@ -17,8 +17,8 @@ ButtonpadSource<Buttonpad_MCP23017<0x0, 8, 8> >::buttonpad_ordering[16] = {
 };
 
 template <>
-typename Event::event_type_t
-ButtonpadSource<Buttonpad_MCP23017<0x3> >::buttonpad_ordering[16] = {
+typename event::event_type_t
+button_pad_source<button_pad_mcp23017<0x3> >::buttonpad_ordering[16] = {
   EVT_PAD0_ON,
   EVT_PAD1_ON,
   EVT_PAD2_ON,

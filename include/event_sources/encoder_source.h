@@ -6,7 +6,7 @@
 #include "event_source.h"
 #include "event/event.h"
 
-class EncoderSource : public Encoder, public EventSource<Event>{
+class EncoderSource : public Encoder, public EventSource<event>{
 public:
   EncoderSource(
     event_t::event_type_t on_change_,

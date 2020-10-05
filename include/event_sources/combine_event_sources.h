@@ -4,10 +4,10 @@
 #include "event_source.h"
 
 template <class event_t, size_t sources_count_>
-class CombineEventSources : public EventSource<event_t> {
+class combine_event_sources : public EventSource<event_t> {
 public:
-  CombineEventSources() {}
-  virtual ~CombineEventSources() {}
+  combine_event_sources() {}
+  virtual ~combine_event_sources() {}
   EventSource<event_t> * sources[sources_count_];
 
 private:

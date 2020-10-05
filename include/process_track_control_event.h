@@ -100,8 +100,8 @@ private:
 };
 
 template <>
-typename ProcessTrackControl<EventType, 8>::button_handler
-ProcessTrackControl<EventType, 8>::button_handlers[8] = {
+typename ProcessTrackControl<event_type, 8>::button_handler
+ProcessTrackControl<event_type, 8>::button_handlers[8] = {
   &ProcessTrackControl::increase_mod_min,
   &ProcessTrackControl::decrease_mod_min,
   &ProcessTrackControl::increase_mod_maj,

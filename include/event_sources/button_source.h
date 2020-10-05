@@ -6,7 +6,7 @@
 #include "event_source.h"
 #include "event/event.h"
 
-class ButtonSource : public Button, public EventSource<Event>{
+class ButtonSource : public Button, public EventSource<event>{
 public:
   ButtonSource(
     event_t::event_type_t on_push_,
@@ -33,7 +33,7 @@ private:
   virtual event_t impl_dequeue_event() {
     event_t::event_type_t e = event_type;
     event_type = EVT_NOT_AVAILABLE;
-    return Event { e };
+    return event { e };
     
   };
 };

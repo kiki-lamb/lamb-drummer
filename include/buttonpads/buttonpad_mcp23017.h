@@ -12,18 +12,18 @@ template <
   uint8_t button_count = 16,
   uint8_t button_range_start = 0
   > 
-class Buttonpad_MCP23017 : public Buttonpad {
+class button_pad_mcp23017 : public button_pad {
 private:
   uint8_t           button_;
   Adafruit_MCP23017 device;
 
 public:
-  Buttonpad_MCP23017() : button_(button_range_start+button_count+1) {}
+  button_pad_mcp23017() : button_(button_range_start+button_count+1) {}
 
-  virtual ~Buttonpad_MCP23017() {}
+  virtual ~button_pad_mcp23017() {}
 
   virtual void impl_setup() {
-    Serial.println(F("Setup Buttonpad_MCP23017...")); Serial.flush();
+    Serial.println(F("Setup button_pad_MCP23017...")); Serial.flush();
 
     device.begin(i2c_addr_);
 
@@ -32,7 +32,7 @@ public:
       device.pullUp(ix, HIGH);
     }
 
-    Serial.println(F("Done setup Buttonpad_MCP23017.")); Serial.flush();
+    Serial.println(F("Done setup button_pad_MCP23017.")); Serial.flush();
   }
 
   virtual bool impl_read() {

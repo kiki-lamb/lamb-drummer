@@ -1,15 +1,15 @@
 #include "buttonpads/buttonpad.h"
 
-Buttonpad::Buttonpad() {}
+button_pad::button_pad() {}
 
-Buttonpad::~Buttonpad() {}
+button_pad::~button_pad() {}
 
-bool Buttonpad::read() {
+bool button_pad::read() {
   return impl_read();
 }
 
-uint8_t Buttonpad::button() const {
+uint8_t button_pad::button() const {
   return impl_button();
 }
 
-void Buttonpad::setup() { impl_setup(); }
+void button_pad::setup() { impl_setup(); }

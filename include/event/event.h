@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-enum EventType {
+enum event_type {
   EVT_PAD0_ON = 0,
   EVT_PAD1_ON = 1,
   EVT_PAD2_ON = 2,
@@ -46,13 +46,13 @@ enum EventType {
   EVT_NOT_AVAILABLE = 32,
 };
 
-class Event {
+class event {
 public:
-  typedef EventType event_type_t;
-  EventType type;
+  typedef event_type event_type_t;
+  event_type type;
   uint8_t parameter;
 
-  Event(EventType type_ = EVT_NOT_AVAILABLE) : type(type_) {}
+  event(event_type type_ = EVT_NOT_AVAILABLE) : type(type_) {}
 
   inline operator bool() const {
     return type != EVT_NOT_AVAILABLE;

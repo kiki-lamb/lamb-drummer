@@ -114,14 +114,14 @@ void application::setup() {
 }
 
 void application::setup_controls(uint8_t bpm) {
-  static ButtonpadSource<Buttonpad_MCP23017<0x0, 8,  8> > buttonpad_source0;
-  static ButtonpadSource<Buttonpad_MCP23017<0x3, 16, 0> > buttonpad_source1;
+  static button_pad_source<button_pad_mcp23017<0x0, 8,  8> > buttonpad_source0;
+  static button_pad_source<button_pad_mcp23017<0x3, 16, 0> > buttonpad_source1;
 //  static EncoderSource encoder_source(EventType::EVT_BPM_SET, bpm);
 //  static ButtonSource  button_source(
 //    EventType::EVT_PLAYBACK_STATE_TOGGLE,
 //    A7
 //  );
-  static CombineEventSources<Event,2>
+  static combine_event_sources<event,2>
                        combine_event_sources;
   buttonpad_source0     .setup();
   buttonpad_source1     .setup();
@@ -286,7 +286,7 @@ bool application::process_control_event(
     return false;
   }
   if ((e.type >= 20) && (e.type <= 27)) {
-    ProcessTrackControl<Event::event_type_t, 8>::apply(
+    ProcessTrackControl<event::event_type_t, 8>::apply(
       _tracks.current(),
       ((EventType)(e.type - 20))
     );

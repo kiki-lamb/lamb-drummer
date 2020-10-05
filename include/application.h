@@ -10,7 +10,6 @@
 #include "timers/timer2.h"
 #include "event_sources/combine_event_sources.h"
 #include "event_sources/buffer_event_source.h"
-#include "buttonpads/buttonpad_resistor_ladder.h"
 #include "buttonpads/buttonpad_mcp23017.h"
 #include "event/event.h"
 #include <jm_PCF8574.h>
@@ -28,7 +27,7 @@ public:
 private:
   typedef UiData<tracks_t>              ui_data_t;
   typedef Ui<ui_data_t>                 ui_t;
-  typedef BufferEventSource<Event,8>    control_event_source_t;
+  typedef BufferEventSource<event,8>    control_event_source_t;
 
   static  Adafruit_MCP23017             x0x_leds;
   static  Eeprom                        eeprom;

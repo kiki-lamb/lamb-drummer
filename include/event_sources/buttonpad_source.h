@@ -8,12 +8,12 @@
 #include "lamb.h"
 
 template <class buttonpad_t_, size_t buffer_size = 8>
-class ButtonpadSource : public buttonpad_t_, public EventSource<Event>{
+class button_pad_source : public buttonpad_t_, public EventSource<event>{
 public:
   typedef buttonpad_t_ buttonpad_t;
   
-  ButtonpadSource() {}
-  virtual ~ButtonpadSource() {}
+  button_pad_source() {}
+  virtual ~button_pad_source() {}
 
 private:
   static  event_t::event_type_t buttonpad_ordering[16];
@@ -31,7 +31,7 @@ private:
   }
 
   virtual event_t impl_dequeue_event() {
-    return Event {
+    return event {
       queue.readable() ?
         queue.dequeue() :
         EVT_NOT_AVAILABLE
