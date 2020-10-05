@@ -2,17 +2,17 @@
 #include "timers/timer2.h"
 #include "application.h"
 
-Timer2_::Timer2_() {};
+timer2_::timer2_() {};
 
-Timer2_::~Timer2_() {};
+timer2_::~timer2_() {};
 
-Timer2_ * Timer2_::_instance = 0;
+timer2_ * timer2_::_instance = 0;
 
-Timer2_ & Timer2_::instance() {
+timer2_ & timer2_::instance() {
   return *_instance;
 }
 
-void Timer2_::setup() {
+void timer2_::setup() {
   _instance = this;
   DDRB |= 0b00010000;
 
@@ -25,7 +25,7 @@ void Timer2_::setup() {
   TIMSK2 |= (1 << OCIE2A); // enable timer compare interrupt
 }
 
-void Timer2_::isr() {
+void timer2_::isr() {
 #ifdef LOG_TIMERS
   Serial.println(F("2:isr +"));
 #endif
@@ -40,9 +40,9 @@ void Timer2_::isr() {
   
   if (! (ix++ & 0b11111111)) {
     PORTB ^= _BV(5);   // flip LED_BUILTIN
-    Application::save_state(); // In ISR, not that ugly...
+    application::save_state(); // In ISR, not that ugly...
   }
-  Application::flag_controls();
+  application::flag_controls();
 
   TIMSK1 = cTIMSK1;
   TIMSK2 = cTIMSK2;
@@ -53,5 +53,5 @@ void Timer2_::isr() {
 }
 
 ISR(TIMER2_COMPA_vect) {
-  Timer2_::instance().isr();
+  timer2_::instance().isr();
 }

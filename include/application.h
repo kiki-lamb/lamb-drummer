@@ -15,7 +15,7 @@
 #include "event/event.h"
 #include <jm_PCF8574.h>
 
-class Application {
+class application {
 private:
   static  const size_t                  tracks_count = 3;
   static  const uint8_t                 encA = A0;
@@ -32,8 +32,8 @@ private:
 
   static  Adafruit_MCP23017             x0x_leds;
   static  Eeprom                        eeprom;
-  static  Timer1_                       timer1;
-  static  Timer2_                       timer2;
+  static  timer1_                       timer1;
+  static  timer2_                       timer2;
   static  control_event_source_t        control_event_source;
   static  jm_PCF8574                    trigger_outputs;
   static  lamb::flag                    controls_flag;
@@ -46,8 +46,8 @@ private:
   static  uint8_t                       queued_output;  
 
 private:
-  ~Application();  
-  Application();
+  ~application();  
+  application();
 
   static  bool         output();
   static  bool         process_control_event(control_event_source_t::event_t e);

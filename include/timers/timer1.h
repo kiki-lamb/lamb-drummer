@@ -3,17 +3,17 @@
 
 #include "Arduino.h"
 
-class Timer1_ {
+class timer1_ {
   private:
     static       void    set_hz_by_bpm(uint8_t bpm);
     uint8_t              _bpm;
     bool                 _playback_state;
     uint8_t              _ticker;
     double               _hz;
-    static Timer1_ *     _instance;
+    static timer1_ *     _instance;
   public:
     void                 isr();
-    static Timer1_ &     instance();
+    static timer1_ &     instance();
     void                 setup();
     void                 set_playback_state(bool playback_state_);
     bool                 playback_state() const;
@@ -22,8 +22,8 @@ class Timer1_ {
     double               hz() const;
     uint8_t              ticker() const;
     void                 increment_ticker();
-    virtual ~Timer1_();
-    Timer1_();
+    virtual ~timer1_();
+    timer1_();
 };
 
 #endif

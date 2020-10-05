@@ -4,29 +4,29 @@
 #include "event_sources/encoder_source.h"
 #include "event_sources/buttonpad_source.h"
 #include "event/event.h"
+#include <avr/power.h>
 
-Application::control_event_source_t
-                          Application::control_event_source;
-Adafruit_MCP23017         Application::x0x_leds;
-Application::tracks_t     Application::_tracks;
-Application::ui_data_t    Application::ui_data;
-Application::ui_t         Application::ui(&ui_data);
-Eeprom                    Application::eeprom;
-Timer1_                   Application::timer1;
-Timer2_                   Application::timer2;
-jm_PCF8574                Application::trigger_outputs;
-lamb::flag                Application::controls_flag;
-lamb::flag                Application::output_flag;
-lamb::flag                Application::x0x_leds_flag;
-uint16_t                  Application::x0x_leds_values_ = 0x00;
-uint8_t                   Application::queued_output = 0xff;
+application::control_event_source_t
+                          application::control_event_source;
+Adafruit_MCP23017         application::x0x_leds;
+application::tracks_t     application::_tracks;
+application::ui_data_t    application::ui_data;
+application::ui_t         application::ui(&ui_data);
+Eeprom                    application::eeprom;
+timer1_                   application::timer1;
+timer2_                   application::timer2;
+jm_PCF8574                application::trigger_outputs;
+lamb::flag                application::controls_flag;
+lamb::flag                application::output_flag;
+lamb::flag                application::x0x_leds_flag;
+uint16_t                  application::x0x_leds_values_ = 0x00;
+uint8_t                   application::queued_output = 0xff;
 
+application::application() {};
 
-Application::Application() {};
+application::~application() {};
 
-Application::~Application() {};
-
-void Application::update_ui_data() {
+void application::update_ui_data() {
   ui_data.page           = page();
   ui_data.bpm            = timer1.bpm();
   ui_data.hz             = timer1.hz();
@@ -34,7 +34,9 @@ void Application::update_ui_data() {
   ui_data.ticker         = timer1.ticker();
 }
 
-void Application::setup_trigger_outputs() {
+void application::setup_trigger_outputs() {
+  clock_prescale_set(clock_div_1);
+
   trigger_outputs.begin(0x3a);
   
   for (uint8_t ix = 0; ix < 8; ix++) {
@@ -44,7 +46,7 @@ void Application::setup_trigger_outputs() {
   trigger_outputs.write(0xff);
 }
 
-void Application::setup_x0x_leds() {
+void application::setup_x0x_leds() {
 
   x0x_leds.begin(0x4);
 
@@ -54,7 +56,7 @@ void Application::setup_x0x_leds() {
   }
 }
 
-void Application::setup() {
+void application::setup() {
   Serial .begin(230400);
 
   Wire   .begin();
@@ -111,7 +113,7 @@ void Application::setup() {
   Serial.println(F("Entered SCREEN_MAIN.")); Serial.flush();
 }
 
-void Application::setup_controls(uint8_t bpm) {
+void application::setup_controls(uint8_t bpm) {
   static ButtonpadSource<Buttonpad_MCP23017<0x0, 8,  8> > buttonpad_source0;
   static ButtonpadSource<Buttonpad_MCP23017<0x3, 16, 0> > buttonpad_source1;
 //  static EncoderSource encoder_source(EventType::EVT_BPM_SET, bpm);
@@ -136,7 +138,7 @@ void Application::setup_controls(uint8_t bpm) {
   control_event_source .source     = &combine_event_sources; //combine_event_sources;
 }
 
-void Application::print_bits(uint8_t t0) {
+void application::print_bits(uint8_t t0) {
   {
     for(uint16_t mask = 0x80; mask; mask >>= 1) {
       if (mask & t0) {
@@ -149,13 +151,13 @@ void Application::print_bits(uint8_t t0) {
   }
 }
 
-bool Application::output() {
+bool application::output() {
   if (! output_flag.consume())
     return false;
   
 #ifdef LOG_OUTPUT
-  if (Application::timer1.ticker() & 0b1) {
-    Serial.print(Application::timer1.ticker()); Serial.flush();
+  if (application::timer1.ticker() & 0b1) {
+    Serial.print(application::timer1.ticker()); Serial.flush();
     Serial.print(F(" ")); Serial.flush();
     Serial.print(F("Output: ")); Serial.flush();
 
@@ -170,7 +172,7 @@ bool Application::output() {
   return true;
 }
 
-void Application::loop() {
+void application::loop() {
 //  Serial.print(F("output();")); Serial.flush();
   output();
   
@@ -186,7 +188,7 @@ void Application::loop() {
   update_x0x_leds();
 }
 
-void Application::update_x0x_leds() {
+void application::update_x0x_leds() {
   if (! x0x_leds_flag.consume())
     return;
   
@@ -195,30 +197,30 @@ void Application::update_x0x_leds() {
   x0x_leds.writeGPIOAB(x0x_leds_values());
 }
 
-uint16_t Application::x0x_leds_values() {
+uint16_t application::x0x_leds_values() {
   return x0x_leds_values_;
 }
 
-void Application::write_x0x_leds_xor(uint16_t const & value) {
+void application::write_x0x_leds_xor(uint16_t const & value) {
   write_x0x_leds(x0x_leds_values() ^ value);
 }
 
-void Application::write_x0x_leds(uint16_t const & value) {
+void application::write_x0x_leds(uint16_t const & value) {
   x0x_leds.writeGPIOAB(value);
 }
 
-void Application::flag_main_screen() {
+void application::flag_main_screen() {
   ui.flag_screen(ui_t::SCREEN_MAIN);
 }
 
-uint8_t Application::page() {
+uint8_t application::page() {
   uint8_t tmp_tick        = timer1.ticker() >> 1;
   uint8_t tmp_inside_tick = tmp_tick % _tracks.max_mod_maj();
 
   return                    tmp_inside_tick /  16;
 }
 
-void Application::set_playback_state(bool playback_state_) {
+void application::set_playback_state(bool playback_state_) {
   timer1.set_playback_state(playback_state_);
 
   ui_data.redraw_playback_state.set();
@@ -228,7 +230,7 @@ void Application::set_playback_state(bool playback_state_) {
   eeprom.flag_save_requested();
 }
 
-void Application::save_state() {
+void application::save_state() {
    eeprom.save_all(
      Eeprom::PersistantData<tracks_t>(
        &_tracks,
@@ -238,11 +240,11 @@ void Application::save_state() {
    );
 }
 
-void Application::flag_controls() {
+void application::flag_controls() {
   controls_flag.set();
 }
 
-void Application::flag_output(uint8_t output) {
+void application::flag_output(uint8_t output) {
 #ifdef LOG_OUTPUT
   Serial.print(F("Flagging: ")); Serial.flush();
   
@@ -256,7 +258,7 @@ void Application::flag_output(uint8_t output) {
   output_flag.set();
 }
 
-bool Application::process_control_events() {
+bool application::process_control_events() {
   if (! controls_flag.consume())
     return false;
 
@@ -270,15 +272,15 @@ bool Application::process_control_events() {
   return true;
 }
 
-uint16_t Application::flip_bytes(uint16_t value) {
+uint16_t application::flip_bytes(uint16_t value) {
   uint8_t a = value >> 8;
   uint8_t b = value &  0xff;
   
   return (((uint16_t)b) << 8) | a; 
 }
 
-bool Application::process_control_event(
-  Application::control_event_source_t::event_t e
+bool application::process_control_event(
+  application::control_event_source_t::event_t e
 ) {
   if (! e) {
     return false;

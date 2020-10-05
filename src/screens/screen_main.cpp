@@ -157,7 +157,7 @@ void SSMain::impl_update() {
   }
 
 #ifdef RUNNING_LIGHTS
-  Application::write_x0x_leds_xor(1 << ((current^8)%16));
+  application::write_x0x_leds_xor(1 << ((current^8)%16));
 #endif
 }
 
