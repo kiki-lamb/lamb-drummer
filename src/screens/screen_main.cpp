@@ -1,5 +1,6 @@
 #include "screens/screen_main.h"
 #include "application.h"
+#include "Adafruit_MCP23017.h"
 
 SSMain::SSMain(data_t * data) :
   Screen<UiData<TrackCollection<3, Track> > >(data),
@@ -30,19 +31,7 @@ void SSMain::draw_bars() {
     }
 }
 
-#ifdef RUNNING_LIGHTS
-#include "Adafruit_MCP23017.h"
-Adafruit_MCP23017 mcp1;
-#endif
-
 void SSMain::impl_enter() {
-#ifdef RUNNING_LIGHTS
-  mcp1.begin(0x4);
-  for (size_t ix = 0; ix < 16; ix++) {
-     mcp1.pinMode(ix, OUTPUT);
-  }
-#endif
-
   data->popup_bpm_requested.flag();
 
   draw_line0();
@@ -168,7 +157,9 @@ void SSMain::impl_update() {
   }
 
 #ifdef RUNNING_LIGHTS
-  mcp1.writeGPIOAB(Application::lights ^ (1 << ((current^8)%16)));
+  Application::x0x_leds.writeGPIOAB(
+    Application::x0x_leds_values_ ^ (1 << ((current^8)%16))
+  ); 
 #endif
 }
 

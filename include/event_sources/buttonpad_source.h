@@ -12,6 +12,7 @@ public:
   typedef buttonpad_t_ buttonpad_t;
   ButtonpadSource() : event_type(EVT_NOT_AVAILABLE) {}
   virtual ~ButtonpadSource() {}
+
 private:
   static  event_t::event_type_t buttonpad_ordering[16];
 

@@ -38,15 +38,21 @@ private:
   static  Timer2_      timer2;
   static  lamb::Flag   controls_flag;
   static  lamb::Flag   output_flag;
-  static  jm_PCF8574   output_device;
+  static  jm_PCF8574   trigger_outputs;
   static  uint8_t      queued_output;  
-  static  const uint8_t encBtn = D7;
-  static  const uint8_t encA = A0;
-  static  const uint8_t encB = A1;
+  static  const uint8_t     encBtn = D7;
+  static  const uint8_t     encA = A0;
+  static  const uint8_t     encB = A1;
+public:
+  static  lamb::Flag        x0x_leds_flag;  
+  static  Adafruit_MCP23017 x0x_leds;
+  static  uint16_t          x0x_leds_values_;
 private:
   Application();
   ~Application();
   static  void         setup_controls(uint8_t bpm);
+  static  void         setup_trigger_outputs();
+  static  void         setup_x0x_leds();
   static  void         set_playback_state(bool playback_state_);
   static  bool         process_control_event(control_event_source_t::event_t e);
   static  void         update_ui_data();
@@ -54,7 +60,6 @@ private:
   static  bool         output();
   static  bool         process_control_events(); // called by ISR for timer2.
 public:
-  static  uint16_t     lights;
   static  void         print_bits(uint8_t t0);
   static  void         setup();
   static  void         loop();

@@ -15,8 +15,12 @@ Application::ui_t         Application::ui(&ui_data);
 Application::ui_data_t    Application::ui_data;
 lamb::Flag                Application::controls_flag;
 lamb::Flag                Application::output_flag;
-jm_PCF8574                Application::output_device;
+jm_PCF8574                Application::trigger_outputs;
 uint8_t                   Application::queued_output = 0xff;
+Adafruit_MCP23017         Application::x0x_leds;
+uint16_t                  Application::x0x_leds_values_ = 0x00;
+lamb::Flag                Application::x0x_leds_flag;
+
 
 Application::Application() {};
 
@@ -30,9 +34,25 @@ void Application::update_ui_data() {
   ui_data.ticker         = timer1.ticker();
 }
 
-uint16_t Application::lights = 0x00;
-Adafruit_MCP23017 lightsMcp;;
-lamb::Flag lightsFlag;
+void Application::setup_trigger_outputs() {
+  trigger_outputs.begin(0x3a);
+  
+  for (uint8_t ix = 0; ix < 8; ix++) {
+    trigger_outputs.pinMode(ix, OUTPUT);
+  }
+
+  trigger_outputs.write(0xff);
+}
+
+void Application::setup_x0x_leds() {
+
+  x0x_leds.begin(0x4);
+
+  for (size_t ix = 0; ix < 16; ix++) {
+     x0x_leds.pinMode(ix, OUTPUT);
+     x0x_leds.digitalWrite(ix, LOW);
+  }
+}
 
 void Application::setup() {
   Serial .begin(230400);
@@ -40,47 +60,14 @@ void Application::setup() {
   Wire   .begin();
   Wire   .setClock(400000);
 
-  lightsMcp.begin(0x4);
-
-  for (size_t ix = 0; ix < 16; ix++) {
-     lightsMcp.pinMode(ix, OUTPUT);
-     lightsMcp.digitalWrite(ix, LOW);
-  }
-
-  output_device.begin(0x3a);
-
-  for (uint8_t ix = 0; ix < 8; ix++) {
-    output_device.pinMode(ix, OUTPUT);
-  }
-
-  output_device.write(0xff);
+  setup_x0x_leds();
+  
+  setup_trigger_outputs();
   
   static const uint16_t step = 150;
 
   ui     .setup();
   ui     .enter_screen(ui_t::SCREEN_INTRO);
-
-  while (false) {
-    output_device.write(0b11111110);
-    delay(step);
-    output_device.write(0b11111111);
-    delay(step);
-
-    output_device.write(0b11111011);
-    delay(step);
-    output_device.write(0b11111111);
-    delay(step);
-
-    output_device.write(0b11111100);
-    delay(step);
-    output_device.write(0b11111111);
-    delay(step);
-
-    output_device.write(0b11111011);
-    delay(step);
-    output_device.write(0b11111111);
-    delay(step);
-  }
   
   Eeprom::PersistantData<tracks_t> tmp(
     &_tracks,
@@ -178,7 +165,7 @@ bool Application::output() {
   }
 #endif
   
-  output_device.write(queued_output);
+  trigger_outputs.write(queued_output);
 
   return true;
 }
@@ -196,10 +183,10 @@ void Application::loop() {
 //  Serial.println(F("ui.update_screen();")); Serial.flush();
   ui.update_screen();
 
-  if (lightsFlag.consume()) {
-    Serial.print("Write lights: ");
+  if (x0x_leds_flag.consume()) {
+    Serial.print("Write x0x_leds: ");
     
-    lightsMcp.writeGPIOAB(lights);
+    x0x_leds.writeGPIOAB(x0x_leds_values_);
   }
 }
 
@@ -266,7 +253,6 @@ bool Application::process_control_events() {
   return true;
 }
 
-
 uint16_t flip_bytes(uint16_t value) {
   uint8_t a = value >> 8;
   uint8_t b = value &  0xff;
@@ -319,9 +305,9 @@ bool Application::process_control_event(
 
       uint16_t tmp = flip_bytes(((uint16_t)1) << e.type);
       
-      lights ^= tmp;
+      x0x_leds_values_ ^= tmp;
       
-      lightsFlag.flag();
+      x0x_leds_flag.flag();
 
       goto success;
     }

@@ -17,6 +17,7 @@ public:
 
   bool poll() {
     impl_poll();
+    
     return ready();
   }
 
