@@ -6,10 +6,10 @@
 #include "track/track.h"
 
 class Eeprom {
-  public:
+public:
   template <class tracks_t>
   class PersistantData {
-    public:
+  public:
     tracks_t * tracks;
     uint8_t bpm;
     bool playback_state;
@@ -21,50 +21,50 @@ class Eeprom {
       tracks(tracks_),
       bpm(bpm_),
       playback_state(playback_state_)
-    {}
+      {}
   };
-  private:
-    void save_playback_state(bool playback_state_) const;
-    void save_bpm(uint8_t bpm_) const;
-    bool playback_state() const;
-    uint8_t bpm() const;
-    void save_track(
-      size_t eeprom_location,
-      Track & track
-    ) const;
-    void restore_track(
-      size_t eeprom_location,
-      Track & track
-    );
-    lamb::Flag save_requested;
-    unsigned long last_edit;
-  public:
-    void flag_save_requested();
-    void unflag_save_requested();
-    Eeprom();
-    virtual ~Eeprom();
+private:
+  void save_playback_state(bool playback_state_) const;
+  void save_bpm(uint8_t bpm_) const;
+  bool playback_state() const;
+  uint8_t bpm() const;
+  void save_track(
+    size_t eeprom_location,
+    Track & track
+  ) const;
+  void restore_track(
+    size_t eeprom_location,
+    Track & track
+  );
+  lamb::flag save_requested;
+  unsigned long last_edit;
+public:
+  void flag_save_requested();
+  void unflag_save_requested();
+  Eeprom();
+  virtual ~Eeprom();
 
-    template <class tracks_t>
-    void restore_all(
-      PersistantData<tracks_t> & data
-    ) {
-     data.bpm = bpm();
-     data.playback_state = playback_state();
+  template <class tracks_t>
+  void restore_all(
+    PersistantData<tracks_t> & data
+  ) {
+    data.bpm = bpm();
+    data.playback_state = playback_state();
 
-     for (
+    for (
       size_t ix = 0, addr = 5;
       ix < data.tracks->size();
       ix++, addr+= 4
     ) {
-       //Serial.print(F("Restore TS #"));
-       //Serial.print(ix);
-       //Serial.print(F(" from "));
-       //Serial.print(addr);
-       //Serial.println();
-       restore_track(addr,  (*data.tracks)[ix]);
-     }
+      //Serial.print(F("Restore TS #"));
+      //Serial.print(ix);
+      //Serial.print(F(" from "));
+      //Serial.print(addr);
+      //Serial.println();
+      restore_track(addr,  (*data.tracks)[ix]);
+    }
 
-     save_requested.unflag();
+    save_requested.unset();
   }
 
   template <class tracks_t>
@@ -83,7 +83,7 @@ class Eeprom {
       //Serial.print(F("Must wait "));
       //Serial.print(SAVE_DELAY-delta);
       //Serial.println(F("ms before saving."));
-      save_requested.flag();
+      save_requested.set();
       return;
     }
 

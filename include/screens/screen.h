@@ -7,7 +7,7 @@
 template <class data_t_>
 class Screen {
 private:
-  lamb::Flag requires_update;
+  lamb::flag requires_update;
 
 public:
   typedef data_t_ data_t;
@@ -23,7 +23,7 @@ public:
   }
 
   void flag() {
-    requires_update.flag();
+    requires_update.set();
   }
 
   void update() {

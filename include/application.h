@@ -36,9 +36,9 @@ private:
   static  Timer2_                       timer2;
   static  control_event_source_t        control_event_source;
   static  jm_PCF8574                    trigger_outputs;
-  static  lamb::Flag                    controls_flag;
-  static  lamb::Flag                    output_flag;
-  static  lamb::Flag                    x0x_leds_flag;  
+  static  lamb::flag                    controls_flag;
+  static  lamb::flag                    output_flag;
+  static  lamb::flag                    x0x_leds_flag;  
   static  tracks_t                      _tracks;
   static  ui_data_t                     ui_data;
   static  ui_t                          ui;

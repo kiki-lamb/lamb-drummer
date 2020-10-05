@@ -9,12 +9,12 @@ Eeprom::Eeprom() : save_requested("sr"), last_edit(0) {}
 Eeprom::~Eeprom() {}
 
 void Eeprom::flag_save_requested() {
-  save_requested.flag();
+  save_requested.set();
   last_edit = millis();
 }
 
 void Eeprom::unflag_save_requested() {
-  save_requested.unflag();
+  save_requested.unset();
 }
 
 void Eeprom::save_playback_state(bool playback_state_) const {
@@ -89,5 +89,5 @@ void Eeprom::restore_track(
   Serial.println();
   Serial.println();
   Serial.flush();
-  track.modified.unflag();
+  track.modified.unset();
 }

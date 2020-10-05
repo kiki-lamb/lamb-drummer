@@ -6,7 +6,7 @@
 
 class Track {
 public:
-  lamb::Flag    modified;
+  lamb::flag    modified;
   void    set_mod_maj  (uint8_t val);
   void    set_mod_min  (uint8_t val);
   void    set_phase_min(uint8_t val);

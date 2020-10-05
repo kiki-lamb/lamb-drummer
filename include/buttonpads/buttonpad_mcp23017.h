@@ -1,4 +1,4 @@
-#ifndef LAMB_DRUMMER_BUTTONPAD_PIN_MCP23017_H
+#ifndef LAMB_DRUMMERBUTTON_PAD_PIN_MCP23017_H
 #define LAMB_DRUMMER_BUTTONPAD_PIN_MCP23017_H
 
 #include <Arduino.h>
@@ -14,11 +14,11 @@ template <
   > 
 class Buttonpad_MCP23017 : public Buttonpad {
 private:
-  uint8_t           _button;
+  uint8_t           button_;
   Adafruit_MCP23017 device;
 
 public:
-  Buttonpad_MCP23017() : _button(button_range_start+button_count+1) {}
+  Buttonpad_MCP23017() : button_(button_range_start+button_count+1) {}
 
   virtual ~Buttonpad_MCP23017() {}
 
@@ -81,12 +81,12 @@ public:
 
     pin -= button_range_start;
     
-    if (pin != _button) {
-      _button = pin;
+    if (pin != button_) {
+      button_ = pin;
       
-      if (_button < button_count) {
+      if (button_ < button_count) {
         Serial.print(F("Pressed button ")); Serial.flush();
-        Serial.print(_button); Serial.flush();
+        Serial.print(button_); Serial.flush();
         Serial.println(); Serial.flush();
 
         return true;
@@ -97,7 +97,7 @@ public:
   }
 
   virtual uint8_t impl_button() const {
-    return _button;
+    return button_;
   }
 };
 

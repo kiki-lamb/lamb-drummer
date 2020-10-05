@@ -6,7 +6,7 @@
 #include "track/track.h"
 
 template <size_t size_, class track_t = Track>
-class TrackCollection : public lamb::PositionalFixedArray<size_, track_t> {
+class TrackCollection : public lamb::positional_fixed_array<size_, track_t> {
 public:
   TrackCollection() {}
 

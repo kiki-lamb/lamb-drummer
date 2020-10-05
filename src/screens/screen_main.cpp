@@ -32,7 +32,7 @@ void SSMain::draw_bars() {
 }
 
 void SSMain::impl_enter() {
-  data->popup_bpm_requested.flag();
+  data->popup_bpm_requested.set();
 
   draw_line0();
 
@@ -118,7 +118,7 @@ void SSMain::impl_update() {
 
     if ((now - popup_bpm_time) >= popup_bpm_duration) {
       popup_bpm_state = false;
-      data->redraw_selected_track_indicator.flag();
+      data->redraw_selected_track_indicator.set();
     }
   }
 

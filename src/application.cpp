@@ -15,11 +15,12 @@ Eeprom                    Application::eeprom;
 Timer1_                   Application::timer1;
 Timer2_                   Application::timer2;
 jm_PCF8574                Application::trigger_outputs;
-lamb::Flag                Application::controls_flag;
-lamb::Flag                Application::output_flag;
-lamb::Flag                Application::x0x_leds_flag;
+lamb::flag                Application::controls_flag;
+lamb::flag                Application::output_flag;
+lamb::flag                Application::x0x_leds_flag;
 uint16_t                  Application::x0x_leds_values_ = 0x00;
 uint8_t                   Application::queued_output = 0xff;
+
 
 Application::Application() {};
 
@@ -220,7 +221,7 @@ uint8_t Application::page() {
 void Application::set_playback_state(bool playback_state_) {
   timer1.set_playback_state(playback_state_);
 
-  ui_data.redraw_playback_state.flag();
+  ui_data.redraw_playback_state.set();
 
   flag_main_screen();
 
@@ -238,7 +239,7 @@ void Application::save_state() {
 }
 
 void Application::flag_controls() {
-  controls_flag.flag();
+  controls_flag.set();
 }
 
 void Application::flag_output(uint8_t output) {
@@ -252,7 +253,7 @@ void Application::flag_output(uint8_t output) {
   
   queued_output = output;
 
-  output_flag.flag();
+  output_flag.set();
 }
 
 bool Application::process_control_events() {
@@ -288,8 +289,8 @@ bool Application::process_control_event(
       ((EventType)(e.type - 20))
     );
     
-    ui_data.redraw_track.flag();
-    ui_data.redraw_selected_track_indicator.flag();
+    ui_data.redraw_track.set();
+    ui_data.redraw_selected_track_indicator.set();
 
     eeprom.flag_save_requested();
     
@@ -323,7 +324,7 @@ bool Application::process_control_event(
       
       x0x_leds_values_ = x0x_leds_values() ^ tmp;
       
-      x0x_leds_flag.flag();
+      x0x_leds_flag.set();
 
       goto success;
     }
@@ -331,8 +332,8 @@ bool Application::process_control_event(
     {
       _tracks++;
 
-      ui_data.redraw_track.flag();
-      ui_data.redraw_selected_track_indicator.flag();
+      ui_data.redraw_track.set();
+      ui_data.redraw_selected_track_indicator.set();
 
       Serial.print("GO UP A TRACK TO "); Serial.flush();
       Serial.print(_tracks.index()); //  Serial.flush();
@@ -344,8 +345,8 @@ bool Application::process_control_event(
     {
       _tracks--;
       
-      ui_data.redraw_track.flag();
-      ui_data.redraw_selected_track_indicator.flag();
+      ui_data.redraw_track.set();
+      ui_data.redraw_selected_track_indicator.set();
       
       Serial.print("GO DOWN A TRACK TO "); Serial.flush();
       Serial.print(_tracks.index()); Serial.flush();
@@ -365,7 +366,7 @@ bool Application::process_control_event(
     {
       timer1.set_bpm(e.parameter);
 
-      ui_data.popup_bpm_requested.flag();
+      ui_data.popup_bpm_requested.set();
       
       eeprom.flag_save_requested();
       
