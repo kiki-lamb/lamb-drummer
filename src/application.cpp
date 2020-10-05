@@ -2,7 +2,7 @@
 #include "process_track_control_event.h"
 #include "event_sources/button_source.h"
 #include "event_sources/encoder_source.h"
-#include "event_sources/buttonpad_source.h"
+#include "event_sources/button_pad_source.h"
 #include "event/event.h"
 #include <avr/power.h>
 
@@ -114,8 +114,8 @@ void application::setup() {
 }
 
 void application::setup_controls(uint8_t bpm) {
-  static button_pad_source<button_pad_mcp23017<0x0, 8,  8> > buttonpad_source0;
-  static button_pad_source<button_pad_mcp23017<0x3, 16, 0> > buttonpad_source1;
+  static button_pad_source<button_pad_mcp23017<0x0, 8,  8> > button_pad_source0;
+  static button_pad_source<button_pad_mcp23017<0x3, 16, 0> > button_pad_source1;
 //  static EncoderSource encoder_source(EventType::EVT_BPM_SET, bpm);
 //  static ButtonSource  button_source(
 //    EventType::EVT_PLAYBACK_STATE_TOGGLE,
@@ -123,14 +123,14 @@ void application::setup_controls(uint8_t bpm) {
 //  );
   static combine_event_sources<event,2>
                        combine_event_sources;
-  buttonpad_source0     .setup();
-  buttonpad_source1     .setup();
+  button_pad_source0     .setup();
+  button_pad_source1     .setup();
 
 //  encoder_source       .setup();
 //  button_source.setup();
 
-  combine_event_sources.sources[0] = &buttonpad_source0;
-  combine_event_sources.sources[1] = &buttonpad_source1;
+  combine_event_sources.sources[0] = &button_pad_source0;
+  combine_event_sources.sources[1] = &button_pad_source1;
 
 //  combine_event_sources.sources[1] = &encoder_source;
 //  combine_event_sources.sources[2] = &button_source;

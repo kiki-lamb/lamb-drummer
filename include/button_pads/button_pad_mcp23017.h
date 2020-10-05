@@ -2,7 +2,7 @@
 #define LAMB_DRUMMER_BUTTONPAD_PIN_MCP23017_H
 
 #include <Arduino.h>
-#include "buttonpad.h"
+#include "button_pad.h"
 #include <Wire.h>
 #include "Adafruit_MCP23017.h"
 #include "i2c_lock.h"

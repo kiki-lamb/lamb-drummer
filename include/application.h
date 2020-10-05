@@ -10,7 +10,7 @@
 #include "timers/timer2.h"
 #include "event_sources/combine_event_sources.h"
 #include "event_sources/buffer_event_source.h"
-#include "buttonpads/buttonpad_mcp23017.h"
+#include "button_pads/button_pad_mcp23017.h"
 #include "event/event.h"
 #include <jm_PCF8574.h>
 
