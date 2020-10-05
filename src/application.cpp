@@ -7,19 +7,19 @@
 
 Application::control_event_source_t
                           Application::control_event_source;
+Adafruit_MCP23017         Application::x0x_leds;
 Application::tracks_t     Application::_tracks;
+Application::ui_data_t    Application::ui_data;
+Application::ui_t         Application::ui(&ui_data);
 Eeprom                    Application::eeprom;
 Timer1_                   Application::timer1;
 Timer2_                   Application::timer2;
-Application::ui_t         Application::ui(&ui_data);
-Application::ui_data_t    Application::ui_data;
+jm_PCF8574                Application::trigger_outputs;
 lamb::Flag                Application::controls_flag;
 lamb::Flag                Application::output_flag;
-jm_PCF8574                Application::trigger_outputs;
-uint8_t                   Application::queued_output = 0xff;
-Adafruit_MCP23017         Application::x0x_leds;
-uint16_t                  Application::x0x_leds_values_ = 0x00;
 lamb::Flag                Application::x0x_leds_flag;
+uint16_t                  Application::x0x_leds_values_ = 0x00;
+uint8_t                   Application::queued_output = 0xff;
 
 
 Application::Application() {};
@@ -270,7 +270,7 @@ bool Application::process_control_events() {
   return true;
 }
 
-uint16_t flip_bytes(uint16_t value) {
+uint16_t Application::flip_bytes(uint16_t value) {
   uint8_t a = value >> 8;
   uint8_t b = value &  0xff;
   
