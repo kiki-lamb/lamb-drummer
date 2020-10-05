@@ -30,7 +30,7 @@ void Application::update_ui_data() {
   ui_data.ticker         = timer1.ticker();
 }
 
-uint16_t lights = 0x00;
+uint16_t Application::lights = 0x00;
 Adafruit_MCP23017 lightsMcp;;
 lamb::Flag lightsFlag;
 

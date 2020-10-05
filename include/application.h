@@ -54,6 +54,7 @@ private:
   static  bool         output();
   static  bool         process_control_events(); // called by ISR for timer2.
 public:
+  static  uint16_t     lights;
   static  void         print_bits(uint8_t t0);
   static  void         setup();
   static  void         loop();

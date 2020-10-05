@@ -1,4 +1,5 @@
 #include "screens/screen_main.h"
+#include "application.h"
 
 SSMain::SSMain(data_t * data) :
   Screen<UiData<TrackCollection<3, Track> > >(data),
@@ -41,7 +42,7 @@ void SSMain::impl_enter() {
      mcp1.pinMode(ix, OUTPUT);
   }
 #endif
-  
+
   data->popup_bpm_requested.flag();
 
   draw_line0();
@@ -49,12 +50,12 @@ void SSMain::impl_enter() {
   Lcd::put_playstate(19,0); // Ugly...
 
   draw_channel_numbers();
-  
+
   draw_bars();
 
   for (uint8_t step = 0, mmm = (*data->tracks).max_mod_maj(); step < 16; step++)
     draw_column(step, false, mmm);
-  
+
   draw_page_number();
 }
 
@@ -82,10 +83,10 @@ void SSMain::draw_line0(bool redraw_bpm) {
   }
   else if (data->redraw_selected_track_indicator.consume()) {
     Track const & track  = (*data->tracks)[(*data->tracks).index()];
-
+    
     Lcd::set_cursor(0, 0);
     Lcd::print("                  ");
-
+    
     Lcd::set_cursor(0, 0);
     snprintf(buf, 21, "Maj%2d", track.mod_maj());
     Lcd::print(buf);
@@ -135,7 +136,7 @@ void SSMain::impl_update() {
   draw_line0(redraw_bpm);
 
   draw_channel_numbers();
-  
+
   uint8_t prior   = ((uint8_t)((data->ticker>>1)-1)) % (*data->tracks).max_mod_maj(); // Don't remove this cast or the subtraction result becomes a signed type
   uint8_t current = (data->ticker>>1) % (*data->tracks).max_mod_maj();
 
@@ -162,11 +163,22 @@ void SSMain::impl_update() {
 
   draw_column(current, true, mmm);
 
-  if (! redraw_page)
+  if (! redraw_page) {
     draw_column(prior, false, mmm);
+  }
 
 #ifdef RUNNING_LIGHTS
-  mcp1.writeGPIOAB(1 << ((current^8)%16));
+//  for (size_t ix = 0; ix < 16; ix++) {
+//    mcp1.pinMode(ix, INPUT);
+//  }
+
+//  uint16_t tmp = mcp1.readGPIOAB();
+
+//  for (size_t ix = 0; ix < 16; ix++) {
+//    mcp1.pinMode(ix, OUTPUT);
+//  }
+  
+  mcp1.writeGPIOAB(Application::lights ^ (1 << ((current^8)%16)));
 #endif
 }
 
@@ -178,24 +190,24 @@ void SSMain::draw_column(uint8_t col, bool highlit, uint8_t mod_maj)  {
     16, 17, 18, 19
   };
 
-  uint8_t col_ = col_map[col % mod_maj % 16];
-
+  int8_t col_ = col_map[col % mod_maj % 16];
+  
   for (uint8_t line = 1; line <= 3; line++) {
     Track const & t = (*data->tracks)[line-1];
-
+    
     uint8_t character  = Lcd::CHAR_REST;
     bool    on_barrier = ((col - t.phase_maj() + 1) % t.mod_maj()) == 0;
     bool    is_hit     = t.trigger_state(col);
-
+    
     if (highlit)
       character |= 0b001;
-
+    
     if (on_barrier && ! highlit)
       character |= 0b011;
-
+    
     if ( is_hit )
       character |= 0b100;
-
+    
     Lcd::set_cursor(col_, line);
     Lcd::write(character);
   }
