@@ -13,25 +13,32 @@ template <
   uint8_t button_range_start = 0
   > class button_pad_mcp23017 : public button_pad<uint16_t> {
 private:
-  uint16_t          buttons_;
-  uint16_t          new_buttons;
-  Adafruit_MCP23017 device;
-  uint16_t          button_mask;
-  uint8_t           button_shift;
+  Adafruit_MCP23017 * device;
+  uint16_t            buttons_;
+  uint16_t            new_buttons;
+  uint16_t            button_mask;
+  uint8_t             button_shift;
   
 public:
-  button_pad_mcp23017() : buttons_(0), new_buttons(0), button_mask(0) {}
+  button_pad_mcp23017() :
+    device(0),
+    buttons_(0),
+    new_buttons(0),
+    button_mask(0) {}
 
   virtual ~button_pad_mcp23017() {}
 
   virtual void impl_setup() {
     Serial.println(F("Setup button_pad_MCP23017...")); Serial.flush();
 
-    device.begin(i2c_addr_);
+    if (NULL == device) {
+      device = new Adafruit_MCP23017();
+      device->begin(i2c_addr_);
+    }
 
     for (uint8_t ix = 0; ix < 16; ix++) {
-      device.pinMode(ix, INPUT);
-      device.pullUp(ix, HIGH);
+      device->pinMode(ix, INPUT);
+      device->pullUp(ix, HIGH);
     }
 
     uint16_t partial_mask = 0x8000;
@@ -52,9 +59,17 @@ public:
     Serial.println();
 
     // Serial.print("Initial read: ");
-    // print_bits_16(device.readGPIOAB());
+    // print_bits_16(device->readGPIOAB());
     
     Serial.println(F("Done setup button_pad_MCP23017.")); Serial.flush();
+    
+  }
+  
+  void impl_setup(Adafruit_MCP23017 * _device) {
+    device = _device;
+
+    setup();
+    
   }
 
   void print_bits_16(uint16_t tmpval) const {
@@ -76,7 +91,7 @@ public:
     if (! i2c_lock::claim())
       return false;
 
-    uint16_t tmpval = device.readGPIOAB();
+    uint16_t tmpval = device->readGPIOAB();
     
     i2c_lock::release();
 
