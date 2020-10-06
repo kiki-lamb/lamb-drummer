@@ -33,7 +33,7 @@ private:
   }
 
   virtual void    impl_poll() {
-    Serial.println("Poll...");
+    // Serial.println("Poll...");
     
     if (! button_pad_t::read())
       return;
@@ -41,14 +41,14 @@ private:
     uint16_t tmp_buttons = button_pad_t::buttons();
     uint16_t mask = 1;
     
-    Serial.print("Examine  ");
-    print_bits_16(tmp_buttons);
-    Serial.println();
+    // Serial.print("Examine  ");
+    // print_bits_16(tmp_buttons);
+    // Serial.println();
     
     for (uint8_t ix = 0; ix < 16; ix++, mask <<= 1) {
       if (mask & tmp_buttons) {
-        Serial.print("Enqueue ");
-        Serial.println(button_pad_ordering[ix]);
+        // Serial.print("Enqueue ");
+        // Serial.println(button_pad_ordering[ix]);
         
         queue.enqueue(button_pad_ordering[ix]);
       }

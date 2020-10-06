@@ -114,10 +114,10 @@ void application::setup() {
 }
 
 void application::setup_controls(uint8_t bpm) {
-  static button_pad_source<button_pad_mcp23017<0x0 /* , 8,  8 */> >
+  static button_pad_source<button_pad_mcp23017<0x0, 8, 8> >
     button_pad_source0;
   
-  static button_pad_source<button_pad_mcp23017<0x3 /* , 16, 0 */> >
+  static button_pad_source<button_pad_mcp23017<0x3> >
     button_pad_source1;
   
 //  static EncoderSource encoder_source(EventType::EVT_BPM_SET, bpm);
@@ -140,7 +140,7 @@ void application::setup_controls(uint8_t bpm) {
   combine_event_sources.sources[1] = &button_pad_source0;
 
 //  combine_event_sources.sources[2] = &encoder_source;
-//  combine_event_sources.sources[3] = &button_source;
+//  combine_event_sources.sources[3] = &button_source
 
   control_event_source .source     = &combine_event_sources;
 }
@@ -318,29 +318,29 @@ bool application::process_control_event(
   }
   else {
     switch (e.type) {
-    case EVT_PAD0_ON:
-    case EVT_PAD1_ON:
-    case EVT_PAD2_ON:
-    case EVT_PAD3_ON:
-    case EVT_PAD4_ON:
-    case EVT_PAD5_ON:
-    case EVT_PAD6_ON:
-    case EVT_PAD7_ON:
-    case EVT_PAD8_ON:
-    case EVT_PAD9_ON:
-    case EVT_PAD10_ON:
-    case EVT_PAD11_ON:
-    case EVT_PAD12_ON:
-    case EVT_PAD13_ON:
-    case EVT_PAD14_ON:
-    case EVT_PAD15_ON:
+    case EVT_PAD_1:
+    case EVT_PAD_2:
+    case EVT_PAD_3:
+    case EVT_PAD_4:
+    case EVT_PAD_5:
+    case EVT_PAD_6:
+    case EVT_PAD_7:
+    case EVT_PAD_8:
+    case EVT_PAD_9:
+    case EVT_PAD_10:
+    case EVT_PAD_11:
+    case EVT_PAD_12:
+    case EVT_PAD_13:
+    case EVT_PAD_14:
+    case EVT_PAD_15:
+    case EVT_PAD_16:
     {
       Serial.print("Light up ");
       Serial.print(e.type);
       Serial.println();
       Serial.flush();      
 
-      uint16_t tmp = flip_bytes(((uint16_t)1) << e.type);
+      uint16_t tmp = flip_bytes(((uint16_t)1) << (((uint8_t)e.type) - 1));
       
       x0x_leds_values_ = x0x_leds_values() ^ tmp;
       

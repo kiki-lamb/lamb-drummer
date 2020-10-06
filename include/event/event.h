@@ -4,25 +4,27 @@
 #include <Arduino.h>
 
 enum event_type {
-  EVT_PAD0_ON = 0,
-  EVT_PAD1_ON = 1,
-  EVT_PAD2_ON = 2,
-  EVT_PAD3_ON = 3,
-  
-  EVT_PAD4_ON = 4,
-  EVT_PAD5_ON = 5,
-  EVT_PAD6_ON = 6,
-  EVT_PAD7_ON = 7,
+  EVT_NOT_AVAILABLE = 0,
 
-  EVT_PAD8_ON = 8,
-  EVT_PAD9_ON = 9,
-  EVT_PAD10_ON = 10,
-  EVT_PAD11_ON = 11,
+  EVT_PAD_1 = 1,
+  EVT_PAD_2 = 2,
+  EVT_PAD_3 = 3,
+  EVT_PAD_4 = 4,
 
-  EVT_PAD12_ON = 12,
-  EVT_PAD13_ON = 13,
-  EVT_PAD14_ON = 14,
-  EVT_PAD15_ON = 15,
+  EVT_PAD_5 = 5,
+  EVT_PAD_6 = 6,
+  EVT_PAD_7 = 7,
+  EVT_PAD_8 = 8,
+
+  EVT_PAD_9 = 9,
+  EVT_PAD_10 = 10,
+  EVT_PAD_11 = 11,
+  EVT_PAD_12 = 12,
+
+  EVT_PAD_13 = 13,
+  EVT_PAD_14 = 14,
+  EVT_PAD_15 = 15,
+  EVT_PAD_16 = 16,
 
   EVT_MIN_UP = 20,
   EVT_MIN_DN = 21,
@@ -42,8 +44,6 @@ enum event_type {
   EVT_BPM_SET = 30,
 
   EVT_PLAYBACK_STATE_TOGGLE = 31,
-
-  EVT_NOT_AVAILABLE = 32,
 };
 
 class event {
