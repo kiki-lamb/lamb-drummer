@@ -28,6 +28,15 @@ public:
 
   virtual ~button_pad_mcp23017() {}
 
+  virtual void setup() {
+    button_pad<uint16_t>::setup();
+  }
+  
+  virtual void setup(Adafruit_MCP23017 * _device) {
+    device = _device;
+    setup();
+  }
+
   virtual void impl_setup() {
     Serial.println(F("Setup button_pad_MCP23017...")); Serial.flush();
 
@@ -65,13 +74,6 @@ public:
     
   }
   
-  void impl_setup(Adafruit_MCP23017 * _device) {
-    device = _device;
-
-    setup();
-    
-  }
-
   void print_bits_16(uint16_t tmpval) const {
     for(uint16_t mask = 32768; mask; mask >>= 1) {
       if(mask  & tmpval) {

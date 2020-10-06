@@ -11,9 +11,13 @@
 template <class button_pad_t_, size_t buffer_size = 8>
 class button_pad_source : public button_pad_t_, public event_source<event>{
 public:
-  typedef button_pad_t_ button_pad_t;
+  typedef button_pad_t_ button_pad_type;
   
   button_pad_source() {}
+
+//  template <typename arg_type>
+//  button_pad_source(arg_type arg) : button_pad_type(arg) {}
+  
   virtual ~button_pad_source() {}
 
 private:
@@ -35,10 +39,10 @@ private:
   virtual void    impl_poll() {
     // Serial.println("Poll...");
     
-    if (! button_pad_t::read())
+    if (! button_pad_type::read())
       return;
     
-    uint16_t tmp_buttons = button_pad_t::buttons();
+    uint16_t tmp_buttons = button_pad_type::buttons();
     uint16_t mask = 1;
     
     // Serial.print("Examine  ");

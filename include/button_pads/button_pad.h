@@ -20,7 +20,7 @@ public:
     return impl_buttons();
   }
   
-  void    setup() {
+  virtual void    setup() {
     impl_setup();
   }
   
