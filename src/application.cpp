@@ -418,7 +418,8 @@ bool application::process_control_event(
       Serial.print("Encoder event, number: ");
       Serial.print(e.parameter >> 8);
       Serial.print(", motion: ");
-      Serial.print(e.parameter & 0xff);
+      Serial.print((int8_t)(e.parameter & 0xff));
+      
       Serial.println();
       
       goto success;
