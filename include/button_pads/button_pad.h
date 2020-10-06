@@ -12,11 +12,11 @@ public:
 
   virtual ~button_pad() {}
 
-  bool read() {
+  virtual bool read() {
     return impl_read();
   }
 
-  uint16_t buttons() const {
+  virtual uint16_t buttons() const {
     return impl_buttons();
   }
   

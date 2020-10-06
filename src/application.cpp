@@ -4,6 +4,7 @@
 #include "event_sources/encoder_source.h"
 #include "event_sources/button_pad_source.h"
 #include "event/event.h"
+#include "button_pads/encoder_pad_mcp23017.h"
 #include <avr/power.h>
 
 application::control_event_source_t
@@ -130,11 +131,13 @@ void application::setup_controls(uint8_t bpm) {
   static combine_event_sources<event,2>
                        combine_event_sources;
 
-  static Adafruit_MCP23017 device;
-  device.begin(0x0);
+  static Adafruit_MCP23017 device0;
+  device0.begin(0x0);
+  button_pad_source0.setup(&device0);
 
-  button_pad_source0     .setup(&device);
-  button_pad_source1     .setup();
+  static Adafruit_MCP23017 device1;
+  device1.begin(0x3);
+  button_pad_source1.setup(&device1);
 
 //  encoder_source       .setup();
 //  button_source.setup();
