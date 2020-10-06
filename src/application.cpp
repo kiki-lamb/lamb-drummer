@@ -115,11 +115,14 @@ void application::setup() {
 }
 
 void application::setup_controls(uint8_t bpm) {
-  static button_pad_source<button_pad_mcp23017<0x0, 8> >
-    button_pad_source0;
+  static button_pad_source<button_pad_mcp23017<0x0, 8, 0> >
+    combopad_button_source;
+
+  static button_pad_source<encoder_pad_mcp23017<0x0, 4, 8> >
+    combopad_encoder_source;
 
   static button_pad_source<button_pad_mcp23017<0x3> >
-    button_pad_source1;
+    drum_pad_source;
   
 //  static EncoderSource encoder_source(EventType::EVT_BPM_SET, bpm);
 //  static ButtonSource  button_source(
@@ -128,23 +131,25 @@ void application::setup_controls(uint8_t bpm) {
 //  );
   
   // static combine_event_sources<event,1>
-  static combine_event_sources<event,2>
+  static combine_event_sources<event,3>
                        combine_event_sources;
 
   static Adafruit_MCP23017 device0;
   device0.begin(0x0);
-  button_pad_source0.setup(&device0);
+  combopad_button_source.setup(&device0);
+  combopad_encoder_source.setup(&device0);
 
   static Adafruit_MCP23017 device1;
   device1.begin(0x3);
-  button_pad_source1.setup(&device1);
+  drum_pad_source.setup(&device1);
 
 //  encoder_source       .setup();
 //  button_source.setup();
 
-  combine_event_sources.sources[0] = &button_pad_source1;
-  combine_event_sources.sources[1] = &button_pad_source0;
-
+  combine_event_sources.sources[0] = &drum_pad_source;
+  combine_event_sources.sources[1] = &combopad_button_source;
+  combine_event_sources.sources[2] = &combopad_encoder_source;
+  
 //  combine_event_sources.sources[2] = &encoder_source;
 //  combine_event_sources.sources[3] = &button_source
 

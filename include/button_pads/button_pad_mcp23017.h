@@ -16,6 +16,7 @@ private:
   Adafruit_MCP23017 * device;
   uint16_t            buttons_;
   uint16_t            new_buttons;
+protected:
   uint16_t            button_mask;
   uint8_t             button_shift;
   
@@ -37,6 +38,7 @@ public:
     setup();
   }
 
+protected:
   virtual void impl_setup() {
     Serial.print(F("Setup button_pad_MCP23017 @ 0x"));
     Serial.print(i2c_addr_, HEX);
@@ -59,9 +61,14 @@ public:
     }
 
     button_mask >>= button_range_start;    
-    button_shift = 16 - button_count - button_range_start;
+    // Serial.print("BC: ");
+    // Serial.print(button_count);
+    // Serial.print(" BRS: ");
+    // Serial.print(button_range_start);
+
+    button_shift = 16 - (button_count + button_range_start);
     
-    Serial.print("Button mask: ");
+    Serial.print(" Button mask: ");
     print_bits_16(button_mask);
     Serial.println();
     Serial.print("Button shift: ");
@@ -70,7 +77,8 @@ public:
     Serial.println(F("Done setup button_pad_MCP23017.\n"));
     Serial.flush();    
   }
-  
+
+public:
   void print_bits_16(uint16_t tmpval) const {
     for(uint16_t mask = 32768; mask; mask >>= 1) {
       if(mask  & tmpval) {
@@ -82,7 +90,8 @@ public:
     }
   }
   
-  virtual bool impl_read() {
+protected:
+virtual bool impl_read() {
 #ifdef LOG_I2C_LOCK
     Serial.print(F("B:ir ")); Serial.flush();
 #endif
