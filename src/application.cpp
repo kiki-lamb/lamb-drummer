@@ -114,8 +114,12 @@ void application::setup() {
 }
 
 void application::setup_controls(uint8_t bpm) {
-  static button_pad_source<button_pad_mcp23017<0x0, 8,  8> > button_pad_source0;
-  static button_pad_source<button_pad_mcp23017<0x3, 16, 0> > button_pad_source1;
+  static button_pad_source<button_pad_mcp23017<0x0 /* , 8,  8 */> >
+    button_pad_source0;
+  
+  static button_pad_source<button_pad_mcp23017<0x3 /* , 16, 0 */> >
+    button_pad_source1;
+  
 //  static EncoderSource encoder_source(EventType::EVT_BPM_SET, bpm);
 //  static ButtonSource  button_source(
 //    EventType::EVT_PLAYBACK_STATE_TOGGLE,
@@ -141,6 +145,19 @@ void application::setup_controls(uint8_t bpm) {
 void application::print_bits(uint8_t t0) {
   {
     for(uint16_t mask = 0x80; mask; mask >>= 1) {
+      if (mask & t0) {
+        Serial.print('1'); Serial.flush();
+      }
+      else {
+        Serial.print('0'); Serial.flush();
+      }
+    }
+  }
+}
+
+void application::print_bits_16(uint16_t t0) {
+  {
+    for(uint16_t mask = 0x8000; mask; mask >>= 1) {
       if (mask & t0) {
         Serial.print('1'); Serial.flush();
       }

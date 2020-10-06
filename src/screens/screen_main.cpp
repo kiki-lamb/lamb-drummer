@@ -156,7 +156,7 @@ void screen_main::impl_update() {
     draw_column(prior, false, mmm);
   }
 
-#ifdef RUNNING_LIGHTS
+#ifdef CHASE_LIGHTS
   application::write_x0x_leds_xor(1 << ((current^8)%16));
 #endif
 }

@@ -67,6 +67,7 @@ public:
   static  void         flag_output(uint8_t output);       // called by ISR for timer1.
   static  void         loop();
   static  void         print_bits(uint8_t t0);
+  static  void         print_bits_16(uint16_t t0);
   static  void         save_state();             // called by ISR for timer2.
   static  void         setup();
   static  void         write_x0x_leds_xor(uint16_t const & value);

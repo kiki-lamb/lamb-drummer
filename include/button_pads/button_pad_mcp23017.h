@@ -1,5 +1,5 @@
-#ifndef LAMB_DRUMMERBUTTON_PAD_PIN_MCP23017_H
-#define LAMB_DRUMMER_BUTTONPAD_PIN_MCP23017_H
+#ifndef LAMB_DRUMMER_BUTTON_PAD_PIN_MCP23017_H
+#define LAMB_DRUMMER_BUTTON_PAD_PIN_MCP23017_H
 
 #include <Arduino.h>
 #include "button_pad.h"
@@ -7,18 +7,15 @@
 #include "Adafruit_MCP23017.h"
 #include "i2c_lock.h"
 
-template <
-  uint8_t i2c_addr_,
-  uint8_t button_count = 16,
-  uint8_t button_range_start = 0
-  > 
-class button_pad_mcp23017 : public button_pad {
+template <uint8_t i2c_addr_>
+class button_pad_mcp23017 : public button_pad<uint16_t> {
 private:
-  uint8_t           button_;
+  uint16_t          buttons_;
+  uint16_t          new_buttons;
   Adafruit_MCP23017 device;
 
 public:
-  button_pad_mcp23017() : button_(button_range_start+button_count+1) {}
+  button_pad_mcp23017() : buttons_(0) {}
 
   virtual ~button_pad_mcp23017() {}
 
@@ -35,6 +32,17 @@ public:
     Serial.println(F("Done setup button_pad_MCP23017.")); Serial.flush();
   }
 
+  void print_bits_16(uint16_t tmpval) const {
+    for(uint16_t mask = 32768; mask; mask >>= 1) {
+      if(mask  & tmpval) {
+        Serial.print('1'); Serial.flush();
+      }
+      else {
+        Serial.print('.'); Serial.flush();
+      }
+    }
+  }
+  
   virtual bool impl_read() {
 #ifdef LOG_I2C_LOCK
     Serial.print(F("B:ir ")); Serial.flush();
@@ -45,7 +53,7 @@ public:
 
     sei();
 
-    uint16_t tmpval = device.readGPIOAB();
+    uint16_t tmpval = ~device.readGPIOAB();
 
     i2c_lock::release();
 
@@ -55,49 +63,33 @@ public:
     Serial.print(F("B:ir ")); Serial.flush();
 #endif
 
-#ifdef LOG_BUTTONPAD_MCP_RAW_READING
-      Serial.print(F("=>   ")); Serial.flush();
-      {
-        for(uint16_t mask = 32768; mask; mask >>= 1) {
-          if(mask  & tmpval) {
-            Serial.print('1'); Serial.flush();
-          }
-          else {
-            Serial.print('0'); Serial.flush();
-          }
-        }
-      }
-      Serial.println(); Serial.flush();
-#endif
+//#ifdef LOG_BUTTONPAD_MCP_RAW_READING
+    Serial.print(F("old =>   ")); Serial.flush();
+    print_bits_16(tmpval);
     
-    uint8_t pin = button_range_start;
-    uint16_t mask = 0b1 << (button_range_start);
-    
-    for (; pin < (button_range_start+button_count); pin++, mask <<= 1) {
-      if (! (tmpval & mask)) {
-        break;
-      }
-    }
+//#endif
 
-    pin -= button_range_start;
-    
-    if (pin != button_) {
-      button_ = pin;
+    new_buttons = buttons_ ^ tmpval;
+
+    Serial.print(F(" new =>   ")); Serial.flush();
+    print_bits_16(new_buttons);
+    Serial.println();
+
+    delay(50);
+
+    buttons_ = tmpval;
+
+    return 0 != new_buttons;
       
-      if (button_ < button_count) {
-        Serial.print(F("Pressed button ")); Serial.flush();
-        Serial.print(button_); Serial.flush();
-        Serial.println(); Serial.flush();
-
-        return true;
-      }
-    }
-    
-    return false;
   }
 
-  virtual uint8_t impl_button() const {
-    return button_;
+  virtual uint16_t impl_buttons() const {
+    Serial.print("Returning ");
+    print_bits_16(new_buttons);
+    Serial.println();
+    Serial.flush();
+    
+    return new_buttons;
   }
 };
 

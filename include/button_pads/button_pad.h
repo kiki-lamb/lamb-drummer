@@ -3,17 +3,31 @@
 
 #include <Arduino.h>
 
+template <typename T>
 class button_pad {
 public:
-  button_pad();
-  virtual ~button_pad();
-  bool    read();
-  uint8_t button() const;
-  void    setup();
+  typedef T button_mask_type;
+
+  button_pad() {}
+
+  virtual ~button_pad() {}
+
+  bool    read() {
+    return impl_read();
+  }
+
+  uint16_t buttons() const {
+    return impl_buttons();
+  }
+  
+  void    setup() {
+    impl_setup();
+  }
+  
 private:
-  virtual bool    impl_read() = 0;
-  virtual uint8_t impl_button() const = 0;
-  virtual void    impl_setup() = 0;
+  virtual bool             impl_read() = 0;
+  virtual button_mask_type impl_buttons() const = 0;
+  virtual void             impl_setup() = 0;
 };
 
 #endif
