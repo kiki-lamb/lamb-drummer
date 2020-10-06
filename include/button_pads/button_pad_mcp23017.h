@@ -15,7 +15,7 @@ private:
   Adafruit_MCP23017 device;
 
 public:
-  button_pad_mcp23017() : buttons_(0) {}
+  button_pad_mcp23017() : buttons_(0), new_buttons(0) {}
 
   virtual ~button_pad_mcp23017() {}
 
@@ -29,6 +29,9 @@ public:
       device.pullUp(ix, HIGH);
     }
 
+    Serial.print("Initial read: ");
+    print_bits_16(device.readGPIOAB());
+    
     Serial.println(F("Done setup button_pad_MCP23017.")); Serial.flush();
   }
 
@@ -47,14 +50,26 @@ public:
 #ifdef LOG_I2C_LOCK
     Serial.print(F("B:ir ")); Serial.flush();
 #endif
-    if (! i2c_lock::claim()) return false;
+
+    if (! i2c_lock::claim()) {
+      // Serial.println("Can't get lock.");
+
+      return false;
+    }
 
     char cSREG = SREG;    
 
     sei();
 
-    uint16_t tmpval = ~device.readGPIOAB();
+    uint16_t tmpval = device.readGPIOAB();
 
+#ifdef LOG_BUTTONPAD_MCP_RAW_READING
+    Serial.print(F("raw =>   ")); Serial.flush();
+    print_bits_16(tmpval);
+#endif
+    
+    tmpval = ~tmpval;  
+    
     i2c_lock::release();
 
     SREG = cSREG;    
@@ -63,32 +78,36 @@ public:
     Serial.print(F("B:ir ")); Serial.flush();
 #endif
 
-//#ifdef LOG_BUTTONPAD_MCP_RAW_READING
-    Serial.print(F("old =>   ")); Serial.flush();
+    new_buttons = tmpval & ~buttons_; //  ^ tmpval;
+
+#ifdef LOG_BUTTONPAD_MCP_RAW_READING
+    Serial.print(F(" old =>   ")); Serial.flush();
+    print_bits_16(buttons_);
+
+    Serial.print(F("read =>   ")); Serial.flush();
     print_bits_16(tmpval);
     
-//#endif
-
-    new_buttons = buttons_ ^ tmpval;
-
     Serial.print(F(" new =>   ")); Serial.flush();
     print_bits_16(new_buttons);
-    Serial.println();
 
-    delay(50);
+    Serial.println();
+#endif
 
     buttons_ = tmpval;
 
-    return 0 != new_buttons;
-      
+    if (0 != new_buttons) {
+      // Serial.println("Return true.");
+
+      return true;
+    }
+    else {
+      // Serial.println("Return false.");
+
+      return false;
+    }      
   }
 
   virtual uint16_t impl_buttons() const {
-    Serial.print("Returning ");
-    print_bits_16(new_buttons);
-    Serial.println();
-    Serial.flush();
-    
     return new_buttons;
   }
 };

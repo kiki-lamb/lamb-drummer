@@ -1,6 +1,6 @@
 #include "application.h"
 #include "process_track_control_event.h"
-#include "event_sources/button_source.h"
+#include "event_sources/button_pad_source.h"
 #include "event_sources/encoder_source.h"
 #include "event_sources/button_pad_source.h"
 #include "event/event.h"
@@ -125,21 +125,24 @@ void application::setup_controls(uint8_t bpm) {
 //    EventType::EVT_PLAYBACK_STATE_TOGGLE,
 //    A7
 //  );
+  
+  // static combine_event_sources<event,1>
   static combine_event_sources<event,2>
                        combine_event_sources;
+
   button_pad_source0     .setup();
   button_pad_source1     .setup();
 
 //  encoder_source       .setup();
 //  button_source.setup();
 
-  combine_event_sources.sources[0] = &button_pad_source0;
-  combine_event_sources.sources[1] = &button_pad_source1;
+  combine_event_sources.sources[0] = &button_pad_source1;
+  combine_event_sources.sources[1] = &button_pad_source0;
 
-//  combine_event_sources.sources[1] = &encoder_source;
-//  combine_event_sources.sources[2] = &button_source;
+//  combine_event_sources.sources[2] = &encoder_source;
+//  combine_event_sources.sources[3] = &button_source;
 
-  control_event_source .source     = &combine_event_sources; //combine_event_sources;
+  control_event_source .source     = &combine_event_sources;
 }
 
 void application::print_bits(uint8_t t0) {
@@ -208,8 +211,6 @@ void application::loop() {
 void application::update_x0x_leds() {
   if (! x0x_leds_flag.consume())
     return;
-  
-  Serial.print("Write x0x_leds: ");
   
   x0x_leds.writeGPIOAB(x0x_leds_values());
 }

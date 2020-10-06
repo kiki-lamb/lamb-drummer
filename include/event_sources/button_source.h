@@ -16,14 +16,17 @@ public:
   button(pin_, adc_state),
   on_push(on_push_),
   event_type(EVT_NOT_AVAILABLE) {}
+
   virtual ~button_source() {}
+
 private:
   event_t::event_type_t on_push;
   event_t::event_type_t event_type;
 
   virtual void    impl_poll() {
-    if (read())
-      event_type = on_push;
+    if (! read()) return;
+
+    event_type = on_push;
   }
 
   virtual uint8_t impl_queue_count() const {
@@ -33,6 +36,7 @@ private:
   virtual event_t impl_dequeue_event() {
     event_t::event_type_t e = event_type;
     event_type = EVT_NOT_AVAILABLE;
+
     return event { e };
     
   };
