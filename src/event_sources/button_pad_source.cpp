@@ -53,4 +53,15 @@ button_pad_source<encoder_pad_mcp23017<0x0, 4, 8> >::button_pad_ordering[16] = {
   EVT_PAD_6,
   EVT_PAD_7,
   EVT_PAD_8,
+
+  
+  EVT_PAD_9,
+  EVT_PAD_10,
+  EVT_PAD_11,
+  EVT_PAD_12,
+
+  EVT_PAD_13,
+  EVT_PAD_14,
+  EVT_PAD_15,
+  EVT_PAD_16,
 };

@@ -136,11 +136,19 @@ void application::setup_controls(uint8_t bpm) {
 
   static Adafruit_MCP23017 device0;
   device0.begin(0x0);
+  for (uint8_t ix = 0; ix < 16; ix++) {
+    device0.pinMode(ix, INPUT);
+    device0.pullUp(ix, HIGH);
+  }
   combopad_button_source.setup(&device0);
   combopad_encoder_source.setup(&device0);
 
   static Adafruit_MCP23017 device1;
   device1.begin(0x3);
+  for (uint8_t ix = 0; ix < 16; ix++) {
+    device1.pinMode(ix, INPUT);
+    device1.pullUp(ix, HIGH);
+  }
   drum_pad_source.setup(&device1);
 
 //  encoder_source       .setup();
@@ -346,10 +354,10 @@ bool application::process_control_event(
     case EVT_PAD_15:
     case EVT_PAD_16:
     {
-      Serial.print("Light up ");
-      Serial.print(e.type);
-      Serial.println();
-      Serial.flush();      
+//      Serial.print("Light up ");
+//      Serial.print(e.type);
+//      Serial.println();
+//      Serial.flush();      
 
       uint16_t tmp = flip_bytes(((uint16_t)1) << (((uint8_t)e.type) - 1));
       

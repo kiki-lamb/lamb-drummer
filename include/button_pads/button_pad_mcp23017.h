@@ -12,11 +12,12 @@ template <
   uint8_t button_count = 16,
   uint8_t button_range_start = 0
   > class button_pad_mcp23017 : public button_pad<uint16_t> {
+
 private:
   Adafruit_MCP23017 * device;
   uint16_t            buttons_;
   uint16_t            new_buttons;
-protected:
+
   uint16_t            button_mask;
   uint8_t             button_shift;
   
