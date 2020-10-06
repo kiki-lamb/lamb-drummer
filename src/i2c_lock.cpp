@@ -10,9 +10,9 @@ volatile bool i2c_lock::claim() {
 #ifdef LOG_I2C_LOCK
       Serial.println(F("+i2c"));
 #endif
-      cSREG = SREG;    
+//      cSREG = SREG;    
 
-      sei();
+//      sei();
   
       return lock = true;
     }
@@ -30,7 +30,7 @@ volatile void i2c_lock::release() {
     Serial.println(F("-i2c"));
 #endif
 
-    SREG = cSREG;
+//    SREG = cSREG;
     
     lock = false;
   }

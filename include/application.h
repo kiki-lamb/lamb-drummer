@@ -36,7 +36,8 @@ private:
   static  jm_PCF8574                     trigger_outputs;
   static  lamb::flag                     controls_flag;
   static  lamb::flag                     output_flag;
-  static  lamb::flag                     x0x_leds_flag;  
+  static  lamb::flag                     x0x_leds_flag;
+  static  lamb::flag                     update_ui_data_flag;  
   static  tracks_t                       _tracks;
   static  ui_data_t                      ui_data_;
   static  ui_t                           ui_;
@@ -55,14 +56,15 @@ private:
   static  void         setup_controls(uint8_t bpm);
   static  void         setup_trigger_outputs();
   static  void         setup_x0x_leds();
-  static  void         update_ui_data();
   static  void         update_x0x_leds();
   static  uint16_t     x0x_leds_values();
   static  void         write_x0x_leds(uint16_t const & value);
   
 public:
+  static  void         update_ui_data(bool force = false);
   static  uint16_t     flip_bytes(uint16_t value);
   static  void         flag_controls();       // called by ISR for timer2.
+  static  void         flag_update_ui_data();       //
   static  void         flag_main_screen();       // called by ISR for timer1.
   static  void         flag_output(uint8_t output);       // called by ISR for timer1.
   static  void         loop();

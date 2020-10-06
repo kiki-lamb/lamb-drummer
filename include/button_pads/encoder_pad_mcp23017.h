@@ -133,6 +133,7 @@ public:
       uint8_t shifted = cut >> (((encoder_count-1) << 1) - (ix << 1));
 
       encoder_states[ix].update(shifted);
+
       if (encoder_states[ix].flagged && motion_events.writable()) {
         motion_events.enqueue(motion_event { ix, encoder_states[ix].motion });
         encoder_states[ix].motion = 0;

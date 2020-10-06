@@ -27,8 +27,18 @@ public:
   }
 
   void update() {
-    if (requires_update.consume())
-      impl_update();
+    if (!requires_update.consume())
+      return;
+    
+    unsigned long now = micros();
+
+    impl_update();
+    
+    unsigned long delta = micros() - now;;
+
+    Serial.print(F("Update took "));
+    Serial.print(delta);
+    Serial.println(F(" us."));
   }
 
   void enter() {

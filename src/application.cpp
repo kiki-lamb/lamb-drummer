@@ -22,6 +22,7 @@ jm_PCF8574                application::trigger_outputs;
 lamb::flag                application::controls_flag;
 lamb::flag                application::output_flag;
 lamb::flag                application::x0x_leds_flag;
+lamb::flag                application::update_ui_data_flag;
 uint16_t                  application::x0x_leds_values_ = 0x00;
 uint8_t                   application::queued_output = 0xff;
 
@@ -29,7 +30,10 @@ application::application() {};
 
 application::~application() {};
 
-void application::update_ui_data() {
+void application::update_ui_data(bool force) {
+  if (! (update_ui_data_flag.consume() || force))
+    return;
+  
   ui_data_.page           = page();
   ui_data_.bpm            = timer1.bpm();
   ui_data_.hz             = timer1.hz();
@@ -63,8 +67,7 @@ void application::setup() {
   Serial .begin(230400);
 
   Wire   .begin();
-  Wire   .setClock(400000);
-
+  Wire   .setClock(1000000);
   setup_x0x_leds();
   
   setup_trigger_outputs();
@@ -214,26 +217,20 @@ bool application::output() {
 }
 
 void application::loop() {
-//  Serial.print(F("output();")); Serial.flush();
-  output();
-  
-//  Serial.println(F("process_control_events();")); Serial.flush();
   process_control_events();
-    
-//  Serial.println(F("update_ui_data();")); Serial.flush();
+  output();
   update_ui_data();
-
-//  Serial.println(F("ui.update_screen();")); Serial.flush();
   ui_.update_screen();
-
   update_x0x_leds();
 }
 
 void application::update_x0x_leds() {
-  if (! x0x_leds_flag.consume())
+  if (! (x0x_leds_flag.consume() && i2c_lock::claim()))
     return;
   
   x0x_leds.writeGPIOAB(x0x_leds_values());
+
+  i2c_lock::release();
 }
 
 uint16_t application::x0x_leds_values() {
@@ -248,6 +245,10 @@ void application::write_x0x_leds(uint16_t const & value) {
   x0x_leds.writeGPIOAB(value);
 }
 
+void application::flag_update_ui_data() {
+  update_ui_data_flag.set();
+}   
+  
 void application::flag_main_screen() {
   ui_.flag_screen(ui_t::SCREEN_MAIN);
 }
@@ -338,7 +339,33 @@ bool application::process_control_event(
     goto success;
   }
   else {
+    if (e.type == event_type::EVT_ENCODER) {
+      uint8_t encoder_number = e.parameter >> 8;
+      int8_t  motion = (int8_t)(e.parameter & 0xff);
+
+      Serial.print("Encoder event, number: ");
+      Serial.print(encoder_number);
+      Serial.print(", motion: ");
+      Serial.print(motion);
+      Serial.println();
+
+      e.type = event_type::EVT_BPM_SET;
+      e.parameter = timer1.bpm() + motion;
+    }
+    
     switch (e.type) {
+    case event_type::EVT_BPM_SET:
+    {
+      timer1.set_bpm(e.parameter);
+
+      ui_data_.popup_bpm_requested.set();
+      
+      eeprom.flag_save_requested();
+      
+      goto success;
+    }
+
+
     case EVT_PAD_1:
     case EVT_PAD_2:
     case EVT_PAD_3:
@@ -400,27 +427,6 @@ bool application::process_control_event(
       set_playback_state(! timer1.playback_state());
       
       eeprom.flag_save_requested();
-      
-      goto success;
-    }
-    case event_type::EVT_BPM_SET:
-    {
-      timer1.set_bpm(e.parameter);
-
-      ui_data_.popup_bpm_requested.set();
-      
-      eeprom.flag_save_requested();
-      
-      goto success;
-    }
-    case event_type::EVT_ENCODER:
-    {
-      Serial.print("Encoder event, number: ");
-      Serial.print(e.parameter >> 8);
-      Serial.print(", motion: ");
-      Serial.print((int8_t)(e.parameter & 0xff));
-      
-      Serial.println();
       
       goto success;
     }

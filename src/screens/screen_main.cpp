@@ -105,7 +105,10 @@ void screen_main::draw_line0(bool redraw_bpm) {
 }
 
 void screen_main::impl_update() {
+  application::update_ui_data(true);
+
   bool redraw_bpm = false;
+    
   ////Serial.println("Before pbr!");
   if (data->popup_bpm_requested.consume()) {
     popup_bpm_time = millis();
@@ -124,13 +127,15 @@ void screen_main::impl_update() {
 
   draw_line0(redraw_bpm);
 
+  return;
+  
   draw_channel_numbers();
 
   uint8_t prior   = ((uint8_t)((data->ticker>>1)-1)) % (*data->tracks).max_mod_maj(); // Don't remove this cast or the subtraction result becomes a signed type
   uint8_t current = (data->ticker>>1) % (*data->tracks).max_mod_maj();
 
   ////Serial.println("Before rt!");
-  bool redraw_page = data->redraw_track.consume();
+  bool redraw_page = false; // data->redraw_track.consume();
 
   if (! redraw_page) {
     static uint8_t last_page = 255;
