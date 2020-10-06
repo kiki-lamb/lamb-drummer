@@ -28,9 +28,9 @@ void screen_intro::impl_enter() {
   lcd::set_cursor(0, 0);
   lcd::print(F("    Lamb Drummer    "));
 
-  static const int MS = 2;
+  static const int MS = 1;
 
-  for (uint8_t iix = 0; iix < 4; iix++) {
+  for (uint8_t iix = 0; iix < 3; iix++) {
     for (uint8_t ix = 0; ix < 20; ix++) {
       for (uint8_t iiix = 1; iiix < 4; iiix++) {
         lcd::set_cursor(ix, iiix);

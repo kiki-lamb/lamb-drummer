@@ -131,10 +131,10 @@ void application::setup_controls(uint8_t bpm) {
                        combine_event_sources;
 
   static Adafruit_MCP23017 device;
-  device.begin(0x3);
+  device.begin(0x0);
 
-  button_pad_source0     .setup();
-  button_pad_source1     .setup(&device);
+  button_pad_source0     .setup(&device);
+  button_pad_source1     .setup();
 
 //  encoder_source       .setup();
 //  button_source.setup();
