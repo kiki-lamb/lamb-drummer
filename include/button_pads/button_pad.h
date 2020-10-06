@@ -12,7 +12,7 @@ public:
 
   virtual ~button_pad() {}
 
-  bool    read() {
+  bool read() {
     return impl_read();
   }
 
@@ -20,7 +20,7 @@ public:
     return impl_buttons();
   }
   
-  virtual void    setup() {
+  virtual void setup() {
     impl_setup();
   }
   

@@ -114,7 +114,7 @@ void application::setup() {
 }
 
 void application::setup_controls(uint8_t bpm) {
-  static button_pad_source<button_pad_mcp23017<0x0, 8, 8> >
+  static button_pad_source<button_pad_mcp23017<0x0, 8> >
     button_pad_source0;
 
   static button_pad_source<button_pad_mcp23017<0x3> >
@@ -395,6 +395,11 @@ bool application::process_control_event(
       
       goto success;
     }
+    default:
+      Serial.print("Unrecognized event: ");
+      Serial.print(e.type, HEX);
+      Serial.println();
+      Serial.flush();
     }
     return false;
 

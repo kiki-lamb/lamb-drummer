@@ -38,7 +38,9 @@ public:
   }
 
   virtual void impl_setup() {
-    Serial.println(F("Setup button_pad_MCP23017...")); Serial.flush();
+    Serial.print(F("Setup button_pad_MCP23017 @ 0x"));
+    Serial.print(i2c_addr_, HEX);
+    Serial.println(F("...")); Serial.flush();
 
     if (NULL == device) {
       device = new Adafruit_MCP23017();
@@ -62,16 +64,11 @@ public:
     Serial.print("Button mask: ");
     print_bits_16(button_mask);
     Serial.println();
-
     Serial.print("Button shift: ");
     Serial.print(button_shift);
     Serial.println();
-
-    // Serial.print("Initial read: ");
-    // print_bits_16(device->readGPIOAB());
-    
-    Serial.println(F("Done setup button_pad_MCP23017.")); Serial.flush();
-    
+    Serial.println(F("Done setup button_pad_MCP23017.\n"));
+    Serial.flush();    
   }
   
   void print_bits_16(uint16_t tmpval) const {
@@ -110,7 +107,7 @@ public:
 
     new_buttons = tmpval & ~buttons_; //  ^ tmpval;
 
-    if (button_mask != 0xff) {
+    if (button_mask != 0xffff) {
       new_buttons &= button_mask;
     }
 
@@ -119,21 +116,33 @@ public:
     }
     
 #ifdef LOG_BUTTONPAD_MCP_RAW_READING
+    Serial.print("MCP @ 0x");
+    Serial.print(i2c_addr_, HEX);
+
     Serial.print(F(" old =>   ")); Serial.flush();
     print_bits_16(buttons_);
 
     Serial.print(F("read =>   ")); Serial.flush();
-    print_bits_16(tmpval);
-    
-    Serial.print(F(" new =>   ")); Serial.flush();
-    print_bits_16(new_buttons);
-
-    Serial.println();
+    print_bits_16(tmpval);    
 #endif
 
     buttons_ = tmpval;
 
-    return 0 != new_buttons;
+    if (0 != new_buttons) {
+#ifdef LOG_BUTTONPAD_MCP_OUTPUT
+      Serial.print("MCP @ 0x");
+      Serial.print(i2c_addr_, HEX);
+
+      Serial.print(" Give buttons: ");
+      print_bits_16(new_buttons);
+      Serial.println();
+      Serial.flush();
+#endif
+      
+      return true;
+    }
+
+    return false;
   }
 
   virtual uint16_t impl_buttons() const {
