@@ -54,7 +54,8 @@ public:
   event_type type;
   uint16_t parameter;
 
-  event(event_type type_ = EVT_NOT_AVAILABLE) : type(type_) {}
+  event(event_type type_ = EVT_NOT_AVAILABLE, uint16_t arg = 0) :
+    type(type_), parameter(arg) {}
 
   inline operator bool() const {
     return type != EVT_NOT_AVAILABLE;

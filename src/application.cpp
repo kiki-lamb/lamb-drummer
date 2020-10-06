@@ -413,9 +413,21 @@ bool application::process_control_event(
       
       goto success;
     }
+    case event_type::EVT_ENCODER:
+    {
+      Serial.print("Encoder event, number: ");
+      Serial.print(e.parameter >> 8);
+      Serial.print(", motion: ");
+      Serial.print(e.parameter & 0xff);
+      Serial.println();
+      
+      goto success;
+    }
     default:
       Serial.print("Unrecognized event: ");
       Serial.print(e.type, HEX);
+      Serial.print(" ");
+      Serial.print(e.parameter, HEX);
       Serial.println();
       Serial.flush();
     }
