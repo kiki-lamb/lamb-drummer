@@ -3,7 +3,9 @@
 #include "event_sources/button_pad_source.h"
 #include "event_sources/encoder_source.h"
 #include "event_sources/button_pad_source.h"
+#include "event_sources/encoder_pad_source.h"
 #include "event/event.h"
+#include "button_pads/button_pad_mcp23017.h"
 #include "button_pads/encoder_pad_mcp23017.h"
 #include <avr/power.h>
 
@@ -118,7 +120,7 @@ void application::setup_controls(uint8_t bpm) {
   static button_pad_source<button_pad_mcp23017<0x0, 8, 0> >
     combopad_button_source;
 
-  static button_pad_source<encoder_pad_mcp23017<0x0, 4, 8> >
+  static encoder_pad_source<encoder_pad_mcp23017<0x0, 4, 8> >
     combopad_encoder_source;
 
   static button_pad_source<button_pad_mcp23017<0x3> >

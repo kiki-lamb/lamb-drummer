@@ -44,13 +44,15 @@ enum event_type {
   EVT_BPM_SET = 30,
 
   EVT_PLAYBACK_STATE_TOGGLE = 31,
+
+  EVT_ENCODER = 32, 
 };
 
 class event {
 public:
   typedef event_type event_type_t;
   event_type type;
-  uint8_t parameter;
+  uint16_t parameter;
 
   event(event_type type_ = EVT_NOT_AVAILABLE) : type(type_) {}
 
