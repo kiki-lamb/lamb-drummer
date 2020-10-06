@@ -76,11 +76,9 @@ public:
     if (! i2c_lock::claim())
       return false;
 
-    char cSREG = SREG;    
-
-    sei();
-
     uint16_t tmpval = device.readGPIOAB();
+    
+    i2c_lock::release();
 
 #ifdef LOG_BUTTONPAD_MCP_RAW_READING
     Serial.print(F("raw =>   ")); Serial.flush();
@@ -88,10 +86,6 @@ public:
 #endif
     
     tmpval = ~tmpval;  
-    
-    i2c_lock::release();
-
-    SREG = cSREG;    
 
 #ifdef LOG_I2C_LOCK
     Serial.print(F("B:ir ")); Serial.flush();
@@ -122,16 +116,7 @@ public:
 
     buttons_ = tmpval;
 
-    if (0 != new_buttons) {
-      // Serial.println("Return true.");
-
-      return true;
-    }
-    else {
-      // Serial.println("Return false.");
-
-      return false;
-    }      
+    return 0 != new_buttons;
   }
 
   virtual uint16_t impl_buttons() const {

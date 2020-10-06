@@ -9,6 +9,9 @@ public:
   static volatile bool lock;
   static volatile bool claim();
   static volatile void release();
+
+private:
+  static volatile char cSREG;
 };
 
 #endif

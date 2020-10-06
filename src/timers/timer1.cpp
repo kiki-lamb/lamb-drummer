@@ -159,8 +159,6 @@ void timer1_::isr() {
 #ifdef LOG_TIMERS
   Serial.println(F("1:isr -"));
 #endif
-
-  sei();
 }
 
 ISR(TIMER1_COMPA_vect) {

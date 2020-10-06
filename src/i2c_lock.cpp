@@ -1,5 +1,7 @@
 #include "i2c_lock.h"
 
+volatile char i2c_lock::cSREG = 0;
+
 volatile bool i2c_lock::lock = false;
 
 volatile bool i2c_lock::claim() {
@@ -8,6 +10,9 @@ volatile bool i2c_lock::claim() {
 #ifdef LOG_I2C_LOCK
       Serial.println(F("+i2c"));
 #endif
+      cSREG = SREG;    
+
+      sei();
   
       return lock = true;
     }
@@ -25,6 +30,8 @@ volatile void i2c_lock::release() {
     Serial.println(F("-i2c"));
 #endif
 
+    SREG = cSREG;
+    
     lock = false;
   }
 }
