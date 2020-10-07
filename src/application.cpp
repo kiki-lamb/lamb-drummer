@@ -228,13 +228,10 @@ bool application::process_control_events() {
   if (! _controls_flag.consume())
     return false;
 
-  // Serial.println(F("control_event_source.poll();")); Serial.flush();
   _control_event_source.poll();
 
-  // Serial.println(F("dequeue...")); Serial.flush();
   while(process_control_event(_control_event_source.dequeue_event()));
 
-  // Serial.println(F("return...")); Serial.flush();
   return true;
 }
 
