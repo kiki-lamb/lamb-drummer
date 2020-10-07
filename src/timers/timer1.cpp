@@ -105,21 +105,22 @@ void timer1_::isr() {
 
   uint8_t ticker_ = ticker();
 
-  if (! (ticker_ & 0b1)) {
+  if (ticker_ & 0b1) {
     application::flag_main_screen(); // In ISR, not that ugly...
 
 #ifdef CHASE_LIGHTS
     static uint16_t last_write = 0;
-    uint16_t next_write = util::flip_bytes(1 << (((ticker_ >> 1) % 16) - 1));
+    static uint16_t next_write;
 
-    Serial.print("Ticker ");
-    Serial.print(ticker_);
-    Serial.print(" ");
-    util::print_bits_16(next_write);
-    Serial.println();
+    last_write ^= util::flip_bytes(1 << (((ticker_ >> 1) % 16)));
+
+//    Serial.print("Ticker ");
+//    Serial.print(ticker_);
+//    Serial.print(" ");
+//    util::print_bits_16(next_write);
+//    Serial.println();
       
-    application::x0x_leds().xor_write(last_write);
-    application::x0x_leds().xor_write(next_write);
+    application::x0x_leds().xor_write(last_write | next_write);
     
     last_write = next_write;
 #endif

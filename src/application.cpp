@@ -184,8 +184,8 @@ void application::setup_controls(uint8_t const & bpm) {
 void application::loop() {
   _trigger_outputs.update();  
   process_control_events();
-  update_ui_data();
-  _ui.update_screen();
+//  update_ui_data();
+//  _ui.update_screen();
   _x0x_leds.update();
 }
 
