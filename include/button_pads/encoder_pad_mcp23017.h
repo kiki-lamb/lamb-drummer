@@ -1,26 +1,26 @@
 #ifndef LAMB_DRUMMER_ENCODER_PAD_MCP23017_H
 #define LAMB_DRUMMER_ENCODER_PAD_MCP23017_H
 
-#include <Adafruit_MCP23017.h>
 #include <inttypes.h>
-
 #include "lamb.h"
+#include "button_pads/pad_mcp23017.h"
 
 template <uint8_t encoder_count>
-class encoder_pad_mcp23017 {
+class encoder_pad_mcp23017 : public pad_mcp23017 {
 private:
   class encoder_state {
   public:
     int8_t  motion;
     uint8_t stage_ix;
     bool    flagged;
-    
+     
     encoder_state() : motion(0), stage_ix(0), flagged(false) {}
-    inline ~encoder_state() {}
     
-    inline void update(char bit_pair) {
+    ~encoder_state() {}
+     
+    void update(char bit_pair) {
       static const unsigned char stages[] = { 0b00, 0b01, 0b11, 0b10 };
-      
+       
       if (stages[((uint8_t)(stage_ix + 1U)) & 0b11] == bit_pair) {
         this->motion--;
         this->flagged = true;
@@ -35,14 +35,7 @@ private:
   };
   
 private:
-  uint8_t             i2c_addr;
-  uint8_t             encoder_range_start;
-  Adafruit_MCP23017 * device;
-  lamb::array_list<encoder_state, lamb::delete_traits::owner>
-                      encoder_states;
-  uint16_t            encoders_;
-  uint16_t            encoder_mask;
-  uint8_t             encoder_shift;
+  encoder_state       encoder_states[encoder_count];
   
 public:
   struct motion_event {
@@ -55,15 +48,10 @@ public:
 public:
   explicit encoder_pad_mcp23017(
     uint8_t i2c_addr_, 
-    uint8_t encoder_range_start_ = 0
-  ) : 
-    i2c_addr(i2c_addr_), 
-    encoder_range_start(encoder_range_start_),
-    device(0),
-    encoder_states(encoder_count),
-    encoders_(0),
-    encoder_mask(0),
-    encoder_shift(0) {}
+    uint8_t button_range_start_ = 0
+  ) :
+    pad_mcp23017(i2c_addr_, (encoder_count << 1), button_range_start_),
+    encoder_states() {}
   
   virtual ~encoder_pad_mcp23017() {}
 
@@ -84,13 +72,13 @@ public:
     
     uint16_t partial_mask = 0x8000;
     
-    for (uint8_t ix = 0; ix < (encoder_count << 1); ix++, partial_mask >>= 1 ) {
-      encoder_mask |= partial_mask;
+    for (uint8_t ix = 0; ix < button_count; ix++, partial_mask >>= 1) {
+      button_mask |= partial_mask;
     }
     
-    encoder_mask >>= encoder_range_start;    
+    button_mask >>= button_range_start;    
     
-    encoder_shift = 16 - ((encoder_count << 1) + encoder_range_start);  
+    button_shift = 16 - (button_count + button_range_start);  
   }
   
   virtual void setup(Adafruit_MCP23017 * _device) {
@@ -117,20 +105,20 @@ public:
     
     tmpval = ~tmpval;  
 
-    if (tmpval == encoders_)
+    if (tmpval == buttons_)
       return false;
 
 #ifdef LOG_I2C_LOCK
     Serial.print(F("E:ir ")); Serial.flush();
 #endif
 
-    encoders_ = tmpval;
+    buttons_ = tmpval;
 
     uint16_t partial_mask = 0b11;
     partial_mask <<= (encoder_count-1) << 1;
 
     for (uint8_t ix = 0; ix < encoder_count; ix++, partial_mask >>= 2) {
-      uint16_t cut = partial_mask & encoders_;
+      uint16_t cut = partial_mask & buttons_;
       uint8_t shifted = cut >> (((encoder_count-1) << 1) - (ix << 1));
 
       encoder_states[ix].update(shifted);
@@ -147,4 +135,3 @@ public:
 };
 
 #endif
- 

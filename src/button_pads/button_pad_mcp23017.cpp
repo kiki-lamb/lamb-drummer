@@ -4,15 +4,9 @@ button_pad_mcp23017::button_pad_mcp23017(
   uint8_t i2c_addr_, 
   uint8_t button_count_,
   uint8_t button_range_start_
-) : 
-  i2c_addr(i2c_addr_), 
-  button_count(button_count_),
-  button_range_start(button_range_start_),
-  device(0),
-  buttons_(0),
-  new_buttons(0),
-  button_mask(0),
-  button_shift(0) {}
+) :
+  pad_mcp23017(i2c_addr_, button_count_, button_range_start_),
+  new_buttons(0) {}
 
 button_pad_mcp23017::~button_pad_mcp23017() {}
 

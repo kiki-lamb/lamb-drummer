@@ -4,20 +4,15 @@
 #include <Arduino.h>
 #include "button_pad.h"
 #include <Wire.h>
-#include "Adafruit_MCP23017.h"
 #include "i2c_lock.h"
 #include "util/util.h"
+#include "button_pads/pad_mcp23017.h"
 
-class button_pad_mcp23017 : public button_pad<uint16_t> {
+class button_pad_mcp23017 :
+  public button_pad<uint16_t>,
+  public pad_mcp23017 {
 private:
-  uint8_t             i2c_addr;
-  uint8_t             button_count;
-  uint8_t             button_range_start;
-  Adafruit_MCP23017 * device;
-  uint16_t            buttons_;
   uint16_t            new_buttons;
-  uint16_t            button_mask;
-  uint8_t             button_shift;
   
 public:
   button_pad_mcp23017(
