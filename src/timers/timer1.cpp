@@ -51,18 +51,8 @@ void timer1_::set_playback_state(bool const & playback_state_) {
 }
 
 void timer1_::set_bpm(uint8_t const & tmp_bpm) {
-  Serial.print("BPM = ");
-  Serial.println(tmp_bpm);
-  
   timer1_::_bpm          = tmp_bpm;
   timer1_::_millihz      = (((uint32_t)timer1_::_bpm) * 1000)  / 60.0;
-
-  Serial.print(tmp_bpm);
-  Serial.print(" BPM = ");
-  Serial.print(timer1_::_millihz);
-  Serial.print("millihz.");
-  Serial.println();
-  
   timer1_::set_hz_by_bpm ( timer1_::_bpm ); // This should probably be in the ISR...
 }
 
@@ -80,8 +70,20 @@ uint16_t timer1_::millihz() const {
 
 void timer1_::set_hz_by_bpm(uint8_t const & bpm_) {
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    OCR1A = F_CPU / (2048 * (bpm_ / 60.0 * 4)) - 1;
-    // ^ do not un-float the '60.0'!
+    uint32_t tmp = bpm_;
+    tmp <<= 24;
+
+    const uint32_t divisor32 = ((uint32_t)60) << 24;
+      
+    tmp /= divisor32;
+    tmp <<= 13;
+    
+    // Serial.print("NEW: ");
+    // Serial.println(tmp);
+    // Serial.print("OLD: ");
+    // Serial.println((2048 * (bpm_ / 60.0 * 4)));
+    
+    OCR1A = F_CPU / tmp - 1;
 
     if (TCNT1 > OCR1A)
       TCNT1 = OCR1A - 1;
