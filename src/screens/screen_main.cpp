@@ -44,7 +44,7 @@ void screen_main::impl_enter() {
   draw_bars();
 
   for (uint8_t step = 0, mmm = (*data->tracks).max_mod_maj(); step < 16; step++)
-    draw_column(step, false, mmm);
+    draw_column(step, mmm);
 
   draw_page_number();
 }
@@ -147,13 +147,7 @@ void screen_main::impl_update() {
   if (redraw_page) {
     draw_page_number();
     for (uint8_t col = 0;  col <= 15; col++)
-      draw_column((data->page * 16) + col, false, mmm);
-  }
-
-  draw_column(current, true, mmm);
-
-  if (! redraw_page) {
-    draw_column(prior, false, mmm);
+      draw_column((data->page * 16) + col, mmm);
   }
 
 #ifdef CHASE_LIGHTS
@@ -169,7 +163,6 @@ void screen_main::impl_update() {
 
 void screen_main::draw_column(
   uint8_t const & col,
-  bool const & highlit,
   uint8_t const & mod_maj
 )  {
   static const uint8_t col_map[] = {
@@ -188,10 +181,7 @@ void screen_main::draw_column(
     bool    on_barrier = ((col - t.phase_maj() + 1) % t.mod_maj()) == 0;
     bool    is_hit     = t.trigger_state(col);
     
-    if (highlit)
-      character |= 0b001;
-    
-    if (on_barrier && ! highlit)
+    if (on_barrier)
       character |= 0b011;
     
     if ( is_hit )
