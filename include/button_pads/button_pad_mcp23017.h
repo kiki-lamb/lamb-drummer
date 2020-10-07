@@ -2,14 +2,12 @@
 #define LAMB_DRUMMER_BUTTON_PAD_PIN_MCP23017_H
 
 #include <Arduino.h>
-#include "button_pad.h"
 #include <Wire.h>
 #include "i2c_lock.h"
 #include "util/util.h"
 #include "button_pads/pad_mcp23017.h"
 
 class button_pad_mcp23017 :
-  public button_pad<uint16_t>,
   public pad_mcp23017 {
 private:
   uint16_t            new_buttons;
@@ -23,11 +21,8 @@ public:
 
   virtual ~button_pad_mcp23017();
 
-  virtual void setup() override;
-  virtual void setup(Adafruit_MCP23017 * _device);
-  virtual void impl_setup() override;    
-  virtual bool impl_read() override;
-  virtual uint16_t impl_buttons() const override;
+  virtual bool read();
+  virtual uint16_t buttons() const;
 };
 
 #endif

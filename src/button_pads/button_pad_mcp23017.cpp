@@ -10,42 +10,30 @@ button_pad_mcp23017::button_pad_mcp23017(
 
 button_pad_mcp23017::~button_pad_mcp23017() {}
 
-void button_pad_mcp23017::setup(Adafruit_MCP23017 * _device) {
-  device = _device;
-  setup();
-}
+// void button_pad_mcp23017::setup(Adafruit_MCP23017 * _device) {
+//   Serial.print(F("Setup button_pad_MCP23017 @ 0x"));
+//   Serial.print(i2c_addr, HEX);
+//   Serial.println(F("...")); Serial.flush();
 
-void button_pad_mcp23017::setup() {
-  button_pad<uint16_t>::setup();
-}
+//   device = _device;
 
-void button_pad_mcp23017::impl_setup() {
-  Serial.print(F("Setup button_pad_MCP23017 @ 0x"));
-  Serial.print(i2c_addr, HEX);
-  Serial.println(F("...")); Serial.flush();
+//   for (uint8_t ix = 0; ix < 16; ix++) {
+//     device->pinMode(ix, INPUT);
+//     device->pullUp(ix, HIGH);
+//   }
 
-  if (NULL == device) {
-    device = new Adafruit_MCP23017();
-    device->begin(i2c_addr);
-  }
-
-  for (uint8_t ix = 0; ix < 16; ix++) {
-    device->pinMode(ix, INPUT);
-    device->pullUp(ix, HIGH);
-  }
-
-  uint16_t partial_mask = 0x8000;
+//   uint16_t partial_mask = 0x8000;
     
-  for (uint8_t ix = 0; ix < button_count; ix++, partial_mask >>= 1 ) {
-    button_mask |= partial_mask;
-  }
+//   for (uint8_t ix = 0; ix < button_count; ix++, partial_mask >>= 1 ) {
+//     button_mask |= partial_mask;
+//   }
 
-  button_mask >>= button_range_start;    
+//   button_mask >>= button_range_start;    
 
-  button_shift = 16 - button_count - button_range_start;
-}
+//   button_shift = 16 - button_count - button_range_start;
+// }
     
-bool button_pad_mcp23017::impl_read() {
+bool button_pad_mcp23017::read() {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("B:ir ")); Serial.flush();
 #endif
@@ -108,7 +96,7 @@ bool button_pad_mcp23017::impl_read() {
   return false;
 }
 
-uint16_t button_pad_mcp23017::impl_buttons() const {
+uint16_t button_pad_mcp23017::buttons() const {
   return new_buttons;
 }
 

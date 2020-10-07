@@ -23,11 +23,7 @@ public:
 
   virtual ~pad_mcp23017();
 
-//  virtual void setup() override;
-//  virtual void setup(Adafruit_MCP23017 * _device);
-//  virtual void impl_setup() override;    
-//  virtual bool impl_read() override;
-//  virtual uint16_t impl_buttons() const override;
+  void setup(Adafruit_MCP23017 * _device);
 };
 
 #endif

@@ -3,7 +3,6 @@
 
 #include "Arduino.h"
 #include "track/track.h"
-#include "button_pads/button_pad.h"
 
 template <class event_type_t, size_t handlers_count_>
 class ProcessTrackControl {

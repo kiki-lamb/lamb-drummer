@@ -55,36 +55,28 @@ public:
   
   virtual ~encoder_pad_mcp23017() {}
 
-  virtual void setup() {
-    Serial.print(F("Setup encoder_pad_MCP23017 @ 0x"));
-    Serial.print(i2c_addr, HEX);
-    Serial.println(F("...")); Serial.flush();
-    
-    if (NULL == device) {
-      device = new Adafruit_MCP23017();
-      device->begin(i2c_addr);
-    }
-    
-    for (uint8_t ix = 0; ix < 16; ix++) {
-      device->pinMode(ix, INPUT);
-      device->pullUp(ix, HIGH);
-    }
-    
-    uint16_t partial_mask = 0x8000;
-    
-    for (uint8_t ix = 0; ix < button_count; ix++, partial_mask >>= 1) {
-      button_mask |= partial_mask;
-    }
-    
-    button_mask >>= button_range_start;    
-    
-    button_shift = 16 - (button_count + button_range_start);  
-  }
-  
-  virtual void setup(Adafruit_MCP23017 * _device) {
-    device = _device;
-    setup();
-  }
+//  virtual void setup(Adafruit_MCP23017 * _device) {
+//    Serial.print(F("Setup encoder_pad_MCP23017 @ 0x"));
+//    Serial.print(i2c_addr, HEX);
+//    Serial.println(F("...")); Serial.flush();
+//    
+//    device = _device;
+//
+//    for (uint8_t ix = 0; ix < 16; ix++) {
+//      device->pinMode(ix, INPUT);
+//      device->pullUp(ix, HIGH);
+//    }
+//    
+//    uint16_t partial_mask = 0x8000;
+//    
+//    for (uint8_t ix = 0; ix < button_count; ix++, partial_mask >>= 1) {
+//      button_mask |= partial_mask;
+//    }
+//    
+//    button_mask >>= button_range_start;    
+//    
+//    button_shift = 16 - (button_count + button_range_start);  
+//  }
   
   virtual bool read() {
 #ifdef LOG_I2C_LOCK
