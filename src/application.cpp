@@ -1,10 +1,8 @@
 #include "application.h"
-
 #include "event/event.h"
 #include "process_track_control_event.h"
 #include "util/util.h"
 #include <avr/power.h>
-#include <jm_PCF8574.h>
 
 event_type combo_pad_ordering[] = {
   EVT_MAJ_UP,

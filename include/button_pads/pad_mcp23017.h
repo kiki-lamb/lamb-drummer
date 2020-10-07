@@ -24,6 +24,9 @@ public:
   virtual ~pad_mcp23017();
 
   void setup(Adafruit_MCP23017 * _device);
+
+protected:
+  uint16_t begin_read(bool & succeeded);
 };
 
 #endif

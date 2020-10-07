@@ -1,5 +1,6 @@
 #include "button_pads/pad_mcp23017.h"
 #include <Arduino.h>
+#include "i2c_lock.h"
 
 pad_mcp23017::pad_mcp23017(
     uint8_t i2c_addr_, 
@@ -36,4 +37,41 @@ void pad_mcp23017::setup(Adafruit_MCP23017 * _device) {
   button_mask >>= button_range_start;    
 
   button_shift = 16 - button_count - button_range_start;
+}
+
+uint16_t pad_mcp23017::begin_read(bool & succeeded) {
+  #ifdef LOG_I2C_LOCK
+    Serial.print(F("E:ir ")); Serial.flush();
+#endif
+
+    if (! i2c_lock::claim()) {
+      succeeded = false;
+
+      return 0;
+    }
+
+    uint16_t tmpval = device->readGPIOAB();
+    
+    i2c_lock::release();
+
+#ifdef LOG_ENCODERPAD_MCP_RAW_READING
+    Serial.print(F("raw =>   ")); Serial.flush();
+    print_bits_16(tmpval);
+#endif
+    
+    tmpval = ~tmpval;  
+
+    if (tmpval == buttons_) {
+      succeeded = 0;
+      
+      return 0;
+    }
+
+#ifdef LOG_I2C_LOCK
+    Serial.print(F("E:ir ")); Serial.flush();
+#endif
+
+    succeeded = true;
+    
+    return tmpval;
 }

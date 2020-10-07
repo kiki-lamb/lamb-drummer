@@ -54,56 +54,13 @@ public:
     encoder_states() {}
   
   virtual ~encoder_pad_mcp23017() {}
-
-//  virtual void setup(Adafruit_MCP23017 * _device) {
-//    Serial.print(F("Setup encoder_pad_MCP23017 @ 0x"));
-//    Serial.print(i2c_addr, HEX);
-//    Serial.println(F("...")); Serial.flush();
-//    
-//    device = _device;
-//
-//    for (uint8_t ix = 0; ix < 16; ix++) {
-//      device->pinMode(ix, INPUT);
-//      device->pullUp(ix, HIGH);
-//    }
-//    
-//    uint16_t partial_mask = 0x8000;
-//    
-//    for (uint8_t ix = 0; ix < button_count; ix++, partial_mask >>= 1) {
-//      button_mask |= partial_mask;
-//    }
-//    
-//    button_mask >>= button_range_start;    
-//    
-//    button_shift = 16 - (button_count + button_range_start);  
-//  }
   
   virtual bool read() {
-#ifdef LOG_I2C_LOCK
-    Serial.print(F("E:ir ")); Serial.flush();
-#endif
+    bool read = false;
+    uint16_t tmpval = begin_read(read);
 
-    if (! i2c_lock::claim())
-      return false;
-
-    uint16_t tmpval = device->readGPIOAB();
+    if (! read) return false;
     
-    i2c_lock::release();
-
-#ifdef LOG_ENCODERPAD_MCP_RAW_READING
-    Serial.print(F("raw =>   ")); Serial.flush();
-    print_bits_16(tmpval);
-#endif
-    
-    tmpval = ~tmpval;  
-
-    if (tmpval == buttons_)
-      return false;
-
-#ifdef LOG_I2C_LOCK
-    Serial.print(F("E:ir ")); Serial.flush();
-#endif
-
     buttons_ = tmpval;
 
     uint16_t partial_mask = 0b11;
@@ -127,3 +84,15 @@ public:
 };
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+

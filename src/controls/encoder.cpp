@@ -1,3 +1,5 @@
+#ifdef LAMB_DRUMMER_USE_LAMB_ENCODER
+
 #include "controls/encoder.h"
 
 encoder::enc_t encoder::_encoder;
@@ -27,3 +29,5 @@ void encoder::setup() {
   attachInterrupt(digitalPinToInterrupt(encoderA), enc_interface_t::update, CHANGE);
   attachInterrupt(digitalPinToInterrupt(encoderB), enc_interface_t::update, CHANGE);
 }
+
+#endif
