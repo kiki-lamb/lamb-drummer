@@ -67,7 +67,7 @@ private:
 public:
   static void         flag_controls();       // called by ISR for timer2.
   static void         flag_main_screen();       // called by ISR for timer1.
-  void                flag_update_ui_data() {
+  void                flag_update_ui_data();
   static void         loop();
   static void         save_state();             // called by ISR for timer2.
   static void         setup();
