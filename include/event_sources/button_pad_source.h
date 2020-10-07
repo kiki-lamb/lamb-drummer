@@ -12,15 +12,15 @@ public:
   typedef button_pad_t_ button_pad_type;
 
 private:
-  button_pad_type * _device;
-  event_type      * _button_ordering;
-  uint8_t           _button_ordering_size;
+  button_pad_type  * _device;
+  event_type const * _button_ordering;
+  uint8_t            _button_ordering_size;
   
 public:
   button_pad_source(
-    button_pad_t_ * device_,
-    event_type    * button_ordering_,
-    uint8_t const & button_ordering_size_
+    button_pad_t_    * device_,
+    event_type const * button_ordering_,
+    uint8_t const    & button_ordering_size_
   ) : 
     _device(device_),
     _button_ordering(button_ordering_),

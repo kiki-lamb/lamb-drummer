@@ -4,7 +4,7 @@
 #include "util/util.h"
 #include <avr/power.h>
 
-event_type combo_pad_ordering[] = {
+const event_type combo_pad_ordering[] = {
   EVT_MAJ_UP,
   EVT_PHASE_MAJ_UP,
   EVT_MIN_UP,
@@ -16,7 +16,7 @@ event_type combo_pad_ordering[] = {
   EVT_SELECTED_TRACK_UP, // EVT_PHASE_MIN_DN,
 };
 
-event_type drum_pad_ordering[] = {
+const event_type drum_pad_ordering[] = {
   EVT_PAD_1,
   EVT_PAD_2,
   EVT_PAD_3,  
