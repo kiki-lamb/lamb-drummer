@@ -16,13 +16,13 @@ button_pad_mcp23017::button_pad_mcp23017(
 
 button_pad_mcp23017::~button_pad_mcp23017() {}
 
-void button_pad_mcp23017::setup() {
-  button_pad<uint16_t>::setup();
-}
-
 void button_pad_mcp23017::setup(Adafruit_MCP23017 * _device) {
   device = _device;
   setup();
+}
+
+void button_pad_mcp23017::setup() {
+  button_pad<uint16_t>::setup();
 }
 
 void button_pad_mcp23017::impl_setup() {
@@ -47,16 +47,8 @@ void button_pad_mcp23017::impl_setup() {
   }
 
   button_mask >>= button_range_start;    
+
   button_shift = 16 - button_count - button_range_start;
-    
-  Serial.print("Button mask: ");
-  util::print_bits_16(button_mask);
-  Serial.println();
-  Serial.print("Button shift: ");
-  Serial.print(button_shift);
-  Serial.println();
-  Serial.println(F("Done setup button_pad_MCP23017.\n"));
-  Serial.flush();    
 }
     
 bool button_pad_mcp23017::impl_read() {

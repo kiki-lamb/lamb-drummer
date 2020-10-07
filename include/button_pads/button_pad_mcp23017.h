@@ -8,11 +8,6 @@
 #include "i2c_lock.h"
 #include "util/util.h"
 
-/* template <
-  uint8_t i2c_addr_,
-  uint8_t button_count = 16,
-  uint8_t button_range_start = 0
-  > */
 class button_pad_mcp23017 : public button_pad<uint16_t> {
 private:
   uint8_t             i2c_addr;
@@ -38,6 +33,6 @@ public:
   virtual void impl_setup() override;    
   virtual bool impl_read() override;
   virtual uint16_t impl_buttons() const override;
-};;
+};
 
 #endif
