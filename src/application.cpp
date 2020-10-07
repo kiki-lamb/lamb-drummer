@@ -57,10 +57,10 @@ encoder_pad_mcp23017<4> application::_combo_pad_encoder_pad(0x0, 0);
 button_pad_mcp23017 application::_combo_pad_button_pad(0x0, 8);
 button_pad_mcp23017 application::_drum_pad_button_pad(0x3);
 
-//encoder_pad_source<encoder_pad_mcp23017<4> >
-//                    application::_combo_pad_encoder_source(
-//                      &application::_combo_pad_encoder_pad
-//                    );
+encoder_pad_source<encoder_pad_mcp23017<4> >
+                    application::_combo_pad_encoder_source(
+                      &application::_combo_pad_encoder_pad
+                    );
 
 button_pad_source<button_pad_mcp23017>
                     application::_combo_pad_button_source(
@@ -175,6 +175,7 @@ void application::setup_controls(uint8_t const & bpm) {
   
   _combine_event_sources.sources[0] = &_combo_pad_button_source;
   _combine_event_sources.sources[1] = &_drum_pad_source;
+  
   _control_event_source .source     = &_combine_event_sources;
 }
 

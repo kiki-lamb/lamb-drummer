@@ -3,12 +3,12 @@
 
 #include <Arduino.h>
 #include "event_source.h"
+
 #include "event/event.h"
 #include "lamb.h"
-#include "application.h"
 
 template <class encoder_pad_t_>
-class encoder_pad_source : public encoder_pad_t_, public event_source<event>{
+class encoder_pad_source : public event_source<event> {
 public:
   typedef encoder_pad_t_ encoder_pad_type;
   
@@ -18,25 +18,26 @@ private:
 public:
   encoder_pad_source(
     encoder_pad_type * device_
-  ) {}
+  ) :
+    _device(device_) {}
 
   virtual ~encoder_pad_source() {}
 
 private:
   virtual void    impl_poll() {
-    encoder_pad_type::read();
+    _device->read();
   }
 
   virtual uint8_t impl_queue_count() const {
-    return encoder_pad_type::motion_events.count();
+    return _device->motion_events.count();
   }
 
   virtual event_t impl_dequeue_event() {
-    if (! encoder_pad_type::motion_events.readable())
+    if (! _device->motion_events.readable())
       return event { EVT_NOT_AVAILABLE };
 
     typename encoder_pad_type::motion_event tmp =
-      encoder_pad_type::motion_events.dequeue();
+      _device->motion_events.dequeue();
 
     uint16_t event_arg = (tmp.encoder_number << 8) | ((uint8_t)tmp.motion);
 

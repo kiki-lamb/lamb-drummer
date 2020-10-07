@@ -38,7 +38,7 @@ private:
   static button_pad_mcp23017                          _combo_pad_button_pad;
   static button_pad_mcp23017                          _drum_pad_button_pad;
 
-//  static encoder_pad_source<encoder_pad_mcp23017<4> > _combo_pad_encoder_source;
+  static encoder_pad_source<encoder_pad_mcp23017<4> > _combo_pad_encoder_source;
   static button_pad_source<button_pad_mcp23017>       _combo_pad_button_source;
   static button_pad_source<button_pad_mcp23017>       _drum_pad_source;
   static combine_event_sources<event,2>               _combine_event_sources;
