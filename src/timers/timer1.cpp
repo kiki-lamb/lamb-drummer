@@ -52,7 +52,7 @@ void timer1_::set_playback_state(bool const & playback_state_) {
 
 void timer1_::set_bpm(uint8_t const & tmp_bpm) {
   timer1_::_bpm          = tmp_bpm;
-  timer1_::_millihz      = (((uint32_t)timer1_::_bpm) * 1000)  / 60.0;
+  timer1_::_millihz      = (((uint32_t)timer1_::_bpm) * 1000)  / 60  
   timer1_::set_hz_by_bpm ( timer1_::_bpm ); // This should probably be in the ISR...
 }
 
