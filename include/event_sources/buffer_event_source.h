@@ -22,9 +22,9 @@ private:
     if (! source->poll())
       return;
     
-    for (auto e = source->dequeue_event(); e; e = source->dequeue_event()) {
+    // for (auto e = source->dequeue_event(); e; e = source->dequeue_event()) {
+    while (event_t e = source->dequeue_event())
       event_queue.enqueue(e);
-    }
   }
 
   virtual event_t impl_dequeue_event() {
