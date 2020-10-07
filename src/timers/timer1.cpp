@@ -4,9 +4,7 @@
 timer1_::timer1_() :
   _bpm(0),
   _playback_state(true),
-  _ticker(0),
-  _hz(0) {
-};
+  _ticker(0) {};
 
 timer1_::~timer1_() {}
 
@@ -57,7 +55,7 @@ void timer1_::set_bpm(uint8_t const & tmp_bpm) {
   Serial.println(tmp_bpm);
   
   timer1_::_bpm          = tmp_bpm;
-  timer1_::_hz           = timer1_::_bpm / 60.0;
+//  timer1_::_hz           = timer1_::_bpm / 60.0;
   timer1_::set_hz_by_bpm ( timer1_::_bpm ); // This should probably be in the ISR...
 }
 
@@ -69,9 +67,9 @@ uint8_t timer1_::bpm() const {
   return _bpm;
 }
 
-double timer1_::hz() const {
-  return _hz;
-}
+// double timer1_::hz() const {
+//   return _hz;
+// }
 
 void timer1_::set_hz_by_bpm(uint8_t const & bpm_) {
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
