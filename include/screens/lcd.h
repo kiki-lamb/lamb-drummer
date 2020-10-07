@@ -17,7 +17,7 @@ private:
   static const uint8_t     LCD_D6;
   static const uint8_t     LCD_D7;
   static const uint8_t     custom_chars[8][8];
-  static void              select_inversion(uint8_t number);
+  static void              select_inversion(uint8_t const & number);
   static LiquidCrystal_I2C device;
 public:
   enum chars {
@@ -25,19 +25,19 @@ public:
     CHAR_HIT,  CHAR_HIT_ACTIVE,  CHAR_PLAYSTATE, CHAR_HIT_BARRIER
     };
   static void put_inversion(
-    uint8_t col,
-    uint8_t line,
-    uint8_t number
+    uint8_t const & col,
+    uint8_t const & line,
+    uint8_t const & number
   );
   static void setup();
-  static void put_playstate(uint8_t col, uint8_t line);
-  static void select_playstate(bool paused);
+  static void put_playstate(uint8_t const & col, uint8_t const & line);
+  static void select_playstate(bool const & paused);
   
   // New
   static void clear();
-  static void set_cursor(uint8_t x, uint8_t y);
-  static void write(uint8_t byte);
-  template <typename T> static void print(T t) {
+  static void set_cursor(uint8_t const & x, uint8_t const & y);
+  static void write(uint8_t const & byte);
+  template <typename T> static void print(T const & t) {
 #ifdef LOG_I2C_LOCK
     Serial.print("L:p  ");
 #endif

@@ -1,10 +1,10 @@
 #include "track/track.h"
 
 track::track(
-  uint8_t mod_maj_,
-  uint8_t mod_min_,
-  uint8_t phase_min_,
-  uint8_t phase_maj_
+  uint8_t const & mod_maj_,
+  uint8_t const & mod_min_,
+  uint8_t const & phase_min_,
+  uint8_t const & phase_maj_
 ) :
     modified("mod", false),
     _mod_maj(mod_maj_),
@@ -24,29 +24,29 @@ track & track::operator=(track const & other) {
   return *this;
 }
 
-bool track::trigger_state(uint8_t counter) const {
+bool track::trigger_state(uint8_t const & counter) const {
     return 0 == ((((uint8_t)(counter - _phase_maj) % _mod_maj) - _phase_min) % _mod_min);
 }
 
-void track::set_mod_maj(uint8_t val) {
+void track::set_mod_maj(uint8_t const & val) {
   //Serial.println(F("set_mod_maj!"));
   _mod_maj = val;
   modified.set();
 }
 
-void track::set_mod_min(uint8_t val) {
+void track::set_mod_min(uint8_t const & val) {
   //Serial.println(F("set_mod_min!"));
   _mod_min = val;
   modified.set();
 }
 
-void track::set_phase_min  (uint8_t val) {
+void track::set_phase_min  (uint8_t const & val) {
   //Serial.println(F("set_phase_min!"));
   _phase_min = val;
   modified.set();
 }
 
-void track::set_phase_maj  (uint8_t val) {
+void track::set_phase_maj  (uint8_t const & val) {
   //Serial.println(F("set_phase_maj!"));
   _phase_maj = val;
   modified.set();

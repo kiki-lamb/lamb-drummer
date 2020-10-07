@@ -6,9 +6,10 @@
 template <class event_t, size_t sources_count_>
 class combine_event_sources : public event_source<event_t> {
 public:
-  combine_event_sources() {}
-  virtual ~combine_event_sources() {}
   event_source<event_t> * sources[sources_count_];
+
+  combine_event_sources() : sources() {}
+  virtual ~combine_event_sources() {}
 
 private:
   virtual uint8_t impl_queue_count() const {

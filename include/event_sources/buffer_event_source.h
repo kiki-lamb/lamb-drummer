@@ -7,9 +7,9 @@
 template <class event_t, size_t queue_size_>
 class buffer_event_source : public event_source<event_t> {
 public:
-  buffer_event_source() {}
-  virtual ~buffer_event_source() {}
   event_source<event_t> * source;
+  buffer_event_source() : source(NULL) {}
+  virtual ~buffer_event_source() {}
 
 private:
   lamb::ring_buffer<event_t, queue_size_> event_queue;

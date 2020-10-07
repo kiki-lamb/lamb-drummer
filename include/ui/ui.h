@@ -20,7 +20,7 @@ public:
     screens[current_screen]->update();
   }
 
-  void enter_screen(screen_t screen) {
+  void enter_screen(screen_t const & screen) {
     if (screen == current_screen)
       return;
     current_screen = screen;
@@ -32,7 +32,7 @@ public:
     lcd::setup();
   }
 
-  void flag_screen(screen_t screen) {
+  void flag_screen(screen_t const & screen) {
     screens[screen]->flag();
   }
 

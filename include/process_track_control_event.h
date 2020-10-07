@@ -96,6 +96,7 @@ private:
   }
 
   typedef void (*button_handler)(track &);
+  
   static button_handler button_handlers[handlers_count_];
 };
 

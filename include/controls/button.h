@@ -5,7 +5,7 @@
 
 class button {
   public:
-    button(
+    explicit button(
       uint8_t pin_,
       bool adc_state_ = true
     );

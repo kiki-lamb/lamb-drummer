@@ -24,16 +24,16 @@ public:
       {}
   };
 private:
-  void save_playback_state(bool playback_state_) const;
-  void save_bpm(uint8_t bpm_) const;
+  void save_playback_state(bool const & playback_state_) const;
+  void save_bpm(uint8_t const & bpm_) const;
   bool playback_state() const;
   uint8_t bpm() const;
   void save_track(
-    size_t eeprom__location,
+    size_t const & eeprom_location,
     track & track
   ) const;
   void restore_track(
-    size_t eeprom__location,
+    size_t const & eeprom_location,
     track & track
   );
   lamb::flag save_requested;

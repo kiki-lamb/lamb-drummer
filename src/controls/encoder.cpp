@@ -6,7 +6,7 @@ encoder::encoder() {};
 
 encoder::~encoder() {}
 
-void encoder::set_value(uint8_t value) {
+void encoder::set_value(uint8_t const & value) {
   _encoder.state().set_value(value);
 }
 

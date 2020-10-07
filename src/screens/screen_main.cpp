@@ -1,5 +1,6 @@
 #include "screens/screen_main.h"
 #include "application.h"
+#include "util/util.h"
 #include "Adafruit_MCP23017.h"
 
 screen_main::screen_main(data_t * data) :
@@ -53,13 +54,13 @@ void screen_main::draw_page_number() {
   lcd::print(data->page+1);
 }
 
-void screen_main::draw_line0(bool redraw_bpm) {
+void screen_main::draw_line0(bool const & redraw_bpm) {
   char buf [21];
   char buf2[6];
 
   if (redraw_bpm) {
     lcd::set_cursor(0, 0);
-    lcd::print("                  ");
+    lcd::print(F("                  "));
 
     lcd::set_cursor(0, 0);
     snprintf(buf, 21, "%d BPM", data->bpm);
@@ -105,79 +106,73 @@ void screen_main::draw_line0(bool redraw_bpm) {
 }
 
 void screen_main::impl_update() {
-  application::update_ui_data(true);
-
   bool redraw_bpm = false;
-
-  static uint8_t cix = 0;
-
-  uint8_t ccix = cix % 3;
-
-  switch (ccix) {
-  case 0:
-  {
-    ////Serial.println("Before pbr!");
-    if (data->popup_bpm_requested.consume()) {
-      popup_bpm_time = millis();
+  ////Serial.println("Before pbr!");
+  if (data->popup_bpm_requested.consume()) {
+    popup_bpm_time = millis();
     popup_bpm_state = true;
     redraw_bpm = true;
-    }
-    
-    if (popup_bpm_state) {
-      unsigned long now = millis();
-      
-      if ((now - popup_bpm_time) >= popup_bpm_duration) {
-        popup_bpm_state = false;
-        data->redraw_selected_track_indicator.set();
-      }
+  }
+
+  if (popup_bpm_state) {
+    unsigned long now = millis();
+
+    if ((now - popup_bpm_time) >= popup_bpm_duration) {
+      popup_bpm_state = false;
+      data->redraw_selected_track_indicator.set();
     }
   }
-  case 1:
-  {
-    draw_line0(redraw_bpm);
-    
-    draw_channel_numbers();
-    
-    uint8_t prior   = ((uint8_t)((data->ticker>>1)-1)) % (*data->tracks).max_mod_maj(); // Don't remove this cast or the subtraction result becomes a signed type
-    uint8_t current = (data->ticker>>1) % (*data->tracks).max_mod_maj();
 
-    ////Serial.println("Before rt!");
-    bool redraw_page = false; // data->redraw_track.consume();
-    
-    if (! redraw_page) {
-      static uint8_t last_page = 255;
-      uint8_t        tmp_page = data->page;
-      
-      if (tmp_page != last_page) {
+  draw_line0(redraw_bpm);
+
+  draw_channel_numbers();
+
+  uint8_t prior   = ((uint8_t)((data->ticker>>1)-1)) % (*data->tracks).max_mod_maj(); // Don't remove this cast or the subtraction result becomes a signed type
+  uint8_t current = (data->ticker>>1) % (*data->tracks).max_mod_maj();
+
+  ////Serial.println("Before rt!");
+  bool redraw_page = data->redraw_track.consume();
+
+  if (! redraw_page) {
+    static uint8_t last_page = 255;
+    uint8_t        tmp_page = data->page;
+
+    if (tmp_page != last_page) {
         last_page = tmp_page;
         redraw_page = true;
-      }
     }
   }
-  case 3:
-  {
-    uint8_t mmm = (*data->tracks).max_mod_maj();
-    
-    if (redraw_page) {
-      draw_page_number();
-      for (uint8_t col = 0;  col <= 15; col++)
-        draw_column((data->page * 16) + col, false, mmm);
-    }
-    
-    draw_column(current, false, mmm);
-    
-    if (! redraw_page) {
-      draw_column(prior, false, mmm);
-    }
+
+  uint8_t mmm = (*data->tracks).max_mod_maj();
+
+  if (redraw_page) {
+    draw_page_number();
+    for (uint8_t col = 0;  col <= 15; col++)
+      draw_column((data->page * 16) + col, false, mmm);
   }
+
+  draw_column(current, true, mmm);
+
+  if (! redraw_page) {
+    draw_column(prior, false, mmm);
   }
 
 #ifdef CHASE_LIGHTS
-  application::write_x0x_leds_xor(1 << ((current^8)%16));
+  static uint16_t last_write = 0;
+  uint16_t next_write = util::flip_bytes(1 << (current % 16));
+  
+  application::x0x_leds().xor_write(last_write);
+  application::x0x_leds().xor_write(next_write);
+
+  last_write = next_write;
 #endif
 }
 
-void screen_main::draw_column(uint8_t col, bool highlit, uint8_t mod_maj)  {
+void screen_main::draw_column(
+  uint8_t const & col,
+  bool const & highlit,
+  uint8_t const & mod_maj
+)  {
   static const uint8_t col_map[] = {
     1,   2,  3,  4,
     6,   7,  8,  9,
@@ -186,10 +181,8 @@ void screen_main::draw_column(uint8_t col, bool highlit, uint8_t mod_maj)  {
   };
 
   int8_t col_ = col_map[col % mod_maj % 16];
-  static uint8_t cix = 0;
   
-  {
-    uint8_t line = cix+1;
+  for (uint8_t line = 1; line <= 3; line++) {
     track const & t = (*data->tracks)[line-1];
     
     uint8_t character  = lcd::CHAR_REST;
@@ -207,8 +200,5 @@ void screen_main::draw_column(uint8_t col, bool highlit, uint8_t mod_maj)  {
     
     lcd::set_cursor(col_, line);
     lcd::write(character);
-
-    cix++;
-    cix %= 0b11;
   }
 }

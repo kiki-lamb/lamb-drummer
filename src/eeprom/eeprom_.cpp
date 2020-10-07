@@ -17,14 +17,14 @@ void eeprom_::unflag_save_requested() {
   save_requested.unset();
 }
 
-void eeprom_::save_playback_state(bool playback_state_) const {
+void eeprom_::save_playback_state(bool const & playback_state_) const {
   Serial.print(F("Save playback_state state "));
   Serial.println(playback_state_ ? F("ON") : F("OFF"));
 
   EEPROM.write(ADDR_PLAY, playback_state_);
 }
 
-void eeprom_::save_bpm(uint8_t bpm_) const {
+void eeprom_::save_bpm(uint8_t const & bpm_) const {
   Serial.print(F("Save BPM "));
   Serial.println(bpm_);
   EEPROM.write(ADDR_BPM, bpm_);
@@ -48,7 +48,7 @@ uint8_t eeprom_::bpm() const {
 }
 
 void eeprom_::save_track(
-  size_t eeprom_location,
+  size_t const & eeprom_location,
   track & track
 ) const {
   // if (! track.modified.consume() )
@@ -70,7 +70,7 @@ void eeprom_::save_track(
 }
 
 void eeprom_::restore_track(
-  size_t eeprom_location,
+  size_t const & eeprom_location,
   track & track
 ) {
   track.set_mod_maj(EEPROM.read(eeprom_location + 0));

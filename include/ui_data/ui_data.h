@@ -16,12 +16,20 @@ public:
   lamb::flag       redraw_track;
   lamb::flag       redraw_selected_track_indicator;
   lamb::flag       redraw_playback_state;
+
   ui_data() :
+    tracks(),
+    page(0),
+    bpm(120),
+    hz(2.0),
+    playback_state(false),
+    ticker(0),
     popup_bpm_requested            ("pbr" , true),
     redraw_track                   ("rt"  , true),
     redraw_selected_track_indicator("rsti", true),
     redraw_playback_state          ("rps" , true)
   {}
+
   virtual ~ui_data() {};
 };
 

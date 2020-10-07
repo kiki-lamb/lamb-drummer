@@ -17,7 +17,7 @@ class encoder {
     encoder();
     virtual      ~encoder();
     virtual void setup();
-    void         set_value(uint8_t value);
+    void         set_value(uint8_t const & value);
     uint8_t      value();
 };
 

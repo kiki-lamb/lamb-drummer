@@ -1,89 +1,131 @@
 #include "application.h"
-#include "process_track_control_event.h"
-#include "event_sources/button_pad_source.h"
-#include "event_sources/encoder_source.h"
-#include "event_sources/button_pad_source.h"
-#include "event_sources/encoder_pad_source.h"
+
 #include "event/event.h"
-#include "button_pads/button_pad_mcp23017.h"
-#include "button_pads/encoder_pad_mcp23017.h"
+#include "process_track_control_event.h"
+#include "util/util.h"
 #include <avr/power.h>
+#include <jm_PCF8574.h>
+
+event_type combo_pad_ordering[] = {
+  EVT_MAJ_UP,
+  EVT_PHASE_MAJ_UP,
+  EVT_MIN_UP,
+  EVT_SELECTED_TRACK_DN, // EVT_PHASE_MIN_UP,
+
+  EVT_MAJ_DN,
+  EVT_PHASE_MAJ_DN,
+  EVT_MIN_DN,
+  EVT_SELECTED_TRACK_UP, // EVT_PHASE_MIN_DN,
+};
+
+event_type drum_pad_ordering[] = {
+  EVT_PAD_1,
+  EVT_PAD_2,
+  EVT_PAD_3,  
+  EVT_PAD_4,
+
+  EVT_PAD_5,
+  EVT_PAD_6,
+  EVT_PAD_7,
+  EVT_PAD_8,
+
+  EVT_PAD_9,
+  EVT_PAD_10,
+  EVT_PAD_11,
+  EVT_PAD_12,
+
+  EVT_PAD_13,
+  EVT_PAD_14,
+  EVT_PAD_15,
+  EVT_PAD_16,
+};
+
+////////////////////////////////////////////////////////////////////////////////
 
 application::control_event_source_t
-                          application::control_event_source;
-Adafruit_MCP23017         application::x0x_leds;
+                          application::_control_event_source;
+combine_event_sources<event,2>
+                          application::_combine_event_sources;
+Adafruit_MCP23017         application::_x0x_leds_device;
+
+////////////////////////////////////////////////////////////////////////////////
+
+Adafruit_MCP23017   application::_combo_pad_device;
+Adafruit_MCP23017   application::_drum_pad_device;
+
+button_pad_mcp23017 application::_combo_pad_button_pad(0x0, 8);
+button_pad_mcp23017 application::_drum_pad_button_pad(0x3);
+
+button_pad_source<button_pad_mcp23017>
+                    application::_combo_pad_source(
+                      &application::_combo_pad_button_pad,
+                      combo_pad_ordering,
+                      8
+                    );
+button_pad_source<button_pad_mcp23017>
+                    application::_drum_pad_source(
+                      &application::_drum_pad_button_pad,
+                      drum_pad_ordering,
+                      16
+                    );
+
+////////////////////////////////////////////////////////////////////////////////
+
+jm_PCF8574                application::_trigger_outputs_device;
 application::tracks_t     application::_tracks;
-application::ui_data_t    application::ui_data_;
-application::ui_t         application::ui_(&ui_data_);
-eeprom_                   application::eeprom;
-timer1_                   application::timer1;
-timer2_                   application::timer2;
-jm_PCF8574                application::trigger_outputs;
-lamb::flag                application::controls_flag;
-lamb::flag                application::output_flag;
-lamb::flag                application::x0x_leds_flag;
-lamb::flag                application::update_ui_data_flag;
-uint16_t                  application::x0x_leds_values_ = 0x00;
-uint8_t                   application::queued_output = 0xff;
+application::ui_data_t    application::_ui_data;
+application::ui_t         application::_ui(&_ui_data);
+eeprom_                   application::_eeprom;
+timer1_                   application::_timer1;
+timer2_                   application::_timer2;
+lamb::flag                application::_controls_flag;
+lamb::flag                application::_output_flag;
+uint8_t                   application::_queued_output = 0xff;
+::x0x_leds                application::_x0x_leds;
+::trigger_outputs         application::_trigger_outputs;
 
 application::application() {};
 
 application::~application() {};
 
-void application::update_ui_data(bool force) {
-  if (! (update_ui_data_flag.consume() || force))
-    return;
-  
-  ui_data_.page           = page();
-  ui_data_.bpm            = timer1.bpm();
-  ui_data_.hz             = timer1.hz();
-  ui_data_.playback_state = timer1.playback_state();
-  ui_data_.ticker         = timer1.ticker();
+x0x_leds & application::x0x_leds() {
+  return _x0x_leds;
 }
 
-void application::setup_trigger_outputs() {
-  clock_prescale_set(clock_div_1);
-
-  trigger_outputs.begin(0x3a);
-  
-  for (uint8_t ix = 0; ix < 8; ix++) {
-    trigger_outputs.pinMode(ix, OUTPUT);
-  }
-
-  trigger_outputs.write(0xff);
+trigger_outputs & application::trigger_outputs() {
+  return _trigger_outputs;
 }
 
-void application::setup_x0x_leds() {
-
-  x0x_leds.begin(0x4);
-
-  for (size_t ix = 0; ix < 16; ix++) {
-     x0x_leds.pinMode(ix, OUTPUT);
-     x0x_leds.digitalWrite(ix, LOW);
-  }
+void application::update_ui_data() {
+  _ui_data.page           = page();
+  _ui_data.bpm            = _timer1.bpm();
+  _ui_data.hz             = _timer1.hz();
+  _ui_data.playback_state = _timer1.playback_state();
+  _ui_data.ticker         = _timer1.ticker();
 }
 
 void application::setup() {
   Serial .begin(230400);
 
   Wire   .begin();
-  Wire   .setClock(1000000);
-  setup_x0x_leds();
-  
-  setup_trigger_outputs();
-  
-  static const uint16_t step = 150;
+  Wire   .setClock(400000);
 
-  ui_   .setup();
-  ui_   .enter_screen(ui_t::SCREEN_INTRO);
+  _x0x_leds_device.begin(0x4);
+  _x0x_leds.setup(&_x0x_leds_device);
+
+  _trigger_outputs_device.begin(0x3a);
+  _trigger_outputs.setup(&_trigger_outputs_device);
+  
+  _ui   .setup();
+  _ui   .enter_screen(ui_t::SCREEN_INTRO);
   
   eeprom_::PersistantData<tracks_t> tmp(
     &_tracks,
-    timer1.bpm(),
-    timer1.playback_state()
+    _timer1.bpm(),
+    _timer1.playback_state()
   );
 
-  eeprom .restore_all(tmp);
+  _eeprom .restore_all(tmp);
 
   setup_controls(tmp.bpm);
   
@@ -91,21 +133,21 @@ void application::setup() {
 
   Serial.println(F("Stop all interrupts...")); Serial.flush();
   
-  timer1 .setup();
-  timer1 .set_bpm(120);
+  _timer1 .setup();
+  _timer1 .set_bpm(120);
 
-  timer2 .setup();
+  _timer2 .setup();
   
   set_playback_state(tmp.playback_state);
 
   while (_tracks++);
 
-  eeprom .unflag_save_requested();
-  eeprom .flag_save_requested();
+  _eeprom .unflag_save_requested();
+  _eeprom .flag_save_requested();
 
   save_state();
   
-  ui_data_.tracks = &_tracks;
+  _ui_data.tracks = &_tracks;
 
   update_ui_data();
 
@@ -114,209 +156,89 @@ void application::setup() {
   
   Serial.println(F("Enter SCREEN_MAIN...")); Serial.flush();
 
-  ui_    .enter_screen(ui_t::SCREEN_MAIN);
+  _ui    .enter_screen(ui_t::SCREEN_MAIN);
 
   Serial.println(F("Entered SCREEN_MAIN.")); Serial.flush();
 }
 
-void application::setup_controls(uint8_t bpm) {
-  static button_pad_source<button_pad_mcp23017<0x0, 8, 0> >
-    combopad_button_source;
+void application::setup_controls(uint8_t const & bpm) {
+  _combo_pad_device.begin(0x0);
+  _drum_pad_device .begin(0x3);
 
-  static encoder_pad_source<encoder_pad_mcp23017<0x0, 4, 8> >
-    combopad_encoder_source;
-
-  static button_pad_source<button_pad_mcp23017<0x3> >
-    drum_pad_source;
+  _combo_pad_button_pad.setup(&_combo_pad_device);
+  _drum_pad_button_pad.setup(&_drum_pad_device);
   
-//  static EncoderSource encoder_source(EventType::EVT_BPM_SET, bpm);
-//  static ButtonSource  button_source(
-//    EventType::EVT_PLAYBACK_STATE_TOGGLE,
-//    A7
-//  );
+  //_combo_pad_source.setup(&_combo_pad_device);  
+  //_drum_pad_source .setup(&_drum_pad_device);
   
-  // static combine_event_sources<event,1>
-  static combine_event_sources<event,3>
-                       combine_event_sources;
-
-  static Adafruit_MCP23017 device0;
-  device0.begin(0x0);
-  for (uint8_t ix = 0; ix < 16; ix++) {
-    device0.pinMode(ix, INPUT);
-    device0.pullUp(ix, HIGH);
-  }
-  combopad_button_source.setup(&device0);
-  combopad_encoder_source.setup(&device0);
-
-  static Adafruit_MCP23017 device1;
-  device1.begin(0x3);
-  for (uint8_t ix = 0; ix < 16; ix++) {
-    device1.pinMode(ix, INPUT);
-    device1.pullUp(ix, HIGH);
-  }
-  drum_pad_source.setup(&device1);
-
-//  encoder_source       .setup();
-//  button_source.setup();
-
-  combine_event_sources.sources[0] = &drum_pad_source;
-  combine_event_sources.sources[1] = &combopad_button_source;
-  combine_event_sources.sources[2] = &combopad_encoder_source;
-  
-//  combine_event_sources.sources[2] = &encoder_source;
-//  combine_event_sources.sources[3] = &button_source
-
-  control_event_source .source     = &combine_event_sources;
-}
-
-void application::print_bits(uint8_t t0) {
-  {
-    for(uint16_t mask = 0x80; mask; mask >>= 1) {
-      if (mask & t0) {
-        Serial.print('1'); Serial.flush();
-      }
-      else {
-        Serial.print('0'); Serial.flush();
-      }
-    }
-  }
-}
-
-void application::print_bits_16(uint16_t t0) {
-  {
-    for(uint16_t mask = 0x8000; mask; mask >>= 1) {
-      if (mask & t0) {
-        Serial.print('1'); Serial.flush();
-      }
-      else {
-        Serial.print('0'); Serial.flush();
-      }
-    }
-  }
-}
-
-bool application::output() {
-  if (! output_flag.consume())
-    return false;
-  
-#ifdef LOG_OUTPUT
-  if (application::timer1.ticker() & 0b1) {
-    Serial.print(application::timer1.ticker()); Serial.flush();
-    Serial.print(F(" ")); Serial.flush();
-    Serial.print(F("Output: ")); Serial.flush();
-
-    print_bits(queued_output);
-    
-    Serial.println(); Serial.flush();
-  }
-#endif
-  
-  trigger_outputs.write(queued_output);
-
-  return true;
+  _combine_event_sources.sources[0] = &_combo_pad_source;
+  _combine_event_sources.sources[1] = &_drum_pad_source;
+  _control_event_source .source     = &_combine_event_sources;
 }
 
 void application::loop() {
+//  Serial.print(F("output();")); Serial.flush();
+  _trigger_outputs.update();    // 
+  
+//  Serial.println(F("process_control_events();")); Serial.flush();
   process_control_events();
-  output();
+    
+//  Serial.println(F("update_ui_data();")); Serial.flush();
   update_ui_data();
-  ui_.update_screen();
-  update_x0x_leds();
+
+//  Serial.println(F("ui.update_screen();")); Serial.flush();
+  _ui.update_screen();
+
+  _x0x_leds.update();
 }
 
-void application::update_x0x_leds() {
-  if (! (x0x_leds_flag.consume() && i2c_lock::claim()))
-    return;
-  
-  x0x_leds.writeGPIOAB(x0x_leds_values());
-
-  i2c_lock::release();
-}
-
-uint16_t application::x0x_leds_values() {
-  return x0x_leds_values_;
-}
-
-void application::write_x0x_leds_xor(uint16_t const & value) {
-  write_x0x_leds(x0x_leds_values() ^ value);
-}
-
-void application::write_x0x_leds(uint16_t const & value) {
-  x0x_leds.writeGPIOAB(value);
-}
-
-void application::flag_update_ui_data() {
-  update_ui_data_flag.set();
-}   
-  
 void application::flag_main_screen() {
-  ui_.flag_screen(ui_t::SCREEN_MAIN);
+  _ui.flag_screen(ui_t::SCREEN_MAIN);
 }
 
 uint8_t application::page() {
-  uint8_t tmp_tick        = timer1.ticker() >> 1;
+  uint8_t tmp_tick        = _timer1.ticker() >> 1;
   uint8_t tmp_inside_tick = tmp_tick % _tracks.max_mod_maj();
 
   return                    tmp_inside_tick /  16;
 }
 
-void application::set_playback_state(bool playback_state_) {
-  timer1.set_playback_state(playback_state_);
+void application::set_playback_state(bool const & playback_state_) {
+  _timer1.set_playback_state(playback_state_);
 
-  ui_data_.redraw_playback_state.set();
+  _ui_data.redraw_playback_state.set();
 
   flag_main_screen();
 
-  eeprom.flag_save_requested();
+  _eeprom.flag_save_requested();
 }
 
 void application::save_state() {
-   eeprom.save_all(
+   _eeprom.save_all(
      eeprom_::PersistantData<tracks_t>(
        &_tracks,
-       timer1.bpm(),
-       timer1.playback_state()
+       _timer1.bpm(),
+       _timer1.playback_state()
      )
    );
 }
 
 void application::flag_controls() {
-  controls_flag.set();
-}
-
-void application::flag_output(uint8_t output) {
-#ifdef LOG_OUTPUT
-  Serial.print(F("Flagging: ")); Serial.flush();
-  
-  print_bits(output);
-
-  Serial.println(); Serial.flush();
-#endif
-  
-  queued_output = output;
-
-  output_flag.set();
+  _controls_flag.set();
 }
 
 bool application::process_control_events() {
-  if (! controls_flag.consume())
+  if (! _controls_flag.consume())
     return false;
 
   // Serial.println(F("control_event_source.poll();")); Serial.flush();
-  control_event_source.poll();
+  _control_event_source.poll();
 
   // Serial.println(F("dequeue...")); Serial.flush();
-  while(process_control_event(control_event_source.dequeue_event()));
+  while(process_control_event(_control_event_source.dequeue_event()));
 
   // Serial.println(F("return...")); Serial.flush();
   return true;
-}
-
-uint16_t application::flip_bytes(uint16_t value) {
-  uint8_t a = value >> 8;
-  uint8_t b = value &  0xff;
-  
-  return (((uint16_t)b) << 8) | a; 
 }
 
 bool application::process_control_event(
@@ -331,41 +253,15 @@ bool application::process_control_event(
       ((event_type)(e.type - 20))
     );
     
-    ui_data_.redraw_track.set();
-    ui_data_.redraw_selected_track_indicator.set();
+    _ui_data.redraw_track.set();
+    _ui_data.redraw_selected_track_indicator.set();
 
-    eeprom.flag_save_requested();
+    _eeprom.flag_save_requested();
     
     goto success;
   }
   else {
-    if (e.type == event_type::EVT_ENCODER) {
-      uint8_t encoder_number = e.parameter >> 8;
-      int8_t  motion = (int8_t)(e.parameter & 0xff);
-
-      Serial.print("Encoder event, number: ");
-      Serial.print(encoder_number);
-      Serial.print(", motion: ");
-      Serial.print(motion);
-      Serial.println();
-
-      e.type = event_type::EVT_BPM_SET;
-      e.parameter = timer1.bpm() + motion;
-    }
-    
     switch (e.type) {
-    case event_type::EVT_BPM_SET:
-    {
-      timer1.set_bpm(e.parameter);
-
-      ui_data_.popup_bpm_requested.set();
-      
-      eeprom.flag_save_requested();
-      
-      goto success;
-    }
-
-
     case EVT_PAD_1:
     case EVT_PAD_2:
     case EVT_PAD_3:
@@ -383,16 +279,18 @@ bool application::process_control_event(
     case EVT_PAD_15:
     case EVT_PAD_16:
     {
-//      Serial.print("Light up ");
-//      Serial.print(e.type);
-//      Serial.println();
-//      Serial.flush();      
+      static uint16_t light_states = 0;
 
-      uint16_t tmp = flip_bytes(((uint16_t)1) << (((uint8_t)e.type) - 1));
+      _x0x_leds.xor_write(light_states);
       
-      x0x_leds_values_ = x0x_leds_values() ^ tmp;
+      uint16_t tmp = util::flip_bytes(((uint16_t)1) << (((uint8_t)e.type) - 1));
+      light_states ^= tmp;
       
-      x0x_leds_flag.set();
+      Serial.print("Light up ");
+      util::print_bits_16(light_states);
+      Serial.println();
+
+      _x0x_leds.or_write(light_states, true);
 
       goto success;
     }
@@ -400,8 +298,8 @@ bool application::process_control_event(
     {
       _tracks++;
 
-      ui_data_.redraw_track.set();
-      ui_data_.redraw_selected_track_indicator.set();
+      _ui_data.redraw_track.set();
+      _ui_data.redraw_selected_track_indicator.set();
 
       Serial.print("GO UP A TRACK TO "); Serial.flush();
       Serial.print(_tracks.index()); //  Serial.flush();
@@ -411,10 +309,10 @@ bool application::process_control_event(
     }
     case event_type::EVT_SELECTED_TRACK_DN:
     {
-      _tracks--;
+      _tracks++;
       
-      ui_data_.redraw_track.set();
-      ui_data_.redraw_selected_track_indicator.set();
+      _ui_data.redraw_track.set();
+      _ui_data.redraw_selected_track_indicator.set();
       
       Serial.print("GO DOWN A TRACK TO "); Serial.flush();
       Serial.print(_tracks.index()); Serial.flush();
@@ -424,17 +322,25 @@ bool application::process_control_event(
     }
     case event_type::EVT_PLAYBACK_STATE_TOGGLE:
     {
-      set_playback_state(! timer1.playback_state());
+      set_playback_state(! _timer1.playback_state());
       
-      eeprom.flag_save_requested();
+      _eeprom.flag_save_requested();
+      
+      goto success;
+    }
+    case event_type::EVT_BPM_SET:
+    {
+      _timer1.set_bpm(e.parameter);
+
+      _ui_data.popup_bpm_requested.set();
+      
+      _eeprom.flag_save_requested();
       
       goto success;
     }
     default:
       Serial.print("Unrecognized event: ");
       Serial.print(e.type, HEX);
-      Serial.print(" ");
-      Serial.print(e.parameter, HEX);
       Serial.println();
       Serial.flush();
     }

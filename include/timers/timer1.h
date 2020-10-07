@@ -5,7 +5,7 @@
 
 class timer1_ {
   private:
-    static       void    set_hz_by_bpm(uint8_t bpm);
+    static       void    set_hz_by_bpm(uint8_t const & bpm);
     uint8_t              _bpm;
     bool                 _playback_state;
     uint8_t              _ticker;
@@ -15,9 +15,9 @@ class timer1_ {
     void                 isr();
     static timer1_ &     instance();
     void                 setup();
-    void                 set_playback_state(bool playback_state_);
+    void                 set_playback_state(bool const & playback_state_);
     bool                 playback_state() const;
-    void                 set_bpm(uint8_t bpm);
+    void                 set_bpm(uint8_t const & bpm);
     uint8_t              bpm() const;
     double               hz() const;
     uint8_t              ticker() const;

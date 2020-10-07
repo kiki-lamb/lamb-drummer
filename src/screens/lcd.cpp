@@ -41,7 +41,7 @@ void lcd::clear() {
   i2c_lock::release();
 }
 
-void lcd::set_cursor(uint8_t x, uint8_t y) {
+void lcd::set_cursor(uint8_t const & x, uint8_t const &  y) {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:sc "));
 #endif
@@ -55,7 +55,7 @@ void lcd::set_cursor(uint8_t x, uint8_t y) {
   i2c_lock::release();
 }
 
-void lcd::write(uint8_t byte) {
+void lcd::write(uint8_t const & byte) {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:w  "));
 #endif
@@ -72,16 +72,16 @@ void lcd::write(uint8_t byte) {
 //////////////////////////////////////////////////////////////////////////////
 
 void lcd::put_inversion(
-  uint8_t col,
-  uint8_t line,
-  uint8_t number
+  uint8_t const & col,
+  uint8_t const & line,
+  uint8_t const & number
 ) {
   select_inversion(number);
   device.setCursor(col, line);
   device.write(byte(CHAR_INVERSION));
 }
 
-void lcd::select_inversion(uint8_t number) {
+void lcd::select_inversion(uint8_t const & number) {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:si "));
 #endif
@@ -138,7 +138,7 @@ void lcd::select_inversion(uint8_t number) {
   i2c_lock::release();
 }
 
-void lcd::put_playstate(uint8_t col, uint8_t line) {
+void lcd::put_playstate(uint8_t const & col, uint8_t const & line) {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:pp "));
 #endif
@@ -153,7 +153,7 @@ void lcd::put_playstate(uint8_t col, uint8_t line) {
   i2c_lock::release();
 }
 
-void lcd::select_playstate(bool paused) {
+void lcd::select_playstate(bool const & paused) {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:sp "));
 #endif

@@ -18,8 +18,8 @@ timer1_ & timer1_::instance() {
 
 void timer1_::setup() {
   _instance = this;
-  DDRC   |= 0b00001111;
-  PORTC  ^= 0b00001111;
+  // DDRC   |= 0b00001111;
+  // PORTC  ^= 0b00001111;
   TCCR1A  = 0;
   TCCR1B  = 0;
   TCNT1   = 0; // initialize counter value to 0
@@ -35,7 +35,7 @@ bool timer1_::playback_state() const {
   return _playback_state;
 }
 
-void timer1_::set_playback_state(bool playback_state_) {
+void timer1_::set_playback_state(bool const & playback_state_) {
   _playback_state = playback_state_;
   if (_playback_state) {
     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
@@ -46,16 +46,13 @@ void timer1_::set_playback_state(bool playback_state_) {
   else { // stop playback
     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
       TCCR1A ^= (1 << COM1A0);
-      PORTC &= ~0b1111; // PORTC = 0;
+      application::trigger_outputs().write(~0b1111);
       PORTB ^= 0b10;
     }
   }
 }
 
-void timer1_::set_bpm(uint8_t tmp_bpm) {
-  Serial.print("BPM = ");
-  Serial.println(tmp_bpm);
-  
+void timer1_::set_bpm(uint8_t const & tmp_bpm) {
   timer1_::_bpm          = tmp_bpm;
   timer1_::_hz           = timer1_::_bpm / 60.0;
   timer1_::set_hz_by_bpm ( timer1_::_bpm ); // This should probably be in the ISR...
@@ -73,7 +70,7 @@ double timer1_::hz() const {
   return _hz;
 }
 
-void timer1_::set_hz_by_bpm(uint8_t bpm_) {
+void timer1_::set_hz_by_bpm(uint8_t const & bpm_) {
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     OCR1A = 16000000 / (256 * (bpm_ / 30.0 * 8)) - 1;
     // ^ do not un-float the '60.0'!
@@ -106,7 +103,7 @@ void timer1_::isr() {
     application::flag_main_screen(); // In ISR, not that ugly...
 
     if (! playback_state()) {
-      PORTC &= ~0b1111; // PORTC = 0;
+      application::trigger_outputs().write(~0b1111);
 
 #ifdef LOG_TIMERS
       Serial.println(F("1:isr !"));
@@ -117,22 +114,11 @@ void timer1_::isr() {
 
     byte blast = 0xff;
 
-//    Serial.print(F("Triggers: "));
-
     for (byte ix = 0; ix <= 2; ix++) {
       if (application::tracks()[ix].trigger_state(ticker_ >> 1)) {
         blast &= ~_BV(ix);
-
-//        Serial.print(ix);
-//        Serial.print(" ");                
-//        Serial.print(" = ");     
-//        application::print_bits(_BV(ix));
-//        Serial.print(", ");
       }
     }
-
-//    Serial.println();
-
 
 #ifdef LOG_OUTPUT
     Serial.println();
@@ -143,7 +129,7 @@ void timer1_::isr() {
     Serial.println();
 #endif
     
-    application::flag_output(blast);
+    application::trigger_outputs().write(blast);
   }
   else {
 #ifdef LOG_OUTPUT
@@ -151,7 +137,7 @@ void timer1_::isr() {
     Serial.println(F("unblast "));
 #endif
     
-    application::flag_output(0xff);
+    application::trigger_outputs().write(0xff);
   }
 
   increment_ticker();
