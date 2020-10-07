@@ -67,7 +67,7 @@ void screen_main::draw_line0(bool const & redraw_bpm) {
     lcd::print(buf);
 
     lcd::set_cursor(9, 0);
-    dtostrf(data->hz, 2, 3, buf2);
+//    dtostrf(data->hz, 2, 3, buf2);
     snprintf(buf, 21, "%s hz", buf2);
     lcd::print(buf);
   }
