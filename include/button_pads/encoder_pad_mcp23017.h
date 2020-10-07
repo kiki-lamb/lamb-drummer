@@ -35,7 +35,7 @@ private:
   };
   
 private:
-  encoder_state       encoder_states[encoder_count];
+  encoder_state encoder_states[encoder_count];
   
 public:
   struct motion_event {
