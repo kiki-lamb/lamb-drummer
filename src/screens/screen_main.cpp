@@ -55,20 +55,43 @@ void screen_main::draw_page_number() {
 }
 
 void screen_main::draw_line0(bool const & redraw_bpm) {
-  char buf [21];
-  char buf2[6];
-
   if (redraw_bpm) {
     lcd::set_cursor(0, 0);
     lcd::print(F("                  "));
 
     lcd::set_cursor(0, 0);
-    snprintf(buf, 21, "%d BPM", data->bpm);
-    lcd::print(buf);
-
+    lcd::print(data->bpm);
+    if      (data->bpm >= 100) {
+      lcd::set_cursor(3, 0);
+      lcd::print(" BPM");
+    }
+    else if (data->bpm >= 10) {
+      lcd::set_cursor(2, 0);
+      lcd::print(" BPM ");
+    }
+    else {
+      lcd::set_cursor(1, 0);
+      lcd::print(" BPM  ");
+    }
+    
     lcd::set_cursor(9, 0);
-    snprintf(buf, 21, "%d mhz", data->millihz);
-    lcd::print(buf);
+    lcd::print(data->millihz);
+    if      (data->millihz >= 1000) {
+      lcd::set_cursor(13, 0);
+      lcd::print(" mhz"); 
+    }
+    else if (data->millihz >= 100) {
+      lcd::set_cursor(12, 0);
+      lcd::print(" mhz "); 
+    }
+    else if (data->millihz >= 10) {
+      lcd::set_cursor(11, 0);
+      lcd::print(" mhz  "); 
+    }
+    else {
+      lcd::set_cursor(10, 0);
+      lcd::print(" mhz   "); 
+    }
   }
   else if (data->redraw_selected_track_indicator.consume()) {
     track const & track  = (*data->tracks)[(*data->tracks).index()];
@@ -77,26 +100,48 @@ void screen_main::draw_line0(bool const & redraw_bpm) {
     lcd::print("                  ");
     
     lcd::set_cursor(0, 0);
-    snprintf(buf, 21, "Maj%2d", track.mod_maj());
-    lcd::print(buf);
+    lcd::print("Maj");
+    if (track.mod_maj() < 10) {
+      lcd::print(' ');
+      lcd::print(track.mod_maj());
+    }
+    else {
+      lcd::print(track.mod_maj());
+    }
 
     lcd::set_cursor(5, 0);
     lcd::write(byte(223));
 
     lcd::set_cursor(6, 0);
-    snprintf(buf, 21, "%-2d", track.phase_maj());
-    lcd::print(buf);
+    if (track.phase_maj() < 10) {
+      lcd::print(track.phase_maj());
+    }
+    else {
+      lcd::print(track.phase_maj());
+      lcd::print(' ');
+    }
 
     lcd::set_cursor(9, 0);
-    snprintf(buf, 21, "Min%2d", track.mod_min());
-    lcd::print(buf);
+    lcd::print("Min");
+    if (track.mod_min() < 10) { 
+      lcd::print(' ');
+      lcd::print(track.mod_min());
+    }
+    else {
+      lcd::print(track.mod_min());
+    }
 
     lcd::set_cursor(14, 0);
     lcd::write(byte(223));
 
     lcd::set_cursor(15, 0);
-    snprintf(buf, 21, "%-2d", track.phase_min());
-    lcd::print(buf);
+    if (track.phase_min() < 10) {
+      lcd::print(track.phase_min());
+    }
+    else {
+      lcd::print(track.phase_min());
+      lcd::print(' ');
+    }
   }
 
   if (data->redraw_playback_state.consume()) {
