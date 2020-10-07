@@ -139,8 +139,6 @@ void application::setup() {
   Serial.println(F("Stop all interrupts...")); Serial.flush();
   
   _timer1 .setup();
-  _timer1 .set_bpm(120);
-
   _timer2 .setup();
   
   set_playback_state(tmp.playback_state);
