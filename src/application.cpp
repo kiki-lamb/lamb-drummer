@@ -44,7 +44,7 @@ event_type drum_pad_ordering[] = {
 
 application::control_event_source_t
                           application::_control_event_source;
-combine_event_sources<event,2>
+combine_event_sources<event, application::event_sources_count>
                           application::_combine_event_sources;
 Adafruit_MCP23017         application::_x0x_leds_device;
 
@@ -53,11 +53,12 @@ Adafruit_MCP23017         application::_x0x_leds_device;
 Adafruit_MCP23017   application::_combo_pad_device;
 Adafruit_MCP23017   application::_drum_pad_device;
 
-encoder_pad_mcp23017<4> application::_combo_pad_encoder_pad(0x0, 0);
+encoder_pad_mcp23017<application::encoder_pad_size>
+                    application::_combo_pad_encoder_pad(0x0, 0);
 button_pad_mcp23017 application::_combo_pad_button_pad(0x0, 8);
 button_pad_mcp23017 application::_drum_pad_button_pad(0x3);
 
-encoder_pad_source<encoder_pad_mcp23017<4> >
+encoder_pad_source<encoder_pad_mcp23017<application::encoder_pad_size> >
                     application::_combo_pad_encoder_source(
                       &application::_combo_pad_encoder_pad
                     );
@@ -169,12 +170,15 @@ void application::setup() {
 void application::setup_controls(uint8_t const & bpm) {
   _combo_pad_device.begin(0x0);
   _drum_pad_device .begin(0x3);
-
-  _combo_pad_button_pad.setup(&_combo_pad_device);
-  _drum_pad_button_pad.setup(&_drum_pad_device);
   
-  _combine_event_sources.sources[0] = &_combo_pad_button_source;
-  _combine_event_sources.sources[1] = &_drum_pad_source;
+  _drum_pad_button_pad.setup(&_drum_pad_device);
+  _combine_event_sources.sources[0] = &_drum_pad_source;
+
+  _combo_pad_button_pad .setup(&_combo_pad_device);
+  _combine_event_sources.sources[1] = &_combo_pad_button_source;
+
+  _combo_pad_encoder_pad.setup(&_combo_pad_device);
+  _combine_event_sources.sources[2] = &_combo_pad_encoder_source;
   
   _control_event_source .source     = &_combine_event_sources;
 }

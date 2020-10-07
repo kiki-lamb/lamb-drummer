@@ -23,6 +23,8 @@ public:
   static  const uint8_t                  encA = A0;
   static  const uint8_t                  encB = A1;
   static  const uint8_t                  encBtn = D7;
+  static  const uint8_t                  event_sources_count = 3;
+  static  const uint8_t                  encoder_pad_size = 4;
 
   typedef track_collection<tracks_count> tracks_t;
 
@@ -34,14 +36,16 @@ private:
   typedef ui<ui_data_t>                               ui_t;
   typedef buffer_event_source<event,8>                control_event_source_t;
 
-  static encoder_pad_mcp23017<4>                      _combo_pad_encoder_pad;
+  static encoder_pad_mcp23017<encoder_pad_size>       _combo_pad_encoder_pad;
   static button_pad_mcp23017                          _combo_pad_button_pad;
   static button_pad_mcp23017                          _drum_pad_button_pad;
 
-  static encoder_pad_source<encoder_pad_mcp23017<4> > _combo_pad_encoder_source;
+  static encoder_pad_source<encoder_pad_mcp23017<encoder_pad_size> >
+                                                      _combo_pad_encoder_source;
   static button_pad_source<button_pad_mcp23017>       _combo_pad_button_source;
   static button_pad_source<button_pad_mcp23017>       _drum_pad_source;
-  static combine_event_sources<event,2>               _combine_event_sources;
+  static combine_event_sources<event,event_sources_count>
+                                                      _combine_event_sources;
   static ::trigger_outputs                            _trigger_outputs;  
   static ::x0x_leds                                   _x0x_leds;
   static Adafruit_MCP23017                            _x0x_leds_device;

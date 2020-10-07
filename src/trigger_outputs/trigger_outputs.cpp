@@ -42,10 +42,6 @@ void trigger_outputs::clear() { // bool immediate) {
 // }
 
 void trigger_outputs::write(uint16_t const & values_) { // , bool immediate) {
-  Serial.print("Assign ");
-  util::print_bits_16(values_);
-  Serial.println();
-  
   _values = values_;
 
 //   if (immediate) {
@@ -63,10 +59,6 @@ uint16_t trigger_outputs::values() const {
 bool trigger_outputs::update() { // bool immediate) {
   if (! (_flag.consume())) // || immediate))
     return false;
-
-  Serial.print("Write  ");
-  util::print_bits_16(_values);
-  Serial.println();
   
   _device->write(_values);
 

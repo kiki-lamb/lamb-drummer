@@ -29,22 +29,14 @@ void x0x_leds::clear(bool const & immediate) {
 }
 
 void x0x_leds::xor_write(uint16_t const & values_, bool const & immediate) {
-  Serial.print("xOR ");
-
   write(_values ^ values_, immediate);
 }
 
 void x0x_leds::or_write(uint16_t const & values_, bool const & immediate) {
-  Serial.print("OR ");
-      
   write(_values | values_, immediate);
 }
 
-void x0x_leds::write(uint16_t const & values_, bool const & immediate) {
-  Serial.print("Assign ");
-  util::print_bits_16(values_);
-  Serial.println();
-  
+void x0x_leds::write(uint16_t const & values_, bool const & immediate) {  
   _values = values_;
 
   if (immediate) {
@@ -63,10 +55,6 @@ bool x0x_leds::update(bool const & immediate) {
   if (! (_flag.consume() || immediate))
     return false;
 
-  Serial.print("Write  ");
-  util::print_bits_16(_values);
-  Serial.println();
-  
   _device->writeGPIOAB(_values);
 
   return true;
