@@ -108,57 +108,68 @@ void screen_main::impl_update() {
   application::update_ui_data(true);
 
   bool redraw_bpm = false;
-    
-  ////Serial.println("Before pbr!");
-  if (data->popup_bpm_requested.consume()) {
-    popup_bpm_time = millis();
+
+  static uint8_t cix = 0;
+
+  uint8_t ccix = cix % 3;
+
+  switch (ccix) {
+  case 0:
+  {
+    ////Serial.println("Before pbr!");
+    if (data->popup_bpm_requested.consume()) {
+      popup_bpm_time = millis();
     popup_bpm_state = true;
     redraw_bpm = true;
-  }
-
-  if (popup_bpm_state) {
-    unsigned long now = millis();
-
-    if ((now - popup_bpm_time) >= popup_bpm_duration) {
-      popup_bpm_state = false;
-      data->redraw_selected_track_indicator.set();
+    }
+    
+    if (popup_bpm_state) {
+      unsigned long now = millis();
+      
+      if ((now - popup_bpm_time) >= popup_bpm_duration) {
+        popup_bpm_state = false;
+        data->redraw_selected_track_indicator.set();
+      }
     }
   }
+  case 1:
+  {
+    draw_line0(redraw_bpm);
+    
+    draw_channel_numbers();
+    
+    uint8_t prior   = ((uint8_t)((data->ticker>>1)-1)) % (*data->tracks).max_mod_maj(); // Don't remove this cast or the subtraction result becomes a signed type
+    uint8_t current = (data->ticker>>1) % (*data->tracks).max_mod_maj();
 
-  draw_line0(redraw_bpm);
-
-  return;
-  
-  draw_channel_numbers();
-
-  uint8_t prior   = ((uint8_t)((data->ticker>>1)-1)) % (*data->tracks).max_mod_maj(); // Don't remove this cast or the subtraction result becomes a signed type
-  uint8_t current = (data->ticker>>1) % (*data->tracks).max_mod_maj();
-
-  ////Serial.println("Before rt!");
-  bool redraw_page = false; // data->redraw_track.consume();
-
-  if (! redraw_page) {
-    static uint8_t last_page = 255;
-    uint8_t        tmp_page = data->page;
-
-    if (tmp_page != last_page) {
+    ////Serial.println("Before rt!");
+    bool redraw_page = false; // data->redraw_track.consume();
+    
+    if (! redraw_page) {
+      static uint8_t last_page = 255;
+      uint8_t        tmp_page = data->page;
+      
+      if (tmp_page != last_page) {
         last_page = tmp_page;
         redraw_page = true;
+      }
     }
   }
-
-  uint8_t mmm = (*data->tracks).max_mod_maj();
-
-  if (redraw_page) {
-    draw_page_number();
-    for (uint8_t col = 0;  col <= 15; col++)
-      draw_column((data->page * 16) + col, false, mmm);
+  case 3:
+  {
+    uint8_t mmm = (*data->tracks).max_mod_maj();
+    
+    if (redraw_page) {
+      draw_page_number();
+      for (uint8_t col = 0;  col <= 15; col++)
+        draw_column((data->page * 16) + col, false, mmm);
+    }
+    
+    draw_column(current, false, mmm);
+    
+    if (! redraw_page) {
+      draw_column(prior, false, mmm);
+    }
   }
-
-  draw_column(current, true, mmm);
-
-  if (! redraw_page) {
-    draw_column(prior, false, mmm);
   }
 
 #ifdef CHASE_LIGHTS
@@ -175,8 +186,10 @@ void screen_main::draw_column(uint8_t col, bool highlit, uint8_t mod_maj)  {
   };
 
   int8_t col_ = col_map[col % mod_maj % 16];
+  static uint8_t cix = 0;
   
-  for (uint8_t line = 1; line <= 3; line++) {
+  {
+    uint8_t line = cix+1;
     track const & t = (*data->tracks)[line-1];
     
     uint8_t character  = lcd::CHAR_REST;
@@ -194,5 +207,8 @@ void screen_main::draw_column(uint8_t col, bool highlit, uint8_t mod_maj)  {
     
     lcd::set_cursor(col_, line);
     lcd::write(character);
+
+    cix++;
+    cix %= 0b11;
   }
 }
