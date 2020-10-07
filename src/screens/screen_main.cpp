@@ -151,7 +151,7 @@ void screen_main::draw_line0(bool const & redraw_bpm) {
 
 void screen_main::impl_update() {
   bool redraw_bpm = false;
-  ////Serial.println("Before pbr!");
+
   if (data->popup_bpm_requested.consume()) {
     popup_bpm_time = millis();
     popup_bpm_state = true;
@@ -194,16 +194,6 @@ void screen_main::impl_update() {
     for (uint8_t col = 0;  col <= 15; col++)
       draw_column((data->page * 16) + col, mmm);
   }
-
-// #ifdef CHASE_LIGHTS
-//   static uint16_t last_write = 0;
-//   uint16_t next_write = util::flip_bytes(1 << (current % 16));
-//   
-//   application::x0x_leds().xor_write(last_write);
-//   application::x0x_leds().xor_write(next_write);
-// 
-//   last_write = next_write;
-// #endif
 }
 
 void screen_main::draw_column(

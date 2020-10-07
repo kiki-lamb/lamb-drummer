@@ -184,8 +184,8 @@ void application::setup_controls(uint8_t const & bpm) {
 void application::loop() {
   _trigger_outputs.update();  
   process_control_events();
-//  update_ui_data();
-//  _ui.update_screen();
+  update_ui_data();
+  _ui.update_screen();
   _x0x_leds.update();
 }
 
@@ -259,11 +259,11 @@ bool application::process_control_event(
       uint8_t encoder_number = e.parameter >> 8;
       int8_t  motion = (int8_t)(e.parameter & 0xff);
       
-      Serial.print("Encoder event, number: ");
-      Serial.print(encoder_number);
-      Serial.print(", motion: ");
-      Serial.print(motion);
-      Serial.println();
+      // Serial.print("Encoder event, number: ");
+      // Serial.print(encoder_number);
+      // Serial.print(", motion: ");
+      // Serial.print(motion);
+      // Serial.println();
       
       e.type = event_type::EVT_BPM_SET;
       e.parameter = _timer1.bpm() + motion;
@@ -330,7 +330,7 @@ bool application::process_control_event(
     }
     case event_type::EVT_SELECTED_TRACK_DN:
     {
-      _tracks++;
+      _tracks--;
       
       _ui_data.redraw_track.set();
       _ui_data.redraw_selected_track_indicator.set();

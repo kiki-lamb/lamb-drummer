@@ -51,6 +51,9 @@ void timer1_::set_playback_state(bool const & playback_state_) {
 }
 
 void timer1_::set_bpm(uint8_t const & tmp_bpm) {
+  Serial.print("BPM = ");
+  Serial.println(tmp_bpm);
+  
   timer1_::_bpm          = tmp_bpm;
   timer1_::_millihz      = (((uint32_t)timer1_::_bpm) * 1000) / 60;
   timer1_::set_hz_by_bpm ( timer1_::_bpm ); // This should probably be in the ISR...
@@ -112,13 +115,7 @@ void timer1_::isr() {
     static uint16_t last_write = 0;
     static uint16_t next_write;
 
-    last_write ^= util::flip_bytes(1 << (((ticker_ >> 1) % 16)));
-
-//    Serial.print("Ticker ");
-//    Serial.print(ticker_);
-//    Serial.print(" ");
-//    util::print_bits_16(next_write);
-//    Serial.println();
+    next_write = util::flip_bytes(1 << (((ticker_ >> 1) % 16)));
       
     application::x0x_leds().xor_write(last_write | next_write);
     
