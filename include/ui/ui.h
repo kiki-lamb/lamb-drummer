@@ -16,8 +16,8 @@ public:
     SCREEN_INSTR
   };
   
-  void update_screen() {
-    screens[current_screen]->update();
+  bool update_screen() {    
+    return screens[current_screen]->update();
   }
 
   void enter_screen(screen_t const & screen) {

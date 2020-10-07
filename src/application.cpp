@@ -182,11 +182,11 @@ void application::setup_controls(uint8_t const & bpm) {
 }
 
 void application::loop() {
-  _trigger_outputs.update();  
-  process_control_events();
-  update_ui_data();
-  _ui.update_screen();
-  _x0x_leds.update();
+  _trigger_outputs.update(); // check
+  process_control_events();  // check
+  update_ui_data(); // no 
+  _ui.update_screen(); // check
+  _x0x_leds.update(); // check
 }
 
 void application::flag_main_screen() {
@@ -322,7 +322,7 @@ bool application::process_control_event(
       _ui_data.redraw_track.set();
       _ui_data.redraw_selected_track_indicator.set();
 
-      Serial.print("GO UP A TRACK TO "); Serial.flush();
+      Serial.print("Trk up -> "); Serial.flush();
       Serial.print(_tracks.index()); //  Serial.flush();
       Serial.println(); Serial.flush();
 
@@ -335,7 +335,7 @@ bool application::process_control_event(
       _ui_data.redraw_track.set();
       _ui_data.redraw_selected_track_indicator.set();
       
-      Serial.print("GO DOWN A TRACK TO "); Serial.flush();
+      Serial.print("Trk dn -> "); Serial.flush();
       Serial.print(_tracks.index()); Serial.flush();
       Serial.println(); Serial.flush();
       

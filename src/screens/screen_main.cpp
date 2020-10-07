@@ -151,7 +151,6 @@ void screen_main::draw_line0(bool const & redraw_bpm) {
 
 void screen_main::impl_update() {
   bool redraw_bpm = false;
-
   if (data->popup_bpm_requested.consume()) {
     popup_bpm_time = millis();
     popup_bpm_state = true;

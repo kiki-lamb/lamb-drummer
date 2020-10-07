@@ -26,9 +26,14 @@ public:
     requires_update.set();
   }
 
-  void update() {
-    if (requires_update.consume())
+  bool update() {
+    if (requires_update.consume()) {
       impl_update();
+      
+      return true;
+    }
+    
+    return false;
   }
 
   void enter() {
