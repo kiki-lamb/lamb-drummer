@@ -260,7 +260,34 @@ bool application::process_control_event(
     goto success;
   }
   else {
+    if (e.type == event_type::EVT_ENCODER) {
+      uint8_t encoder_number = e.parameter >> 8;
+      int8_t  motion = (int8_t)(e.parameter & 0xff);
+      
+      Serial.print("Encoder event, number: ");
+      Serial.print(encoder_number);
+      Serial.print(", motion: ");
+      Serial.print(motion);
+      Serial.println();
+      
+      e.type = event_type::EVT_BPM_SET;
+      e.parameter = _timer1.bpm() + motion;
+      
+      // EVT_BPM_SET handled in switch below.
+    }
+    
     switch (e.type) {
+    case event_type::EVT_BPM_SET:
+    {
+      _timer1.set_bpm(e.parameter);
+
+      _ui_data.popup_bpm_requested.set();
+      
+      _eeprom.flag_save_requested();
+      
+      goto success;
+    }
+
     case EVT_PAD_1:
     case EVT_PAD_2:
     case EVT_PAD_3:
@@ -322,16 +349,6 @@ bool application::process_control_event(
     case event_type::EVT_PLAYBACK_STATE_TOGGLE:
     {
       set_playback_state(! _timer1.playback_state());
-      
-      _eeprom.flag_save_requested();
-      
-      goto success;
-    }
-    case event_type::EVT_BPM_SET:
-    {
-      _timer1.set_bpm(e.parameter);
-
-      _ui_data.popup_bpm_requested.set();
       
       _eeprom.flag_save_requested();
       
