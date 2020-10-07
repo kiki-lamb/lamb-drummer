@@ -195,15 +195,15 @@ void screen_main::impl_update() {
       draw_column((data->page * 16) + col, mmm);
   }
 
-#ifdef CHASE_LIGHTS
-  static uint16_t last_write = 0;
-  uint16_t next_write = util::flip_bytes(1 << (current % 16));
-  
-  application::x0x_leds().xor_write(last_write);
-  application::x0x_leds().xor_write(next_write);
-
-  last_write = next_write;
-#endif
+// #ifdef CHASE_LIGHTS
+//   static uint16_t last_write = 0;
+//   uint16_t next_write = util::flip_bytes(1 << (current % 16));
+//   
+//   application::x0x_leds().xor_write(last_write);
+//   application::x0x_leds().xor_write(next_write);
+// 
+//   last_write = next_write;
+// #endif
 }
 
 void screen_main::draw_column(
