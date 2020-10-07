@@ -24,7 +24,7 @@ private:
       if (stages[((uint8_t)(stage_ix + 1U)) & 0b11] == bit_pair) {
         this->motion--;
         this->flagged = true;
-        this->stage_ix = (stage_gix + 1U) & 0b11;
+        this->stage_ix = (stage_ix + 1U) & 0b11;
       }
       else if (stages[((uint8_t)(stage_ix - 1)) & 0b11] == bit_pair) {
         this->motion++;
@@ -40,6 +40,7 @@ private:
   Adafruit_MCP23017 * device;
   lamb::array_list<encoder_state, lamb::delete_traits::owner>
                       encoder_states;
+  uint16_t            encoders_;
   uint16_t            encoder_mask;
   uint8_t             encoder_shift;
   
@@ -52,14 +53,15 @@ public:
   lamb::ring_buffer<motion_event, encoder_count> motion_events;
 
 public:
-  encoder_pad_mcp23017(
+  explicit encoder_pad_mcp23017(
     uint8_t i2c_addr_, 
     uint8_t encoder_range_start_ = 0
   ) : 
-    i2c_addr(i2c_addr), 
+    i2c_addr(i2c_addr_), 
     encoder_range_start(encoder_range_start_),
     device(0),
-    encoders_states(encoder_count_),
+    encoder_states(encoder_count),
+    encoders_(0),
     encoder_mask(0),
     encoder_shift(0) {}
   

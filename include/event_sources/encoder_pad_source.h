@@ -12,7 +12,13 @@ class encoder_pad_source : public encoder_pad_t_, public event_source<event>{
 public:
   typedef encoder_pad_t_ encoder_pad_type;
   
-  encoder_pad_source() {}
+private:
+  encoder_pad_type * _device;
+
+public:
+  encoder_pad_source(
+    encoder_pad_type * device_
+  ) {}
 
   virtual ~encoder_pad_source() {}
 

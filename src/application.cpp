@@ -53,11 +53,17 @@ Adafruit_MCP23017         application::_x0x_leds_device;
 Adafruit_MCP23017   application::_combo_pad_device;
 Adafruit_MCP23017   application::_drum_pad_device;
 
+encoder_pad_mcp23017<4> application::_combo_pad_encoder_pad(0x0, 0);
 button_pad_mcp23017 application::_combo_pad_button_pad(0x0, 8);
 button_pad_mcp23017 application::_drum_pad_button_pad(0x3);
 
+//encoder_pad_source<encoder_pad_mcp23017<4> >
+//                    application::_combo_pad_encoder_source(
+//                      &application::_combo_pad_encoder_pad
+//                    );
+
 button_pad_source<button_pad_mcp23017>
-                    application::_combo_pad_source(
+                    application::_combo_pad_button_source(
                       &application::_combo_pad_button_pad,
                       combo_pad_ordering,
                       8
@@ -151,7 +157,6 @@ void application::setup() {
 
   update_ui_data();
 
-  //Serial.println(F("Enable all interrupts.")); Serial.flush();
   sei();
   
   Serial.println(F("Enter SCREEN_MAIN...")); Serial.flush();
@@ -168,27 +173,16 @@ void application::setup_controls(uint8_t const & bpm) {
   _combo_pad_button_pad.setup(&_combo_pad_device);
   _drum_pad_button_pad.setup(&_drum_pad_device);
   
-  //_combo_pad_source.setup(&_combo_pad_device);  
-  //_drum_pad_source .setup(&_drum_pad_device);
-  
-  _combine_event_sources.sources[0] = &_combo_pad_source;
+  _combine_event_sources.sources[0] = &_combo_pad_button_source;
   _combine_event_sources.sources[1] = &_drum_pad_source;
   _control_event_source .source     = &_combine_event_sources;
 }
 
 void application::loop() {
-//  Serial.print(F("output();")); Serial.flush();
   _trigger_outputs.update();    // 
-  
-//  Serial.println(F("process_control_events();")); Serial.flush();
   process_control_events();
-    
-//  Serial.println(F("update_ui_data();")); Serial.flush();
   update_ui_data();
-
-//  Serial.println(F("ui.update_screen();")); Serial.flush();
   _ui.update_screen();
-
   _x0x_leds.update();
 }
 

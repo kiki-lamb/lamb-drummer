@@ -9,8 +9,10 @@
 #include "x0x_leds/x0x_leds.h"
 #include "event_sources/buffer_event_source.h"
 #include "event_sources/button_pad_source.h"
+#include "event_sources/encoder_pad_source.h"
 #include "event_sources/combine_event_sources.h"
 #include "button_pads/button_pad_mcp23017.h"
+#include "button_pads/encoder_pad_mcp23017.h"
 #include "timers/timer1.h"
 #include "timers/timer2.h"
 #include "eeprom/eeprom_.h"
@@ -28,32 +30,34 @@ public:
   static  ::trigger_outputs & trigger_outputs();
   
 private:
-  typedef ui_data<tracks_t>                        ui_data_t;
-  typedef ui<ui_data_t>                            ui_t;
-  typedef buffer_event_source<event,8>             control_event_source_t;
+  typedef ui_data<tracks_t>                           ui_data_t;
+  typedef ui<ui_data_t>                               ui_t;
+  typedef buffer_event_source<event,8>                control_event_source_t;
 
-  static button_pad_mcp23017                       _combo_pad_button_pad;
-  static button_pad_mcp23017                       _drum_pad_button_pad;
+  static encoder_pad_mcp23017<4>                      _combo_pad_encoder_pad;
+  static button_pad_mcp23017                          _combo_pad_button_pad;
+  static button_pad_mcp23017                          _drum_pad_button_pad;
 
-  static button_pad_source<button_pad_mcp23017>    _combo_pad_source;
-  static button_pad_source<button_pad_mcp23017>    _drum_pad_source;
-  static combine_event_sources<event,2>            _combine_event_sources;
-  static ::trigger_outputs                         _trigger_outputs;  
-  static ::x0x_leds                                _x0x_leds;
-  static Adafruit_MCP23017                         _x0x_leds_device;
-  static Adafruit_MCP23017                         _drum_pad_device;
-  static Adafruit_MCP23017                         _combo_pad_device;
-  static control_event_source_t                    _control_event_source;
-  static eeprom_                                   _eeprom;
-  static jm_PCF8574                                _trigger_outputs_device;
-  static lamb::flag                                _controls_flag;
-  static lamb::flag                                _output_flag;
-  static timer1_                                   _timer1;
-  static timer2_                                   _timer2;
-  static tracks_t                                  _tracks;
-  static ui_data_t                                 _ui_data;
-  static ui_t                                      _ui;
-  static uint8_t                                   _queued_output;  
+//  static encoder_pad_source<encoder_pad_mcp23017<4> > _combo_pad_encoder_source;
+  static button_pad_source<button_pad_mcp23017>       _combo_pad_button_source;
+  static button_pad_source<button_pad_mcp23017>       _drum_pad_source;
+  static combine_event_sources<event,2>               _combine_event_sources;
+  static ::trigger_outputs                            _trigger_outputs;  
+  static ::x0x_leds                                   _x0x_leds;
+  static Adafruit_MCP23017                            _x0x_leds_device;
+  static Adafruit_MCP23017                            _drum_pad_device;
+  static Adafruit_MCP23017                            _combo_pad_device;
+  static control_event_source_t                       _control_event_source;
+  static eeprom_                                      _eeprom;
+  static jm_PCF8574                                   _trigger_outputs_device;
+  static lamb::flag                                   _controls_flag;
+  static lamb::flag                                   _output_flag;
+  static timer1_                                      _timer1;
+  static timer2_                                      _timer2;
+  static tracks_t                                     _tracks;
+  static ui_data_t                                    _ui_data;
+  static ui_t                                         _ui;
+  static uint8_t                                      _queued_output;  
 
                       application();
                       ~application();
