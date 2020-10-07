@@ -55,7 +55,14 @@ void timer1_::set_bpm(uint8_t const & tmp_bpm) {
   Serial.println(tmp_bpm);
   
   timer1_::_bpm          = tmp_bpm;
-//  timer1_::_hz           = timer1_::_bpm / 60.0;
+  timer1_::_millihz      = (((uint32_t)timer1_::_bpm) * 1000)  / 60.0;
+
+  Serial.print(tmp_bpm);
+  Serial.print(" BPM = ");
+  Serial.print(timer1_::_millihz);
+  Serial.print("millihz.");
+  Serial.println();
+  
   timer1_::set_hz_by_bpm ( timer1_::_bpm ); // This should probably be in the ISR...
 }
 
@@ -67,9 +74,9 @@ uint8_t timer1_::bpm() const {
   return _bpm;
 }
 
-// double timer1_::hz() const {
-//   return _hz;
-// }
+uint16_t timer1_::millihz() const {
+  return _millihz;
+}
 
 void timer1_::set_hz_by_bpm(uint8_t const & bpm_) {
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {

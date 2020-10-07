@@ -9,7 +9,7 @@ public:
   tracks_t const * tracks;
   uint8_t          page;
   uint8_t          bpm;
-  double           hz;
+  uint16_t         millihz;
   bool             playback_state;
   uint8_t          ticker;
   lamb::flag       popup_bpm_requested;
@@ -21,7 +21,7 @@ public:
     tracks(),
     page(0),
     bpm(120),
-    hz(2.0),
+    millihz(0),
     playback_state(false),
     ticker(0),
     popup_bpm_requested            ("pbr" , true),

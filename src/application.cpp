@@ -104,7 +104,7 @@ trigger_outputs & application::trigger_outputs() {
 void application::update_ui_data() {
   _ui_data.page           = page();
   _ui_data.bpm            = _timer1.bpm();
-//  _ui_data.hz             = _timer1.hz();
+  _ui_data.millihz        = _timer1.millihz();
   _ui_data.playback_state = _timer1.playback_state();
   _ui_data.ticker         = _timer1.ticker();
 }

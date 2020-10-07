@@ -9,7 +9,7 @@ class timer1_ {
     uint8_t              _bpm;
     bool                 _playback_state;
     uint8_t              _ticker;
-//    double               _hz;
+    uint16_t             _millihz;
     static timer1_ *     _instance;
   public:
     void                 isr();
@@ -19,7 +19,7 @@ class timer1_ {
     bool                 playback_state() const;
     void                 set_bpm(uint8_t const & bpm);
     uint8_t              bpm() const;
-//    double               hz() const;
+    uint16_t             millihz() const;
     uint8_t              ticker() const;
     void                 increment_ticker();
     virtual ~timer1_();
