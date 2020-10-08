@@ -41,9 +41,9 @@ const event_type drum_pad_ordering[] = {
 ////////////////////////////////////////////////////////////////////////////////
 
 application::control_event_source_t
-                          application::_control_event_source;
+application::_control_event_source;
 combine_event_sources<event, application::event_sources_count>
-                          application::_combine_event_sources;
+application::_combine_event_sources;
 Adafruit_MCP23017         application::_x0x_leds_device;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -52,27 +52,27 @@ Adafruit_MCP23017   application::_combo_pad_device;
 Adafruit_MCP23017   application::_drum_pad_device;
 
 encoder_pad_mcp23017<application::encoder_pad_size>
-                    application::_combo_pad_encoder_pad(0x0, 0);
+application::_combo_pad_encoder_pad(0x0, 0);
 button_pad_mcp23017 application::_combo_pad_button_pad(0x0, 8);
 button_pad_mcp23017 application::_drum_pad_button_pad(0x3);
 
 encoder_pad_source<encoder_pad_mcp23017<application::encoder_pad_size> >
-                    application::_combo_pad_encoder_source(
-                      &application::_combo_pad_encoder_pad
-                    );
+application::_combo_pad_encoder_source(
+  &application::_combo_pad_encoder_pad
+);
 
 button_pad_source<button_pad_mcp23017>
-                    application::_combo_pad_button_source(
-                      &application::_combo_pad_button_pad,
-                      combo_pad_ordering,
-                      8
-                    );
+application::_combo_pad_button_source(
+  &application::_combo_pad_button_pad,
+  combo_pad_ordering,
+  8
+);
 button_pad_source<button_pad_mcp23017>
-                    application::_drum_pad_source(
-                      &application::_drum_pad_button_pad,
-                      drum_pad_ordering,
-                      16
-                    );
+application::_drum_pad_source(
+  &application::_drum_pad_button_pad,
+  drum_pad_ordering,
+  16
+);
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -212,13 +212,13 @@ void application::set_playback_state(bool const & playback_state_) {
 }
 
 void application::save_state() {
-   _eeprom.save_all(
-     eeprom_::PersistantData<tracks_t>(
-       &_tracks,
-       _timer1.bpm(),
-       _timer1.playback_state()
-     )
-   );
+  _eeprom.save_all(
+    eeprom_::PersistantData<tracks_t>(
+      &_tracks,
+      _timer1.bpm(),
+      _timer1.playback_state()
+    )
+  );
 }
 
 void application::flag_controls() {
@@ -242,6 +242,49 @@ bool application::process_control_event(
   if (! e) {
     return false;
   }
+
+  if (e.type == event_type::EVT_ENCODER) {
+    uint8_t encoder_number = e.parameter >> 8;
+    int8_t  motion = (int8_t)(e.parameter & 0xff);
+      
+    Serial.print("Encoder event, number: ");
+    Serial.print(encoder_number);
+    Serial.print(", motion: ");
+    Serial.print(motion);
+    Serial.println();
+
+    switch (encoder_number) {
+    case 0:
+      e.type = event_type::EVT_BPM_SET;
+      e.parameter = _timer1.bpm() + motion;
+      break;
+    case 1:
+      if (motion > 0) {
+        e.type = EVT_PHASE_MAJ_UP;
+      }
+      else {
+        e.type = EVT_PHASE_MAJ_DN;
+      }
+      break;
+    case 2:
+      if (motion > 0) {
+        e.type = EVT_MIN_UP;
+      }
+      else {
+        e.type = EVT_MIN_DN;
+      }
+      break;
+    case 3:
+      if (motion > 0) {
+        e.type = EVT_SELECTED_TRACK_DN;
+      }
+      else {
+        e.type = EVT_SELECTED_TRACK_UP;
+      }
+      break;
+    }
+  }
+  
   if ((e.type >= 20) && (e.type <= 27)) {
     ProcessTrackControl<event::event_type_t, 8>::apply(
       _tracks.current(),
@@ -250,130 +293,100 @@ bool application::process_control_event(
     
     _ui_data.redraw_track.set();
     _ui_data.redraw_selected_track_indicator.set();
-
+    
     _eeprom.flag_save_requested();
     
     goto success;
   }
-  else {
-    if (e.type == event_type::EVT_ENCODER) {
-      uint8_t encoder_number = e.parameter >> 8;
-      int8_t  motion = (int8_t)(e.parameter & 0xff);
-      
-      Serial.print("Encoder event, number: ");
-      Serial.print(encoder_number);
-      Serial.print(", motion: ");
-      Serial.print(motion);
-      Serial.println();
-
-      switch (encoder_number) {
-      case 0:
-        break;
-      case 1:
-        break;
-      case 2:
-        e.type = event_type::EVT_BPM_SET;
-        e.parameter = _timer1.bpm() + motion;
-        break;
-      case 3:
-        if (motion > 0) {
-          e.type = EVT_SELECTED_TRACK_DN;
-        }
-        else {
-          e.type = EVT_SELECTED_TRACK_UP;
-        }
-        break;
-      }
-    }
     
-    switch (e.type) {
-    case event_type::EVT_BPM_SET:
-    {
-      _timer1.set_bpm(e.parameter);
+  switch (e.type) {
+  case event_type::EVT_BPM_SET:
+  {
+    _timer1.set_bpm(e.parameter);
 
-      _ui_data.popup_bpm_requested.set();
-      
-      _eeprom.flag_save_requested();
-      
-      goto success;
-    }
-
-    case EVT_PAD_1:
-    case EVT_PAD_2:
-    case EVT_PAD_3:
-    case EVT_PAD_4:
-    case EVT_PAD_5:
-    case EVT_PAD_6:
-    case EVT_PAD_7:
-    case EVT_PAD_8:
-    case EVT_PAD_9:
-    case EVT_PAD_10:
-    case EVT_PAD_11:
-    case EVT_PAD_12:
-    case EVT_PAD_13:
-    case EVT_PAD_14:
-    case EVT_PAD_15:
-    case EVT_PAD_16:
-    {
-      static uint16_t light_states = 0;
-
-      _x0x_leds.xor_write(light_states);
-      
-      uint16_t tmp = util::flip_bytes(((uint16_t)1) << (((uint8_t)e.type) - 1));
-      light_states ^= tmp;
-      
-      Serial.print("Light up ");
-      util::print_bits_16(light_states);
-      Serial.println();
-
-      _x0x_leds.or_write(light_states, true);
-
-      goto success;
-    }
-    case event_type::EVT_SELECTED_TRACK_UP:
-    {
-      _tracks++;
-
-//      _ui_data.redraw_track.set();
-      _ui_data.redraw_selected_track_indicator.set();
-
-      Serial.print("Trk up -> "); Serial.flush();
-      Serial.print(_tracks.index()); //  Serial.flush();
-      Serial.println(); Serial.flush();
-
-      goto success;
-    }
-    case event_type::EVT_SELECTED_TRACK_DN:
-    {
-      _tracks--;
-      
-//      _ui_data.redraw_track.set();
-      _ui_data.redraw_selected_track_indicator.set();
-      
-      Serial.print("Trk dn -> "); Serial.flush();
-      Serial.print(_tracks.index()); Serial.flush();
-      Serial.println(); Serial.flush();
-      
-      goto success;
-    }
-    case event_type::EVT_PLAYBACK_STATE_TOGGLE:
-    {
-      set_playback_state(! _timer1.playback_state());
-      
-      _eeprom.flag_save_requested();
-      
-      goto success;
-    }
-    default:
-      Serial.print("Unrecognized event: ");
-      Serial.print(e.type, HEX);
-      Serial.println();
-      Serial.flush();
-    }
-    return false;
-
-  success:
-      flag_main_screen();
-      return true;
+    _ui_data.popup_bpm_requested.set();
+    
+    _eeprom.flag_save_requested();
+    
+    goto success;
   }
+
+  case EVT_PAD_1:
+  case EVT_PAD_2:
+  case EVT_PAD_3:
+  case EVT_PAD_4:
+  case EVT_PAD_5:
+  case EVT_PAD_6:
+  case EVT_PAD_7:
+  case EVT_PAD_8:
+  case EVT_PAD_9:
+  case EVT_PAD_10:
+  case EVT_PAD_11:
+  case EVT_PAD_12:
+  case EVT_PAD_13:
+  case EVT_PAD_14:
+  case EVT_PAD_15:
+  case EVT_PAD_16:
+  {
+    static uint16_t light_states = 0;
+
+    _x0x_leds.xor_write(light_states);
+      
+    uint16_t tmp = util::flip_bytes(((uint16_t)1) << (((uint8_t)e.type) - 1));
+    light_states ^= tmp;
+      
+    Serial.print("Light up ");
+    util::print_bits_16(light_states);
+    Serial.println();
+
+    _x0x_leds.or_write(light_states, true);
+
+    goto success;
+  }
+  case event_type::EVT_SELECTED_TRACK_UP:
+  {
+    _tracks++;
+
+//      _ui_data.redraw_track.set();
+    _ui_data.redraw_selected_track_indicator.set();
+
+    Serial.print("Trk up -> "); Serial.flush();
+    Serial.print(_tracks.index()); //  Serial.flush();
+    Serial.println(); Serial.flush();
+
+    goto success;
+  }
+  case event_type::EVT_SELECTED_TRACK_DN:
+  {
+    _tracks--;
+      
+//      _ui_data.redraw_track.set();
+    _ui_data.redraw_selected_track_indicator.set();
+      
+    Serial.print("Trk dn -> "); Serial.flush();
+    Serial.print(_tracks.index()); Serial.flush();
+    Serial.println(); Serial.flush();
+      
+    goto success;
+  }
+  case event_type::EVT_PLAYBACK_STATE_TOGGLE:
+  {
+    set_playback_state(! _timer1.playback_state());
+      
+    _eeprom.flag_save_requested();
+      
+    goto success;
+  }
+  default:
+    Serial.print("Unrecognized event: ");
+    Serial.print(e.type, HEX);
+    Serial.println();
+    Serial.flush();
+  }
+  return false;
+
+success:
+  flag_main_screen();
+  return true;
 }
+

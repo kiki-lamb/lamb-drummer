@@ -24,7 +24,7 @@ private:
       if (stages[((uint8_t)(stage_ix + 1U)) & 0b11] == bit_pair) {
         this->motion--;
 
-        if (motion < -2) {
+        if (motion < -1) {
           this->flagged = true;
         }
 
@@ -33,7 +33,7 @@ private:
       else if (stages[((uint8_t)(stage_ix - 1)) & 0b11] == bit_pair) {
         this->motion++;
 
-        if (motion > 2) {
+        if (motion > 1) {
           this->flagged = true;
         }
 
@@ -82,7 +82,7 @@ public:
 
       if (encoder_states[ix].flagged && motion_events.writable()) {
         motion_events.enqueue(
-          motion_event { ix, encoder_states[ix].motion ^ 1 }
+          motion_event { ix, (int8_t)(encoder_states[ix].motion ^ 1) }
         );
         encoder_states[ix].motion = 0;
         encoder_states[ix].flagged = false;

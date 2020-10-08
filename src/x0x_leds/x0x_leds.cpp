@@ -13,8 +13,9 @@ bool x0x_leds::setup(Adafruit_MCP23017 * device_) {
 
   for (size_t ix = 0; ix < 16; ix++) {
     _device->pinMode(ix, OUTPUT);
-    _device->digitalWrite(ix, LOW);
   }
+
+  _device->writeGPIOAB(0);
   
   return true;
 }
