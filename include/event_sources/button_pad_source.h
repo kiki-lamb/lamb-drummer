@@ -16,11 +16,7 @@ private:
   event_type const * _button_ordering;
   uint8_t            _button_ordering_size;
 
-  event_t::event_type_t queue[buffer_size];
-  uint8_t               queue_write_ix;
-  uint8_t               queue_read_ix;
-  uint8_t               queue_count;
-  uint8_t               queue_length;       
+  declare_light_buffer(event::event_type_t, buffer_size, queue);
   
 public:
   button_pad_source(
@@ -31,18 +27,11 @@ public:
     _device(device_),
     _button_ordering(button_ordering_),
     _button_ordering_size(button_ordering_size_),
-    queue(),
-    queue_write_ix(0),
-    queue_read_ix(0),  
-    queue_count(0),
-    queue_length(0) {}      
+    queue() {}
 
   virtual ~button_pad_source() {}
 
 private:
-  // lamb::ring_buffer<event_t::event_type_t, buffer_size> queue;
-  
-  
   virtual void    impl_poll() {
     // Serial.println("Poll...");
     
@@ -65,8 +54,7 @@ private:
         // Serial.print("Enqueue ");
         // Serial.println(button_ordering[ix]);
 
-        queue[queue_write_ix %= queue_length, queue_count++, queue_write_ix++] =
-          _button_ordering[ix];
+        light_buffer_write(queue, _button_ordering[ix]);
       }
     }
   }
@@ -78,7 +66,7 @@ private:
   virtual event_t impl_dequeue_event() {
     return event {
       (queue_count) ?
-        (queue[queue_read_ix %= queue_length, queue_count--, queue_read_ix++]) :
+        light_buffer_read(queue) :
         EVT_NOT_AVAILABLE
     };    
   };

@@ -278,26 +278,26 @@ bool application::process_control_event(
     uint8_t encoder_number = e.parameter >> 8;
     int8_t  motion = (int8_t)(e.parameter & 0xff);
       
-    // Serial.print("Encoder event, number: ");
-    // Serial.print(encoder_number);
-    // Serial.print(", motion: ");
-    // Serial.print(motion);
-    // Serial.println();
+    Serial.print("Encoder event, number: ");
+    Serial.print(encoder_number);
+    Serial.print(", motion: ");
+    Serial.print(motion);
+    Serial.println();
 
     switch (encoder_number) {
-    case 0:
+    case 28:
       e.type = motion > 0 ? EVT_MAJ_UP : EVT_MAJ_DN;
       break;
 
-    case 1:
+    case 29:
       e.type = motion > 0 ? EVT_MIN_UP : EVT_MIN_DN;
       break;
 
-    case 2:
+    case 30:
       e.type = motion > 0 ? EVT_PHASE_MAJ_UP : EVT_PHASE_MAJ_DN;
       break;
 
-    case 3:
+    case 31:
       e.type = motion > 0 ? EVT_PHASE_MIN_UP : EVT_PHASE_MIN_DN;
       break;
 
