@@ -99,8 +99,6 @@ void timer1_::increment_ticker() {
 }
 
 void timer1_::isr() {
-  cli();
-  
 #ifdef LOG_TIMERS
   Serial.println(F("1:isr +"));
 #endif

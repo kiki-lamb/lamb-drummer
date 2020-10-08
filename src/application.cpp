@@ -155,8 +155,6 @@ void application::setup() {
 
   _eeprom .restore_all(tmp);
 
-  _timer1.set_bpm(tmp.bpm);
-
   setup_controls();
   
   cli();
@@ -178,6 +176,8 @@ void application::setup() {
   _ui_data.tracks = &_tracks;
 
   update_ui_data();
+
+  _timer1.set_bpm(tmp.bpm);
 
   sei();
   
@@ -279,11 +279,11 @@ bool application::process_control_event(
     uint8_t encoder_number = e.parameter >> 8;
     int8_t  motion = (int8_t)(e.parameter & 0xff);
       
-    Serial.print("Encoder event, number: ");
-    Serial.print(encoder_number);
-    Serial.print(", motion: ");
-    Serial.print(motion);
-    Serial.println();
+    // Serial.print("Encoder event, number: ");
+    // Serial.print(encoder_number);
+    // Serial.print(", motion: ");
+    // Serial.print(motion);
+    // Serial.println();
 
     switch (encoder_number) {
     case 0:
@@ -302,11 +302,11 @@ bool application::process_control_event(
       e.type = motion > 0 ? EVT_PHASE_MIN_UP : EVT_PHASE_MIN_DN;
       break;
 
-    case 64:
+    case 131:
       e.type = motion > 0 ? EVT_SELECTED_TRACK_DN : EVT_SELECTED_TRACK_UP;
       break;
     
-    case 131:
+    case 64:
       e.type = event_type::EVT_BPM_SET;
       e.parameter = _timer1.bpm() + motion;
 
