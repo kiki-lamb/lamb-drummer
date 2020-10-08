@@ -19,9 +19,13 @@ private:
 public:
   encoder_pad_source(
     encoder_pad_type * device_,
-    uint8_t button_number_mask_ = 034    
+    uint8_t button_number_mask_ = 0x0
   ) :
-    _device(device_), _button_number_mask(button_number_mask_) {}
+    _device(device_), _button_number_mask(button_number_mask_) {
+//    Serial.print("MASK: ");
+//    Serial.print(button_number_mask_);
+//    Serial.println();
+  }
 
   virtual ~encoder_pad_source() {}
 

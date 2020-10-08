@@ -285,19 +285,19 @@ bool application::process_control_event(
     Serial.println();
 
     switch (encoder_number) {
-    case 28:
+    case 0:
       e.type = motion > 0 ? EVT_MAJ_UP : EVT_MAJ_DN;
       break;
 
-    case 29:
+    case 1:
       e.type = motion > 0 ? EVT_MIN_UP : EVT_MIN_DN;
       break;
 
-    case 30:
+    case 2:
       e.type = motion > 0 ? EVT_PHASE_MAJ_UP : EVT_PHASE_MAJ_DN;
       break;
 
-    case 31:
+    case 3:
       e.type = motion > 0 ? EVT_PHASE_MIN_UP : EVT_PHASE_MIN_DN;
       break;
 
