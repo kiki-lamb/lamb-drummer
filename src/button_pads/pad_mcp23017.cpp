@@ -1,6 +1,7 @@
 #include "button_pads/pad_mcp23017.h"
 #include <Arduino.h>
 #include "i2c_lock.h"
+#include "util/util.h"
 
 pad_mcp23017::pad_mcp23017(
     uint8_t i2c_addr_, 
@@ -23,7 +24,9 @@ void pad_mcp23017::setup(Adafruit_MCP23017 * _device) {
 
   device = _device;
 
-  for (uint8_t ix = 0; ix < 16; ix++) {
+  for (uint8_t ix = button_range_start;
+       ix < (button_range_start+button_count);
+       ix++) {
     device->pinMode(ix, INPUT);
     device->pullUp(ix, HIGH);
   }
@@ -36,7 +39,25 @@ void pad_mcp23017::setup(Adafruit_MCP23017 * _device) {
 
   button_mask >>= button_range_start;    
 
+  Serial.print("Button mask: ");
+  util::print_bits_16(button_mask);
+  Serial.println();
+  
   button_shift = 16 - button_count - button_range_start;
+}
+
+uint16_t pad_mcp23017::apply_button_mask(uint16_t const & value) {
+  uint16_t tmp = value;
+  
+  if (button_mask != 0xffff) {
+    tmp &= button_mask;
+  }
+
+  if (button_shift != 0) {
+    tmp >>= button_shift;
+  }
+
+  return tmp;  
 }
 
 uint16_t pad_mcp23017::begin_read(bool & succeeded) {

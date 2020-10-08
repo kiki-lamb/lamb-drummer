@@ -215,8 +215,6 @@ void screen_main::draw_column(
   uint8_t const & col,
   uint8_t const & mod_maj
 )  {
-  return;
-  
   for (uint8_t line = 1; line <= 3; line++) {
     draw_column(line-1, col, mod_maj);
   }

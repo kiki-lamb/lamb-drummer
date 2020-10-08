@@ -16,8 +16,8 @@ bool button_pad_mcp23017::read() {
 
   if (! read) return false;
   
-  new_buttons = tmpval & ~buttons_; //  ^ tmpval;
-
+  new_buttons = apply_button_mask(tmpval & ~buttons_);
+  
   if (button_mask != 0xffff) {
     new_buttons &= button_mask;
   }

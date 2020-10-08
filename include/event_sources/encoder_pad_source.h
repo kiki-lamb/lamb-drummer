@@ -14,12 +14,14 @@ public:
   
 private:
   encoder_pad_type * _device;
-
+  uint8_t _button_number_mask;
+  
 public:
   encoder_pad_source(
-    encoder_pad_type * device_
+    encoder_pad_type * device_,
+    uint8_t button_number_mask_ = 0
   ) :
-    _device(device_) {}
+    _device(device_), _button_number_mask(button_number_mask_) {}
 
   virtual ~encoder_pad_source() {}
 
@@ -39,7 +41,9 @@ private:
     typename encoder_pad_type::motion_event tmp =
       _device->motion_events.dequeue();
 
-    uint16_t event_arg = (tmp.encoder_number << 8) | ((uint8_t)tmp.motion);
+    uint16_t event_arg = (
+      ((tmp.encoder_number | _button_number_mask) << 8) | ((uint8_t)tmp.motion)
+    );
 
     return event { EVT_ENCODER, event_arg };
   };

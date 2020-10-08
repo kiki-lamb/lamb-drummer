@@ -41,20 +41,43 @@ const event_type drum_pad_ordering[] = {
 ////////////////////////////////////////////////////////////////////////////////
 
 application::control_event_source_t
-application::_control_event_source;
+                          application::_control_event_source;
+
 combine_event_sources<event, application::event_sources_count>
-application::_combine_event_sources;
+                          application::_combine_event_sources;
+
 Adafruit_MCP23017         application::_x0x_leds_device;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Adafruit_MCP23017   application::_combo_pad_device;
 Adafruit_MCP23017   application::_drum_pad_device;
+Adafruit_MCP23017   application::_encoder_pad_device;
 
 encoder_pad_mcp23017<application::encoder_pad_size>
-application::_combo_pad_encoder_pad(0x0, 0);
+                    application::_combo_pad_encoder_pad(0x0, 0);
+
+encoder_pad_mcp23017<application::encoder_pad_size>
+                    application::_encoder_pad0(0x5, 0);
+
+encoder_pad_mcp23017<application::encoder_pad_size>
+                    application::_encoder_pad1(0x5, 8);
+
 button_pad_mcp23017 application::_combo_pad_button_pad(0x0, 8);
+
 button_pad_mcp23017 application::_drum_pad_button_pad(0x3);
+
+encoder_pad_source<encoder_pad_mcp23017<application::encoder_pad_size> >
+application::_encoder_pad_source0(
+  &application::_encoder_pad0,
+  64
+);
+
+encoder_pad_source<encoder_pad_mcp23017<application::encoder_pad_size> >
+application::_encoder_pad_source1(
+  &application::_encoder_pad1,
+  128
+);
 
 encoder_pad_source<encoder_pad_mcp23017<application::encoder_pad_size> >
 application::_combo_pad_encoder_source(
@@ -166,8 +189,9 @@ void application::setup() {
 }
 
 void application::setup_controls() {
-  _combo_pad_device.begin(0x0);
-  _drum_pad_device .begin(0x3);
+  _combo_pad_device  .begin(0x0);
+  _drum_pad_device   .begin(0x3);
+  _encoder_pad_device.begin(0x5);
   
   _drum_pad_button_pad.setup(&_drum_pad_device);
   _combine_event_sources.sources[0] = &_drum_pad_source;
@@ -177,16 +201,24 @@ void application::setup_controls() {
 
   _combo_pad_encoder_pad.setup(&_combo_pad_device);
   _combine_event_sources.sources[2] = &_combo_pad_encoder_source;
-  
+
+  _encoder_pad0.setup(&_encoder_pad_device);
+  _combine_event_sources.sources[3] = &_encoder_pad_source0;
+
+  _encoder_pad1.setup(&_encoder_pad_device);
+  _combine_event_sources.sources[4] = &_encoder_pad_source1;
+
   _control_event_source .source     = &_combine_event_sources;
 }
 
 void application::loop() {
   (
+    _x0x_leds.update() ||
     _trigger_outputs.update() || 
     process_control_events()  ||
-    (update_ui_data(), _ui.update_screen()) ||
-    _x0x_leds.update()
+    _trigger_outputs.update() || 
+    (update_ui_data(), _trigger_outputs.update() || _ui.update_screen()) ||
+    _trigger_outputs.update()
   );
 }
 

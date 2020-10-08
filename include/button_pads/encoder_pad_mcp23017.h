@@ -69,8 +69,8 @@ public:
 
     if (! read) return false;
     
-    buttons_ = tmpval;
-
+    buttons_ = apply_button_mask(tmpval);
+    
     uint16_t partial_mask = 0b11;
     partial_mask <<= (encoder_count-1) << 1;
 

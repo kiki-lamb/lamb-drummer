@@ -27,6 +27,8 @@ public:
 
 protected:
   uint16_t begin_read(bool & succeeded);
+
+  uint16_t apply_button_mask(uint16_t const & value);
 };
 
 #endif
