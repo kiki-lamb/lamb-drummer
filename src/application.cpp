@@ -213,12 +213,11 @@ void application::setup_controls() {
 
 void application::loop() {
   (
+    _trigger_outputs.update() || 
     _x0x_leds.update() ||
-    _trigger_outputs.update() || 
+    _trigger_outputs.update() ||   
     process_control_events()  ||
-    _trigger_outputs.update() || 
-    (update_ui_data(), _trigger_outputs.update() || _ui.update_screen()) ||
-    _trigger_outputs.update()
+    (update_ui_data(), _ui.update_screen())
   );
 }
 

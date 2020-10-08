@@ -118,10 +118,10 @@ void timer1_::isr() {
         application::flag_main_screen(); // In ISR, not that ugly...
       }
 
-      Serial.print("Ticker ");
-      Serial.print(ticker_);
-      Serial.print(" page ");
-      Serial.println(application::page());
+//      Serial.print("Ticker ");
+//      Serial.print(ticker_);
+//      Serial.print(" page ");
+//      Serial.println(application::page());
 
 
 //      if ((ticker_ % 64) == 0) {
@@ -130,11 +130,11 @@ void timer1_::isr() {
       auto track = application::tracks().current();
       
       for (uint8_t col = 0, total = add; col < 16; col++, total++) {
-          Serial.print("Check step ");
-          Serial.print(total);
-          Serial.print(" = ");
-          Serial.println(track.trigger_state(total));
-        
+//          Serial.print("Check step ");
+//          Serial.print(total);
+//          Serial.print(" = ");
+//          Serial.println(track.trigger_state(total));
+
         if (track.trigger_state(total)) {
           write |= 1 << col;
         }

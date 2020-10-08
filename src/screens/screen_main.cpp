@@ -16,7 +16,7 @@ void screen_main::draw_channel_numbers() {
   if (selected !=last_selected) {
     for (uint8_t line = 1; line <= 3; line++) {
       if (line == selected) continue;
-      
+   
       lcd::set_cursor(0, line);
       lcd::print(line);
     }
@@ -86,7 +86,7 @@ void screen_main::draw_line0(bool const & redraw_bpm) {
       lcd::set_cursor(1, 0);
       lcd::print(F(" BPM  "));
     }
-    
+ 
     lcd::set_cursor(9, 0);
     lcd::print(data->millihz);
     if      (data->millihz >= 1000) {
@@ -108,10 +108,10 @@ void screen_main::draw_line0(bool const & redraw_bpm) {
   }
   else if (data->redraw_selected_track_indicator.consume()) {
     track const & track  = (*data->tracks)[(*data->tracks).index()];
-    
+ 
     lcd::set_cursor(0, 0);
     lcd::print("                  ");
-    
+ 
     lcd::set_cursor(0, 0);
     lcd::print(F("Maj"));
     if (track.mod_maj() < 10) {
@@ -187,7 +187,7 @@ void screen_main::impl_update() {
 //    ((uint8_t)((data->ticker>>1)-1)) %
 //    (*data->tracks).max_mod_maj()
 //  );
-  
+
   uint8_t current = (
     (data->ticker>>1) %
     (*data->tracks).max_mod_maj()
@@ -195,7 +195,7 @@ void screen_main::impl_update() {
 
   ////Serial.println("Before rt!");
   bool redraw_page = false;
-  
+
   if (! redraw_page) {
     static uint8_t last_page = 255;
     uint8_t        tmp_page = data->page;
@@ -239,9 +239,9 @@ void screen_main::draw_column(
 )  {
   track const & t = (*data->tracks)[channel];
 
-  Serial.print("Draw channel ");
-  Serial.print(channel);
-  Serial.println();
+//  Serial.print("Draw channel ");
+//  Serial.print(channel);
+//  Serial.println();
   
   static const uint8_t col_map[] = {
     1,   2,  3,  4,
