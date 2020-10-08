@@ -10,16 +10,25 @@ screen_main::screen_main(data_t * data) :
   {}
 
 void screen_main::draw_channel_numbers() {
-  for (uint8_t line = 1; line <= 3; line++) {
-    lcd::set_cursor(0, line);
-    lcd::print(line);
-  }
+  static uint8_t last_selected = 0xff;
+  uint8_t selected = (*data->tracks).index() + 1;
 
-  lcd::put_inversion(
-    0,
-    (*data->tracks).index() + 1,
-    (*data->tracks).index() + 1
-  );
+  if (selected !=last_selected) {
+    for (uint8_t line = 1; line <= 3; line++) {
+      if (line == selected) continue;
+      
+      lcd::set_cursor(0, line);
+      lcd::print(line);
+    }
+
+    lcd::put_inversion(
+      0,
+      selected,
+      selected
+    );
+
+    last_selected = selected;
+  }
 }
 
 void screen_main::draw_bars() {

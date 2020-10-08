@@ -268,12 +268,12 @@ bool application::process_control_event(
 
       switch (encoder_number) {
       case 0:
-        e.type = event_type::EVT_BPM_SET;
-        e.parameter = _timer1.bpm() + motion;
         break;
       case 1:
         break;
       case 2:
+        e.type = event_type::EVT_BPM_SET;
+        e.parameter = _timer1.bpm() + motion;
         break;
       case 3:
         if (motion > 0) {
