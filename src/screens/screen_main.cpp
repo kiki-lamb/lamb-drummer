@@ -52,8 +52,12 @@ void screen_main::impl_enter() {
 
   draw_bars();
 
-  for (uint8_t step = 0, mmm = (*data->tracks).max_mod_maj(); step < 16; step++)
+  for (
+    uint8_t step = 0, mmm = (*data->tracks).max_mod_maj();
+    step < 16;
+    step++) {
     draw_column(step, mmm);
+  }
 
   draw_page_number();
 }
@@ -72,34 +76,34 @@ void screen_main::draw_line0(bool const & redraw_bpm) {
     lcd::print(data->bpm);
     if      (data->bpm >= 100) {
       lcd::set_cursor(3, 0);
-      lcd::print(" BPM");
+      lcd::print(F(" BPM"));
     }
     else if (data->bpm >= 10) {
       lcd::set_cursor(2, 0);
-      lcd::print(" BPM ");
+      lcd::print(F(" BPM "));
     }
     else {
       lcd::set_cursor(1, 0);
-      lcd::print(" BPM  ");
+      lcd::print(F(" BPM  "));
     }
     
     lcd::set_cursor(9, 0);
     lcd::print(data->millihz);
     if      (data->millihz >= 1000) {
       lcd::set_cursor(13, 0);
-      lcd::print(" mhz"); 
+      lcd::print(F(" mhz")); 
     }
     else if (data->millihz >= 100) {
       lcd::set_cursor(12, 0);
-      lcd::print(" mhz "); 
+      lcd::print(F(" mhz ")); 
     }
     else if (data->millihz >= 10) {
       lcd::set_cursor(11, 0);
-      lcd::print(" mhz  "); 
+      lcd::print(F(" mhz  ")); 
     }
     else {
       lcd::set_cursor(10, 0);
-      lcd::print(" mhz   "); 
+      lcd::print(F(" mhz   ")); 
     }
   }
   else if (data->redraw_selected_track_indicator.consume()) {
@@ -109,7 +113,7 @@ void screen_main::draw_line0(bool const & redraw_bpm) {
     lcd::print("                  ");
     
     lcd::set_cursor(0, 0);
-    lcd::print("Maj");
+    lcd::print(F("Maj"));
     if (track.mod_maj() < 10) {
       lcd::print(' ');
       lcd::print(track.mod_maj());
@@ -131,7 +135,7 @@ void screen_main::draw_line0(bool const & redraw_bpm) {
     }
 
     lcd::set_cursor(9, 0);
-    lcd::print("Min");
+    lcd::print(F("Min"));
     if (track.mod_min() < 10) { 
       lcd::print(' ');
       lcd::print(track.mod_min());
@@ -190,8 +194,8 @@ void screen_main::impl_update() {
   );
 
   ////Serial.println("Before rt!");
-  bool redraw_page = data->redraw_track.consume();
-
+  bool redraw_page = false;
+  
   if (! redraw_page) {
     static uint8_t last_page = 255;
     uint8_t        tmp_page = data->page;
@@ -202,12 +206,21 @@ void screen_main::impl_update() {
     }
   }
 
+  
   uint8_t mmm = (*data->tracks).max_mod_maj();
 
   if (redraw_page) {
     draw_page_number();
-    for (uint8_t col = 0;  col < 16; col++)
+
+    for (uint8_t col = 0;  col < 16; col++) {
       draw_column((data->page * 16) + col, mmm);
+    }
+    
+    data->redraw_track.consume();
+  } else if (data->redraw_track.consume()) {
+    for (uint8_t col = 0;  col < 16; col++) {
+      draw_column((*data->tracks).index(), (data->page * 16) + col, mmm);
+    }
   }
 }
 
@@ -227,9 +240,9 @@ void screen_main::draw_column(
 )  {
   track const & t = (*data->tracks)[channel];
 
-//  Serial.print("Draw channel ");
-//  Serial.print(channel);
-//  Serial.println();
+  Serial.print("Draw channel ");
+  Serial.print(channel);
+  Serial.println();
   
   static const uint8_t col_map[] = {
     1,   2,  3,  4,
@@ -247,9 +260,9 @@ void screen_main::draw_column(
   if (on_barrier)
     character |= 0b011;
   
-  if ( is_hit )
+  if (is_hit)
     character |= 0b100;
-  
+
   lcd::set_cursor(col_, channel + 1);
   lcd::write(character);
 }

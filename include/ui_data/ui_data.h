@@ -13,6 +13,7 @@ public:
   bool             playback_state;
   uint8_t          ticker;
   lamb::flag       popup_bpm_requested;
+  lamb::flag       redraw_page;
   lamb::flag       redraw_track;
   lamb::flag       redraw_selected_track_indicator;
   lamb::flag       redraw_playback_state;
