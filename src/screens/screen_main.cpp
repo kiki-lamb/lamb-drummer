@@ -205,7 +205,6 @@ void screen_main::impl_update() {
         redraw_page = true;
     }
   }
-
   
   uint8_t mmm = (*data->tracks).max_mod_maj();
 

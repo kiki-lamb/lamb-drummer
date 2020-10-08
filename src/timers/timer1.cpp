@@ -123,37 +123,33 @@ void timer1_::isr() {
       Serial.print(" page ");
       Serial.println(application::page());
 
-#ifdef CHASE_LIGHTS
-      static uint16_t last_write = 0;
-      static uint16_t next_write; 
-#endif
 
 //      if ((ticker_ % 64) == 0) {
-        uint16_t write = 0;
-        uint8_t add   = application::page() << 4;
-        auto track = application::tracks().current();
+      uint16_t write = 0;
+      uint8_t add   = application::page() << 4;
+      auto track = application::tracks().current();
+      
+      for (uint8_t col = 0, total = add; col < 16; col++, total++) {
+          Serial.print("Check step ");
+          Serial.print(total);
+          Serial.print(" = ");
+          Serial.println(track.trigger_state(total));
         
-        for (uint8_t col = add; col < (add + 16); col++) {
-//          Serial.print("Check step ");
-//          Serial.print(col);
-//          Serial.print(" = ");
-//          Serial.println(track.trigger_state(col));
-          
-          if (track.trigger_state(col)) {
-            write |= 1 << col;
-          }
+        if (track.trigger_state(total)) {
+          write |= 1 << col;
         }
-        
+      }
+      
 //        Serial.print("Track: ");
 //        util::print_bits_16(write);
 //        Serial.println();
-        
-        last_write = 0;
-        application::x0x_leds().write(util::flip_bytes(write));
+      
+//        last_write = 0;
+      application::x0x_leds().write(util::flip_bytes(write));
 //      }
       
 #ifdef CHASE_LIGHTS     
-      next_write = util::flip_bytes(1 << (((ticker_ >> 1) % 16)));
+      uint16_t next_write = util::flip_bytes(1 << (((ticker_ >> 1) % 16)));
 
       application::x0x_leds().xor_write(next_write);
               

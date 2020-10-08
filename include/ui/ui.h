@@ -22,7 +22,7 @@ public:
     uint32_t now = millis();
     uint32_t delta = now - last_update;
 
-    if (delta < 300)      
+    if (delta < 250)      
       return false;
         
     bool tmp = screens[current_screen]->update();
