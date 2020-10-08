@@ -63,7 +63,7 @@ encoder_pad_mcp23017<application::encoder_pad_size>
 encoder_pad_mcp23017<application::encoder_pad_size>
     application::_encoder_pad1(0x5, 8);
 
-button_pad_mcp23017 application::_combo_pad_button_pad(0x0, 0, 8);
+button_pad_mcp23017 application::_combo_pad_button_pad(0x0, 8);
 
 button_pad_mcp23017 application::_drum_pad_button_pad(0x3);
 

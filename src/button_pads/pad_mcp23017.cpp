@@ -33,14 +33,23 @@ void pad_mcp23017::setup(Adafruit_MCP23017 * _device) {
 
   uint16_t partial_mask = 0x8000;
     
-  for (uint8_t ix = 0; ix < button_count; ix++, partial_mask >>= 1 ) {
+  for (
+    uint8_t ix = 0;
+    ix < button_count;
+    ix++, partial_mask >>= 1) {
     button_mask |= partial_mask;
   }
 
   button_mask >>= button_range_start;    
+  button_shift = button_count - button_range_start;
 
+  
   Serial.print("Button mask: ");
   util::print_bits_16(button_mask);
+  Serial.println();
+  
+  Serial.print("Button shift: ");
+  Serial.print(button_shift);
   Serial.println();
   
   button_shift = 16 - button_count - button_range_start;
@@ -48,6 +57,10 @@ void pad_mcp23017::setup(Adafruit_MCP23017 * _device) {
 
 uint16_t pad_mcp23017::apply_button_mask(uint16_t const & value) {
   uint16_t tmp = value;
+
+//  Serial.print("In:  ");
+//  util::print_bits_16(value);
+//  Serial.println();
   
   if (button_mask != 0xffff) {
     tmp &= button_mask;
@@ -57,6 +70,10 @@ uint16_t pad_mcp23017::apply_button_mask(uint16_t const & value) {
     tmp >>= button_shift;
   }
 
+//  Serial.print("Out:  ");
+//  util::print_bits_16(value);
+//  Serial.println();
+  
   return tmp;  
 }
 
