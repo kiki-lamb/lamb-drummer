@@ -5,15 +5,15 @@
 #include <avr/power.h>
 
 const event_type combo_pad_ordering[] = {
-  EVT_MAJ_UP,
-  EVT_PHASE_MAJ_UP,
-  EVT_MIN_UP,
-  EVT_SELECTED_TRACK_DN, // EVT_PHASE_MIN_UP,
+  EVT_NOT_AVAILABLE,
+  EVT_NOT_AVAILABLE,
+  EVT_NOT_AVAILABLE,
+  EVT_NOT_AVAILABLE,
 
-  EVT_MAJ_DN,
-  EVT_PHASE_MAJ_DN,
-  EVT_MIN_DN,
-  EVT_SELECTED_TRACK_UP, // EVT_PHASE_MIN_DN,
+  EVT_NOT_AVAILABLE,
+  EVT_NOT_AVAILABLE,
+  EVT_NOT_AVAILABLE,
+  EVT_PLAYBACK_STATE_TOGGLE, // EVT_PHASE_MIN_DN,
 };
 
 const event_type drum_pad_ordering[] = {
@@ -287,36 +287,33 @@ bool application::process_control_event(
 
     switch (encoder_number) {
     case 0:
+      e.type = motion > 0 ? EVT_MAJ_UP : EVT_MAJ_DN;
+      break;
+
+    case 1:
+      e.type = motion > 0 ? EVT_PHASE_MAJ_UP : EVT_PHASE_MAJ_DN;
+      break;
+
+    case 2:
+      e.type = motion > 0 ? EVT_MIN_UP : EVT_MIN_DN;
+      break;
+
+    case 3:
+      e.type = motion > 0 ? EVT_PHASE_MIN_UP : EVT_PHASE_MIN_DN;
+      break;
+
+    case 64:
+      e.type = motion > 0 ? EVT_SELECTED_TRACK_DN : EVT_SELECTED_TRACK_UP;
+      break;
+    
+    case 131:
       e.type = event_type::EVT_BPM_SET;
       e.parameter = _timer1.bpm() + motion;
-      break;
-    case 1:
-      if (motion > 0) {
-        e.type = EVT_PHASE_MAJ_UP;
-      }
-      else {
-        e.type = EVT_PHASE_MAJ_DN;
-      }
-      break;
-    case 2:
-      if (motion > 0) {
-        e.type = EVT_MIN_UP;
-      }
-      else {
-        e.type = EVT_MIN_DN;
-      }
-      break;
-    case 3:
-      if (motion > 0) {
-        e.type = EVT_SELECTED_TRACK_DN;
-      }
-      else {
-        e.type = EVT_SELECTED_TRACK_UP;
-      }
+
       break;
     }
   }
-  
+
   if ((e.type >= 20) && (e.type <= 27)) {
     ProcessTrackControl<event::event_type_t, 8>::apply(
       _tracks.current(),
@@ -404,7 +401,14 @@ bool application::process_control_event(
   case event_type::EVT_PLAYBACK_STATE_TOGGLE:
   {
     set_playback_state(! _timer1.playback_state());
-      
+
+    if (_timer1.playback_state()) {
+      Serial.print("Play.");
+    }
+    else {
+      Serial.print("Stop.");
+    }
+    
     _eeprom.flag_save_requested();
       
     goto success;

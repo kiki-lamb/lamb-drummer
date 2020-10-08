@@ -28,8 +28,8 @@ public:
     bool tmp = screens[current_screen]->update();
 
     if (tmp) {
-      Serial.print("Updated after ");
-      Serial.println(delta);
+      // Serial.print("Updated after ");
+      // Serial.println(delta);
       
       last_update = now;
     }

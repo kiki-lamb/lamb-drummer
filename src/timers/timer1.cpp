@@ -35,19 +35,19 @@ bool timer1_::playback_state() const {
 
 void timer1_::set_playback_state(bool const & playback_state_) {
   _playback_state = playback_state_;
-  if (_playback_state) {
-    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-      TCCR1A |= (1 << COM1A0);
-      TCNT1 = 0;
-    }
-  }
-  else { // stop playback
-    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-      TCCR1A ^= (1 << COM1A0);
-      application::trigger_outputs().write(~0b1111);
-      PORTB ^= 0b10;
-    }
-  }
+//   if (_playback_state) {
+//     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+//       TCCR1A |= (1 << COM1A0);
+//       TCNT1 = 0;
+//     }
+//   }
+//   else { // stop playback
+//     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+//       TCCR1A ^= (1 << COM1A0);
+//       application::trigger_outputs().write(~0b1111);
+//       PORTB ^= 0b10;
+//     }
+//   }
 }
 
 void timer1_::set_bpm(uint8_t const & tmp_bpm) {
@@ -113,63 +113,55 @@ void timer1_::isr() {
 
   uint8_t ticker_ = ticker();
 
-  if (! (ticker_ & 0b1)) {
-    if ((ticker_ % 8) == 0) {
-      Serial.println("Flag!");
-      application::flag_main_screen(); // In ISR, not that ugly...
-    }
-
-#ifdef CHASE_LIGHTS
-    static uint16_t last_write = 0;
-    static uint16_t next_write;
-
-    next_write = util::flip_bytes(1 << (((ticker_ >> 1) % 16)));
-      
-    application::x0x_leds().xor_write(last_write | next_write);
-    
-    last_write = next_write;
-#endif
-
-    if (! playback_state()) {
-      application::trigger_outputs().write(~0b1111);
-
-#ifdef LOG_TIMERS
-      Serial.println(F("1:isr !"));
-#endif
-
-      return;
-    }
-
-    byte blast = 0xff;
-
-    for (byte ix = 0; ix <= 2; ix++) {
-      if (application::tracks()[ix].trigger_state(ticker_ >> 1)) {
-        blast &= ~_BV(ix);
+  if (playback_state()) {
+    if (! (ticker_ & 0b1)) {
+      if ((ticker_ % 8) == 0) {
+        // Serial.println("Flag!");
+        application::flag_main_screen(); // In ISR, not that ugly...
       }
+      
+#ifdef CHASE_LIGHTS
+      static uint16_t last_write = 0;
+      static uint16_t next_write;
+      
+      next_write = util::flip_bytes(1 << (((ticker_ >> 1) % 16)));
+      
+      application::x0x_leds().xor_write(last_write | next_write);
+      
+      last_write = next_write;
+#endif
+      
+      byte blast = 0xff;
+      
+      for (byte ix = 0; ix <= 2; ix++) {
+        if (application::tracks()[ix].trigger_state(ticker_ >> 1)) {
+          blast &= ~_BV(ix);
+        }
+      }
+      
+#ifdef LOG_OUTPUT
+      Serial.println();
+      Serial.print(F("blast   "));
+      Serial.print(ticker_);
+      Serial.print(F(" = "));
+      application::print_bits(blast);
+      Serial.println();
+#endif
+      
+      application::trigger_outputs().write(blast);
     }
-
+    else {
 #ifdef LOG_OUTPUT
-    Serial.println();
-    Serial.print(F("blast   "));
-    Serial.print(ticker_);
-    Serial.print(F(" = "));
-    application::print_bits(blast);
-    Serial.println();
+      Serial.println();
+      Serial.println(F("unblast "));
 #endif
+      
+      application::trigger_outputs().write(0xff);
+    }
     
-    application::trigger_outputs().write(blast);
+    increment_ticker();
   }
-  else {
-#ifdef LOG_OUTPUT
-    Serial.println();
-    Serial.println(F("unblast "));
-#endif
-    
-    application::trigger_outputs().write(0xff);
-  }
-
-  increment_ticker();
-
+  
   TIMSK1 = cTIMSK1;
   TIMSK2 = cTIMSK2;
 

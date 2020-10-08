@@ -227,9 +227,9 @@ void screen_main::draw_column(
 )  {
   track const & t = (*data->tracks)[channel];
 
-  Serial.print("Draw channel ");
-  Serial.print(channel);
-  Serial.println();
+//  Serial.print("Draw channel ");
+//  Serial.print(channel);
+//  Serial.println();
   
   static const uint8_t col_map[] = {
     1,   2,  3,  4,
