@@ -291,11 +291,11 @@ bool application::process_control_event(
       break;
 
     case 1:
-      e.type = motion > 0 ? EVT_PHASE_MAJ_UP : EVT_PHASE_MAJ_DN;
+      e.type = motion > 0 ? EVT_MIN_UP : EVT_MIN_DN;
       break;
 
     case 2:
-      e.type = motion > 0 ? EVT_MIN_UP : EVT_MIN_DN;
+      e.type = motion > 0 ? EVT_PHASE_MAJ_UP : EVT_PHASE_MAJ_DN;
       break;
 
     case 3:

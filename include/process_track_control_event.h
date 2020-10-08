@@ -18,8 +18,17 @@ private:
 
   static void increase_mod_maj(track & that) {
     Serial.println(F("BMMU"));
-    if (that.mod_maj() <= 32)
-      that.set_mod_maj( that.mod_maj() << 1);
+
+    uint8_t tmm = that.mod_maj();
+    bool    eq  = tmm == that.mod_min();
+    
+    if (tmm <= 32) {
+      that.set_mod_maj(tmm << 1);
+
+      if (eq) {
+        that.set_mod_min(tmm << 1);
+      }
+    }
   }
 
   static void decrease_mod_maj(track & that) {
