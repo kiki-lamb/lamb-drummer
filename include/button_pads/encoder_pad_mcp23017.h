@@ -51,7 +51,7 @@ public:
     int8_t motion;
   };
 
-  lamb::ring_buffer<motion_event, encoder_count> motion_events;
+  declare_light_buffer(motion_event, encoder_count, motion_events);
 
 public:
   explicit encoder_pad_mcp23017(
@@ -80,16 +80,14 @@ public:
 
       encoder_states[ix].update(shifted);
 
-      if (encoder_states[ix].flagged && motion_events.writable()) {
-        motion_events.enqueue(
-          motion_event { ix, (int8_t)(encoder_states[ix].motion ^ 1) }
-        );
+      if (encoder_states[ix].flagged && light_buffer_writable(motion_events)) {
+        light_buffer_write(motion_events, (motion_event { ix, (int8_t)(encoder_states[ix].motion ^ 1) }));
         encoder_states[ix].motion = 0;
         encoder_states[ix].flagged = false;
       }
     }
     
-    return motion_events.readable();
+    return light_buffer_readable(motion_events);
   }
 };
 

@@ -15,6 +15,12 @@ private:
   button_pad_type  * _device;
   event_type const * _button_ordering;
   uint8_t            _button_ordering_size;
+
+  event_t::event_type_t queue[buffer_size];
+  uint8_t               queue_write_ix;
+  uint8_t               queue_read_ix;
+  uint8_t               queue_count;
+  uint8_t               queue_length;       
   
 public:
   button_pad_source(
@@ -24,13 +30,19 @@ public:
   ) : 
     _device(device_),
     _button_ordering(button_ordering_),
-    _button_ordering_size(button_ordering_size_) {}
+    _button_ordering_size(button_ordering_size_),
+    queue(),
+    queue_write_ix(0),
+    queue_read_ix(0),  
+    queue_count(0),
+    queue_length(0) {}      
 
   virtual ~button_pad_source() {}
 
 private:
-  lamb::ring_buffer<event_t::event_type_t, buffer_size> queue;
-
+  // lamb::ring_buffer<event_t::event_type_t, buffer_size> queue;
+  
+  
   virtual void    impl_poll() {
     // Serial.println("Poll...");
     
@@ -52,20 +64,21 @@ private:
       if (mask & tmp_buttons) {
         // Serial.print("Enqueue ");
         // Serial.println(button_ordering[ix]);
-        
-        queue.enqueue(_button_ordering[ix]);
+
+        queue[queue_write_ix %= queue_length, queue_count++, queue_write_ix++] =
+          _button_ordering[ix];
       }
     }
   }
 
   virtual uint8_t impl_queue_count() const {
-    return queue.count();
+    return queue_count;
   }
 
   virtual event_t impl_dequeue_event() {
     return event {
-      queue.readable() ?
-        queue.dequeue() :
+      (queue_count) ?
+        (queue[queue_read_ix %= queue_length, queue_count--, queue_read_ix++]) :
         EVT_NOT_AVAILABLE
     };    
   };

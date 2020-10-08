@@ -19,7 +19,7 @@ private:
 public:
   encoder_pad_source(
     encoder_pad_type * device_,
-    uint8_t button_number_mask_ = 0
+    uint8_t button_number_mask_ = 034    
   ) :
     _device(device_), _button_number_mask(button_number_mask_) {}
 
@@ -31,15 +31,15 @@ private:
   }
 
   virtual uint8_t impl_queue_count() const {
-    return _device->motion_events.count();
+    return _device->motion_events_count;
   }
 
   virtual event_t impl_dequeue_event() {
-    if (! _device->motion_events.readable())
+    if (! light_buffer_readable(_device->motion_events))
       return event { EVT_NOT_AVAILABLE };
 
     typename encoder_pad_type::motion_event tmp =
-      _device->motion_events.dequeue();
+      light_buffer_read(_device->motion_events);
 
     uint16_t event_arg = (
       ((tmp.encoder_number | _button_number_mask) << 8) | ((uint8_t)tmp.motion)
