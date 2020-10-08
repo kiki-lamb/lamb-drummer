@@ -12,10 +12,10 @@ public:
   virtual ~buffer_event_source() {}
 
 private:
-  lamb::ring_buffer<event_t, queue_size_> event_queue;
+  declare_light_buffer(event_t, queue_size_, event_queue);
 
   virtual uint8_t impl_queue_count() const {
-    return event_queue.count();
+    return event_queue_count;
   }
 
   virtual void impl_poll() {
@@ -24,15 +24,15 @@ private:
     
     // for (auto e = source->dequeue_event(); e; e = source->dequeue_event()) {
     while (event_t e = source->dequeue_event())
-      event_queue.enqueue(e);
+      light_buffer_write(event_queue, e);
   }
 
   virtual event_t impl_dequeue_event() {
-    if (! event_queue.readable() ) {
+    if (! light_buffer_readable(event_queue) ) {
       return event_t();
     }
 
-    return event_queue.dequeue();
+    return light_buffer_read(event_queue);
   }
 };
 
