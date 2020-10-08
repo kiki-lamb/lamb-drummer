@@ -26,7 +26,6 @@ void x0x_leds::flag() {
 
 void x0x_leds::clear(bool const & immediate) {
   write(0, immediate);
-  
 }
 
 void x0x_leds::xor_write(uint16_t const & values_, bool const & immediate) {

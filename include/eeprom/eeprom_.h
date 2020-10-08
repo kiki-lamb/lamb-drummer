@@ -71,6 +71,8 @@ public:
   void save_all(
     PersistantData<tracks_t> const & data
   ) {
+    return;
+    
     const unsigned long SAVE_DELAY = 15000UL;
 
     unsigned long now   = millis();

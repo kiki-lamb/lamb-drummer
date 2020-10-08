@@ -75,12 +75,12 @@ private:
                       ~application();
   static bool         process_control_event(control_event_source_t::event_t e);
   static bool         process_control_events(); // called by ISR for timer2.
-  static uint8_t      page();
   static void         set_playback_state(bool const & playback_state_);
   static void         setup_controls();
   static void         setup_trigger_outputs();
   static void         update_ui_data();
 public:
+  static uint8_t      page();
   static void         flag_controls();       // called by ISR for timer2.
   static void         flag_main_screen();       // called by ISR for timer1.
   void                flag_update_ui_data();

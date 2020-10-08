@@ -155,8 +155,6 @@ void application::setup() {
 
   _eeprom .restore_all(tmp);
 
-  _timer1.set_bpm(tmp.bpm);
-
   setup_controls();
   
   cli();
@@ -178,6 +176,8 @@ void application::setup() {
   _ui_data.tracks = &_tracks;
 
   update_ui_data();
+
+  _timer1.set_bpm(tmp.bpm);
 
   sei();
   
@@ -213,12 +213,11 @@ void application::setup_controls() {
 
 void application::loop() {
   (
+    _trigger_outputs.update() || 
     _x0x_leds.update() ||
-    _trigger_outputs.update() || 
+    _trigger_outputs.update() ||   
     process_control_events()  ||
-    _trigger_outputs.update() || 
-    (update_ui_data(), _trigger_outputs.update() || _ui.update_screen()) ||
-    _trigger_outputs.update()
+    (update_ui_data(), _ui.update_screen())
   );
 }
 
@@ -279,11 +278,11 @@ bool application::process_control_event(
     uint8_t encoder_number = e.parameter >> 8;
     int8_t  motion = (int8_t)(e.parameter & 0xff);
       
-    Serial.print("Encoder event, number: ");
-    Serial.print(encoder_number);
-    Serial.print(", motion: ");
-    Serial.print(motion);
-    Serial.println();
+    // Serial.print("Encoder event, number: ");
+    // Serial.print(encoder_number);
+    // Serial.print(", motion: ");
+    // Serial.print(motion);
+    // Serial.println();
 
     switch (encoder_number) {
     case 0:
@@ -291,22 +290,22 @@ bool application::process_control_event(
       break;
 
     case 1:
-      e.type = motion > 0 ? EVT_PHASE_MAJ_UP : EVT_PHASE_MAJ_DN;
+      e.type = motion > 0 ? EVT_MIN_UP : EVT_MIN_DN;
       break;
 
     case 2:
-      e.type = motion > 0 ? EVT_MIN_UP : EVT_MIN_DN;
+      e.type = motion > 0 ? EVT_PHASE_MAJ_UP : EVT_PHASE_MAJ_DN;
       break;
 
     case 3:
       e.type = motion > 0 ? EVT_PHASE_MIN_UP : EVT_PHASE_MIN_DN;
       break;
 
-    case 64:
+    case 131:
       e.type = motion > 0 ? EVT_SELECTED_TRACK_DN : EVT_SELECTED_TRACK_UP;
       break;
     
-    case 131:
+    case 64:
       e.type = event_type::EVT_BPM_SET;
       e.parameter = _timer1.bpm() + motion;
 
