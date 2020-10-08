@@ -70,7 +70,7 @@ private:
   static bool         process_control_events(); // called by ISR for timer2.
   static uint8_t      page();
   static void         set_playback_state(bool const & playback_state_);
-  static void         setup_controls(uint8_t const & bpm);
+  static void         setup_controls();
   static void         setup_trigger_outputs();
   static void         update_ui_data();
 public:

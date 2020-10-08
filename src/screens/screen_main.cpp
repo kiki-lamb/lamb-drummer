@@ -170,8 +170,15 @@ void screen_main::impl_update() {
 
   draw_channel_numbers();
 
-  uint8_t prior   = ((uint8_t)((data->ticker>>1)-1)) % (*data->tracks).max_mod_maj(); // Don't remove this cast or the subtraction result becomes a signed type
-  uint8_t current = (data->ticker>>1) % (*data->tracks).max_mod_maj();
+//  uint8_t prior   = (
+//    ((uint8_t)((data->ticker>>1)-1)) %
+//    (*data->tracks).max_mod_maj()
+//  );
+  
+  uint8_t current = (
+    (data->ticker>>1) %
+    (*data->tracks).max_mod_maj()
+  );
 
   ////Serial.println("Before rt!");
   bool redraw_page = data->redraw_track.consume();
@@ -190,7 +197,7 @@ void screen_main::impl_update() {
 
   if (redraw_page) {
     draw_page_number();
-    for (uint8_t col = 0;  col <= 15; col++)
+    for (uint8_t col = 0;  col < 16; col++)
       draw_column((data->page * 16) + col, mmm);
   }
 }
@@ -199,29 +206,41 @@ void screen_main::draw_column(
   uint8_t const & col,
   uint8_t const & mod_maj
 )  {
+  for (uint8_t line = 1; line <= 3; line++) {
+    draw_column(line-1, col, mod_maj);
+  }
+}
+
+void screen_main::draw_column(
+  uint8_t const & channel,
+  uint8_t const & col,
+  uint8_t const & mod_maj
+)  {
+  track const & t = (*data->tracks)[channel];
+
+  Serial.print("Draw channel ");
+  Serial.print(channel);
+  Serial.println();
+  
   static const uint8_t col_map[] = {
     1,   2,  3,  4,
     6,   7,  8,  9,
     11, 12, 13, 14,
     16, 17, 18, 19
   };
-
-  int8_t col_ = col_map[col % mod_maj % 16];
   
-  for (uint8_t line = 1; line <= 3; line++) {
-    track const & t = (*data->tracks)[line-1];
-    
-    uint8_t character  = lcd::CHAR_REST;
-    bool    on_barrier = ((col - t.phase_maj() + 1) % t.mod_maj()) == 0;
-    bool    is_hit     = t.trigger_state(col);
-    
-    if (on_barrier)
-      character |= 0b011;
-    
-    if ( is_hit )
-      character |= 0b100;
-    
-    lcd::set_cursor(col_, line);
-    lcd::write(character);
-  }
+  int8_t col_ = col_map[col % mod_maj % 16];  
+
+  uint8_t character  = lcd::CHAR_REST;
+  bool    on_barrier = ((col - t.phase_maj() + 1) % t.mod_maj()) == 0;
+  bool    is_hit     = t.trigger_state(col);
+  
+  if (on_barrier)
+    character |= 0b011;
+  
+  if ( is_hit )
+    character |= 0b100;
+  
+  lcd::set_cursor(col_, channel + 1);
+  lcd::write(character);
 }

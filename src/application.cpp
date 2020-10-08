@@ -132,7 +132,9 @@ void application::setup() {
 
   _eeprom .restore_all(tmp);
 
-  setup_controls(tmp.bpm);
+  _timer1.set_bpm(tmp.bpm);
+
+  setup_controls();
   
   cli();
 
@@ -163,7 +165,7 @@ void application::setup() {
   Serial.println(F("Entered SCREEN_MAIN.")); Serial.flush();
 }
 
-void application::setup_controls(uint8_t const & bpm) {
+void application::setup_controls() {
   _combo_pad_device.begin(0x0);
   _drum_pad_device .begin(0x3);
   
@@ -180,11 +182,12 @@ void application::setup_controls(uint8_t const & bpm) {
 }
 
 void application::loop() {
-  _trigger_outputs.update(); // check
-  process_control_events();  // check
-  update_ui_data(); // no 
-  _ui.update_screen(); // check
-  _x0x_leds.update(); // check
+  (
+    _trigger_outputs.update() || 
+    process_control_events()  ||
+    (update_ui_data(), _ui.update_screen()) ||
+    _x0x_leds.update()
+  );
 }
 
 void application::flag_main_screen() {
@@ -257,16 +260,30 @@ bool application::process_control_event(
       uint8_t encoder_number = e.parameter >> 8;
       int8_t  motion = (int8_t)(e.parameter & 0xff);
       
-      // Serial.print("Encoder event, number: ");
-      // Serial.print(encoder_number);
-      // Serial.print(", motion: ");
-      // Serial.print(motion);
-      // Serial.println();
-      
-      e.type = event_type::EVT_BPM_SET;
-      e.parameter = _timer1.bpm() + motion;
-      
-      // EVT_BPM_SET handled in switch below.
+      Serial.print("Encoder event, number: ");
+      Serial.print(encoder_number);
+      Serial.print(", motion: ");
+      Serial.print(motion);
+      Serial.println();
+
+      switch (encoder_number) {
+      case 0:
+        e.type = event_type::EVT_BPM_SET;
+        e.parameter = _timer1.bpm() + motion;
+        break;
+      case 1:
+        break;
+      case 2:
+        break;
+      case 3:
+        if (motion > 0) {
+          e.type = EVT_SELECTED_TRACK_DN;
+        }
+        else {
+          e.type = EVT_SELECTED_TRACK_UP;
+        }
+        break;
+      }
     }
     
     switch (e.type) {
@@ -317,27 +334,27 @@ bool application::process_control_event(
     {
       _tracks++;
 
-      _ui_data.redraw_track.set();
+//      _ui_data.redraw_track.set();
       _ui_data.redraw_selected_track_indicator.set();
 
       Serial.print("Trk up -> "); Serial.flush();
       Serial.print(_tracks.index()); //  Serial.flush();
       Serial.println(); Serial.flush();
 
-      break;
+      goto success;
     }
     case event_type::EVT_SELECTED_TRACK_DN:
     {
       _tracks--;
       
-      _ui_data.redraw_track.set();
+//      _ui_data.redraw_track.set();
       _ui_data.redraw_selected_track_indicator.set();
       
       Serial.print("Trk dn -> "); Serial.flush();
       Serial.print(_tracks.index()); Serial.flush();
       Serial.println(); Serial.flush();
       
-      break;
+      goto success;
     }
     case event_type::EVT_PLAYBACK_STATE_TOGGLE:
     {

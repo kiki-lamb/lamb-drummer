@@ -52,11 +52,15 @@ void timer1_::set_playback_state(bool const & playback_state_) {
 
 void timer1_::set_bpm(uint8_t const & tmp_bpm) {
   Serial.print("BPM = ");
-  Serial.println(tmp_bpm);
+  Serial.print(tmp_bpm);
   
   timer1_::_bpm          = tmp_bpm;
   timer1_::_millihz      = (((uint32_t)timer1_::_bpm) * 1000) / 60;
   timer1_::set_hz_by_bpm ( timer1_::_bpm ); // This should probably be in the ISR...
+
+  Serial.print(", ");
+  Serial.print(timer1_::_millihz);
+  Serial.println();
 }
 
 uint8_t timer1_::ticker() const {
@@ -74,9 +78,10 @@ uint16_t timer1_::millihz() const {
 void timer1_::set_hz_by_bpm(uint8_t const & bpm_) {
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     uint32_t tmp = bpm_;
-    tmp <<= 13;
+    tmp <<= 23;
     tmp /=  60;
-
+    tmp >>= 10;
+    
     // Serial.print("NEW: ");
     // Serial.println(tmp);
     // Serial.print("OLD: ");
@@ -108,8 +113,11 @@ void timer1_::isr() {
 
   uint8_t ticker_ = ticker();
 
-  if (ticker_ & 0b1) {
-    application::flag_main_screen(); // In ISR, not that ugly...
+  if (! (ticker_ & 0b1)) {
+    if ((ticker_ % 8) == 0) {
+      Serial.println("Flag!");
+      application::flag_main_screen(); // In ISR, not that ugly...
+    }
 
 #ifdef CHASE_LIGHTS
     static uint16_t last_write = 0;

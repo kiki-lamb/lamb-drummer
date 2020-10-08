@@ -16,7 +16,12 @@ private:
   void              draw_bars();
   void 		    draw_channel_numbers();
   void 		    draw_column(
-    uint8_t const & step,
+    uint8_t const & col,
+    uint8_t const & mod_maj
+  );
+  void 		    draw_column(
+    uint8_t const & channel,
+    uint8_t const & col,
     uint8_t const & mod_maj
   );
   void 		draw_line0(bool const & redraw_bpm = false);

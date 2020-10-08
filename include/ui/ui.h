@@ -15,9 +15,26 @@ public:
     SCREEN_MAIN,
     SCREEN_INSTR
   };
+
+  uint32_t last_update;
   
-  bool update_screen() {    
-    return screens[current_screen]->update();
+  bool update_screen() {
+    uint32_t now = millis();
+    uint32_t delta = now - last_update;
+
+    if (delta < 250)      
+      return false;
+        
+    bool tmp = screens[current_screen]->update();
+
+    if (tmp) {
+      Serial.print("Updated after ");
+      Serial.println(delta);
+      
+      last_update = now;
+    }
+    
+    return tmp;
   }
 
   void enter_screen(screen_t const & screen) {
@@ -37,6 +54,7 @@ public:
   }
 
   ui(data_t * data_) :
+    last_update(0),
     data(data_),
     current_screen(SCREEN_NONE),
     screens()
