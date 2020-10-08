@@ -403,10 +403,10 @@ bool application::process_control_event(
     set_playback_state(! _timer1.playback_state());
 
     if (_timer1.playback_state()) {
-      Serial.print("Play.");
+      Serial.println("Play.");
     }
     else {
-      Serial.print("Stop.");
+      Serial.println("Stop.");
     }
     
     _eeprom.flag_save_requested();
