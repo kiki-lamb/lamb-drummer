@@ -275,7 +275,7 @@ application::application_event application::process_control_event(
   
   if (control_event.type == control_event::EVT_BUTTON) {
     uint8_t button_number = control_event.parameter >> 8;
-    int8_t  button_state = (int8_t)(control_event.parameter & 0xff);
+    int8_t  button_state  = (int8_t)(control_event.parameter & 0xff);
       
     Serial.print("Button event, number: ");
     Serial.print(button_number);
