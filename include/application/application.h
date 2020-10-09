@@ -20,14 +20,16 @@
 
 class application {
 public:
-  static  const size_t                   tracks_count = 3;
-  static  const uint8_t                  encA = A0;
-  static  const uint8_t                  encB = A1;
-  static  const uint8_t                  encBtn = D7;
-  static  const uint8_t                  event_sources_count = 4;
-  static  const uint8_t                  combo_pad_encoders_count = 4;
+  static  const size_t                   tracks_count               = 3;
+  static  const uint8_t                  event_sources_count        = 4;
+  static  const uint8_t                  combo_pad_encoders_count   = 4;
   static  const uint8_t                  encoder_pad_encoders_count = 8;
-
+  static  const uint8_t                  combo_pad_addr             = 0x0;
+  static  const uint8_t                  drum_pad_addr              = 0x3;
+  static  const uint8_t                  encoder_pad_addr           = 0x5;
+  static  const uint8_t                  x0x_leds_addr              = 0x4;
+  static  const uint8_t                  trigger_outputs_addr       = 0x3a;
+  
   typedef track_collection<tracks_count> tracks_t;
 
   static  ::x0x_leds & x0x_leds();

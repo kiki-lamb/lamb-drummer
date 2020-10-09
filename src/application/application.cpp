@@ -134,10 +134,10 @@ void application::setup() {
   Wire   .begin();
   Wire   .setClock(400000);
 
-  _x0x_leds_device.begin(0x4);
+  _x0x_leds_device.begin(x0x_leds_addr);
   _x0x_leds.setup(&_x0x_leds_device);
 
-  _trigger_outputs_device.begin(0x3a);
+  _trigger_outputs_device.begin(trigger_outputs_addr);
   _trigger_outputs.setup(&_trigger_outputs_device);
   
   _ui   .setup();
@@ -185,9 +185,9 @@ void application::setup() {
 }
 
 void application::setup_controls() {
-  _combo_pad_device  .begin(0x0);
-  _drum_pad_device   .begin(0x3);
-  _encoder_pad_device.begin(0x5);
+  _combo_pad_device  .begin(combo_pad_addr);
+  _drum_pad_device   .begin(drum_pad_addr);
+  _encoder_pad_device.begin(encoder_pad_addr);
   
   _drum_pad_button_pad.setup(&_drum_pad_device);
   _combine_event_sources.sources[0] = &_drum_pad_source;
