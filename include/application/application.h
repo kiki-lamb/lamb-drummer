@@ -37,6 +37,7 @@ public:
   static  const uint8_t          encoder_pad_source_mask          = 64;
   
   static  const uint8_t          event_sources_count              = 4;
+  
   static  const uint8_t          combo_pad_addr                   = 0x0;
   static  const uint8_t          drum_pad_addr                    = 0x3;
   static  const uint8_t          encoder_pad_addr                 = 0x5;
