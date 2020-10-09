@@ -9,8 +9,10 @@ encoder_pad_mcp23017::encoder_pad_mcp23017(
   _encoder_count(encoder_count_),
   _encoder_states(NULL)
 {
-  _encoder_states = (encoder_state *) malloc(
-    _encoder_count * sizeof(encoder_state)
+  _encoder_states = static_cast<encoder_state *>(
+    malloc(
+      _encoder_count * sizeof(encoder_state)
+    )
   );
   
   dynamic_light_buffer_resize(motion_events_type, motion_events, _encoder_count);
