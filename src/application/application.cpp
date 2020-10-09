@@ -209,7 +209,7 @@ void application::loop() {
     _x0x_leds.update()        ||
     
     _trigger_outputs.update() ||   
-    process_control_events()  ||
+    process_application_events()  ||
     
     _trigger_outputs.update() ||
     (update_ui_data(), _ui.update_screen())
@@ -248,29 +248,23 @@ void application::flag_controls() {
   _controls_flag.set();
 }
 
-bool application::process_control_events() {
+bool application::process_application_events() {
   if (! _controls_flag.consume())
     return false;
 
   _control_event_source.poll();
 
-  while(process_control_event(_control_event_source.dequeue_event()));
+  while(process_application_event(_control_event_source.dequeue_event()));
 
   return true;
 }
 
-bool application::process_control_event(
-  application::control_event_source_t::event_t e
-) {
-  if (! e) {
-    return false;
-  }
-
+events::application application::convert_control_event(events::control const & control_event) {
   events::application application_event;
   
-  if (e.type == events::control::EVT_BUTTON) {
-    uint8_t button_number = e.parameter >> 8;
-    int8_t  button_state = (int8_t)(e.parameter & 0xff);
+  if (control_event.type == events::control::EVT_BUTTON) {
+    uint8_t button_number = control_event.parameter >> 8;
+    int8_t  button_state = (int8_t)(control_event.parameter & 0xff);
       
     Serial.print("Button event, number: ");
     Serial.print(button_number);
@@ -296,9 +290,9 @@ bool application::process_control_event(
     }
   }
 
-  if (e.type == events::control::EVT_ENCODER) {
-    uint8_t encoder_number = e.parameter >> 8;
-    int8_t  motion = (int8_t)(e.parameter & 0xff);
+  if (control_event.type == events::control::EVT_ENCODER) {
+    uint8_t encoder_number = control_event.parameter >> 8;
+    int8_t  motion = (int8_t)(control_event.parameter & 0xff);
       
     Serial.print("Encoder event, number: ");
     Serial.print(encoder_number);
@@ -335,6 +329,18 @@ bool application::process_control_event(
     }
   }
 
+  return application_event;
+}
+
+bool application::process_application_event(
+  application::control_event_source_t::event_t e
+) {
+  if (! e) {
+    return false;
+  }
+
+  events::application application_event = convert_control_event(e);
+  
   if ((application_event.type >= 20) && (application_event.type <= 27)) {
     ProcessTrackControl<events::application::event_type, 8>::apply(
       _tracks.current(),

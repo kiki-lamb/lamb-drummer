@@ -22,12 +22,6 @@ namespace events {
     inline operator bool() const {
       return type != event_type::EVT_NOT_AVAILABLE;
     }
-
-    inline explicit operator events::application() const {
-      events::application e;
-      
-      return e;
-    }
   };
 }
 
