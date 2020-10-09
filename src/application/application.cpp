@@ -255,7 +255,7 @@ void application::set_playback_state(bool const & playback_state_) {
 
 void application::save_state() {
   _eeprom.save_all(
-    eeprom_::PersistantData<track_collection>(
+    persistant_data(
       &_tracks,
       _timer1.bpm(),
       _timer1.playback_state()
