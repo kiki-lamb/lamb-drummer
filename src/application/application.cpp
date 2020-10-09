@@ -3,26 +3,26 @@
 #include "process_track_control_event.h"
 #include "util/util.h"
 
-const event_type drum_pad_ordering[] = {
-  EVT_PAD_1,
-  EVT_PAD_2,
-  EVT_PAD_3,  
-  EVT_PAD_4,
+const event::event_type drum_pad_ordering[] = {
+  event::EVT_PAD_1,
+  event::EVT_PAD_2,
+  event::EVT_PAD_3,  
+  event::EVT_PAD_4,
 
-  EVT_PAD_5,
-  EVT_PAD_6,
-  EVT_PAD_7,
-  EVT_PAD_8,
+  event::EVT_PAD_5,
+  event::EVT_PAD_6,
+  event::EVT_PAD_7,
+  event::EVT_PAD_8,
 
-  EVT_PAD_9,
-  EVT_PAD_10,
-  EVT_PAD_11,
-  EVT_PAD_12,
+  event::EVT_PAD_9,
+  event::EVT_PAD_10,
+  event::EVT_PAD_11,
+  event::EVT_PAD_12,
 
-  EVT_PAD_13,
-  EVT_PAD_14,
-  EVT_PAD_15,
-  EVT_PAD_16,
+  event::EVT_PAD_13,
+  event::EVT_PAD_14,
+  event::EVT_PAD_15,
+  event::EVT_PAD_16,
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -266,7 +266,7 @@ bool application::process_control_event(
     return false;
   }
 
-  if (e.type == event_type::EVT_BUTTON) {
+  if (e.type == event::EVT_BUTTON) {
     uint8_t button_number = e.parameter >> 8;
     int8_t  button_state = (int8_t)(e.parameter & 0xff);
       
@@ -289,12 +289,12 @@ bool application::process_control_event(
     else {
       switch (button_number) {
       case 128:
-        e.type = event_type::EVT_PLAYBACK_STATE_TOGGLE;
+        e.type = event::EVT_PLAYBACK_STATE_TOGGLE;
       }
     }
   }
 
-  if (e.type == event_type::EVT_ENCODER) {
+  if (e.type == event::EVT_ENCODER) {
     uint8_t encoder_number = e.parameter >> 8;
     int8_t  motion = (int8_t)(e.parameter & 0xff);
       
@@ -306,27 +306,27 @@ bool application::process_control_event(
 
     switch (encoder_number) {
     case 128:
-      e.type = motion > 0 ? EVT_MAJ_UP : EVT_MAJ_DN;
+      e.type = motion > 0 ? event::EVT_MAJ_UP : event::EVT_MAJ_DN;
       break;
 
     case 129:
-      e.type = motion > 0 ? EVT_MIN_UP : EVT_MIN_DN;
+      e.type = motion > 0 ? event::EVT_MIN_UP : event::EVT_MIN_DN;
       break;
 
     case 130:
-      e.type = motion > 0 ? EVT_PHASE_MAJ_UP : EVT_PHASE_MAJ_DN;
+      e.type = motion > 0 ? event::EVT_PHASE_MAJ_UP : event::EVT_PHASE_MAJ_DN;
       break;
 
     case 131:
-      e.type = motion > 0 ? EVT_PHASE_MIN_UP : EVT_PHASE_MIN_DN;
+      e.type = motion > 0 ? event::EVT_PHASE_MIN_UP : event::EVT_PHASE_MIN_DN;
       break;
 
     case 71:
-      e.type = motion > 0 ? EVT_SELECTED_TRACK_DN : EVT_SELECTED_TRACK_UP;
+      e.type = motion > 0 ? event::EVT_SELECTED_TRACK_DN : event::EVT_SELECTED_TRACK_UP;
       break;
     
     case 64:
-      e.type = event_type::EVT_BPM_SET;
+      e.type = event::EVT_BPM_SET;
       e.parameter = _timer1.bpm() + motion;
 
       break;
@@ -334,9 +334,9 @@ bool application::process_control_event(
   }
 
   if ((e.type >= 20) && (e.type <= 27)) {
-    ProcessTrackControl<event::event_type_t, 8>::apply(
+    ProcessTrackControl<event::event_type, 8>::apply(
       _tracks.current(),
-      ((event_type)(e.type - 20))
+      ((event::event_type)(e.type - 20))
     );
     
     _ui_data.redraw_track.set();
@@ -348,7 +348,7 @@ bool application::process_control_event(
   }
     
   switch (e.type) {
-  case event_type::EVT_BPM_SET:
+  case event::EVT_BPM_SET:
   {
     _timer1.set_bpm(e.parameter);
 
@@ -359,22 +359,22 @@ bool application::process_control_event(
     goto success;
   }
 
-  case EVT_PAD_1:
-  case EVT_PAD_2:
-  case EVT_PAD_3:
-  case EVT_PAD_4:
-  case EVT_PAD_5:
-  case EVT_PAD_6:
-  case EVT_PAD_7:
-  case EVT_PAD_8:
-  case EVT_PAD_9:
-  case EVT_PAD_10:
-  case EVT_PAD_11:
-  case EVT_PAD_12:
-  case EVT_PAD_13:
-  case EVT_PAD_14:
-  case EVT_PAD_15:
-  case EVT_PAD_16:
+  case event::EVT_PAD_1:
+  case event::EVT_PAD_2:
+  case event::EVT_PAD_3:
+  case event::EVT_PAD_4:
+  case event::EVT_PAD_5:
+  case event::EVT_PAD_6:
+  case event::EVT_PAD_7:
+  case event::EVT_PAD_8:
+  case event::EVT_PAD_9:
+  case event::EVT_PAD_10:
+  case event::EVT_PAD_11:
+  case event::EVT_PAD_12:
+  case event::EVT_PAD_13:
+  case event::EVT_PAD_14:
+  case event::EVT_PAD_15:
+  case event::EVT_PAD_16:
   {
     static uint16_t light_states = 0;
 
@@ -391,7 +391,7 @@ bool application::process_control_event(
 
     goto success;
   }
-  case event_type::EVT_SELECTED_TRACK_UP:
+  case event::EVT_SELECTED_TRACK_UP:
   {
     _tracks++;
 
@@ -403,7 +403,7 @@ bool application::process_control_event(
 
     goto success;
   }
-  case event_type::EVT_SELECTED_TRACK_DN:
+  case event::EVT_SELECTED_TRACK_DN:
   {
     _tracks--;
 
@@ -415,7 +415,7 @@ bool application::process_control_event(
       
     goto success;
   }
-  case event_type::EVT_PLAYBACK_STATE_TOGGLE:
+  case event::EVT_PLAYBACK_STATE_TOGGLE:
   {
     set_playback_state(! _timer1.playback_state());
 
