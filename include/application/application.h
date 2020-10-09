@@ -54,37 +54,37 @@ public:
   static  ::trigger_outputs & trigger_outputs();
   
 private:
-  typedef ui_data<tracks_type>                        ui_data_type;
-  typedef ui<ui_data_type>                            ui_type;
-  typedef events::sources::buffer<events::control, 8> control_event_source_type;
+  typedef ui_data<tracks_type>                                          ui_data_type;
+  typedef ui<ui_data_type>                                              ui_type;
+  typedef events::sources::buffer<events::control, 8>                   control_event_source_type;
+  typedef events::sources::encoder_pad<encoder_pad_mcp23017>            encoder_pad_type
   
-  static encoder_pad_mcp23017                         _combo_pad_encoder_pad;
-  static encoder_pad_mcp23017                         _encoder_pad0;
-  static button_pad_mcp23017                          _combo_pad_button_pad;
-  static button_pad_mcp23017                          _drum_pad_button_pad;
-  static events::sources::encoder_pad<encoder_pad_mcp23017> _encoder_pad_source0;
-  static events::sources::encoder_pad<encoder_pad_mcp23017> _encoder_pad_source1;
-  static events::sources::encoder_pad<encoder_pad_mcp23017> _combo_pad_encoder_source;
-  static events::sources::button_pad<button_pad_mcp23017>   _combo_pad_button_source;
-  static events::sources::button_pad<button_pad_mcp23017>   _drum_pad_source;
-  static events::sources::combine<events::control, event_sources_count>
-                                                      _combine_event_sources;
-  static ::trigger_outputs                            _trigger_outputs;  
-  static ::x0x_leds                                   _x0x_leds;
-  static Adafruit_MCP23017                            _x0x_leds_device;
-  static Adafruit_MCP23017                            _drum_pad_device;
-  static Adafruit_MCP23017                            _combo_pad_device;
-  static Adafruit_MCP23017                            _encoder_pad_device;
-  static control_event_source_type                    _control_event_source;
-  static eeprom_                                      _eeprom;
-  static jm_PCF8574                                   _trigger_outputs_device;
-  static lamb::flag                                   _controls_flag;
-  static lamb::flag                                   _output_flag;
-  static timer1_                                      _timer1;
-  static timer2_                                      _timer2;
-  static tracks_type                                  _tracks;
-  static ui_data_type                                 _ui_data;
-  static ui_type                                      _ui;
+  static encoder_pad_mcp23017                                           _combo_pad_encoder_pad;
+  static encoder_pad_mcp23017                                           _encoder_pad0;
+  static button_pad_mcp23017                                            _combo_pad_button_pad;
+  static button_pad_mcp23017                                            _drum_pad_button_pad;
+  static events::sources::encoder_pad<encoder_pad_mcp23017>             _encoder_pad_source0;
+  static events::sources::encoder_pad<encoder_pad_mcp23017>             _encoder_pad_source1;
+  static events::sources::encoder_pad<encoder_pad_mcp23017>             _combo_pad_encoder_source;
+  static events::sources::button_pad<button_pad_mcp23017>               _combo_pad_button_source;
+  static events::sources::button_pad<button_pad_mcp23017>               _drum_pad_source;
+  static events::sources::combine<events::control, event_sources_count> _combine_event_sources;
+  static ::trigger_outputs                                              _trigger_outputs;  
+  static ::x0x_leds                                                     _x0x_leds;
+  static Adafruit_MCP23017                                              _x0x_leds_device;
+  static Adafruit_MCP23017                                              _drum_pad_device;
+  static Adafruit_MCP23017                                              _combo_pad_device;
+  static Adafruit_MCP23017                                              _encoder_pad_device;
+  static control_event_source_type                                      _control_event_source;
+  static eeprom_                                                        _eeprom;
+  static jm_PCF8574                                                     _trigger_outputs_device;
+  static lamb::flag                                                     _controls_flag;
+  static lamb::flag                                                     _output_flag;
+  static timer1_                                                        _timer1;
+  static timer2_                                                        _timer2;
+  static tracks_type                                                    _tracks;
+  static ui_data_type                                                   _ui_data;
+  static ui_type                                                        _ui;
 
                       application();
                       ~application();
@@ -115,3 +115,7 @@ public:
 };
 
 #endif
+
+/* Local Variables:  */
+/* fill-column: 100  */
+/* End:              */
