@@ -3,26 +3,26 @@
 #include "process_track_control_event.h"
 #include "util/util.h"
 
-const events::application::event_type drum_pad_ordering[] = {
-  events::application::EVT_PAD_1,
-  events::application::EVT_PAD_2,
-  events::application::EVT_PAD_3,  
-  events::application::EVT_PAD_4,
+const application::application_event::event_type drum_pad_ordering[] = {
+  application::application_event::EVT_PAD_1,
+  application::application_event::EVT_PAD_2,
+  application::application_event::EVT_PAD_3,  
+  application::application_event::EVT_PAD_4,
 
-  events::application::EVT_PAD_5,
-  events::application::EVT_PAD_6,
-  events::application::EVT_PAD_7,
-  events::application::EVT_PAD_8,
+  application::application_event::EVT_PAD_5,
+  application::application_event::EVT_PAD_6,
+  application::application_event::EVT_PAD_7,
+  application::application_event::EVT_PAD_8,
 
-  events::application::EVT_PAD_9,
-  events::application::EVT_PAD_10,
-  events::application::EVT_PAD_11,
-  events::application::EVT_PAD_12,
+  application::application_event::EVT_PAD_9,
+  application::application_event::EVT_PAD_10,
+  application::application_event::EVT_PAD_11,
+  application::application_event::EVT_PAD_12,
 
-  events::application::EVT_PAD_13,
-  events::application::EVT_PAD_14,
-  events::application::EVT_PAD_15,
-  events::application::EVT_PAD_16,
+  application::application_event::EVT_PAD_13,
+  application::application_event::EVT_PAD_14,
+  application::application_event::EVT_PAD_15,
+  application::application_event::EVT_PAD_16,
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -279,7 +279,7 @@ bool application::process_control_events() {
 
   while(
     process_application_event(
-      convert_control_event(
+      process_control_event(
         _control_event_source.dequeue_event()
       )
     )
@@ -290,7 +290,7 @@ bool application::process_control_events() {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-events::application application::convert_control_event(
+application::application_event application::process_control_event(
   application::control_event const & control_event
 ) {
   application_event application_event;
