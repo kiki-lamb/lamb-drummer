@@ -3,28 +3,6 @@
 #include "process_track_control_event.h"
 #include "util/util.h"
 
-const application::application_event::event_type drum_pad_ordering[] = {
-  application::application_event::EVT_PAD_1,
-  application::application_event::EVT_PAD_2,
-  application::application_event::EVT_PAD_3,  
-  application::application_event::EVT_PAD_4,
-
-  application::application_event::EVT_PAD_5,
-  application::application_event::EVT_PAD_6,
-  application::application_event::EVT_PAD_7,
-  application::application_event::EVT_PAD_8,
-
-  application::application_event::EVT_PAD_9,
-  application::application_event::EVT_PAD_10,
-  application::application_event::EVT_PAD_11,
-  application::application_event::EVT_PAD_12,
-
-  application::application_event::EVT_PAD_13,
-  application::application_event::EVT_PAD_14,
-  application::application_event::EVT_PAD_15,
-  application::application_event::EVT_PAD_16,
-};
-
 ////////////////////////////////////////////////////////////////////////////////
 
 jm_PCF8574                    application::_triggers_device;
@@ -306,14 +284,12 @@ application::application_event application::process_control_event(
     Serial.println();
     
     if ((button_number >= 64) && (button_number <= 79)) {
-      application_event.type = drum_pad_ordering[
-        (
-          15 - (
-            button_number ^
-            application::drum_pad_buttons_source_mask
-          )
+      application_event.type = (application_event::event_type)(
+        16 - (
+          button_number ^
+          application::drum_pad_buttons_source_mask
         )
-      ];
+      );
     }        
     else {
       switch (button_number) {

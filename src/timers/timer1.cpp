@@ -159,7 +159,7 @@ void timer1::isr() {
       Serial.println();
       Serial.println(F("unblast "));
 #endif
-      
+
       application::triggers().write(0xff);
     }
     
