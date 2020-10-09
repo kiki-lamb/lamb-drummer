@@ -5,37 +5,41 @@
 #include "event_source.h"
 
 namespace events {
-  template <class event_t, size_t queue_size_>
-  class buffer_source : public event_source<event_t> {
-  public:
-    event_source<event_t> * source;
-    buffer_source() : source(NULL) {}
-    /* virtual */ ~buffer_source() {}
+  namespace sources {
+    template <class event_t, size_t queue_size_>
+    class buffer : public source<event_t> {
+    public:
+      source<event_t> * unbuffered_source;
 
-  private:
-    declare_light_buffer(event_t, queue_size_, event_queue);
+      buffer() : unbuffered_source(NULL) {}
 
-    virtual uint8_t impl_queue_count() const {
-      return event_queue_count;
-    }
+      /* virtual */ ~buffer() {}
 
-    virtual void impl_poll() {
-      if (! source->poll())
-        return;
-    
-      // for (auto e = source->dequeue_event(); e; e = source->dequeue_event()) {
-      while (event_t e = source->dequeue_event())
-        light_buffer_write(event_queue, e);
-    }
+    private:
+      declare_light_buffer(event_t, queue_size_, event_queue);
 
-    virtual event_t impl_dequeue_event() {
-      if (! light_buffer_readable(event_queue) ) {
-        return event_t();
+      virtual uint8_t impl_queue_count() const {
+        return event_queue_count;
       }
 
-      return light_buffer_read(event_queue);
-    }
-  };
+      virtual void impl_poll() {
+        if (! unbuffered_source->poll())
+          return;
+    
+        // for (auto e = source->dequeue_event(); e; e = source->dequeue_event()) {
+        while (event_t e = unbuffered_source->dequeue_event())
+          light_buffer_write(event_queue, e);
+      }
+
+      virtual event_t impl_dequeue_event() {
+        if (! light_buffer_readable(event_queue) ) {
+          return event_t();
+        }
+
+        return light_buffer_read(event_queue);
+      }
+    };
+  }
 }
 
 #endif

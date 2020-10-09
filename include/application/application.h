@@ -56,17 +56,17 @@ public:
 private:
   typedef ui_data<tracks_t>                           ui_data_t;
   typedef ui<ui_data_t>                               ui_t;
-  typedef events::buffer_source<events::control, 8>     control_event_source_t;
+  typedef events::sources::buffer<events::control, 8>     control_event_source_t;
   static encoder_pad_mcp23017                         _combo_pad_encoder_pad;
   static encoder_pad_mcp23017                         _encoder_pad0;
   static button_pad_mcp23017                          _combo_pad_button_pad;
   static button_pad_mcp23017                          _drum_pad_button_pad;
-  static events::encoder_pad_source<encoder_pad_mcp23017 >    _encoder_pad_source0;
-  static events::encoder_pad_source<encoder_pad_mcp23017 >    _encoder_pad_source1;
-  static events::encoder_pad_source<encoder_pad_mcp23017 >    _combo_pad_encoder_source;
-  static events::button_pad_source<button_pad_mcp23017>       _combo_pad_button_source;
-  static events::button_pad_source<button_pad_mcp23017>       _drum_pad_source;
-  static events::combine_sources<events::control, event_sources_count>
+  static events::sources::encoder_pad<encoder_pad_mcp23017> _encoder_pad_source0;
+  static events::sources::encoder_pad<encoder_pad_mcp23017> _encoder_pad_source1;
+  static events::sources::encoder_pad<encoder_pad_mcp23017> _combo_pad_encoder_source;
+  static events::sources::button_pad<button_pad_mcp23017>   _combo_pad_button_source;
+  static events::sources::button_pad<button_pad_mcp23017>   _drum_pad_source;
+  static events::sources::combine<events::control, event_sources_count>
                                                       _combine_event_sources;
   static ::trigger_outputs                            _trigger_outputs;  
   static ::x0x_leds                                   _x0x_leds;
