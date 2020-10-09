@@ -24,9 +24,8 @@ void trigger_outputs::flag() {
   _flag.set();
 }
 
-void trigger_outputs::clear() { // bool immediate) {
-  write(0); // , immediate);
-  
+void trigger_outputs::clear() {
+  write(0);
 }
 
 void trigger_outputs::write(uint16_t const & values_) {
@@ -39,8 +38,8 @@ uint16_t trigger_outputs::values() const {
   return _values;
 }
 
-bool trigger_outputs::update() { // bool immediate) {
-  if (! (_flag.consume())) // || immediate))
+bool trigger_outputs::update() {
+  if (! (_flag.consume()))
     return false;
   
   _device->write(values());
