@@ -2,7 +2,6 @@
 #include "event/event.h"
 #include "process_track_control_event.h"
 #include "util/util.h"
-#include <avr/power.h>
 
 const event_type combo_pad_ordering[] = {
   EVT_NOT_AVAILABLE,
