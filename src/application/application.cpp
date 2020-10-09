@@ -287,7 +287,9 @@ bool application::process_application_events() {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-events::application application::convert_control_event(events::control const & control_event) {
+events::application application::convert_control_event(
+  events::control const & control_event
+) {
   events::application application_event;
   
   if (control_event.type == events::control::EVT_BUTTON) {
@@ -330,23 +332,43 @@ events::application application::convert_control_event(events::control const & c
 
     switch (encoder_number) {
     case 128:
-      application_event.type = motion > 0 ? events::application::EVT_MAJ_UP : events::application::EVT_MAJ_DN;
+      application_event.type = (
+        motion > 0 ?
+        events::application::EVT_MAJ_UP :
+        events::application::EVT_MAJ_DN
+      );
       break;
 
     case 129:
-      application_event.type = motion > 0 ? events::application::EVT_MIN_UP : events::application::EVT_MIN_DN;
+      application_event.type = (
+        motion > 0 ?
+        events::application::EVT_MIN_UP :
+        events::application::EVT_MIN_DN
+      );
       break;
 
     case 130:
-      application_event.type = motion > 0 ? events::application::EVT_PHASE_MAJ_UP : events::application::EVT_PHASE_MAJ_DN;
+      application_event.type = (
+        motion > 0 ?
+        events::application::EVT_PHASE_MAJ_UP :
+        events::application::EVT_PHASE_MAJ_DN
+      );
       break;
 
     case 131:
-      application_event.type = motion > 0 ? events::application::EVT_PHASE_MIN_UP : events::application::EVT_PHASE_MIN_DN;
+      application_event.type = (
+        motion > 0 ?
+        events::application::EVT_PHASE_MIN_UP :
+        events::application::EVT_PHASE_MIN_DN
+      );
       break;
 
     case 71:
-      application_event.type = motion > 0 ? events::application::EVT_SELECTED_TRACK_DN : events::application::EVT_SELECTED_TRACK_UP;
+      application_event.type = (
+        motion > 0 ?
+        events::application::EVT_SELECTED_TRACK_DN :
+        events::application::EVT_SELECTED_TRACK_UP
+      );
       break;
     
     case 64:
@@ -418,7 +440,11 @@ bool application::process_application_event(
 
     _x0x_leds.xor_write(light_states);
       
-    uint16_t tmp = util::flip_bytes(((uint16_t)1) << (((uint8_t)application_event.type) - 1));
+    uint16_t tmp = util::flip_bytes(
+      ((uint16_t)1) <<
+      (((uint8_t)application_event.type) - 1)
+    );
+
     light_states ^= tmp;
       
     Serial.print("Light up ");
@@ -474,10 +500,12 @@ bool application::process_application_event(
     Serial.println();
     Serial.flush();
   }
+
   return false;
 
 success:
   flag_main_screen();
+
   return true;
 }
 
