@@ -1,36 +1,36 @@
 #include "Arduino.h"
-#include "eeprom/eeprom_.h"
+#include "eeprom/eeprom.h"
 
 #define ADDR_BPM  3
 #define ADDR_PLAY 4
 
-eeprom_::eeprom_() : save_requested("sr"), last_edit(0) {}
+eeprom::eeprom() : save_requested("sr"), last_edit(0) {}
 
-// eeprom_::~eeprom_() {}
+// eeprom::~eeprom() {}
 
-void eeprom_::flag_save_requested() {
+void eeprom::flag_save_requested() {
   save_requested.set();
   last_edit = millis();
 }
 
-void eeprom_::unflag_save_requested() {
+void eeprom::unflag_save_requested() {
   save_requested.unset();
 }
 
-void eeprom_::save_playback_state(bool const & playback_state_) const {
+void eeprom::save_playback_state(bool const & playback_state_) const {
   Serial.print(F("Save playback_state state "));
   Serial.println(playback_state_ ? F("ON") : F("OFF"));
 
   EEPROM.write(ADDR_PLAY, playback_state_);
 }
 
-void eeprom_::save_bpm(uint8_t const & bpm_) const {
+void eeprom::save_bpm(uint8_t const & bpm_) const {
   Serial.print(F("Save BPM "));
   Serial.println(bpm_);
   EEPROM.write(ADDR_BPM, bpm_);
 }
 
-bool eeprom_::playback_state() const {
+bool eeprom::playback_state() const {
   bool tmp = EEPROM.read(ADDR_PLAY);
 
   Serial.print(F("Load playback_state: "));
@@ -38,7 +38,7 @@ bool eeprom_::playback_state() const {
   return tmp;
 }
 
-uint8_t eeprom_::bpm() const {
+uint8_t eeprom::bpm() const {
   uint8_t tmp = EEPROM.read(ADDR_BPM);
 
   Serial.print(F("Load BPM: "));
@@ -47,7 +47,7 @@ uint8_t eeprom_::bpm() const {
   return tmp;
 }
 
-void eeprom_::save_track(
+void eeprom::save_track(
   size_t const & eeprom_location,
   track & track
 ) const {
@@ -69,7 +69,7 @@ void eeprom_::save_track(
   Serial.println(F("Saved track."));
 }
 
-void eeprom_::restore_track(
+void eeprom::restore_track(
   size_t const & eeprom_location,
   track & track
 ) {

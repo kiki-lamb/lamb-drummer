@@ -31,7 +31,7 @@ jm_PCF8574                    application::_trigger_outputs_device;
 application::track_collection application::_tracks;
 application::ui_data          application::_ui_data;
 application::ui               application::_ui(&_ui_data);
-eeprom_                       application::_eeprom;
+eeprom                        application::_eeprom;
 timer1                        application::_timer1;
 timer2                        application::_timer2;
 lamb::flag                    application::_controls_flag;

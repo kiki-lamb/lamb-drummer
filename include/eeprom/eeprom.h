@@ -5,7 +5,7 @@
 #include <lamb.h>
 #include "track/track.h"
 
-class eeprom_ {
+class eeprom {
 public:
   template <class tracks_t>
   class PersistantData {
@@ -41,7 +41,7 @@ private:
 public:
   void flag_save_requested();
   void unflag_save_requested();
-  eeprom_();
+  eeprom();
 //  /* virtual */ ~eeprom_();
 
   template <class tracks_t>

@@ -17,7 +17,7 @@
 #include "controls/encoder_pad_mcp23017.h"
 #include "timers/timer1.h"
 #include "timers/timer2.h"
-#include "eeprom/eeprom_.h"
+#include "eeprom/eeprom.h"
 #include <jm_PCF8574.h>
 
 class application {
@@ -54,7 +54,7 @@ public:
   typedef ::track_collection<tracks_count>                             track_collection;
   typedef ::ui_data<track_collection>                                  ui_data;
   typedef ::ui<ui_data>                                                ui;
-  typedef eeprom_::PersistantData<track_collection>                    persistant_data;
+  typedef eeprom::PersistantData<track_collection>                     persistant_data;
   typedef events::application                                          application_event;
   typedef events::control                                              control_event;  
   typedef events::sources::buffer<control_event, 8>                    control_source;
@@ -80,7 +80,7 @@ private:
   static  Adafruit_MCP23017       _combo_pad_device;
   static  Adafruit_MCP23017       _encoder_pad_device;
   static  control_source          _control_event_source;
-  static  eeprom_                 _eeprom;
+  static  eeprom                  _eeprom;
   static  jm_PCF8574              _trigger_outputs_device;
   static  lamb::flag              _controls_flag;
   static  lamb::flag              _output_flag;
