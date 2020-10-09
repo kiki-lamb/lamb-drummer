@@ -37,76 +37,73 @@ const event_type drum_pad_ordering[] = {
   EVT_PAD_16,
 };
 
-/////////////////////////////////////////////////////////////////////////// ccccccccccccc/////
+////////////////////////////////////////////////////////////////////////////////
+
+jm_PCF8574             application::_trigger_outputs_device;
+application::tracks_t  application::_tracks;
+application::ui_data_t application::_ui_data;
+application::ui_t      application::_ui(&_ui_data);
+eeprom_                application::_eeprom;
+timer1_                application::_timer1;
+timer2_                application::_timer2;
+lamb::flag             application::_controls_flag;
+lamb::flag             application::_output_flag;
+uint8_t                application::_queued_output = 0xff;
+::x0x_leds             application::_x0x_leds;
+::trigger_outputs      application::_trigger_outputs;
+Adafruit_MCP23017      application::_x0x_leds_device;
+Adafruit_MCP23017      application::_combo_pad_device;
+Adafruit_MCP23017      application::_drum_pad_device;
+Adafruit_MCP23017      application::_encoder_pad_device;
+
+////////////////////////////////////////////////////////////////////////////////
 
 application::control_event_source_t
-                          application::_control_event_source;
+                       application::_control_event_source;
 
 combine_event_sources<event, application::event_sources_count>
-                          application::_combine_event_sources;
+                       application::_combine_event_sources;
 
-Adafruit_MCP23017         application::_x0x_leds_device;
 
-////////////////////////////////////////////////////////////////////////////////
+encoder_pad_mcp23017   application::_combo_pad_encoder_pad(
+                         application::combo_pad_encoders_count,
+                         8
+                       );
 
-Adafruit_MCP23017    application::_combo_pad_device;
-Adafruit_MCP23017    application::_drum_pad_device;
-Adafruit_MCP23017    application::_encoder_pad_device;
+encoder_pad_mcp23017   application::_encoder_pad0(
+                         application::encoder_pad_encoders_count
+                       );
 
-encoder_pad_mcp23017 application::_combo_pad_encoder_pad(
-//  0x0,
-  application::combo_pad_encoders_count,
-  8
-);
+button_pad_mcp23017    application::_combo_pad_button_pad(8);
 
-encoder_pad_mcp23017 application::_encoder_pad0(
-//  0x5,
-  application::encoder_pad_encoders_count,
-  0
-);
-
-button_pad_mcp23017 application::_combo_pad_button_pad(/* 0x0, */ 8);
-
-button_pad_mcp23017 application::_drum_pad_button_pad; // (0x3);
+button_pad_mcp23017    application::_drum_pad_button_pad; 
 
 encoder_pad_source<encoder_pad_mcp23017>
-application::_encoder_pad_source0(
-  &application::_encoder_pad0,
-  64
-);
+                       application::_encoder_pad_source0(
+                         &application::_encoder_pad0,
+                         64
+                       );
 
 encoder_pad_source<encoder_pad_mcp23017>
-application::_combo_pad_encoder_source(
-  &application::_combo_pad_encoder_pad
-);
+                       application::_combo_pad_encoder_source(
+                         &application::_combo_pad_encoder_pad
+                       );
 
 button_pad_source<button_pad_mcp23017>
-application::_combo_pad_button_source(
-  &application::_combo_pad_button_pad,
-  combo_pad_ordering,
-  8
-);
+                       application::_combo_pad_button_source(
+                         &application::_combo_pad_button_pad,
+                         combo_pad_ordering,
+                         8
+                       );
+
 button_pad_source<button_pad_mcp23017>
-application::_drum_pad_source(
-  &application::_drum_pad_button_pad,
-  drum_pad_ordering,
-  16
-);
+                       application::_drum_pad_source(
+                         &application::_drum_pad_button_pad,
+                         drum_pad_ordering,
+                         16
+                       );
 
 ////////////////////////////////////////////////////////////////////////////////
-
-jm_PCF8574                application::_trigger_outputs_device;
-application::tracks_t     application::_tracks;
-application::ui_data_t    application::_ui_data;
-application::ui_t         application::_ui(&_ui_data);
-eeprom_                   application::_eeprom;
-timer1_                   application::_timer1;
-timer2_                   application::_timer2;
-lamb::flag                application::_controls_flag;
-lamb::flag                application::_output_flag;
-uint8_t                   application::_queued_output = 0xff;
-::x0x_leds                application::_x0x_leds;
-::trigger_outputs         application::_trigger_outputs;
 
 application::application() {};
 
