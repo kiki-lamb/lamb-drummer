@@ -1,15 +1,15 @@
 #ifndef LAMB_DRUMMER_TIMER2_H
 #define LAMB_DRUMMER_TIMER2_H
 
-class timer2_ {
+class timer2 {
 private:
-  static timer2_ *     _instance;
+  static timer2 *     _instance;
 public:
-  timer2_();
-//  /* virtual */ ~timer2_();
+  timer2();
+//  /* virtual */ ~timer2();
   void    setup();
   void    isr();
-  static  timer2_ &     instance();
+  static  timer2 &     instance();
 };
 
 #endif

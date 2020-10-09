@@ -17,9 +17,6 @@ pad_mcp23017::pad_mcp23017(
 //pad_mcp23017::~pad_mcp23017() {}
 
 void pad_mcp23017::setup(Adafruit_MCP23017 * _device) {
-  Serial.print(F("Setup pad_MCP23017"));
-  Serial.println(F("...")); Serial.flush();
-
   device = _device;
 
   for (uint8_t ix = button_range_start;

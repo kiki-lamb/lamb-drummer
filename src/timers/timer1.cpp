@@ -2,21 +2,21 @@
 #include "application/application.h"
 #include "util/util.h"
 
-timer1_::timer1_() :
+timer1::timer1() :
   _bpm(0),
   _playback_state(true),
   _ticker(0),
   _millihz(0) {};
 
-// timer1_::~timer1_() {}
+// timer1::~timer1() {}
 
-timer1_ * timer1_::_instance = 0;
+timer1 * timer1::_instance = 0;
 
-timer1_ & timer1_::instance() {
+timer1 & timer1::instance() {
   return *_instance;
 }
 
-void timer1_::setup() {
+void timer1::setup() {
   _instance = this;
   // DDRC   |= 0b00001111;
   // PORTC  ^= 0b00001111;
@@ -31,11 +31,11 @@ void timer1_::setup() {
   DDRB   |= _BV(1);
 }
 
-bool timer1_::playback_state() const {
+bool timer1::playback_state() const {
   return _playback_state;
 }
 
-void timer1_::set_playback_state(bool const & playback_state_) {
+void timer1::set_playback_state(bool const & playback_state_) {
   _playback_state = playback_state_;
 //   if (_playback_state) {
 //     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
@@ -52,32 +52,32 @@ void timer1_::set_playback_state(bool const & playback_state_) {
 //   }
 }
 
-void timer1_::set_bpm(uint8_t const & tmp_bpm) {
+void timer1::set_bpm(uint8_t const & tmp_bpm) {
   Serial.print("BPM = ");
   Serial.print(tmp_bpm);
   
-  timer1_::_bpm          = tmp_bpm;
-  timer1_::_millihz      = (((uint32_t)timer1_::_bpm) * 1000) / 60;
-  timer1_::set_hz_by_bpm ( timer1_::_bpm ); // This should probably be in the ISR...
+  timer1::_bpm          = tmp_bpm;
+  timer1::_millihz      = (((uint32_t)timer1::_bpm) * 1000) / 60;
+  timer1::set_hz_by_bpm ( timer1::_bpm ); // This should probably be in the ISR...
 
   Serial.print(", ");
-  Serial.print(timer1_::_millihz);
+  Serial.print(timer1::_millihz);
   Serial.println();
 }
 
-uint8_t timer1_::ticker() const {
+uint8_t timer1::ticker() const {
   return _ticker;
 }
 
-uint8_t timer1_::bpm() const {
+uint8_t timer1::bpm() const {
   return _bpm;
 }
 
-uint16_t timer1_::millihz() const {
+uint16_t timer1::millihz() const {
   return _millihz;
 }
 
-void timer1_::set_hz_by_bpm(uint8_t const & bpm_) {
+void timer1::set_hz_by_bpm(uint8_t const & bpm_) {
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
     uint32_t tmp = bpm_;
     tmp <<= 23;
@@ -96,11 +96,11 @@ void timer1_::set_hz_by_bpm(uint8_t const & bpm_) {
   }
 }
 
-void timer1_::increment_ticker() {
-  timer1_::_ticker++;
+void timer1::increment_ticker() {
+  timer1::_ticker++;
 }
 
-void timer1_::isr() {
+void timer1::isr() {
 #ifdef LOG_TIMERS
   Serial.println(F("1:isr +"));
 #endif
@@ -175,5 +175,5 @@ void timer1_::isr() {
 }
 
 ISR(TIMER1_COMPA_vect) {
-  timer1_::instance().isr();
+  timer1::instance().isr();
 }

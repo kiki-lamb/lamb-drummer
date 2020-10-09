@@ -2,17 +2,17 @@
 #include "timers/timer2.h"
 #include "application/application.h"
 
-timer2_::timer2_() {};
+timer2::timer2() {};
 
-// timer2_::~timer2_() {};
+// timer2::~timer2() {};
 
-timer2_ * timer2_::_instance = 0;
+timer2 * timer2::_instance = 0;
 
-timer2_ & timer2_::instance() {
+timer2 & timer2::instance() {
   return *_instance;
 }
 
-void timer2_::setup() {
+void timer2::setup() {
   _instance = this;
   DDRB |= 0b00010000;
 
@@ -25,7 +25,7 @@ void timer2_::setup() {
   TIMSK2 |= (1 << OCIE2A); // enable timer compare interrupt
 }
 
-void timer2_::isr() {
+void timer2::isr() {
 #ifdef LOG_TIMERS
   Serial.println(F("2:isr +"));
 #endif
@@ -54,5 +54,5 @@ void timer2_::isr() {
 }
 
 ISR(TIMER2_COMPA_vect) {
-  timer2_::instance().isr();
+  timer2::instance().isr();
 }

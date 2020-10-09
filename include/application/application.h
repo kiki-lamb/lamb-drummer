@@ -84,8 +84,8 @@ private:
   static  jm_PCF8574              _trigger_outputs_device;
   static  lamb::flag              _controls_flag;
   static  lamb::flag              _output_flag;
-  static  timer1_                 _timer1;
-  static  timer2_                 _timer2;
+  static  timer1                  _timer1;
+  static  timer2                  _timer2;
   static  track_collection        _tracks;
   static  ui_data                 _ui_data;
   static  ui                      _ui;
