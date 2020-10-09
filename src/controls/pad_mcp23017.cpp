@@ -1,6 +1,6 @@
 #include "controls/pad_mcp23017.h"
 #include <Arduino.h>
-#include "i2c_lock.h"
+#include "i2c_lock/i2c_lock.h"
 #include "util/util.h"
 
 pad_mcp23017::pad_mcp23017(

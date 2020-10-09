@@ -2,7 +2,7 @@
 #define LAMB_DRUMMER_LCD_H
 
 #include "LiquidCrystal_I2C.h"
-#include "i2c_lock.h"
+#include "i2c_lock/i2c_lock.h"
 
 class lcd {
 private:
@@ -50,7 +50,6 @@ public:
 #endif
     i2c_lock::release();
   }
-
 };
 
 #endif

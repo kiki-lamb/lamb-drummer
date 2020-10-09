@@ -1,5 +1,5 @@
 #include "screens/screen_main.h"
-#include "application.h"
+#include "application/application.h"
 #include "util/util.h"
 #include "Adafruit_MCP23017.h"
 

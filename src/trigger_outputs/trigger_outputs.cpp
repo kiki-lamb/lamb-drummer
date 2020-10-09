@@ -1,5 +1,5 @@
 #include "trigger_outputs/trigger_outputs.h"
-#include "application.h"
+#include "application/application.h"
 #include "util/util.h"
 
 trigger_outputs::trigger_outputs() : _device(NULL), _values(0) {}

@@ -1,4 +1,4 @@
-#include "i2c_lock.h"
+#include "i2c_lock/i2c_lock.h"
 
 volatile char i2c_lock::cSREG = 0;
 

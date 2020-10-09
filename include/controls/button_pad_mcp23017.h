@@ -3,7 +3,6 @@
 
 #include <Arduino.h>
 #include <Wire.h>
-#include "i2c_lock.h"
 #include "util/util.h"
 #include "controls/pad_mcp23017.h"
 
