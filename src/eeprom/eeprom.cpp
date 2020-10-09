@@ -47,9 +47,10 @@ uint8_t eeprom::bpm() const {
   return tmp;
 }
 
-void eeprom::save_track(
+template<>
+void eeprom::save_track<tracks::euclidean>(
   size_t const & eeprom_location,
-  track & track
+  tracks::euclidean & track
 ) const {
   // if (! track.modified.consume() )
   //  return;
@@ -69,9 +70,10 @@ void eeprom::save_track(
   Serial.println(F("Saved track"));
 }
 
-void eeprom::restore_track(
+template<>
+void eeprom::restore_track<tracks::euclidean>(
   size_t const & eeprom_location,
-  track & track
+  tracks::euclidean & track
 ) {
   track.set_mod_maj(EEPROM.read(eeprom_location + 0));
   Serial.print(F("Restore mod_maj ")); Serial.print(track.mod_maj()); Serial.println();

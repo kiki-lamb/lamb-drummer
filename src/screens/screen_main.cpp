@@ -4,7 +4,7 @@
 #include "Adafruit_MCP23017.h"
 
 screen_main::screen_main(data_t * data) :
-  screen<ui_data<track_collection<3, track> > >(data),
+  screen<ui_data<track_collection<3, tracks::euclidean> > >(data),
   popup_bpm_time(0),
   popup_bpm_state(false)
   {}
@@ -53,7 +53,7 @@ void screen_main::impl_enter() {
   draw_bars();
 
   for (
-    uint8_t step = 0, mmm = (*data->tracks).max_mod_maj();
+    uint8_t step = 0, mmm = max_mod_maj(*data->tracks);
     step < 16;
     step++) {
     draw_column(step, mmm);
@@ -107,7 +107,8 @@ void screen_main::draw_line0(bool const & redraw_bpm) {
     }
   }
   else if (data->redraw_selected_track_indicator.consume()) {
-    track const & track  = (*data->tracks)[(*data->tracks).index()];
+    tracks::euclidean const & track  =
+      (*data->tracks)[(*data->tracks).index()];
  
     lcd::set_cursor(0, 0);
     lcd::print("                  ");
@@ -193,7 +194,7 @@ void screen_main::impl_update() {
     redraw_page = true;
   }
   
-  uint8_t mmm = (*data->tracks).max_mod_maj();
+  uint8_t mmm = max_mod_maj(*data->tracks);
 
   if (redraw_page) {
     draw_page_number();
@@ -224,7 +225,7 @@ void screen_main::draw_column(
   uint8_t const & col,
   uint8_t const & mod_maj
 )  {
-  track const & t = (*data->tracks)[channel];
+  tracks::euclidean const & t = (*data->tracks)[channel];
 
 //  Serial.print("Draw channel ");
 //  Serial.print(channel);

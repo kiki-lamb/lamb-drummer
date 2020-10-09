@@ -55,7 +55,7 @@ public:
   static  const uint8_t            x0x_leds_addr                    = 0x4;
   static  const uint8_t            triggers_addr                    = 0x3a;
   
-  typedef ::track_collection<tracks_count>                             track_collection;
+  typedef ::track_collection<tracks_count, tracks::euclidean>           track_collection;
   typedef ::ui_data<track_collection>                                  ui_data;
   typedef ::ui<ui_data>                                                ui;
   typedef eeprom::PersistantData<track_collection>                     persistant_data;

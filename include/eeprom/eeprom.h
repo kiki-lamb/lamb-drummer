@@ -3,7 +3,7 @@
 
 #include <EEPROM.h>
 #include <lamb.h>
-#include "track/track.h"
+#include "tracks/euclidean.h"
 
 class eeprom {
 public:
@@ -28,14 +28,19 @@ private:
   void save_bpm(uint8_t const & bpm_) const;
   bool playback_state() const;
   uint8_t bpm() const;
+
+  template <typename track_t>
   void save_track(
     size_t const & eeprom_location,
-    track & track
+    track_t & track
   ) const;
+
+  template <typename track_t>
   void restore_track(
     size_t const & eeprom_location,
-    track & track
+    track_t & track
   );
+  
   lamb::flag save_requested;
   unsigned long last_edit;
 public:

@@ -4,9 +4,11 @@
 #include "Arduino.h"
 #include "screen.h"
 #include "ui_data/ui_data.h"
+#include "tracks/euclidean.h"
 #include "track_collection/track_collection.h"
 
-class screen_intro : public screen<ui_data<track_collection<3, track> > > {
+class screen_intro :
+  public screen<ui_data<track_collection<3, tracks::euclidean> > > {
 public:
   explicit screen_intro(data_t * data);
 private:
@@ -14,7 +16,8 @@ private:
   virtual void impl_update() override;
 };
 
-class screen_instr : public screen<ui_data<track_collection<3, track> > > {
+class screen_instr :
+  public screen<ui_data<track_collection<3, tracks::euclidean> > > {
 public:
   explicit screen_instr(data_t * data);
 private:
@@ -22,7 +25,8 @@ private:
   virtual void impl_update() override;
 };
 
-class screen_none : public screen<ui_data<track_collection<3, track> > > {
+class screen_none :
+  public screen<ui_data<track_collection<3, tracks::euclidean> > > {
 public:
   explicit screen_none(data_t * data);
 private:

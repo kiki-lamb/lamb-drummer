@@ -223,7 +223,7 @@ uint8_t application::page() {
     }
   }
   
-  return ((_timer1.ticker() >> 1) % _tracks.max_mod_maj()) >> 4;
+  return ((_timer1.ticker() >> 1) % max) >> 4;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

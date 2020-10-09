@@ -1,6 +1,6 @@
-#include "track/track.h"
+#include "tracks/euclidean.h"
 
-track::track(
+tracks::euclidean::euclidean(
   uint8_t const & mod_maj_,
   uint8_t const & mod_min_,
   uint8_t const & phase_min_,
@@ -13,9 +13,7 @@ track::track(
     _phase_maj(phase_maj_)
 {};
 
-// track::~track() {};
-
-track & track::operator=(track const & other) {
+tracks::euclidean & tracks::euclidean::operator=(euclidean const & other) {
   _mod_maj   = other._mod_maj;
   _phase_maj = other._phase_maj;
   _mod_min   = other._mod_min;
@@ -24,49 +22,49 @@ track & track::operator=(track const & other) {
   return *this;
 }
 
-bool track::trigger_state(uint8_t const & counter) const {
+bool tracks::euclidean::trigger_state(uint8_t const & counter) const {
     return 0 == (
       (((uint8_t)(counter - _phase_maj) % _mod_maj) - _phase_min) %
       _mod_min
     );
 }
 
-void track::set_mod_maj(uint8_t const & val) {
+void tracks::euclidean::set_mod_maj(uint8_t const & val) {
   //Serial.println(F("set_mod_maj!"));
   _mod_maj = val;
   modified.set();
 }
 
-void track::set_mod_min(uint8_t const & val) {
+void tracks::euclidean::set_mod_min(uint8_t const & val) {
   //Serial.println(F("set_mod_min!"));
   _mod_min = val;
   modified.set();
 }
 
-void track::set_phase_min  (uint8_t const & val) {
+void tracks::euclidean::set_phase_min  (uint8_t const & val) {
   //Serial.println(F("set_phase_min!"));
   _phase_min = val;
   modified.set();
 }
 
-void track::set_phase_maj  (uint8_t const & val) {
+void tracks::euclidean::set_phase_maj  (uint8_t const & val) {
   //Serial.println(F("set_phase_maj!"));
   _phase_maj = val;
   modified.set();
 }
 
-uint8_t track::mod_maj() const {
+uint8_t tracks::euclidean::mod_maj() const {
   return _mod_maj;
 }
 
-uint8_t track::mod_min() const {
+uint8_t tracks::euclidean::mod_min() const {
   return _mod_min;
 }
 
-uint8_t track::phase_min() const {
+uint8_t tracks::euclidean::phase_min() const {
   return _phase_min;
 }
 
-uint8_t track::phase_maj() const {
+uint8_t tracks::euclidean::phase_maj() const {
   return _phase_maj;
 }

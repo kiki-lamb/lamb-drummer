@@ -2,12 +2,12 @@
 #define LAMB_DRUMMER_TRACK_STATE_CONTROL_BINDING_H
 
 #include "Arduino.h"
-#include "track/track.h"
+#include "tracks/euclidean.h"
 
 template <class event_type_t, size_t handlers_count_>
 class ProcessTrackControl {
 public:
-  static void apply(track & that, event_type_t e) {
+  static void apply(tracks::euclidean & that, event_type_t e) {
       (*button_handlers[e])(that);
   }
 
@@ -16,7 +16,7 @@ private:
 
 //  /* virtual */ ~ProcessTrackControl() {}
 
-  static void increase_mod_maj(track & that) {
+  static void increase_mod_maj(tracks::euclidean & that) {
     Serial.println(F("BMMU"));
 
     uint8_t tmm = that.mod_maj();
@@ -31,7 +31,7 @@ private:
     }
   }
 
-  static void decrease_mod_maj(track & that) {
+  static void decrease_mod_maj(tracks::euclidean & that) {
     Serial.println(F("BMMD"));
     if (that.mod_maj() >= 2)
       that.set_mod_maj( that.mod_maj() >> 1);
@@ -49,7 +49,7 @@ private:
       that.set_phase_min( 0 );
   }
 
-  static void increase_mod_min(track & that) {
+  static void increase_mod_min(tracks::euclidean & that) {
     Serial.println(F("BMmU"));
     if (that.mod_min() <
         that.mod_maj()
@@ -57,7 +57,7 @@ private:
       that.set_mod_min( that.mod_min() + 1 );
   }
 
-  static void decrease_mod_min(track & that) {
+  static void decrease_mod_min(tracks::euclidean & that) {
     Serial.println(F("BMmD"));
     if (that.mod_min() > 1)
       that.set_mod_min( that.mod_min()-1 );
@@ -67,7 +67,7 @@ private:
       that.set_phase_min( 0 );
   }
 
-  static void increase_phase_maj(track & that) {
+  static void increase_phase_maj(tracks::euclidean & that) {
     Serial.println(F("BPMU"));
     if (that.phase_maj() < that.mod_maj() - 1)
       that.set_phase_maj( that.phase_maj() + 1);
@@ -77,7 +77,7 @@ private:
       that.set_phase_maj( 0 );
   }
 
-  static void decrease_phase_maj(track & that) {
+  static void decrease_phase_maj(tracks::euclidean & that) {
     Serial.println(F("BPMD"));
     if (that.phase_maj() > 0)
       that.set_phase_maj( that.phase_maj() - 1);
@@ -85,7 +85,7 @@ private:
       that.set_phase_maj( that.mod_maj() - 1);
   }
 
-  static void increase_phase_min(track & that) {
+  static void increase_phase_min(tracks::euclidean & that) {
     Serial.println(F("BPmU"));
     if (that.phase_min() <
       (that.mod_min() - 1)
@@ -95,7 +95,7 @@ private:
       that.set_phase_min( 0 );
   }
 
-  static void decrease_phase_min(track & that) {
+  static void decrease_phase_min(tracks::euclidean & that) {
     Serial.println(F("BPmD"));
     if (that.phase_min() > 0)
       that.set_phase_min( that.phase_min() - 1);
@@ -103,7 +103,7 @@ private:
       that.set_phase_min( that.mod_min() - 1);
   }
 
-  typedef void (*button_handler)(track &);
+  typedef void (*button_handler)(tracks::euclidean &);
   
   static button_handler button_handlers[handlers_count_];
 };
