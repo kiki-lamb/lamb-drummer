@@ -22,34 +22,31 @@
 
 class application {
 public:
-  static  const uint8_t           tracks_count                     = 3;
+  static  const uint8_t            tracks_count                     = 3;
 
-  static  const uint8_t           combo_pad_buttons_count          = 8;
-  static  const uint8_t           combo_pad_buttons_range_start    = 0;
-  static  const uint8_t           combo_pad_buttons_source_mask    = 128;
+  static  const uint8_t            combo_pad_buttons_count          = 8;
+  static  const uint8_t            combo_pad_buttons_range_start    = 0;
+  static  const uint8_t            combo_pad_buttons_source_mask    = 128;
   
-  static  const uint8_t           combo_pad_encoders_count         = 4;
-  static  const uint8_t           combo_pad_encoders_range_start   = 8;
-  static  const uint8_t           combo_pad_encoders_source_mask   = 128;
+  static  const uint8_t            combo_pad_encoders_count         = 4;
+  static  const uint8_t            combo_pad_encoders_range_start   = 8;
+  static  const uint8_t            combo_pad_encoders_source_mask   = 128;
   
-  static  const uint8_t           drum_pad_buttons_count           = 16;
-  static  const uint8_t           drum_pad_buttons_range_start     = 0;
-  static  const uint8_t           drum_pad_buttons_source_mask     = 64;
+  static  const uint8_t            drum_pad_buttons_count           = 16;
+  static  const uint8_t            drum_pad_buttons_range_start     = 0;
+  static  const uint8_t            drum_pad_buttons_source_mask     = 64;
   
-  static  const uint8_t           encoder_pad_encoders_count       = 8;
-  static  const uint8_t           encoder_pad_encoders_range_start = 0;
-  static  const uint8_t           encoder_pad_source_mask          = 64;
+  static  const uint8_t            encoder_pad_encoders_count       = 8;
+  static  const uint8_t            encoder_pad_encoders_range_start = 0;
+  static  const uint8_t            encoder_pad_source_mask          = 64;
   
-  static  const uint8_t           event_sources_count              = 4;
+  static  const uint8_t            event_sources_count              = 4;
   
-  static  const uint8_t           combo_pad_addr                   = 0x0;
-  static  const uint8_t           drum_pad_addr                    = 0x3;
-  static  const uint8_t           encoder_pad_addr                 = 0x5;
-  static  const uint8_t           x0x_leds_addr                    = 0x4;
-  static  const uint8_t           triggers_addr                    = 0x3a;
-  
-  static  outputs::x0x_leds &     x0x_leds();
-  static  outputs::triggers &     triggers();
+  static  const uint8_t            combo_pad_addr                   = 0x0;
+  static  const uint8_t            drum_pad_addr                    = 0x3;
+  static  const uint8_t            encoder_pad_addr                 = 0x5;
+  static  const uint8_t            x0x_leds_addr                    = 0x4;
+  static  const uint8_t            triggers_addr                    = 0x3a;
   
   typedef ::track_collection<tracks_count>                             track_collection;
   typedef ::ui_data<track_collection>                                  ui_data;
@@ -90,32 +87,33 @@ private:
   static  ui_data                  _ui_data;
   static  ui                       _ui;
 
-                                  application();
-//                                  ~application();
-  static bool                     process_control_events(); // called by ISR for timer2.
-  static void                     set_playback_state(bool const & playback_state_);
-  static void                     setup_controls();
-  static void                     setup_triggers();
-  static void                     update_ui_data();
+                                   application();
+  static bool                      process_control_events(); // called by ISR for timer2.
+  static void                      set_playback_state(bool const & playback_state_);
+  static void                      setup_controls();
+  static void                      setup_triggers();
+  static void                      update_ui_data();
 
-  static application_event        process_control_event(
+  static application_event         process_control_event(
     control_event const & control_event
   );
 
-  static bool                     process_application_event(
+  static bool                      process_application_event(
     application_event application_event
   );
   
 public:
-  static uint8_t                  page();
-  static void                     flag_controls();       // called by ISR for timer2.
-  static void                     flag_main_screen();    // called by ISR for timer1.
-  static void                     loop();
-  static void                     save_state();          // called by ISR for timer2.
-  static void                     setup();
+  static outputs::x0x_leds &       x0x_leds();
+  static outputs::triggers &       triggers();  
+  static uint8_t                   page();
+  static void                      flag_controls();     // called by ISR for timer2.
+  static void                      flag_main_screen();  // called by ISR for timer1.
+  static void                      loop();
+  static void                      save_state();        // called by ISR for timer2.
+  static void                      setup();
 
-  static constexpr track_collection const &          // called by ISR for timer1.
-                                  tracks()  {
+  static constexpr track_collection const &             // called by ISR for timer1.
+                                   tracks()  {
     return _tracks;
   }
 };
