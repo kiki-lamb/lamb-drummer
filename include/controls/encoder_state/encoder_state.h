@@ -11,7 +11,7 @@ public:
   
   encoder_state() : motion(0), stage_ix(0), flagged(false) {}
   
-  ~encoder_state() {}
+//  ~encoder_state() {}
      
   void update(char bit_pair) {
     static const unsigned char stages[] = { 0b00, 0b01, 0b11, 0b10 };

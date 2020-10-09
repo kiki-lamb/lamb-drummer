@@ -23,7 +23,7 @@ public:
     uint8_t button_range_start_
   );
 
-  /* virtual */ ~button_pad_mcp23017();
+//  /* virtual */ ~button_pad_mcp23017();
 
   /* virtual */ bool read();
 };

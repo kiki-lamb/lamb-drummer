@@ -10,7 +10,7 @@ class track_collection : public lamb::positional_fixed_array<size_, track_t> {
 public:
   track_collection() {}
 
-  /* virtual */ ~track_collection() {}
+//  /* virtual */ ~track_collection() {}
 
   uint8_t max_mod_maj() const {
     uint8_t max = 0;

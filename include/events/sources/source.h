@@ -15,7 +15,7 @@ namespace events {
 
       source() {}
 
-      /* virtual */ ~source() {}
+//      /* virtual */ ~source() {}
 
       bool poll() {
         impl_poll();

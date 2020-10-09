@@ -13,7 +13,7 @@ namespace events {
 
       buffer() : source(NULL) {}
 
-      /* virtual */ ~buffer() {}
+//      /* virtual */ ~buffer() {}
 
     private:
       declare_light_buffer(event, queue_size_, event_queue);

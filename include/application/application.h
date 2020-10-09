@@ -91,7 +91,7 @@ private:
   static  ui                      _ui;
 
                                   application();
-                                  ~application();
+//                                  ~application();
   static bool                     process_control_events(); // called by ISR for timer2.
   static void                     set_playback_state(bool const & playback_state_);
   static void                     setup_controls();

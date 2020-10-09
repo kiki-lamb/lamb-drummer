@@ -8,7 +8,7 @@ timer1_::timer1_() :
   _ticker(0),
   _millihz(0) {};
 
-timer1_::~timer1_() {}
+// timer1_::~timer1_() {}
 
 timer1_ * timer1_::_instance = 0;
 

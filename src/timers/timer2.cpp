@@ -4,7 +4,7 @@
 
 timer2_::timer2_() {};
 
-timer2_::~timer2_() {};
+// timer2_::~timer2_() {};
 
 timer2_ * timer2_::_instance = 0;
 

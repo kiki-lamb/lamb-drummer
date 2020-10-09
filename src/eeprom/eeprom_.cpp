@@ -6,7 +6,7 @@
 
 eeprom_::eeprom_() : save_requested("sr"), last_edit(0) {}
 
-eeprom_::~eeprom_() {}
+// eeprom_::~eeprom_() {}
 
 void eeprom_::flag_save_requested() {
   save_requested.set();

@@ -25,7 +25,7 @@ namespace events {
         _device(device_),
         _button_number_mask(button_number_mask_) {}
 
-      /* virtual */ ~encoder_pad() {}
+//      /* virtual */ ~encoder_pad() {}
 
     private:
       virtual void    impl_poll() {

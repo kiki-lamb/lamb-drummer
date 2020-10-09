@@ -31,7 +31,7 @@ public:
     redraw_playback_state          (true)
   {}
 
-  /* virtual */ ~ui_data() {};
+//  /* virtual */ ~ui_data() {};
 };
 
 #endif

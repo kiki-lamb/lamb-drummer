@@ -19,7 +19,7 @@ public:
     uint8_t button_range_start_
   );
 
-  /* virtual */ ~pad_mcp23017();
+//  /* virtual */ ~pad_mcp23017();
 
   void setup(Adafruit_MCP23017 * _device);
 

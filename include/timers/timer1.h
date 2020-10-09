@@ -22,7 +22,7 @@ class timer1_ {
     uint16_t             millihz() const;
     uint8_t              ticker() const;
     void                 increment_ticker();
-    /* virtual */ ~timer1_();
+//    /* virtual */ ~timer1_();
     timer1_();
 };
 

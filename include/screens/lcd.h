@@ -7,7 +7,7 @@
 class lcd {
 private:
   lcd();
-  ~lcd();
+//  ~lcd();
   static const uint8_t     LCD_COLS;
   static const uint8_t     LCD_LINES;
   static const uint8_t     LCD_RS;

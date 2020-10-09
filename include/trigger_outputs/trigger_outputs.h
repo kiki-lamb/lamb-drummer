@@ -12,7 +12,7 @@ private:
   
 public:
   trigger_outputs();
-  ~trigger_outputs();
+//  ~trigger_outputs();
   bool setup(jm_PCF8574 * device_);
   void flag();
   void write(uint16_t const & values_);

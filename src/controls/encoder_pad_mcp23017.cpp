@@ -1,6 +1,6 @@
 #include "controls/encoder_pad_mcp23017.h"
 
-encoder_pad_mcp23017::~encoder_pad_mcp23017() {}
+// encoder_pad_mcp23017::~encoder_pad_mcp23017() {}
 
 encoder_pad_mcp23017::encoder_pad_mcp23017(
   uint8_t encoder_count_,

@@ -42,7 +42,7 @@ public:
   void flag_save_requested();
   void unflag_save_requested();
   eeprom_();
-  /* virtual */ ~eeprom_();
+//  /* virtual */ ~eeprom_();
 
   template <class tracks_t>
   void restore_all(

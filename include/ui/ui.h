@@ -65,7 +65,7 @@ public:
       screens[3] = new screen_instr(data);
     }
 
-  /* virtual */ ~ui() {}
+//  /* virtual */ ~ui() {}
 
 private:
   data_t         * data;

@@ -4,7 +4,7 @@
 
 trigger_outputs::trigger_outputs() : _device(NULL), _values(0) {}
 
-trigger_outputs::~trigger_outputs() {}
+// trigger_outputs::~trigger_outputs() {}
 
 bool trigger_outputs::setup(jm_PCF8574 * device_) {
   _device = device_;

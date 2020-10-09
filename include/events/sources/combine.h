@@ -11,7 +11,7 @@ namespace events {
       source<event> * sources[sources_count_];
 
       combine() : sources() {}
-      /* virtual */ ~combine() {}
+//      /* virtual */ ~combine() {}
 
     private:
       virtual uint8_t impl_queue_count() const {

@@ -13,7 +13,7 @@ track::track(
     _phase_maj(phase_maj_)
 {};
 
-track::~track() {};
+// track::~track() {};
 
 track & track::operator=(track const & other) {
   _mod_maj   = other._mod_maj;
@@ -25,7 +25,10 @@ track & track::operator=(track const & other) {
 }
 
 bool track::trigger_state(uint8_t const & counter) const {
-    return 0 == ((((uint8_t)(counter - _phase_maj) % _mod_maj) - _phase_min) % _mod_min);
+    return 0 == (
+      (((uint8_t)(counter - _phase_maj) % _mod_maj) - _phase_min) %
+      _mod_min
+    );
 }
 
 void track::set_mod_maj(uint8_t const & val) {

@@ -6,7 +6,7 @@ private:
   static timer2_ *     _instance;
 public:
   timer2_();
-  /* virtual */ ~timer2_();
+//  /* virtual */ ~timer2_();
   void    setup();
   void    isr();
   static  timer2_ &     instance();
