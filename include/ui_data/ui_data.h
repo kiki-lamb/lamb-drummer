@@ -25,10 +25,10 @@ public:
     millihz(0),
     playback_state(false),
     ticker(0),
-    popup_bpm_requested            ("pbr" , true),
-    redraw_track                   ("rt"  , true),
-    redraw_selected_track_indicator("rsti", true),
-    redraw_playback_state          ("rps" , true)
+    popup_bpm_requested            (true),
+    redraw_track                   (true),
+    redraw_selected_track_indicator(true),
+    redraw_playback_state          (true)
   {}
 
   virtual ~ui_data() {};

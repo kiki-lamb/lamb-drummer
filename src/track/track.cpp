@@ -6,7 +6,7 @@ track::track(
   uint8_t const & phase_min_,
   uint8_t const & phase_maj_
 ) :
-    modified("mod", false),
+    modified(false),
     _mod_maj(mod_maj_),
     _mod_min(mod_min_),
     _phase_min(phase_min_),

@@ -14,7 +14,7 @@ public:
   data_t * data;
 
   explicit screen(data_t * data_) :
-    requires_update("ru", true),
+    requires_update(true),
     data(data_) {
     flag();
   }
