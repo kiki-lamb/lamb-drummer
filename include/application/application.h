@@ -93,9 +93,9 @@ private:
                       application();
                       ~application();
   static bool         process_application_event(
-    control_source::event_type e
+    application_event application_event
   );
-  static bool         process_application_events(); // called by ISR for timer2.
+  static bool         process_control_events(); // called by ISR for timer2.
   static void         set_playback_state(bool const & playback_state_);
   static void         setup_controls();
   static void         setup_trigger_outputs();

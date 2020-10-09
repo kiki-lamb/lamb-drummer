@@ -220,7 +220,7 @@ void application::loop() {
     _x0x_leds.update()        ||
     
     _trigger_outputs.update() ||   
-    process_application_events()  ||
+    process_control_events()  ||
     
     _trigger_outputs.update() ||
     (update_ui_data(), _ui.update_screen())
@@ -271,13 +271,19 @@ void application::flag_controls() {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool application::process_application_events() {
+bool application::process_control_events() {
   if (! _controls_flag.consume())
     return false;
 
   _control_event_source.poll();
 
-  while(process_application_event(_control_event_source.dequeue_event()));
+  while(
+    process_application_event(
+      convert_control_event(
+        _control_event_source.dequeue_event()
+      )
+    )
+  );
 
   return true;
 }
@@ -382,12 +388,10 @@ events::application application::convert_control_event(
 ////////////////////////////////////////////////////////////////////////////////
 
 bool application::process_application_event(
-  application::control_source::event_type e
+  application::application_event application_event
 ) {
-  if (! e) return false;
+  if (! application_event) return false;
 
-  application_event application_event = convert_control_event(e);
-  
   if ((application_event.type >= 20) && (application_event.type <= 27)) {
     ProcessTrackControl<application_event::event_type, 8>::apply(
       _tracks.current(),
