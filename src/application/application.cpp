@@ -207,7 +207,7 @@ void application::setup_controls() {
 void application::loop() {
   (
     _trigger_outputs.update() || 
-    _x0x_leds.update() ||
+    _x0x_leds.update()        ||
     
     _trigger_outputs.update() ||   
     process_control_events()  ||
