@@ -4,7 +4,7 @@
 #include <Arduino.h>
 
 namespace events {
-  class application_event {
+  class application {
   public:
     enum event_type {
       EVT_NOT_AVAILABLE = 0,
@@ -55,7 +55,7 @@ namespace events {
     event_type type;
     uint16_t parameter;
 
-    application_event(event_type type_ = event_type::EVT_NOT_AVAILABLE, uint16_t arg = 0) :
+    application(event_type type_ = event_type::EVT_NOT_AVAILABLE, uint16_t arg = 0) :
       type(type_), parameter(arg) {}
 
     inline operator bool() const {

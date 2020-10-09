@@ -3,11 +3,11 @@
 
 #include <Arduino.h>
 #include "event_source.h"
-#include "events/application_event.h"
+#include "events/application.h"
 #include "lamb.h"
 
 template <class encoder_pad_t_>
-class encoder_pad_source : public event_source<events::application_event> {
+class encoder_pad_source : public event_source<events::application> {
 public:
   typedef encoder_pad_t_ encoder_pad_type;
   
@@ -36,8 +36,8 @@ private:
 
   virtual event_t impl_dequeue_event() {
     if (! light_buffer_readable(_device->motion_events))
-      return events::application_event {
-        events::application_event::EVT_NOT_AVAILABLE
+      return events::application {
+        events::application::EVT_NOT_AVAILABLE
        };
 
     typename encoder_pad_type::motion_event tmp =
@@ -48,8 +48,8 @@ private:
       ((uint8_t)tmp.motion)
     );
 
-    return events::application_event {
-      events::application_event::EVT_ENCODER, event_arg
+    return events::application {
+      events::application::EVT_ENCODER, event_arg
     };
   };
 };
