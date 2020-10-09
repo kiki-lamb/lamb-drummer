@@ -48,7 +48,7 @@ public:
   static  const uint8_t          x0x_leds_addr                    = 0x4;
   static  const uint8_t          trigger_outputs_addr             = 0x3a;
   
-  typedef track_collection<tracks_count>  tracks_type;
+  typedef ::track_collection<tracks_count>track_collection;
   typedef events::application             application_event;
   typedef events::control                 control_event;
   
@@ -56,9 +56,9 @@ public:
   static  ::trigger_outputs & trigger_outputs();
   
 private:
-  typedef ui_data<tracks_type>                                          ui_data_type;
-  typedef ui<ui_data_type>                                              ui_type;
-  typedef events::sources::buffer<events::control, 8>                   control_event_source_type;
+  typedef ::ui_data<track_collection>                                        ui_data;
+  typedef ::ui<ui_data>                                                 ui;
+  typedef events::sources::buffer<events::control, 8>                   control_source;
   typedef events::sources::encoder_pad<encoder_pad_mcp23017>            encoder_pad_type;
   
   static encoder_pad_mcp23017                                           _combo_pad_encoder_pad;
@@ -77,21 +77,21 @@ private:
   static Adafruit_MCP23017                                              _drum_pad_device;
   static Adafruit_MCP23017                                              _combo_pad_device;
   static Adafruit_MCP23017                                              _encoder_pad_device;
-  static control_event_source_type                                      _control_event_source;
+  static control_source                                                 _control_event_source;
   static eeprom_                                                        _eeprom;
   static jm_PCF8574                                                     _trigger_outputs_device;
   static lamb::flag                                                     _controls_flag;
   static lamb::flag                                                     _output_flag;
   static timer1_                                                        _timer1;
   static timer2_                                                        _timer2;
-  static tracks_type                                                    _tracks;
-  static ui_data_type                                                   _ui_data;
-  static ui_type                                                        _ui;
+  static track_collection                                               _tracks;
+  static ui_data                                                        _ui_data;
+  static ui                                                             _ui;
 
                       application();
                       ~application();
   static bool         process_application_event(
-    control_event_source_type::event_type e
+    control_source::event_type e
   );
   static bool         process_application_events(); // called by ISR for timer2.
   static void         set_playback_state(bool const & playback_state_);
@@ -110,8 +110,8 @@ public:
   static void         loop();
   static void         save_state();          // called by ISR for timer2.
   static void         setup();
-  static constexpr tracks_type const &          // called by ISR for timer1.
-                       tracks()  {
+  static constexpr track_collection const &          // called by ISR for timer1.
+                      tracks()  {
     return _tracks;
   }
 };
