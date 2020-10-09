@@ -8,7 +8,7 @@ button_pad_mcp23017::button_pad_mcp23017(
 ) :
   pad_mcp23017(button_count_, button_range_start_)
 {
-  dynamic_light_buffer_resize(button_events_type, button_events, button_count);
+  dynamic_light_buffer_resize(button_event, button_events, button_count);
 }
 
 bool button_pad_mcp23017::read() {

@@ -5,10 +5,10 @@
 
 namespace events {
   namespace sources {
-    template <class event_type, size_t sources_count_>
-    class combine : public source<event_type> {
+    template <class event, size_t sources_count_>
+    class combine : public source<event> {
     public:
-      source<event_type> * sources[sources_count_];
+      source<event> * sources[sources_count_];
 
       combine() : sources() {}
       /* virtual */ ~combine() {}
@@ -31,14 +31,14 @@ namespace events {
         }
       }
 
-      virtual event_type impl_dequeue_event() {
+      virtual event impl_dequeue_event() {
         for (size_t ix = 0; ix < sources_count_; ix++) {
           if (sources[ix]->ready()) {
             return sources[ix]->dequeue_event();
           }
         }
 
-        return event_type();
+        return event();
       }
     };
   }

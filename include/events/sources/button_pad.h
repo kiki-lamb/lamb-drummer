@@ -36,7 +36,7 @@ namespace events {
         return _device->button_events_count;
       }
 
-      virtual event_type impl_dequeue_event() {
+      virtual event impl_dequeue_event() {
         if (! light_buffer_readable(_device->button_events))
           return events::control {
             events::control::EVT_NOT_AVAILABLE
