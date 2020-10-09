@@ -73,18 +73,18 @@ encoder_pad_mcp23017   application::_combo_pad_encoder_pad(
 
 button_pad_mcp23017    application::_combo_pad_button_pad(
                          application::combo_pad_buttons_count,
-                         0
+                         application::combo_pad_buttons_range_start
                        );
 ////////////////////////////////////////////////////////////////////////////////
 
 encoder_pad_mcp23017   application::_encoder_pad0(
                          application::encoder_pad_encoders_count,
-                         0
+                         application::encoder_pad_encoders_range_start
                        );
 
 button_pad_mcp23017    application::_drum_pad_button_pad(
                          application::drum_pad_buttons_count,
-                         0
+                         application::drum_pad_buttons_range_start
                        );
 
 encoder_pad_source<encoder_pad_mcp23017>
@@ -96,7 +96,7 @@ encoder_pad_source<encoder_pad_mcp23017>
 encoder_pad_source<encoder_pad_mcp23017>
                        application::_combo_pad_encoder_source(
                          &application::_combo_pad_encoder_pad,
-                         0
+                         application::combo_pad_encoders_source_mask
                        );
 
 button_pad_source<button_pad_mcp23017>
@@ -196,19 +196,19 @@ void application::setup_controls() {
   _drum_pad_device      .begin(drum_pad_addr);
   _encoder_pad_device   .begin(encoder_pad_addr);
 
-  Serial.println(F("\nSetup drum pad..."));
+  Serial.println(F("\nInit drum buttons..."));
   _drum_pad_button_pad  .setup      ( &_drum_pad_device);
   _combine_event_sources.sources[0] = &_drum_pad_source;
   
-  Serial.println(F("\nSetup combo pad buttons..."));
+  Serial.println(F("\nInit combo buttons..."));
   _combo_pad_button_pad .setup      ( &_combo_pad_device);
   _combine_event_sources.sources[1] = &_combo_pad_button_source;
   
-  Serial.println(F("\nSetup combo pad encoders..."));
+  Serial.println(F("\nInit combo encoders..."));
   _combo_pad_encoder_pad.setup      ( &_combo_pad_device);
   _combine_event_sources.sources[2] = &_combo_pad_encoder_source;
   
-  Serial.println(F("\nSetup encoder pad..."));
+  Serial.println(F("\nInit encoders..."));
   _encoder_pad0         .setup      ( &_encoder_pad_device);
   _combine_event_sources.sources[3] = &_encoder_pad_source0;
 
@@ -291,19 +291,19 @@ bool application::process_control_event(
     Serial.println();
 
     switch (encoder_number) {
-    case 0:
+    case 128:
       e.type = motion > 0 ? EVT_MAJ_UP : EVT_MAJ_DN;
       break;
 
-    case 1:
+    case 129:
       e.type = motion > 0 ? EVT_MIN_UP : EVT_MIN_DN;
       break;
 
-    case 2:
+    case 130:
       e.type = motion > 0 ? EVT_PHASE_MAJ_UP : EVT_PHASE_MAJ_DN;
       break;
 
-    case 3:
+    case 131:
       e.type = motion > 0 ? EVT_PHASE_MIN_UP : EVT_PHASE_MIN_DN;
       break;
 
