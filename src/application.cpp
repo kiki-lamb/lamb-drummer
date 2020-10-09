@@ -56,20 +56,15 @@ Adafruit_MCP23017    application::_encoder_pad_device;
 
 encoder_pad_mcp23017 application::_combo_pad_encoder_pad(
   0x0,
-  application::encoder_pad_size,
+  application::combo_pad_encoders_count,
   8
 );
 
 encoder_pad_mcp23017 application::_encoder_pad0(
   0x5,
-  application::encoder_pad_size,
+  application::encoder_pad_encoders_count,
   0
 );
-
-encoder_pad_mcp23017 application::_encoder_pad1(
-  0x5,
-  application::encoder_pad_size,
-  8);
 
 button_pad_mcp23017 application::_combo_pad_button_pad(0x0, 8);
 
@@ -79,12 +74,6 @@ encoder_pad_source<encoder_pad_mcp23017>
 application::_encoder_pad_source0(
   &application::_encoder_pad0,
   64
-);
-
-encoder_pad_source<encoder_pad_mcp23017>
-application::_encoder_pad_source1(
-  &application::_encoder_pad1,
-  128
 );
 
 encoder_pad_source<encoder_pad_mcp23017>
@@ -213,9 +202,6 @@ void application::setup_controls() {
   _encoder_pad0.setup(&_encoder_pad_device);
   _combine_event_sources.sources[3] = &_encoder_pad_source0;
 
-  _encoder_pad1.setup(&_encoder_pad_device);
-  _combine_event_sources.sources[4] = &_encoder_pad_source1;
-
   _control_event_source .source     = &_combine_event_sources;
 }
 
@@ -309,7 +295,7 @@ bool application::process_control_event(
       e.type = motion > 0 ? EVT_PHASE_MIN_UP : EVT_PHASE_MIN_DN;
       break;
 
-    case 131:
+    case 71:
       e.type = motion > 0 ? EVT_SELECTED_TRACK_DN : EVT_SELECTED_TRACK_UP;
       break;
     
