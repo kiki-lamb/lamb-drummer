@@ -2,7 +2,7 @@
 #define LAMB_DRUMMER_EVENT_SOURCE_BUFFER_H
 
 #include <lamb.h>
-#include "event_source.h"
+#include "source.h"
 
 namespace events {
   namespace sources {

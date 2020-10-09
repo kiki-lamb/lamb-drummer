@@ -2,8 +2,8 @@
 #define LAMB_DRUMMER_I_ENCODER_PAD_SOURCE_H
 
 #include <Arduino.h>
-#include "event_source.h"
-#include "events/control.h"
+#include "source.h"
+#include "../control.h"
 #include "lamb.h"
 
 namespace events {

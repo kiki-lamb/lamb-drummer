@@ -1,7 +1,7 @@
 #ifndef LAMB_DRUMMER_EVENT_SOURCE_COMBINE_H
 #define LAMB_DRUMMER_EVENT_SOURCE_COMBINE_H
 
-#include "event_source.h"
+#include "source.h"
 
 namespace events {
   namespace sources {
