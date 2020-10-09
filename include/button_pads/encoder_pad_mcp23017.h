@@ -17,7 +17,7 @@ public:
     int8_t motion;
   };
 
-  declare_light_buffer(motion_event, encoder_count, motion_events);
+  declare_dynamic_light_buffer(motion_event, motion_events);
 
 public:
   explicit encoder_pad_mcp23017(
@@ -25,7 +25,9 @@ public:
     uint8_t button_range_start_ = 0
   ) :
     pad_mcp23017(i2c_addr_, (encoder_count << 1), button_range_start_),
-    encoder_states() {}
+    encoder_states() {
+    dynamic_light_buffer_resize(motion_events_type, motion_events, encoder_count);
+  }
   
   virtual ~encoder_pad_mcp23017() {}
   
