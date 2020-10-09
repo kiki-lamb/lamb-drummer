@@ -266,6 +266,8 @@ bool application::process_control_event(
     return false;
   }
 
+  events::application application_event;
+  
   if (e.type == events::control::EVT_BUTTON) {
     uint8_t button_number = e.parameter >> 8;
     int8_t  button_state = (int8_t)(e.parameter & 0xff);
@@ -277,7 +279,7 @@ bool application::process_control_event(
     Serial.println();
     
     if ((button_number >= 64) && (button_number <= 79)) {
-      e.type = drum_pad_ordering[
+      application_event.type = drum_pad_ordering[
         (
           15 - (
             button_number ^
@@ -289,7 +291,7 @@ bool application::process_control_event(
     else {
       switch (button_number) {
       case 128:
-        e.type = events::application::EVT_PLAYBACK_STATE_TOGGLE;
+        application_event.type = events::application::EVT_PLAYBACK_STATE_TOGGLE;
       }
     }
   }
@@ -306,37 +308,37 @@ bool application::process_control_event(
 
     switch (encoder_number) {
     case 128:
-      e.type = motion > 0 ? events::application::EVT_MAJ_UP : events::application::EVT_MAJ_DN;
+      application_event.type = motion > 0 ? events::application::EVT_MAJ_UP : events::application::EVT_MAJ_DN;
       break;
 
     case 129:
-      e.type = motion > 0 ? events::application::EVT_MIN_UP : events::application::EVT_MIN_DN;
+      application_event.type = motion > 0 ? events::application::EVT_MIN_UP : events::application::EVT_MIN_DN;
       break;
 
     case 130:
-      e.type = motion > 0 ? events::application::EVT_PHASE_MAJ_UP : events::application::EVT_PHASE_MAJ_DN;
+      application_event.type = motion > 0 ? events::application::EVT_PHASE_MAJ_UP : events::application::EVT_PHASE_MAJ_DN;
       break;
 
     case 131:
-      e.type = motion > 0 ? events::application::EVT_PHASE_MIN_UP : events::application::EVT_PHASE_MIN_DN;
+      application_event.type = motion > 0 ? events::application::EVT_PHASE_MIN_UP : events::application::EVT_PHASE_MIN_DN;
       break;
 
     case 71:
-      e.type = motion > 0 ? events::application::EVT_SELECTED_TRACK_DN : events::application::EVT_SELECTED_TRACK_UP;
+      application_event.type = motion > 0 ? events::application::EVT_SELECTED_TRACK_DN : events::application::EVT_SELECTED_TRACK_UP;
       break;
     
     case 64:
-      e.type = events::application::EVT_BPM_SET;
-      e.parameter = _timer1.bpm() + motion;
+      application_event.type = events::application::EVT_BPM_SET;
+      application_event.parameter = _timer1.bpm() + motion;
 
       break;
     }
   }
 
-  if ((e.type >= 20) && (e.type <= 27)) {
+  if ((application_event.type >= 20) && (application_event.type <= 27)) {
     ProcessTrackControl<events::application::event_type, 8>::apply(
       _tracks.current(),
-      ((events::application::event_type)(e.type - 20))
+      ((events::application::event_type)(application_event.type - 20))
     );
     
     _ui_data.redraw_track.set();
@@ -347,10 +349,10 @@ bool application::process_control_event(
     goto success;
   }
     
-  switch (e.type) {
+  switch (application_event.type) {
   case events::application::EVT_BPM_SET:
   {
-    _timer1.set_bpm(e.parameter);
+    _timer1.set_bpm(application_event.parameter);
 
     _ui_data.popup_bpm_requested.set();
     
@@ -380,7 +382,7 @@ bool application::process_control_event(
 
     _x0x_leds.xor_write(light_states);
       
-    uint16_t tmp = util::flip_bytes(((uint16_t)1) << (((uint8_t)e.type) - 1));
+    uint16_t tmp = util::flip_bytes(((uint16_t)1) << (((uint8_t)application_event.type) - 1));
     light_states ^= tmp;
       
     Serial.print("Light up ");
@@ -432,7 +434,7 @@ bool application::process_control_event(
   }
   default:
     Serial.print("Unrecognized event: ");
-    Serial.print(e.type, HEX);
+    Serial.print(application_event.type, HEX);
     Serial.println();
     Serial.flush();
   }

@@ -52,7 +52,10 @@ namespace events {
     event_type type;
     uint16_t parameter;
 
-    application(event_type type_ = event_type::EVT_NOT_AVAILABLE, uint16_t arg = 0) :
+    application(
+      event_type type_ = event_type::EVT_NOT_AVAILABLE,
+      uint16_t arg = 0
+    ) :
       type(type_), parameter(arg) {}
 
     inline operator bool() const {
