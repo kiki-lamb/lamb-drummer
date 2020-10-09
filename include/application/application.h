@@ -47,20 +47,20 @@ public:
   static  const uint8_t          encoder_pad_addr                 = 0x5;
   static  const uint8_t          x0x_leds_addr                    = 0x4;
   static  const uint8_t          trigger_outputs_addr             = 0x3a;
-
-    static  ::x0x_leds & x0x_leds();
-  static  ::trigger_outputs & trigger_outputs();
-
+  
   typedef ::track_collection<tracks_count>                               track_collection;
-  typedef events::application                                            application_event;
-  typedef events::control                                                control_event;  
   typedef ::ui_data<track_collection>                                    ui_data;
   typedef ::ui<ui_data>                                                  ui;
+  typedef eeprom_::PersistantData<track_collection>                      persistant_data;
+  typedef events::application                                            application_event;
+  typedef events::control                                                control_event;  
   typedef events::sources::buffer<events::control, 8>                    control_source;
-  typedef events::sources::encoder_pad<encoder_pad_mcp23017>             encoder_pad_source;
   typedef events::sources::button_pad<button_pad_mcp23017>               button_pad_source;
   typedef events::sources::combine<events::control, event_sources_count> combined_source;
-  typedef eeprom_::PersistantData<track_collection>                      persistant_data;
+  typedef events::sources::encoder_pad<encoder_pad_mcp23017>             encoder_pad_source;
+
+  static  ::x0x_leds & x0x_leds();
+  static  ::trigger_outputs & trigger_outputs();
   
 private:
   static  encoder_pad_mcp23017                                           _combo_pad_encoder_pad;
@@ -100,7 +100,7 @@ private:
   static void         setup_controls();
   static void         setup_trigger_outputs();
   static void         update_ui_data();
-  static events::application
+  static application_event
                       convert_control_event(
                         events::control const & control_event
                       );
