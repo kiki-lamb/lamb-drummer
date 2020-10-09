@@ -283,7 +283,7 @@ application::application_event application::process_control_event(
     Serial.print(button_state);
     Serial.println();
     
-    if ((button_number >= 64) && (button_number <= 79)) {
+    if ((button_number >= 64) && (button_number <= 79)) { // Drum pad buttons
       application_event.type = (application_event::event_type)(
         16 - (
           button_number ^
