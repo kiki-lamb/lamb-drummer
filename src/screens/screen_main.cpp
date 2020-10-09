@@ -188,22 +188,20 @@ void screen_main::impl_update() {
 //    (*data->tracks).max_mod_maj()
 //  );
 
-  uint8_t current = (
-    (data->ticker>>1) %
-    (*data->tracks).max_mod_maj()
-  );
+//  uint8_t current = (
+//  /*     (data */->ticker>>1) %
+//  (*data->/* tracks */).max_mod_maj()
+//  );
 
   ////Serial.println("Before rt!");
   bool redraw_page = false;
 
-  if (! redraw_page) {
-    static uint8_t last_page = 255;
-    uint8_t        tmp_page = data->page;
-
-    if (tmp_page != last_page) {
-        last_page = tmp_page;
-        redraw_page = true;
-    }
+  static uint8_t last_page = 255;
+  uint8_t        tmp_page = data->page;
+  
+  if (tmp_page != last_page) {
+    last_page = tmp_page;
+    redraw_page = true;
   }
   
   uint8_t mmm = (*data->tracks).max_mod_maj();

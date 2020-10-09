@@ -43,7 +43,7 @@ bool trigger_outputs::update() { // bool immediate) {
   if (! (_flag.consume())) // || immediate))
     return false;
   
-  _device->write(_values);
+  _device->write(values());
 
   return true;
 }

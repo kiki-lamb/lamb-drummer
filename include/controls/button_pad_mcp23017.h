@@ -20,9 +20,9 @@ public:
 
   /* virtual */ ~button_pad_mcp23017();
 
-  virtual bool read();
+  /* virtual */ bool read();
 
-  virtual uint16_t buttons() const;
+  /* virtual */ uint16_t buttons() const;
 };
 
 #endif

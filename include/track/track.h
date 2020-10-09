@@ -15,7 +15,7 @@ public:
   uint8_t mod_min()   const;
   uint8_t phase_min() const;
   uint8_t phase_maj() const;
-  virtual track & operator=(track const & other);
+  track & operator=(track const & other);
   bool    trigger_state(uint8_t const & counter) const;
   track(
     uint8_t const & mod_maj_ = 0,

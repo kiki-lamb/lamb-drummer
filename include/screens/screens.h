@@ -10,24 +10,24 @@ class screen_intro : public screen<ui_data<track_collection<3, track> > > {
 public:
   explicit screen_intro(data_t * data);
 private:
-  virtual void impl_enter();
-  virtual void impl_update();
+  virtual void impl_enter() override;
+  virtual void impl_update() override;
 };
 
 class screen_instr : public screen<ui_data<track_collection<3, track> > > {
 public:
   explicit screen_instr(data_t * data);
 private:
-  virtual void impl_enter();
-  virtual void impl_update();
+  virtual void impl_enter() override;
+  virtual void impl_update() override;
 };
 
 class screen_none : public screen<ui_data<track_collection<3, track> > > {
 public:
   explicit screen_none(data_t * data);
 private:
-  virtual void impl_enter();
-  virtual void impl_update();
+  virtual void impl_enter() override;
+  virtual void impl_update() override;
 };
 
 #endif

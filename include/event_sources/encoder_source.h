@@ -21,7 +21,7 @@ public:
 
   /* virtual */ ~encoder_source() {}
 
-  virtual void setup() {
+  /* virtual */ void setup() {
     encoder::setup();
     set_value(_initial_value);
   }

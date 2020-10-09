@@ -4,6 +4,7 @@
 timer1_::timer1_() :
   _bpm(0),
   _playback_state(true),
+  _millihz(0),
   _ticker(0) {};
 
 timer1_::~timer1_() {}

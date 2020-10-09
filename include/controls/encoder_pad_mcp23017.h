@@ -29,7 +29,7 @@ public:
   
   /* virtual */ ~encoder_pad_mcp23017();
 
-  virtual bool read();  
+  /* virtual */ bool read();  
 };
 
 #endif
