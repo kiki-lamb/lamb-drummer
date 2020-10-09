@@ -6,10 +6,11 @@
 #include "button_pads/pad_mcp23017.h"
 #include "encoder_state/encoder_state.h"
 
-template <uint8_t encoder_count>
 class encoder_pad_mcp23017 : public pad_mcp23017 {
 private:
-  encoder_state encoder_states[encoder_count];
+//  encoder_state * encoder_states;
+  encoder_state encoder_states[4];
+  uint8_t _encoder_count;
   
 public:
   struct motion_event {
@@ -21,42 +22,14 @@ public:
 
 public:
   explicit encoder_pad_mcp23017(
-    uint8_t i2c_addr_, 
+    uint8_t i2c_addr_,
+    uint8_t encoder_count_,
     uint8_t button_range_start_ = 0
-  ) :
-    pad_mcp23017(i2c_addr_, (encoder_count << 1), button_range_start_),
-    encoder_states() {
-    dynamic_light_buffer_resize(motion_events_type, motion_events, encoder_count);
-  }
+  );
   
-  virtual ~encoder_pad_mcp23017() {}
-  
-  virtual bool read() {
-    bool read = false;
-    uint16_t tmpval = begin_read(read);
+  virtual ~encoder_pad_mcp23017();
 
-    if (! read) return false;
-    
-    buttons_ = apply_button_mask(tmpval);
-    
-    uint16_t partial_mask = 0b11;
-    partial_mask <<= (encoder_count-1) << 1;
-
-    for (uint8_t ix = 0; ix < encoder_count; ix++, partial_mask >>= 2) {
-      uint16_t cut = partial_mask & buttons_;
-      uint8_t shifted = cut >> (((encoder_count-1) << 1) - (ix << 1));
-
-      encoder_states[ix].update(shifted);
-
-      if (encoder_states[ix].flagged && light_buffer_writable(motion_events)) {
-        light_buffer_write(motion_events, (motion_event { ix, (int8_t)(encoder_states[ix].motion ^ 1) }));
-        encoder_states[ix].motion = 0;
-        encoder_states[ix].flagged = false;
-      }
-    }
-    
-    return light_buffer_readable(motion_events);
-  }
+  virtual bool read();  
 };
 
 #endif
