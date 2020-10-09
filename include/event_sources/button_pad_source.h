@@ -14,21 +14,14 @@ public:
 private:
   button_pad_type  * _device;
   uint8_t _button_number_mask;
-  
-  event_type const * _button_ordering;
-  uint8_t            _button_ordering_size;
 
 public:
   button_pad_source(
     button_pad_t_    * device_,
-    uint8_t button_number_mask_,
-    event_type const * button_ordering_,
-    uint8_t const    & button_ordering_size_
+    uint8_t button_number_mask_
   ) : 
     _device(device_),
-    _button_number_mask(button_number_mask_),
-    _button_ordering(button_ordering_),
-    _button_ordering_size(button_ordering_size_) {}
+    _button_number_mask(button_number_mask_) {}
 
   /* virtual */ ~button_pad_source() {}
 

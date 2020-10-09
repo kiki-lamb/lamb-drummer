@@ -3,18 +3,6 @@
 #include "process_track_control_event.h"
 #include "util/util.h"
 
-const event_type combo_pad_ordering[] = {
-  EVT_NOT_AVAILABLE,
-  EVT_NOT_AVAILABLE,
-  EVT_NOT_AVAILABLE,
-  EVT_NOT_AVAILABLE,
-
-  EVT_NOT_AVAILABLE,
-  EVT_NOT_AVAILABLE,
-  EVT_NOT_AVAILABLE,
-  EVT_PLAYBACK_STATE_TOGGLE, // EVT_PHASE_MIN_DN,
-};
-
 const event_type drum_pad_ordering[] = {
   EVT_PAD_1,
   EVT_PAD_2,
@@ -102,17 +90,13 @@ encoder_pad_source<encoder_pad_mcp23017>
 button_pad_source<button_pad_mcp23017>
                        application::_combo_pad_button_source(
                          &application::_combo_pad_button_pad,
-                         application::combo_pad_buttons_source_mask,
-                         combo_pad_ordering,
-                         application::combo_pad_buttons_count
+                         application::combo_pad_buttons_source_mask
                        );
 
 button_pad_source<button_pad_mcp23017>
                        application::_drum_pad_source(
                          &application::_drum_pad_button_pad,
-                         application::drum_pad_buttons_source_mask,
-                         drum_pad_ordering,
-                         application::drum_pad_buttons_count
+                         application::drum_pad_buttons_source_mask
                        );
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -282,45 +266,32 @@ bool application::process_control_event(
     return false;
   }
 
-  if (e.type == event_type::EVT_ENCODER) {
+  if (e.type == event_type::EVT_BUTTON) {
     uint8_t button_number = e.parameter >> 8;
-    int8_t  motion = (int8_t)(e.parameter & 0xff);
+    int8_t  button_state = (int8_t)(e.parameter & 0xff);
       
     Serial.print("Button event, number: ");
     Serial.print(button_number);
     Serial.print(", state: ");
-    Serial.print(state);
+    Serial.print(button_state);
     Serial.println();
     
-    switch (button_number) {
-//    case 128:
-//      e.type = motion > 0 ? EVT_MAJ_UP : EVT_MAJ_DN;
-//      break;
-//
-//    case 129:
-//      e.type = motion > 0 ? EVT_MIN_UP : EVT_MIN_DN;
-//      break;
-//
-//    case 130:
-//      e.type = motion > 0 ? EVT_PHASE_MAJ_UP : EVT_PHASE_MAJ_DN;
-//      break;
-//
-//    case 131:
-//      e.type = motion > 0 ? EVT_PHASE_MIN_UP : EVT_PHASE_MIN_DN;
-//      break;
-//
-//    case 71:
-//      e.type = motion > 0 ? EVT_SELECTED_TRACK_DN : EVT_SELECTED_TRACK_UP;
-//      break;
-//    
-//    case 64:
-//      e.type = event_type::EVT_BPM_SET;
-//      e.parameter = _timer1.bpm() + motion;
-//
-//      break;
-//    }
-    default:
-      break;
+    if ((button_number >= 64) && (button_number <= 79)) {
+      e.type = drum_pad_ordering[
+        (
+          15 - (
+            button_number ^
+            application::drum_pad_buttons_source_mask
+          )
+        )
+      ];
+    }        
+    else {
+      switch (button_number) {
+      case 128:
+        e.type = event_type::EVT_PLAYBACK_STATE_TOGGLE;
+      }
+    }
   }
 
   if (e.type == event_type::EVT_ENCODER) {

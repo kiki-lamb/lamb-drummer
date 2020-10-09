@@ -116,47 +116,24 @@ void timer1_::isr() {
   if (playback_state()) {
     if (! (ticker_ & 0b1)) {
       if ((ticker_ % 8) == 0) {
-        // Serial.println("Flag!");
         application::flag_main_screen(); // In ISR, not that ugly...
       }
 
-//      Serial.print("Ticker ");
-//      Serial.print(ticker_);
-//      Serial.print(" page ");
-//      Serial.println(application::page());
-
-
-//      if ((ticker_ % 64) == 0) {
       uint16_t write = 0;
-      uint8_t add   = application::page() << 4;
-      auto track = application::tracks().current();
+      uint8_t add    = application::page() << 4;
+      auto track     = application::tracks().current();
       
       for (uint8_t col = 0, total = add; col < 16; col++, total++) {
-//          Serial.print("Check step ");
-//          Serial.print(total);
-//          Serial.print(" = ");
-//          Serial.println(track.trigger_state(total));
-
         if (track.trigger_state(total)) {
           write |= 1 << col;
         }
       }
-      
-//        Serial.print("Track: ");
-//        util::print_bits_16(write);
-//        Serial.println();
-      
-//        last_write = 0;
+
       application::x0x_leds().write(util::flip_bytes(write));
-//      }
       
-#ifdef CHASE_LIGHTS     
       uint16_t next_write = util::flip_bytes(1 << (((ticker_ >> 1) % 16)));
 
       application::x0x_leds().xor_write(next_write);
-              
-//      last_write = next_write;
-#endif
       
       byte blast = 0xff;
       
