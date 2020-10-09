@@ -10,8 +10,7 @@ class encoder_pad_mcp23017 : public pad_mcp23017 {
 private:
   uint8_t _encoder_count;
 
-//  encoder_state * _encoder_states;
-  encoder_state _encoder_states[4];
+  lamb::array_list<encoder_state *> _encoder_states;
   
 public:
   struct motion_event {

@@ -7,8 +7,12 @@ encoder_pad_mcp23017::encoder_pad_mcp23017(
 ) :
   pad_mcp23017(i2c_addr_, (encoder_count_ << 1), button_range_start_),
   _encoder_count(encoder_count_),
-  _encoder_states()
+  _encoder_states(encoder_count_)
 {
+  for (uint8_t ix = 0; ix < _encoder_count; ix++) {
+    _encoder_states[ix] = new encoder_state();
+  }
+  
 //  Serial.print("BEFORE MALLOC _encoder_states = ");
 //  Serial.print(_encoder_states);
 //
@@ -40,12 +44,15 @@ bool encoder_pad_mcp23017::read() {
     uint16_t cut = partial_mask & buttons_;
     uint8_t shifted = cut >> (((_encoder_count-1) << 1) - (ix << 1));
 
-    _encoder_states[ix].update(shifted);
+    _encoder_states[ix]->update(shifted);
 
-    if (_encoder_states[ix].flagged && light_buffer_writable(motion_events)) {
-      light_buffer_write(motion_events, (motion_event { ix, (int8_t)(_encoder_states[ix].motion ^ 1) }));
-      _encoder_states[ix].motion = 0;
-      _encoder_states[ix].flagged = false;
+    if (_encoder_states[ix]->flagged && light_buffer_writable(motion_events)) {
+      light_buffer_write(
+        motion_events,
+        (motion_event { ix, (int8_t)(_encoder_states[ix]->motion ^ 1) })
+      );
+      _encoder_states[ix]->motion = 0;
+      _encoder_states[ix]->flagged = false;
     }
   }
     
