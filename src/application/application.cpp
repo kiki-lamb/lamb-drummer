@@ -214,6 +214,15 @@ void application::flag_main_screen() {
 ////////////////////////////////////////////////////////////////////////////////
 
 uint8_t application::page() {
+  uint8_t max = 0;
+  auto tracks = application::tracks();
+  
+  for (uint8_t ix = 0; ix < tracks.size(); ix++) {
+    if (tracks[ix].mod_maj() > max) {
+      max = tracks[ix].mod_maj();
+    }
+  }
+  
   return ((_timer1.ticker() >> 1) % _tracks.max_mod_maj()) >> 4;
 }
 

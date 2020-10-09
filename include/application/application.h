@@ -24,10 +24,10 @@ class application {
 public:
   enum modes {
     MODE_EUCLIDEAN = 1,
-    MODE_X0X       = 2,
+    MODE_XOX       = 2,
   };
 
-  static  const modes              mode                             = MODE_X0X;
+  static  const modes              mode                             = MODE_XOX;
   
   static  const uint8_t            tracks_count                     = 3;
 
@@ -63,8 +63,8 @@ public:
   typedef events::control                                              control_event;  
   typedef events::sources::buffer<control_event, 8>                    control_source;
   typedef events::sources::button_pad<button_pad_mcp23017>             button_pad_source;
-  typedef events::sources::combine<control_event, event_sources_count> combined_source;
   typedef events::sources::encoder_pad<encoder_pad_mcp23017>           encoder_pad_source;
+  typedef events::sources::combine<control_event, event_sources_count> combined_source;
 
 private:
   static  encoder_pad_mcp23017     _combo_pad_encoder_pad;
