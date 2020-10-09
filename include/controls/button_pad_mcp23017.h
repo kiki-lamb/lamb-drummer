@@ -13,8 +13,8 @@ private:
   
 public:
   explicit button_pad_mcp23017(
-    uint8_t button_count_ = 16,
-    uint8_t button_range_start_ = 0
+    uint8_t button_count_,
+    uint8_t button_range_start_
   );
 
   /* virtual */ ~button_pad_mcp23017();

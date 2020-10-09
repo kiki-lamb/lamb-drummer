@@ -64,42 +64,53 @@ combine_event_sources<event, application::event_sources_count>
                        application::_combine_event_sources;
 
 
+////////////////////////////////////////////////////////////////////////////////
+
 encoder_pad_mcp23017   application::_combo_pad_encoder_pad(
                          application::combo_pad_encoders_count,
-                         8
+                         application::combo_pad_encoders_range_start
                        );
+
+button_pad_mcp23017    application::_combo_pad_button_pad(
+                         application::combo_pad_encoders_count,
+                         0
+                       );
+////////////////////////////////////////////////////////////////////////////////
 
 encoder_pad_mcp23017   application::_encoder_pad0(
-                         application::encoder_pad_encoders_count
+                         application::encoder_pad_encoders_count,
+                         0
                        );
 
-button_pad_mcp23017    application::_combo_pad_button_pad(8);
-
-button_pad_mcp23017    application::_drum_pad_button_pad; 
+button_pad_mcp23017    application::_drum_pad_button_pad(
+                         application::drum_pad_buttons_count,
+                         0
+                       );
 
 encoder_pad_source<encoder_pad_mcp23017>
                        application::_encoder_pad_source0(
                          &application::_encoder_pad0,
-                         64
+                         application::encoder_pad_source_mask
                        );
 
 encoder_pad_source<encoder_pad_mcp23017>
                        application::_combo_pad_encoder_source(
-                         &application::_combo_pad_encoder_pad
+                         &application::_combo_pad_encoder_pad,
+                         0
                        );
 
 button_pad_source<button_pad_mcp23017>
                        application::_combo_pad_button_source(
                          &application::_combo_pad_button_pad,
                          combo_pad_ordering,
-                         8
+                         application::combo_pad_buttons_count
                        );
 
 button_pad_source<button_pad_mcp23017>
                        application::_drum_pad_source(
                          &application::_drum_pad_button_pad,
                          drum_pad_ordering,
-                         16
+                         application::drum_pad_buttons_count
                        );
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -184,16 +195,20 @@ void application::setup_controls() {
   _combo_pad_device     .begin(combo_pad_addr);
   _drum_pad_device      .begin(drum_pad_addr);
   _encoder_pad_device   .begin(encoder_pad_addr);
-  
+
+  Serial.println("Setup drum pad...");
   _drum_pad_button_pad  .setup      ( &_drum_pad_device);
   _combine_event_sources.sources[0] = &_drum_pad_source;
   
+  Serial.println("Setup combo pad buttons...");
   _combo_pad_button_pad .setup      ( &_combo_pad_device);
   _combine_event_sources.sources[1] = &_combo_pad_button_source;
   
+  Serial.println("Setup combo pad encoders...");
   _combo_pad_encoder_pad.setup      ( &_combo_pad_device);
   _combine_event_sources.sources[2] = &_combo_pad_encoder_source;
   
+  Serial.println("Setup encoder pad...");
   _encoder_pad0         .setup      ( &_encoder_pad_device);
   _combine_event_sources.sources[3] = &_encoder_pad_source0;
 

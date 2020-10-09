@@ -19,7 +19,7 @@ private:
 public:
   encoder_pad_source(
     encoder_pad_type * device_,
-    uint8_t button_number_mask_ = 0x0
+    uint8_t button_number_mask_
   ) :
     _device(device_), _button_number_mask(button_number_mask_) {
 //    Serial.print("MASK: ");
