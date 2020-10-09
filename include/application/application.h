@@ -20,7 +20,7 @@
 
 class application {
 public:
-  static  const size_t                   tracks_count               = 3;
+  static  const uint8_t                  tracks_count               = 3;
   static  const uint8_t                  event_sources_count        = 4;
   static  const uint8_t                  combo_pad_encoders_count   = 4;
   static  const uint8_t                  encoder_pad_encoders_count = 8;
