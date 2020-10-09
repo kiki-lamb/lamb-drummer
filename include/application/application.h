@@ -22,6 +22,13 @@
 
 class application {
 public:
+  enum modes {
+    MODE_EUCLIDEAN = 1,
+    MODE_X0X       = 2,
+  };
+
+  static  const modes              mode                             = MODE_X0X;
+  
   static  const uint8_t            tracks_count                     = 3;
 
   static  const uint8_t            combo_pad_buttons_count          = 8;
