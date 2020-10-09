@@ -391,16 +391,12 @@ bool application::process_application_event(
     if (current_bpm == 0xff) {
       application_event.type = application_event::EVT_NOT_AVAILABLE;
 
-      goto success;
+      break;
     }
     else {
       _timer1.set_bpm(current_bpm + 1);
-      
-      _ui_data.popup_bpm_requested.set();
-      
-      _eeprom.flag_save_requested();
 
-      break;
+      goto after_bpm_set;
     }
   }
   case application_event::EVT_BPM_DN:
@@ -410,16 +406,12 @@ bool application::process_application_event(
     if (current_bpm == 0) {
       application_event.type = application_event::EVT_NOT_AVAILABLE;
 
-      goto success;
+      break;
     }
     else {
       _timer1.set_bpm(current_bpm - 1);
-      
-      _ui_data.popup_bpm_requested.set();
-      
-      _eeprom.flag_save_requested();
 
-      break;
+      goto after_bpm_set;      
     }
   }
   
@@ -463,25 +455,17 @@ bool application::process_application_event(
   {
     _tracks++;
 
-    _ui_data.redraw_selected_track_indicator.set();
+    Serial.print("Trk up -> ");
 
-    Serial.print("Trk up -> "); Serial.flush();
-    Serial.print(_tracks.index()); //  Serial.flush();
-    Serial.println(); Serial.flush();
-
-    goto success;
+    goto after_track_select;
   }
   case application_event::EVT_SELECTED_TRACK_DN:
   {
     _tracks--;
 
-    _ui_data.redraw_selected_track_indicator.set();
-      
-    Serial.print("Trk dn -> "); Serial.flush();
-    Serial.print(_tracks.index()); Serial.flush();
-    Serial.println(); Serial.flush();
-      
-    goto success;
+    Serial.print("Trk dn -> ");
+
+    goto after_track_select;
   }
   case application_event::EVT_PLAYBACK_STATE_TOGGLE:
   {
@@ -507,6 +491,18 @@ bool application::process_application_event(
 
   return false;
 
+after_track_select:
+  _ui_data.redraw_selected_track_indicator.set();
+  Serial.print(_tracks.index()); Serial.flush();
+  Serial.println(); Serial.flush();
+  
+  goto success;
+
+after_bpm_set:      
+  _ui_data.popup_bpm_requested.set();
+
+  _eeprom.flag_save_requested();
+  
 success:
   flag_main_screen();
 
