@@ -1,11 +1,10 @@
 #include "controls/encoder_pad_mcp23017.h"
 
 encoder_pad_mcp23017::encoder_pad_mcp23017(
-  uint8_t i2c_addr_,
   uint8_t encoder_count_,
   uint8_t button_range_start_
 ) :
-  pad_mcp23017(i2c_addr_, (encoder_count_ << 1), button_range_start_),
+  pad_mcp23017((encoder_count_ << 1), button_range_start_),
   _encoder_count(encoder_count_),
   _encoder_states(NULL)
 {

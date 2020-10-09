@@ -13,7 +13,6 @@ private:
   
 public:
   explicit button_pad_mcp23017(
-    uint8_t i2c_addr_, 
     uint8_t button_count_ = 16,
     uint8_t button_range_start_ = 0
   );

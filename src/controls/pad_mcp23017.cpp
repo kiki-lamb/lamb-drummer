@@ -4,10 +4,9 @@
 #include "util/util.h"
 
 pad_mcp23017::pad_mcp23017(
-    uint8_t i2c_addr_, 
     uint8_t button_count_,
     uint8_t button_range_start_
-) : i2c_addr(i2c_addr_),           
+) :
   button_count(button_count_), 
   button_range_start(button_range_start_), 
   device(NULL),             
@@ -18,8 +17,7 @@ pad_mcp23017::pad_mcp23017(
 pad_mcp23017::~pad_mcp23017() {}
 
 void pad_mcp23017::setup(Adafruit_MCP23017 * _device) {
-  Serial.print(F("Setup pad_MCP23017 @ 0x"));
-  Serial.print(i2c_addr, HEX);
+  Serial.print(F("Setup pad_MCP23017"));
   Serial.println(F("...")); Serial.flush();
 
   device = _device;

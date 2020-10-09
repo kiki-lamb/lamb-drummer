@@ -54,20 +54,20 @@ Adafruit_MCP23017    application::_drum_pad_device;
 Adafruit_MCP23017    application::_encoder_pad_device;
 
 encoder_pad_mcp23017 application::_combo_pad_encoder_pad(
-  0x0,
+//  0x0,
   application::combo_pad_encoders_count,
   8
 );
 
 encoder_pad_mcp23017 application::_encoder_pad0(
-  0x5,
+//  0x5,
   application::encoder_pad_encoders_count,
   0
 );
 
-button_pad_mcp23017 application::_combo_pad_button_pad(0x0, 8);
+button_pad_mcp23017 application::_combo_pad_button_pad(/* 0x0, */ 8);
 
-button_pad_mcp23017 application::_drum_pad_button_pad(0x3);
+button_pad_mcp23017 application::_drum_pad_button_pad; // (0x3);
 
 encoder_pad_source<encoder_pad_mcp23017>
 application::_encoder_pad_source0(

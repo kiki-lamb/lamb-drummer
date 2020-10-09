@@ -22,7 +22,6 @@ public:
 
 public:
   explicit encoder_pad_mcp23017(
-    uint8_t i2c_addr_,
     uint8_t encoder_count_,
     uint8_t button_range_start_ = 0
   );
