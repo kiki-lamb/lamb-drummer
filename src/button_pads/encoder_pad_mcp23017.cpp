@@ -9,14 +9,10 @@ encoder_pad_mcp23017::encoder_pad_mcp23017(
   _encoder_count(encoder_count_),
   _encoder_states(NULL)
 {
-  _encoder_states = (encoder_state **) malloc(
-    _encoder_count * sizeof(encoder_state *)
+  _encoder_states = (encoder_state *) malloc(
+    _encoder_count * sizeof(encoder_state)
   );
   
-  for (uint8_t ix = 0; ix < _encoder_count; ix++) {
-    _encoder_states[ix] = new encoder_state();
-  }
-
   dynamic_light_buffer_resize(motion_events_type, motion_events, _encoder_count);
 }
 
@@ -38,15 +34,15 @@ bool encoder_pad_mcp23017::read() {
     uint16_t cut = partial_mask & buttons_;
     uint8_t shifted = cut >> (((_encoder_count-1) << 1) - (ix << 1));
 
-    _encoder_states[ix]->update(shifted);
+    _encoder_states[ix].update(shifted);
 
-    if (_encoder_states[ix]->flagged && light_buffer_writable(motion_events)) {
+    if (_encoder_states[ix].flagged && light_buffer_writable(motion_events)) {
       light_buffer_write(
         motion_events,
-        (motion_event { ix, (int8_t)(_encoder_states[ix]->motion ^ 1) })
+        (motion_event { ix, (int8_t)(_encoder_states[ix].motion ^ 1) })
       );
-      _encoder_states[ix]->motion = 0;
-      _encoder_states[ix]->flagged = false;
+      _encoder_states[ix].motion = 0;
+      _encoder_states[ix].flagged = false;
     }
   }
     
