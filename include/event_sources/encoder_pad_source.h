@@ -3,7 +3,6 @@
 
 #include <Arduino.h>
 #include "event_source.h"
-
 #include "event/event.h"
 #include "lamb.h"
 
@@ -21,11 +20,8 @@ public:
     encoder_pad_type * device_,
     uint8_t button_number_mask_
   ) :
-    _device(device_), _button_number_mask(button_number_mask_) {
-//    Serial.print("MASK: ");
-//    Serial.print(button_number_mask_);
-//    Serial.println();
-  }
+    _device(device_),
+    _button_number_mask(button_number_mask_) {}
 
   /* virtual */ ~encoder_pad_source() {}
 
@@ -46,7 +42,8 @@ private:
       light_buffer_read(_device->motion_events);
 
     uint16_t event_arg = (
-      ((tmp.encoder_number | _button_number_mask) << 8) | ((uint8_t)tmp.motion)
+      ((tmp.encoder_number | _button_number_mask) << 8) |
+      ((uint8_t)tmp.motion)
     );
 
     return event { EVT_ENCODER, event_arg };

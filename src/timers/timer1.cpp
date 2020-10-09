@@ -1,5 +1,6 @@
 #include "timers/timer1.h"
 #include "application/application.h"
+#include "util/util.h"
 
 timer1_::timer1_() :
   _bpm(0),

@@ -45,7 +45,8 @@ enum event_type {
 
   EVT_PLAYBACK_STATE_TOGGLE = 31,
 
-  EVT_ENCODER = 32, 
+  EVT_ENCODER = 32,
+  EVT_BUTTON = 33, 
 };
 
 class event {

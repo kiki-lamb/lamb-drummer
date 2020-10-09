@@ -1,5 +1,7 @@
 #include "controls/encoder_pad_mcp23017.h"
 
+encoder_pad_mcp23017::~encoder_pad_mcp23017() {}
+
 encoder_pad_mcp23017::encoder_pad_mcp23017(
   uint8_t encoder_count_,
   uint8_t button_range_start_
@@ -8,16 +10,14 @@ encoder_pad_mcp23017::encoder_pad_mcp23017(
   _encoder_count(encoder_count_),
   _encoder_states(NULL)
 {
+  dynamic_light_buffer_resize(motion_events_type, motion_events, _encoder_count);
+
   _encoder_states = static_cast<encoder_state *>(
     malloc(
       _encoder_count * sizeof(encoder_state)
     )
   );
-  
-  dynamic_light_buffer_resize(motion_events_type, motion_events, _encoder_count);
 }
-
-encoder_pad_mcp23017::~encoder_pad_mcp23017() {}
 
 bool encoder_pad_mcp23017::read() {
   bool read = false;

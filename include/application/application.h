@@ -24,13 +24,15 @@ public:
 
   static  const uint8_t          combo_pad_buttons_count          = 8;
   static  const uint8_t          combo_pad_buttons_range_start    = 0;
-
+  static  const uint8_t          combo_pad_buttons_source_mask    = 128;
+  
   static  const uint8_t          combo_pad_encoders_count         = 4;
   static  const uint8_t          combo_pad_encoders_range_start   = 8;
   static  const uint8_t          combo_pad_encoders_source_mask   = 128;
   
   static  const uint8_t          drum_pad_buttons_count           = 16;
   static  const uint8_t          drum_pad_buttons_range_start     = 0;
+  static  const uint8_t          drum_pad_buttons_source_mask     = 64;
   
   static  const uint8_t          encoder_pad_encoders_count       = 8;
   static  const uint8_t          encoder_pad_encoders_range_start = 0;

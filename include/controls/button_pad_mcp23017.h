@@ -2,29 +2,30 @@
 #define LAMB_DRUMMER_BUTTON_PAD_PIN_MCP23017_H
 
 #include <Arduino.h>
-#include "util/util.h"
+#include "lamb.h"
 #include "controls/pad_mcp23017.h"
 
-class button_pad_mcp23017 :
-  public pad_mcp23017 {
-private:
-  uint16_t            new_buttons;
+class button_pad_mcp23017 : public pad_mcp23017 {
+public:
+  struct button_event {
+    uint8_t button_number;
+    bool button_state;
+  };
   
+  declare_dynamic_light_buffer(button_event, button_events);
+
+private:
+  button_pad_mcp23017();
+
 public:
   explicit button_pad_mcp23017(
     uint8_t button_count_,
     uint8_t button_range_start_
   );
 
-private:
-  button_pad_mcp23017();
-
-public:
   /* virtual */ ~button_pad_mcp23017();
 
   /* virtual */ bool read();
-
-  /* virtual */ uint16_t buttons() const;
 };
 
 #endif

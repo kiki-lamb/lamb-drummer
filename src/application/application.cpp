@@ -102,6 +102,7 @@ encoder_pad_source<encoder_pad_mcp23017>
 button_pad_source<button_pad_mcp23017>
                        application::_combo_pad_button_source(
                          &application::_combo_pad_button_pad,
+                         application::combo_pad_buttons_source_mask,
                          combo_pad_ordering,
                          application::combo_pad_buttons_count
                        );
@@ -109,6 +110,7 @@ button_pad_source<button_pad_mcp23017>
 button_pad_source<button_pad_mcp23017>
                        application::_drum_pad_source(
                          &application::_drum_pad_button_pad,
+                         application::drum_pad_buttons_source_mask,
                          drum_pad_ordering,
                          application::drum_pad_buttons_count
                        );
@@ -278,6 +280,47 @@ bool application::process_control_event(
 ) {
   if (! e) {
     return false;
+  }
+
+  if (e.type == event_type::EVT_ENCODER) {
+    uint8_t button_number = e.parameter >> 8;
+    int8_t  motion = (int8_t)(e.parameter & 0xff);
+      
+    Serial.print("Button event, number: ");
+    Serial.print(button_number);
+    Serial.print(", state: ");
+    Serial.print(state);
+    Serial.println();
+    
+    switch (button_number) {
+//    case 128:
+//      e.type = motion > 0 ? EVT_MAJ_UP : EVT_MAJ_DN;
+//      break;
+//
+//    case 129:
+//      e.type = motion > 0 ? EVT_MIN_UP : EVT_MIN_DN;
+//      break;
+//
+//    case 130:
+//      e.type = motion > 0 ? EVT_PHASE_MAJ_UP : EVT_PHASE_MAJ_DN;
+//      break;
+//
+//    case 131:
+//      e.type = motion > 0 ? EVT_PHASE_MIN_UP : EVT_PHASE_MIN_DN;
+//      break;
+//
+//    case 71:
+//      e.type = motion > 0 ? EVT_SELECTED_TRACK_DN : EVT_SELECTED_TRACK_UP;
+//      break;
+//    
+//    case 64:
+//      e.type = event_type::EVT_BPM_SET;
+//      e.parameter = _timer1.bpm() + motion;
+//
+//      break;
+//    }
+    default:
+      break;
   }
 
   if (e.type == event_type::EVT_ENCODER) {
