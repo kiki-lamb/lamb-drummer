@@ -103,15 +103,23 @@ button_pad_source<button_pad_mcp23017>
 
 application::application() {};
 
+////////////////////////////////////////////////////////////////////////////////
+
 application::~application() {};
+
+////////////////////////////////////////////////////////////////////////////////
 
 x0x_leds & application::x0x_leds() {
   return _x0x_leds;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 trigger_outputs & application::trigger_outputs() {
   return _trigger_outputs;
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 void application::update_ui_data() {
   _ui_data.page           = page();
@@ -120,6 +128,8 @@ void application::update_ui_data() {
   _ui_data.playback_state = _timer1.playback_state();
   _ui_data.ticker         = _timer1.ticker();
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 void application::setup() {
   Serial .begin(230400);
@@ -177,6 +187,8 @@ void application::setup() {
   Serial.println(F("Entered SCREEN_MAIN.")); Serial.flush();
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 void application::setup_controls() {
   _combo_pad_device     .begin(combo_pad_addr);
   _drum_pad_device      .begin(drum_pad_addr);
@@ -203,6 +215,8 @@ void application::setup_controls() {
   _control_event_source .source     = &_combine_event_sources;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 void application::loop() {
   (
     _trigger_outputs.update() || 
@@ -216,13 +230,19 @@ void application::loop() {
   );
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 void application::flag_main_screen() {
   _ui.flag_screen(ui_t::SCREEN_MAIN);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 uint8_t application::page() {
   return ((_timer1.ticker() >> 1) % _tracks.max_mod_maj()) >> 4;
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 void application::set_playback_state(bool const & playback_state_) {
   _timer1.set_playback_state(playback_state_);
@@ -234,6 +254,8 @@ void application::set_playback_state(bool const & playback_state_) {
   _eeprom.flag_save_requested();
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 void application::save_state() {
   _eeprom.save_all(
     eeprom_::PersistantData<tracks_t>(
@@ -244,9 +266,13 @@ void application::save_state() {
   );
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 void application::flag_controls() {
   _controls_flag.set();
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 bool application::process_application_events() {
   if (! _controls_flag.consume())
@@ -258,6 +284,8 @@ bool application::process_application_events() {
 
   return true;
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 events::application application::convert_control_event(events::control const & control_event) {
   events::application application_event;
@@ -331,6 +359,8 @@ events::application application::convert_control_event(events::control const & c
 
   return application_event;
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 bool application::process_application_event(
   application::control_event_source_t::event_t e
@@ -450,4 +480,6 @@ success:
   flag_main_screen();
   return true;
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
