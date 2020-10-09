@@ -212,7 +212,7 @@ void application::setup_controls() {
 
   Serial.println();
   
-  _control_event_source .unbuffered_source     = &_combine_event_sources;
+  _control_event_source .source     = &_combine_event_sources;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

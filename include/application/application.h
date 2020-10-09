@@ -57,6 +57,7 @@ private:
   typedef ui_data<tracks_t>                           ui_data_t;
   typedef ui<ui_data_t>                               ui_t;
   typedef events::sources::buffer<events::control, 8>     control_event_source_t;
+  
   static encoder_pad_mcp23017                         _combo_pad_encoder_pad;
   static encoder_pad_mcp23017                         _encoder_pad0;
   static button_pad_mcp23017                          _combo_pad_button_pad;

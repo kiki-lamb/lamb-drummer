@@ -9,9 +9,9 @@ namespace events {
     template <class event_t, size_t queue_size_>
     class buffer : public source<event_t> {
     public:
-      source<event_t> * unbuffered_source;
+      events::sources::source<event_t> * source;
 
-      buffer() : unbuffered_source(NULL) {}
+      buffer() : source(NULL) {}
 
       /* virtual */ ~buffer() {}
 
@@ -23,11 +23,11 @@ namespace events {
       }
 
       virtual void impl_poll() {
-        if (! unbuffered_source->poll())
+        if (! source->poll())
           return;
     
         // for (auto e = source->dequeue_event(); e; e = source->dequeue_event()) {
-        while (event_t e = unbuffered_source->dequeue_event())
+        while (event_t e = source->dequeue_event())
           light_buffer_write(event_queue, e);
       }
 
