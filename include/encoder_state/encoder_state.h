@@ -11,9 +11,9 @@ public:
   
   encoder_state() : motion(0), stage_ix(0), flagged(false) {}
   
-  virtual ~encoder_state() {}
+  ~encoder_state() {}
      
-  virtual void update(char bit_pair) {
+  void update(char bit_pair) {
     static const unsigned char stages[] = { 0b00, 0b01, 0b11, 0b10 };
        
     if (stages[((uint8_t)(stage_ix + 1U)) & 0b11] == bit_pair) {
