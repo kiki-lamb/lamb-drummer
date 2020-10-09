@@ -5,7 +5,7 @@
 #include "track_collection/track_collection.h"
 #include "ui/ui.h"
 #include "ui_data/ui_data.h"
-#include "outputs/trigger_outputs/trigger_outputs.h"
+#include "outputs/triggers/triggers.h"
 #include "outputs/x0x_leds/x0x_leds.h"
 #include "events/application.h"
 #include "events/control.h"
@@ -46,10 +46,10 @@ public:
   static  const uint8_t           drum_pad_addr                    = 0x3;
   static  const uint8_t           encoder_pad_addr                 = 0x5;
   static  const uint8_t           x0x_leds_addr                    = 0x4;
-  static  const uint8_t           trigger_outputs_addr             = 0x3a;
+  static  const uint8_t           triggers_addr                    = 0x3a;
   
-  static  ::x0x_leds &            x0x_leds();
-  static  ::trigger_outputs &     trigger_outputs();
+  static  outputs::x0x_leds &     x0x_leds();
+  static  outputs::triggers &     triggers();
   
   typedef ::track_collection<tracks_count>                             track_collection;
   typedef ::ui_data<track_collection>                                  ui_data;
@@ -63,39 +63,39 @@ public:
   typedef events::sources::encoder_pad<encoder_pad_mcp23017>           encoder_pad_source;
 
 private:
-  static  encoder_pad_mcp23017    _combo_pad_encoder_pad;
-  static  encoder_pad_mcp23017    _encoder_pad0;
-  static  button_pad_mcp23017     _combo_pad_button_pad;
-  static  button_pad_mcp23017     _drum_pad_button_pad;
-  static  encoder_pad_source      _encoder_pad_source0;
-  static  encoder_pad_source      _encoder_pad_source1;
-  static  encoder_pad_source      _combo_pad_encoder_source;
-  static  button_pad_source       _combo_pad_button_source;
-  static  button_pad_source       _drum_pad_source;
-  static  combined_source         _combine_event_sources;
-  static  ::trigger_outputs       _trigger_outputs;  
-  static  ::x0x_leds              _x0x_leds;
-  static  Adafruit_MCP23017       _x0x_leds_device;
-  static  Adafruit_MCP23017       _drum_pad_device;
-  static  Adafruit_MCP23017       _combo_pad_device;
-  static  Adafruit_MCP23017       _encoder_pad_device;
-  static  control_source          _control_event_source;
-  static  eeprom                  _eeprom;
-  static  jm_PCF8574              _trigger_outputs_device;
-  static  lamb::flag              _controls_flag;
-  static  lamb::flag              _output_flag;
-  static  timer1                  _timer1;
-  static  timer2                  _timer2;
-  static  track_collection        _tracks;
-  static  ui_data                 _ui_data;
-  static  ui                      _ui;
+  static  encoder_pad_mcp23017     _combo_pad_encoder_pad;
+  static  encoder_pad_mcp23017     _encoder_pad0;
+  static  button_pad_mcp23017      _combo_pad_button_pad;
+  static  button_pad_mcp23017      _drum_pad_button_pad;
+  static  encoder_pad_source       _encoder_pad_source0;
+  static  encoder_pad_source       _encoder_pad_source1;
+  static  encoder_pad_source       _combo_pad_encoder_source;
+  static  button_pad_source        _combo_pad_button_source;
+  static  button_pad_source        _drum_pad_source;
+  static  combined_source          _combine_event_sources;
+  static  outputs::triggers        _triggers;  
+  static  outputs::x0x_leds        _x0x_leds;
+  static  Adafruit_MCP23017        _x0x_leds_device;
+  static  Adafruit_MCP23017        _drum_pad_device;
+  static  Adafruit_MCP23017        _combo_pad_device;
+  static  Adafruit_MCP23017        _encoder_pad_device;
+  static  control_source           _control_event_source;
+  static  eeprom                   _eeprom;
+  static  jm_PCF8574               _triggers_device;
+  static  lamb::flag               _controls_flag;
+  static  lamb::flag               _output_flag;
+  static  timer1                   _timer1;
+  static  timer2                   _timer2;
+  static  track_collection         _tracks;
+  static  ui_data                  _ui_data;
+  static  ui                       _ui;
 
                                   application();
 //                                  ~application();
   static bool                     process_control_events(); // called by ISR for timer2.
   static void                     set_playback_state(bool const & playback_state_);
   static void                     setup_controls();
-  static void                     setup_trigger_outputs();
+  static void                     setup_triggers();
   static void                     update_ui_data();
 
   static application_event        process_control_event(

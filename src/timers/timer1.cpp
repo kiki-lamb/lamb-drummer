@@ -46,7 +46,7 @@ void timer1::set_playback_state(bool const & playback_state_) {
 //   else { // stop playback
 //     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
 //       TCCR1A ^= (1 << COM1A0);
-//       application::trigger_outputs().write(~0b1111);
+//       application::triggers().write(~0b1111);
 //       PORTB ^= 0b10;
 //     }
 //   }
@@ -152,7 +152,7 @@ void timer1::isr() {
       Serial.println();
 #endif
       
-      application::trigger_outputs().write(blast);
+      application::triggers().write(blast);
     }
     else {
 #ifdef LOG_OUTPUT
@@ -160,7 +160,7 @@ void timer1::isr() {
       Serial.println(F("unblast "));
 #endif
       
-      application::trigger_outputs().write(0xff);
+      application::triggers().write(0xff);
     }
     
     increment_ticker();

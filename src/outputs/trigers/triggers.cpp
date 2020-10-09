@@ -1,12 +1,12 @@
-#include "outputs/trigger_outputs/trigger_outputs.h"
+#include "outputs/triggers/triggers.h"
 #include "application/application.h"
 #include "util/util.h"
 
-trigger_outputs::trigger_outputs() : _device(NULL), _values(0) {}
+outputs::triggers::triggers() : _device(NULL), _values(0) {}
 
-// trigger_outputs::~trigger_outputs() {}
+// outputs::triggers::~triggers() {}
 
-bool trigger_outputs::setup(jm_PCF8574 * device_) {
+bool outputs::triggers::setup(jm_PCF8574 * device_) {
   _device = device_;
 
   if (NULL == _device) return false;  
@@ -20,25 +20,25 @@ bool trigger_outputs::setup(jm_PCF8574 * device_) {
   return true;
 }
 
-void trigger_outputs::flag() {
+void outputs::triggers::flag() {
   _flag.set();
 }
 
-void trigger_outputs::clear() {
+void outputs::triggers::clear() {
   write(0);
 }
 
-void trigger_outputs::write(uint16_t const & values_) {
+void outputs::triggers::write(uint16_t const & values_) {
   _values = values_;
 
   flag();
 }
 
-uint16_t trigger_outputs::values() const {
+uint16_t outputs::triggers::values() const {
   return _values;
 }
 
-bool trigger_outputs::update() {
+bool outputs::triggers::update() {
   if (! (_flag.consume()))
     return false;
   

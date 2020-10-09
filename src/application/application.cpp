@@ -27,7 +27,7 @@ const application::application_event::event_type drum_pad_ordering[] = {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-jm_PCF8574                    application::_trigger_outputs_device;
+jm_PCF8574                    application::_triggers_device;
 application::track_collection application::_tracks;
 application::ui_data          application::_ui_data;
 application::ui               application::_ui(&_ui_data);
@@ -36,8 +36,8 @@ timer1                        application::_timer1;
 timer2                        application::_timer2;
 lamb::flag                    application::_controls_flag;
 lamb::flag                    application::_output_flag;
-::x0x_leds                    application::_x0x_leds;
-::trigger_outputs             application::_trigger_outputs;
+outputs::x0x_leds             application::_x0x_leds;
+outputs::triggers             application::_triggers;
 Adafruit_MCP23017             application::_x0x_leds_device;
 Adafruit_MCP23017             application::_combo_pad_device;
 Adafruit_MCP23017             application::_drum_pad_device;
@@ -106,14 +106,14 @@ application::application() {};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-x0x_leds & application::x0x_leds() {
+outputs::x0x_leds & application::x0x_leds() {
   return _x0x_leds;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-trigger_outputs & application::trigger_outputs() {
-  return _trigger_outputs;
+outputs::triggers & application::triggers() {
+  return _triggers;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -137,8 +137,8 @@ void application::setup() {
   _x0x_leds_device.begin(x0x_leds_addr);
   _x0x_leds.setup(&_x0x_leds_device);
 
-  _trigger_outputs_device.begin(trigger_outputs_addr);
-  _trigger_outputs.setup(&_trigger_outputs_device);
+  _triggers_device.begin(triggers_addr);
+  _triggers.setup(&_triggers_device);
   
   _ui   .setup();
   _ui   .enter_screen(ui::SCREEN_INTRO);
@@ -216,13 +216,13 @@ void application::setup_controls() {
 
 void application::loop() {
   (
-    _trigger_outputs.update() || 
+    _triggers.update() || 
     _x0x_leds.update()        ||
     
-    _trigger_outputs.update() ||   
+    _triggers.update() ||   
     process_control_events()  ||
     
-    _trigger_outputs.update() ||
+    _triggers.update() ||
     (update_ui_data(), _ui.update_screen())
   );
 }
