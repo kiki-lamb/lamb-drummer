@@ -48,8 +48,10 @@ public:
   static  const uint8_t          x0x_leds_addr                    = 0x4;
   static  const uint8_t          trigger_outputs_addr             = 0x3a;
   
-  typedef track_collection<tracks_count> tracks_type;
-
+  typedef track_collection<tracks_count>  tracks_type;
+  typedef events::application             application_event;
+  typedef events::control                 control_event;
+  
   static  ::x0x_leds & x0x_leds();
   static  ::trigger_outputs & trigger_outputs();
   
@@ -57,7 +59,7 @@ private:
   typedef ui_data<tracks_type>                                          ui_data_type;
   typedef ui<ui_data_type>                                              ui_type;
   typedef events::sources::buffer<events::control, 8>                   control_event_source_type;
-  typedef events::sources::encoder_pad<encoder_pad_mcp23017>            encoder_pad_type
+  typedef events::sources::encoder_pad<encoder_pad_mcp23017>            encoder_pad_type;
   
   static encoder_pad_mcp23017                                           _combo_pad_encoder_pad;
   static encoder_pad_mcp23017                                           _encoder_pad0;
