@@ -72,7 +72,7 @@ encoder_pad_mcp23017   application::_combo_pad_encoder_pad(
                        );
 
 button_pad_mcp23017    application::_combo_pad_button_pad(
-                         application::combo_pad_encoders_count,
+                         application::combo_pad_buttons_count,
                          0
                        );
 ////////////////////////////////////////////////////////////////////////////////

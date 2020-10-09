@@ -20,6 +20,9 @@ public:
 
   declare_dynamic_light_buffer(motion_event, motion_events);
 
+private:
+  encoder_pad_mcp23017();
+
 public:
   explicit encoder_pad_mcp23017(
     uint8_t encoder_count_,
