@@ -8,9 +8,10 @@
 
 class encoder_pad_mcp23017 : public pad_mcp23017 {
 private:
-//  encoder_state * encoder_states;
-  encoder_state encoder_states[4];
   uint8_t _encoder_count;
+
+//  encoder_state * _encoder_states;
+  encoder_state _encoder_states[4];
   
 public:
   struct motion_event {

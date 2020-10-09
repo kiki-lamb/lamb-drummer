@@ -6,18 +6,18 @@ encoder_pad_mcp23017::encoder_pad_mcp23017(
   uint8_t button_range_start_
 ) :
   pad_mcp23017(i2c_addr_, (encoder_count_ << 1), button_range_start_),
-  encoder_states(),
-  _encoder_count(encoder_count_)
+  _encoder_count(encoder_count_),
+  _encoder_states()
 {
-//  Serial.print("BEFORE MALLOC encoder_states = ");
-//  Serial.print(encoder_states);
+//  Serial.print("BEFORE MALLOC _encoder_states = ");
+//  Serial.print(_encoder_states);
 //
-//  encoder_states = (encoder_state *) malloc(
+//  _encoder_states = (encoder_state *) malloc(
 //    _encoder_count * sizeof(encoder_state)
 //  );
 //
-//  Serial.print("AFTER MALLOC encoder_states = ");
-//  Serial.print(encoder_states);
+//  Serial.print("AFTER MALLOC _encoder_states = ");
+//  Serial.print(_encoder_states);
     
   dynamic_light_buffer_resize(motion_events_type, motion_events, _encoder_count);
 }
@@ -33,18 +33,19 @@ bool encoder_pad_mcp23017::read() {
   buttons_ = apply_button_mask(tmpval);
     
   uint16_t partial_mask = 0b11;
+  
   partial_mask <<= (_encoder_count-1) << 1;
 
   for (uint8_t ix = 0; ix < _encoder_count; ix++, partial_mask >>= 2) {
     uint16_t cut = partial_mask & buttons_;
     uint8_t shifted = cut >> (((_encoder_count-1) << 1) - (ix << 1));
 
-    encoder_states[ix].update(shifted);
+    _encoder_states[ix].update(shifted);
 
-    if (encoder_states[ix].flagged && light_buffer_writable(motion_events)) {
-      light_buffer_write(motion_events, (motion_event { ix, (int8_t)(encoder_states[ix].motion ^ 1) }));
-      encoder_states[ix].motion = 0;
-      encoder_states[ix].flagged = false;
+    if (_encoder_states[ix].flagged && light_buffer_writable(motion_events)) {
+      light_buffer_write(motion_events, (motion_event { ix, (int8_t)(_encoder_states[ix].motion ^ 1) }));
+      _encoder_states[ix].motion = 0;
+      _encoder_states[ix].flagged = false;
     }
   }
     
