@@ -2,7 +2,6 @@
 #define LAMB_DRUMMER_BUTTON_PAD_PIN_MCP23017_H
 
 #include <Arduino.h>
-#include <Wire.h>
 #include "util/util.h"
 #include "controls/pad_mcp23017.h"
 
