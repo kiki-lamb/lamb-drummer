@@ -3,10 +3,10 @@
 
 #include "Arduino.h"
 #include "track_collection/track_collection.h"
-#include "trigger_outputs/trigger_outputs.h"
 #include "ui/ui.h"
 #include "ui_data/ui_data.h"
-#include "x0x_leds/x0x_leds.h"
+#include "outputs/trigger_outputs/trigger_outputs.h"
+#include "outputs/x0x_leds/x0x_leds.h"
 #include "events/application.h"
 #include "events/control.h"
 #include "events/sources/buffer.h"

@@ -1,4 +1,4 @@
-#include "x0x_leds/x0x_leds.h"
+#include "outputs/x0x_leds/x0x_leds.h"
 #include "application/application.h"
 #include "util/util.h"
 

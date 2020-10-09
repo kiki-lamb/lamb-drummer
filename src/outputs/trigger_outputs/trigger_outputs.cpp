@@ -1,4 +1,4 @@
-#include "trigger_outputs/trigger_outputs.h"
+#include "outputs/trigger_outputs/trigger_outputs.h"
 #include "application/application.h"
 #include "util/util.h"
 
