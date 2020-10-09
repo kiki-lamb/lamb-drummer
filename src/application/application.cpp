@@ -350,9 +350,11 @@ application::application_event application::process_control_event(
       break;
     
     case 64:
-      application_event.type = application_event::EVT_BPM_SET;
-      application_event.parameter = _timer1.bpm() + encoder_motion;
-
+      application_event.type = (
+        encoder_motion > 0 ?
+        application_event::EVT_BPM_UP :
+        application_event::EVT_BPM_DN
+      );
       break;
     }
   }
@@ -382,17 +384,45 @@ bool application::process_application_event(
   }
     
   switch (application_event.type) {
-  case application_event::EVT_BPM_SET:
+  case application_event::EVT_BPM_UP:
   {
-    _timer1.set_bpm(application_event.parameter);
+    uint8_t current_bpm = _timer1.bpm();
+    
+    if (current_bpm == 0xff) {
+      application_event.type = application_event::EVT_NOT_AVAILABLE;
 
-    _ui_data.popup_bpm_requested.set();
-    
-    _eeprom.flag_save_requested();
-    
-    goto success;
+      goto success;
+    }
+    else {
+      _timer1.set_bpm(current_bpm + 1);
+      
+      _ui_data.popup_bpm_requested.set();
+      
+      _eeprom.flag_save_requested();
+
+      break;
+    }
   }
+  case application_event::EVT_BPM_DN:
+  {
+    uint8_t current_bpm = _timer1.bpm();
+    
+    if (current_bpm == 0) {
+      application_event.type = application_event::EVT_NOT_AVAILABLE;
 
+      goto success;
+    }
+    else {
+      _timer1.set_bpm(current_bpm - 1);
+      
+      _ui_data.popup_bpm_requested.set();
+      
+      _eeprom.flag_save_requested();
+
+      break;
+    }
+  }
+  
   case application_event::EVT_PAD_1:
   case application_event::EVT_PAD_2:
   case application_event::EVT_PAD_3:

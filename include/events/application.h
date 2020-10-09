@@ -44,9 +44,10 @@ namespace events {
       EVT_SELECTED_TRACK_UP = 28,
       EVT_SELECTED_TRACK_DN = 29,
     
-      EVT_BPM_SET = 30,
+      EVT_BPM_UP = 30,
+      EVT_BPM_DN = 31,
     
-      EVT_PLAYBACK_STATE_TOGGLE = 31,    
+      EVT_PLAYBACK_STATE_TOGGLE = 32
     };
 
     event_type type;
