@@ -48,7 +48,7 @@ Adafruit_MCP23017      application::_encoder_pad_device;
 application::control_event_source_t
                        application::_control_event_source;
 
-combine_event_sources<events::application, application::event_sources_count>
+combine_event_sources<events::control, application::event_sources_count>
                        application::_combine_event_sources;
 
 
@@ -266,7 +266,7 @@ bool application::process_control_event(
     return false;
   }
 
-  if (e.type == events::application::EVT_BUTTON) {
+  if (e.type == events::control::EVT_BUTTON) {
     uint8_t button_number = e.parameter >> 8;
     int8_t  button_state = (int8_t)(e.parameter & 0xff);
       
@@ -294,7 +294,7 @@ bool application::process_control_event(
     }
   }
 
-  if (e.type == events::application::EVT_ENCODER) {
+  if (e.type == events::control::EVT_ENCODER) {
     uint8_t encoder_number = e.parameter >> 8;
     int8_t  motion = (int8_t)(e.parameter & 0xff);
       
