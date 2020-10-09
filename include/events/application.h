@@ -1,5 +1,5 @@
-#ifndef LAMB_DRUMMER_EVENT_H
-#define LAMB_DRUMMER_EVENT_H
+#ifndef LAMB_DRUMMER_APPLICATION_EVENT_H
+#define LAMB_DRUMMER_APPLICATION_EVENT_H
 
 #include <Arduino.h>
 
@@ -46,10 +46,7 @@ namespace events {
     
       EVT_BPM_SET = 30,
     
-      EVT_PLAYBACK_STATE_TOGGLE = 31,
-    
-      EVT_ENCODER = 32,
-      EVT_BUTTON = 33, 
+      EVT_PLAYBACK_STATE_TOGGLE = 31,    
     };
 
     event_type type;
