@@ -11,7 +11,7 @@ namespace events {
     template<class event_t_>
     class source {
     public:
-      typedef event_t_ event_t;
+      typedef event_t_ event_type;
 
       source() {}
 
@@ -31,14 +31,14 @@ namespace events {
         return impl_queue_count();
       }
 
-      event_t dequeue_event(){
+      event_type dequeue_event(){
         return impl_dequeue_event();
       }
 
     private:
       virtual void    impl_poll() = 0;
       virtual uint8_t impl_queue_count() const = 0;
-      virtual event_t impl_dequeue_event() = 0;
+      virtual event_type impl_dequeue_event() = 0;
     };
   }
 }

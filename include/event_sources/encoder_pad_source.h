@@ -36,7 +36,7 @@ namespace events {
         return _device->motion_events_count;
       }
 
-      virtual event_t impl_dequeue_event() {
+      virtual event_type impl_dequeue_event() {
         if (! light_buffer_readable(_device->motion_events))
           return events::control {
             events::control::EVT_NOT_AVAILABLE

@@ -27,25 +27,25 @@ const events::application::event_type drum_pad_ordering[] = {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-jm_PCF8574             application::_trigger_outputs_device;
-application::tracks_t  application::_tracks;
-application::ui_data_t application::_ui_data;
-application::ui_t      application::_ui(&_ui_data);
-eeprom_                application::_eeprom;
-timer1_                application::_timer1;
-timer2_                application::_timer2;
-lamb::flag             application::_controls_flag;
-lamb::flag             application::_output_flag;
-::x0x_leds             application::_x0x_leds;
-::trigger_outputs      application::_trigger_outputs;
-Adafruit_MCP23017      application::_x0x_leds_device;
-Adafruit_MCP23017      application::_combo_pad_device;
-Adafruit_MCP23017      application::_drum_pad_device;
-Adafruit_MCP23017      application::_encoder_pad_device;
+jm_PCF8574                application::_trigger_outputs_device;
+application::tracks_type  application::_tracks;
+application::ui_data_type application::_ui_data;
+application::ui_type      application::_ui(&_ui_data);
+eeprom_                   application::_eeprom;
+timer1_                   application::_timer1;
+timer2_                   application::_timer2;
+lamb::flag                application::_controls_flag;
+lamb::flag                application::_output_flag;
+::x0x_leds                application::_x0x_leds;
+::trigger_outputs         application::_trigger_outputs;
+Adafruit_MCP23017         application::_x0x_leds_device;
+Adafruit_MCP23017         application::_combo_pad_device;
+Adafruit_MCP23017         application::_drum_pad_device;
+Adafruit_MCP23017         application::_encoder_pad_device;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-application::control_event_source_t
+application::control_event_source_type
                        application::_control_event_source;
 
 events::sources::combine<events::control, application::event_sources_count>
@@ -144,9 +144,9 @@ void application::setup() {
   _trigger_outputs.setup(&_trigger_outputs_device);
   
   _ui   .setup();
-  _ui   .enter_screen(ui_t::SCREEN_INTRO);
+  _ui   .enter_screen(ui_type::SCREEN_INTRO);
   
-  eeprom_::PersistantData<tracks_t> tmp(
+  eeprom_::PersistantData<tracks_type> tmp(
     &_tracks,
     _timer1.bpm(),
     _timer1.playback_state()
@@ -182,7 +182,7 @@ void application::setup() {
   
   Serial.println(F("Enter SCREEN_MAIN...")); Serial.flush();
 
-  _ui    .enter_screen(ui_t::SCREEN_MAIN);
+  _ui    .enter_screen(ui_type::SCREEN_MAIN);
 
   Serial.println(F("Entered SCREEN_MAIN.")); Serial.flush();
 }
@@ -233,7 +233,7 @@ void application::loop() {
 ////////////////////////////////////////////////////////////////////////////////
 
 void application::flag_main_screen() {
-  _ui.flag_screen(ui_t::SCREEN_MAIN);
+  _ui.flag_screen(ui_type::SCREEN_MAIN);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -258,7 +258,7 @@ void application::set_playback_state(bool const & playback_state_) {
 
 void application::save_state() {
   _eeprom.save_all(
-    eeprom_::PersistantData<tracks_t>(
+    eeprom_::PersistantData<tracks_type>(
       &_tracks,
       _timer1.bpm(),
       _timer1.playback_state()
@@ -385,7 +385,7 @@ events::application application::convert_control_event(
 ////////////////////////////////////////////////////////////////////////////////
 
 bool application::process_application_event(
-  application::control_event_source_t::event_t e
+  application::control_event_source_type::event_type e
 ) {
   if (! e) {
     return false;
