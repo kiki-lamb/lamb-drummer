@@ -1,4 +1,4 @@
-#include "button_pads/pad_mcp23017.h"
+#include "controls/pad_mcp23017.h"
 #include <Arduino.h>
 #include "i2c_lock.h"
 #include "util/util.h"

@@ -3,7 +3,7 @@
 
 #include <inttypes.h>
 #include "lamb.h"
-#include "button_pads/pad_mcp23017.h"
+#include "controls/pad_mcp23017.h"
 #include "encoder_state/encoder_state.h"
 
 class encoder_pad_mcp23017 : public pad_mcp23017 {

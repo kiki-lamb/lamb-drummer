@@ -1,4 +1,4 @@
-#include "button_pads/button_pad_mcp23017.h"
+#include "controls/button_pad_mcp23017.h"
 
 button_pad_mcp23017::button_pad_mcp23017(
   uint8_t i2c_addr_, 

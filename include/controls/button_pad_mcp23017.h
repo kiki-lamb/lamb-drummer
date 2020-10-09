@@ -5,7 +5,7 @@
 #include <Wire.h>
 #include "i2c_lock.h"
 #include "util/util.h"
-#include "button_pads/pad_mcp23017.h"
+#include "controls/pad_mcp23017.h"
 
 class button_pad_mcp23017 :
   public pad_mcp23017 {
