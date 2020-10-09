@@ -185,20 +185,20 @@ void application::setup() {
 }
 
 void application::setup_controls() {
-  _combo_pad_device  .begin(combo_pad_addr);
-  _drum_pad_device   .begin(drum_pad_addr);
-  _encoder_pad_device.begin(encoder_pad_addr);
+  _combo_pad_device     .begin(combo_pad_addr);
+  _drum_pad_device      .begin(drum_pad_addr);
+  _encoder_pad_device   .begin(encoder_pad_addr);
   
-  _drum_pad_button_pad.setup(&_drum_pad_device);
+  _drum_pad_button_pad  .setup(&_drum_pad_device);
   _combine_event_sources.sources[0] = &_drum_pad_source;
-
+  
   _combo_pad_button_pad .setup(&_combo_pad_device);
   _combine_event_sources.sources[1] = &_combo_pad_button_source;
-
+  
   _combo_pad_encoder_pad.setup(&_combo_pad_device);
   _combine_event_sources.sources[2] = &_combo_pad_encoder_source;
-
-  _encoder_pad0.setup(&_encoder_pad_device);
+  
+  _encoder_pad0         .setup(&_encoder_pad_device);
   _combine_event_sources.sources[3] = &_encoder_pad_source0;
 
   _control_event_source .source     = &_combine_event_sources;

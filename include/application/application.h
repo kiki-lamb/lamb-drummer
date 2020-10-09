@@ -49,7 +49,7 @@ private:
   static encoder_pad_source<encoder_pad_mcp23017 >    _combo_pad_encoder_source;
   static button_pad_source<button_pad_mcp23017>       _combo_pad_button_source;
   static button_pad_source<button_pad_mcp23017>       _drum_pad_source;
-  static combine_event_sources<event,event_sources_count>
+  static combine_event_sources<event, event_sources_count>
                                                       _combine_event_sources;
   static ::trigger_outputs                            _trigger_outputs;  
   static ::x0x_leds                                   _x0x_leds;
