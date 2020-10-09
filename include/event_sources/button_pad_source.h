@@ -36,7 +36,7 @@ private:
 
   virtual event_t impl_dequeue_event() {
     if (! light_buffer_readable(_device->button_events))
-      return event { EVT_NOT_AVAILABLE };
+      return event { event::event_type::EVT_NOT_AVAILABLE };
 
     typename button_pad_type::button_event tmp =
       light_buffer_read(_device->button_events);
@@ -46,7 +46,7 @@ private:
       ((uint8_t)tmp.button_state)
     );
 
-    return event { EVT_BUTTON, event_arg };
+    return event { event::event_type::EVT_BUTTON, event_arg };
   };
 };
 

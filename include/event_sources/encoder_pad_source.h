@@ -36,7 +36,7 @@ private:
 
   virtual event_t impl_dequeue_event() {
     if (! light_buffer_readable(_device->motion_events))
-      return event { EVT_NOT_AVAILABLE };
+      return event { event::event_type::EVT_NOT_AVAILABLE };
 
     typename encoder_pad_type::motion_event tmp =
       light_buffer_read(_device->motion_events);
@@ -46,7 +46,7 @@ private:
       ((uint8_t)tmp.motion)
     );
 
-    return event { EVT_ENCODER, event_arg };
+    return event { event::event_type::EVT_ENCODER, event_arg };
   };
 };
 
