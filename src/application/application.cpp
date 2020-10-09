@@ -219,10 +219,7 @@ void application::flag_main_screen() {
 }
 
 uint8_t application::page() {
-  uint8_t tmp_tick        = _timer1.ticker() >> 1;
-  uint8_t tmp_inside_tick = tmp_tick % _tracks.max_mod_maj();
-
-  return                    tmp_inside_tick /  16;
+  return ((_timer1.ticker() >> 1) % _tracks.max_mod_maj()) >> 4;
 }
 
 void application::set_playback_state(bool const & playback_state_) {
