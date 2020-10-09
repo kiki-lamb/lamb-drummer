@@ -365,7 +365,6 @@ bool application::process_control_event(
   {
     _tracks++;
 
-//      _ui_data.redraw_track.set();
     _ui_data.redraw_selected_track_indicator.set();
 
     Serial.print("Trk up -> "); Serial.flush();
@@ -377,8 +376,7 @@ bool application::process_control_event(
   case event_type::EVT_SELECTED_TRACK_DN:
   {
     _tracks--;
-      
-//      _ui_data.redraw_track.set();
+
     _ui_data.redraw_selected_track_indicator.set();
       
     Serial.print("Trk dn -> "); Serial.flush();
