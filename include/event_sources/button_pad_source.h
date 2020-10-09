@@ -3,11 +3,11 @@
 
 #include <Arduino.h>
 #include "event_source.h"
-#include "event/event.h"
+#include "events/application_event.h"
 #include "lamb.h"
 
 template <class button_pad_t_, size_t buffer_size = 8>
-class button_pad_source : public event_source<event>{
+class button_pad_source : public event_source<events::application_event>{
 public:
   typedef button_pad_t_ button_pad_type;
 
@@ -36,7 +36,9 @@ private:
 
   virtual event_t impl_dequeue_event() {
     if (! light_buffer_readable(_device->button_events))
-      return event { event::event_type::EVT_NOT_AVAILABLE };
+      return events::application_event {
+        events::application_event::EVT_NOT_AVAILABLE
+      };
 
     typename button_pad_type::button_event tmp =
       light_buffer_read(_device->button_events);
@@ -46,7 +48,9 @@ private:
       ((uint8_t)tmp.button_state)
     );
 
-    return event { event::event_type::EVT_BUTTON, event_arg };
+    return events::application_event {
+      events::application_event::EVT_BUTTON, event_arg
+    };
   };
 };
 

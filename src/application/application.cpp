@@ -1,28 +1,28 @@
 #include "application/application.h"
-#include "event/event.h"
+#include "events/application_event.h"
 #include "process_track_control_event.h"
 #include "util/util.h"
 
-const event::event_type drum_pad_ordering[] = {
-  event::EVT_PAD_1,
-  event::EVT_PAD_2,
-  event::EVT_PAD_3,  
-  event::EVT_PAD_4,
+const events::application_event::event_type drum_pad_ordering[] = {
+  events::application_event::EVT_PAD_1,
+  events::application_event::EVT_PAD_2,
+  events::application_event::EVT_PAD_3,  
+  events::application_event::EVT_PAD_4,
 
-  event::EVT_PAD_5,
-  event::EVT_PAD_6,
-  event::EVT_PAD_7,
-  event::EVT_PAD_8,
+  events::application_event::EVT_PAD_5,
+  events::application_event::EVT_PAD_6,
+  events::application_event::EVT_PAD_7,
+  events::application_event::EVT_PAD_8,
 
-  event::EVT_PAD_9,
-  event::EVT_PAD_10,
-  event::EVT_PAD_11,
-  event::EVT_PAD_12,
+  events::application_event::EVT_PAD_9,
+  events::application_event::EVT_PAD_10,
+  events::application_event::EVT_PAD_11,
+  events::application_event::EVT_PAD_12,
 
-  event::EVT_PAD_13,
-  event::EVT_PAD_14,
-  event::EVT_PAD_15,
-  event::EVT_PAD_16,
+  events::application_event::EVT_PAD_13,
+  events::application_event::EVT_PAD_14,
+  events::application_event::EVT_PAD_15,
+  events::application_event::EVT_PAD_16,
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -48,7 +48,7 @@ Adafruit_MCP23017      application::_encoder_pad_device;
 application::control_event_source_t
                        application::_control_event_source;
 
-combine_event_sources<event, application::event_sources_count>
+combine_event_sources<events::application_event, application::event_sources_count>
                        application::_combine_event_sources;
 
 
@@ -266,7 +266,7 @@ bool application::process_control_event(
     return false;
   }
 
-  if (e.type == event::EVT_BUTTON) {
+  if (e.type == events::application_event::EVT_BUTTON) {
     uint8_t button_number = e.parameter >> 8;
     int8_t  button_state = (int8_t)(e.parameter & 0xff);
       
@@ -289,12 +289,12 @@ bool application::process_control_event(
     else {
       switch (button_number) {
       case 128:
-        e.type = event::EVT_PLAYBACK_STATE_TOGGLE;
+        e.type = events::application_event::EVT_PLAYBACK_STATE_TOGGLE;
       }
     }
   }
 
-  if (e.type == event::EVT_ENCODER) {
+  if (e.type == events::application_event::EVT_ENCODER) {
     uint8_t encoder_number = e.parameter >> 8;
     int8_t  motion = (int8_t)(e.parameter & 0xff);
       
@@ -306,27 +306,27 @@ bool application::process_control_event(
 
     switch (encoder_number) {
     case 128:
-      e.type = motion > 0 ? event::EVT_MAJ_UP : event::EVT_MAJ_DN;
+      e.type = motion > 0 ? events::application_event::EVT_MAJ_UP : events::application_event::EVT_MAJ_DN;
       break;
 
     case 129:
-      e.type = motion > 0 ? event::EVT_MIN_UP : event::EVT_MIN_DN;
+      e.type = motion > 0 ? events::application_event::EVT_MIN_UP : events::application_event::EVT_MIN_DN;
       break;
 
     case 130:
-      e.type = motion > 0 ? event::EVT_PHASE_MAJ_UP : event::EVT_PHASE_MAJ_DN;
+      e.type = motion > 0 ? events::application_event::EVT_PHASE_MAJ_UP : events::application_event::EVT_PHASE_MAJ_DN;
       break;
 
     case 131:
-      e.type = motion > 0 ? event::EVT_PHASE_MIN_UP : event::EVT_PHASE_MIN_DN;
+      e.type = motion > 0 ? events::application_event::EVT_PHASE_MIN_UP : events::application_event::EVT_PHASE_MIN_DN;
       break;
 
     case 71:
-      e.type = motion > 0 ? event::EVT_SELECTED_TRACK_DN : event::EVT_SELECTED_TRACK_UP;
+      e.type = motion > 0 ? events::application_event::EVT_SELECTED_TRACK_DN : events::application_event::EVT_SELECTED_TRACK_UP;
       break;
     
     case 64:
-      e.type = event::EVT_BPM_SET;
+      e.type = events::application_event::EVT_BPM_SET;
       e.parameter = _timer1.bpm() + motion;
 
       break;
@@ -334,9 +334,9 @@ bool application::process_control_event(
   }
 
   if ((e.type >= 20) && (e.type <= 27)) {
-    ProcessTrackControl<event::event_type, 8>::apply(
+    ProcessTrackControl<events::application_event::event_type, 8>::apply(
       _tracks.current(),
-      ((event::event_type)(e.type - 20))
+      ((events::application_event::event_type)(e.type - 20))
     );
     
     _ui_data.redraw_track.set();
@@ -348,7 +348,7 @@ bool application::process_control_event(
   }
     
   switch (e.type) {
-  case event::EVT_BPM_SET:
+  case events::application_event::EVT_BPM_SET:
   {
     _timer1.set_bpm(e.parameter);
 
@@ -359,22 +359,22 @@ bool application::process_control_event(
     goto success;
   }
 
-  case event::EVT_PAD_1:
-  case event::EVT_PAD_2:
-  case event::EVT_PAD_3:
-  case event::EVT_PAD_4:
-  case event::EVT_PAD_5:
-  case event::EVT_PAD_6:
-  case event::EVT_PAD_7:
-  case event::EVT_PAD_8:
-  case event::EVT_PAD_9:
-  case event::EVT_PAD_10:
-  case event::EVT_PAD_11:
-  case event::EVT_PAD_12:
-  case event::EVT_PAD_13:
-  case event::EVT_PAD_14:
-  case event::EVT_PAD_15:
-  case event::EVT_PAD_16:
+  case events::application_event::EVT_PAD_1:
+  case events::application_event::EVT_PAD_2:
+  case events::application_event::EVT_PAD_3:
+  case events::application_event::EVT_PAD_4:
+  case events::application_event::EVT_PAD_5:
+  case events::application_event::EVT_PAD_6:
+  case events::application_event::EVT_PAD_7:
+  case events::application_event::EVT_PAD_8:
+  case events::application_event::EVT_PAD_9:
+  case events::application_event::EVT_PAD_10:
+  case events::application_event::EVT_PAD_11:
+  case events::application_event::EVT_PAD_12:
+  case events::application_event::EVT_PAD_13:
+  case events::application_event::EVT_PAD_14:
+  case events::application_event::EVT_PAD_15:
+  case events::application_event::EVT_PAD_16:
   {
     static uint16_t light_states = 0;
 
@@ -391,7 +391,7 @@ bool application::process_control_event(
 
     goto success;
   }
-  case event::EVT_SELECTED_TRACK_UP:
+  case events::application_event::EVT_SELECTED_TRACK_UP:
   {
     _tracks++;
 
@@ -403,7 +403,7 @@ bool application::process_control_event(
 
     goto success;
   }
-  case event::EVT_SELECTED_TRACK_DN:
+  case events::application_event::EVT_SELECTED_TRACK_DN:
   {
     _tracks--;
 
@@ -415,7 +415,7 @@ bool application::process_control_event(
       
     goto success;
   }
-  case event::EVT_PLAYBACK_STATE_TOGGLE:
+  case events::application_event::EVT_PLAYBACK_STATE_TOGGLE:
   {
     set_playback_state(! _timer1.playback_state());
 

@@ -54,7 +54,8 @@ public:
 private:
   typedef ui_data<tracks_t>                           ui_data_t;
   typedef ui<ui_data_t>                               ui_t;
-  typedef buffer_event_source<event,8>                control_event_source_t;
+  typedef buffer_event_source<events::application_event, 8>
+                                                      control_event_source_t;
 
   static encoder_pad_mcp23017                         _combo_pad_encoder_pad;
   static encoder_pad_mcp23017                         _encoder_pad0;
@@ -65,7 +66,7 @@ private:
   static encoder_pad_source<encoder_pad_mcp23017 >    _combo_pad_encoder_source;
   static button_pad_source<button_pad_mcp23017>       _combo_pad_button_source;
   static button_pad_source<button_pad_mcp23017>       _drum_pad_source;
-  static combine_event_sources<event, event_sources_count>
+  static combine_event_sources<events::application_event, event_sources_count>
                                                       _combine_event_sources;
   static ::trigger_outputs                            _trigger_outputs;  
   static ::x0x_leds                                   _x0x_leds;
