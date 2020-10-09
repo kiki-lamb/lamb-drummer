@@ -15,11 +15,9 @@ public:
   virtual ~trigger_outputs();
   bool setup(jm_PCF8574 * device_);
   void flag();
-  // void xor_write(uint16_t values_, bool immediate = false);
-  // void or_write(uint16_t values_, bool immediate = false);
-  void write(uint16_t const & values_); // , bool immediate = false);
-  void clear(); //bool immediate = false);
-  bool update(); //bool immediate = false);
+  void write(uint16_t const & values_);
+  void clear();
+  bool update();
   uint16_t values() const;
 };
 

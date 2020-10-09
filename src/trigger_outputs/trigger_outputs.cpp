@@ -29,27 +29,10 @@ void trigger_outputs::clear() { // bool immediate) {
   
 }
 
-// void trigger_outputs::xor_write(uint16_t values_, bool immediate) {
-//   Serial.print("xOR ");
-// 
-//   write(_values ^ values_, immediate);
-// }
-
-// void trigger_outputs::or_write(uint16_t values_, bool immediate) {
-//   Serial.print("OR ");
-//       
-//   write(_values | values_, immediate);
-// }
-
-void trigger_outputs::write(uint16_t const & values_) { // , bool immediate) {
+void trigger_outputs::write(uint16_t const & values_) {
   _values = values_;
 
-//   if (immediate) {
-//     update(immediate);
-//   }
-//   else {
-    flag();
-//   }
+  flag();
 }
 
 uint16_t trigger_outputs::values() const {
