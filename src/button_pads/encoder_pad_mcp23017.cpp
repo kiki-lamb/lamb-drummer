@@ -7,22 +7,16 @@ encoder_pad_mcp23017::encoder_pad_mcp23017(
 ) :
   pad_mcp23017(i2c_addr_, (encoder_count_ << 1), button_range_start_),
   _encoder_count(encoder_count_),
-  _encoder_states(encoder_count_)
+  _encoder_states(NULL)
 {
+  _encoder_states = (encoder_state **) malloc(
+    _encoder_count * sizeof(encoder_state *)
+  );
+  
   for (uint8_t ix = 0; ix < _encoder_count; ix++) {
     _encoder_states[ix] = new encoder_state();
   }
-  
-//  Serial.print("BEFORE MALLOC _encoder_states = ");
-//  Serial.print(_encoder_states);
-//
-//  _encoder_states = (encoder_state *) malloc(
-//    _encoder_count * sizeof(encoder_state)
-//  );
-//
-//  Serial.print("AFTER MALLOC _encoder_states = ");
-//  Serial.print(_encoder_states);
-    
+
   dynamic_light_buffer_resize(motion_events_type, motion_events, _encoder_count);
 }
 
