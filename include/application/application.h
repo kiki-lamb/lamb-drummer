@@ -67,7 +67,6 @@ private:
   static tracks_t                                     _tracks;
   static ui_data_t                                    _ui_data;
   static ui_t                                         _ui;
-  static uint8_t                                      _queued_output;  
 
                       application();
                       ~application();

@@ -48,7 +48,6 @@ timer1_                application::_timer1;
 timer2_                application::_timer2;
 lamb::flag             application::_controls_flag;
 lamb::flag             application::_output_flag;
-uint8_t                application::_queued_output = 0xff;
 ::x0x_leds             application::_x0x_leds;
 ::trigger_outputs      application::_trigger_outputs;
 Adafruit_MCP23017      application::_x0x_leds_device;
