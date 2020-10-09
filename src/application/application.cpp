@@ -298,21 +298,20 @@ application::application_event application::process_control_event(
       }
     }
   }
-
-  if (control_event.type == control_event::EVT_ENCODER) {
+  else if (control_event.type == control_event::EVT_ENCODER) {
     uint8_t encoder_number = control_event.parameter >> 8;
-    int8_t  motion = (int8_t)(control_event.parameter & 0xff);
+    int8_t  encoder_motion = (int8_t)(control_event.parameter & 0xff);
       
     Serial.print("Encoder event, number: ");
     Serial.print(encoder_number);
-    Serial.print(", motion: ");
-    Serial.print(motion);
+    Serial.print(", encoder_motion: ");
+    Serial.print(encoder_motion);
     Serial.println();
 
     switch (encoder_number) {
     case 128:
       application_event.type = (
-        motion > 0 ?
+        encoder_motion > 0 ?
         application_event::EVT_MAJ_UP :
         application_event::EVT_MAJ_DN
       );
@@ -320,7 +319,7 @@ application::application_event application::process_control_event(
 
     case 129:
       application_event.type = (
-        motion > 0 ?
+        encoder_motion > 0 ?
         application_event::EVT_MIN_UP :
         application_event::EVT_MIN_DN
       );
@@ -328,7 +327,7 @@ application::application_event application::process_control_event(
 
     case 130:
       application_event.type = (
-        motion > 0 ?
+        encoder_motion > 0 ?
         application_event::EVT_PHASE_MAJ_UP :
         application_event::EVT_PHASE_MAJ_DN
       );
@@ -336,7 +335,7 @@ application::application_event application::process_control_event(
 
     case 131:
       application_event.type = (
-        motion > 0 ?
+        encoder_motion > 0 ?
         application_event::EVT_PHASE_MIN_UP :
         application_event::EVT_PHASE_MIN_DN
       );
@@ -344,7 +343,7 @@ application::application_event application::process_control_event(
 
     case 71:
       application_event.type = (
-        motion > 0 ?
+        encoder_motion > 0 ?
         application_event::EVT_SELECTED_TRACK_DN :
         application_event::EVT_SELECTED_TRACK_UP
       );
@@ -352,7 +351,7 @@ application::application_event application::process_control_event(
     
     case 64:
       application_event.type = application_event::EVT_BPM_SET;
-      application_event.parameter = _timer1.bpm() + motion;
+      application_event.parameter = _timer1.bpm() + encoder_motion;
 
       break;
     }
