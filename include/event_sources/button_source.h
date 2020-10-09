@@ -17,7 +17,7 @@ public:
   on_push(on_push_),
   event_type(EVT_NOT_AVAILABLE) {}
 
-  virtual ~button_source() {}
+  /* virtual */ ~button_source() {}
 
 private:
   event_t::event_type_t on_push;

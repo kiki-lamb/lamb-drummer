@@ -14,7 +14,7 @@ public:
 private:
   ProcessTrackControl() {}
 
-  virtual ~ProcessTrackControl() {}
+  /* virtual */ ~ProcessTrackControl() {}
 
   static void increase_mod_maj(track & that) {
     Serial.println(F("BMMU"));

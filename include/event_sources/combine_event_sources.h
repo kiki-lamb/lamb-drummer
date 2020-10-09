@@ -9,7 +9,7 @@ public:
   event_source<event_t> * sources[sources_count_];
 
   combine_event_sources() : sources() {}
-  virtual ~combine_event_sources() {}
+  /* virtual */ ~combine_event_sources() {}
 
 private:
   virtual uint8_t impl_queue_count() const {

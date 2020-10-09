@@ -19,7 +19,7 @@ public:
     flag();
   }
 
-  virtual ~screen() {
+  /* virtual */ ~screen() {
   }
 
   void flag() {

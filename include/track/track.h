@@ -23,7 +23,7 @@ public:
     uint8_t const & phase_min_ = 0,
     uint8_t const & phase_maj_ = 0
   );
-  virtual ~track();
+  /* virtual */ ~track();
 private:
   uint8_t _mod_maj;
   uint8_t _mod_min;

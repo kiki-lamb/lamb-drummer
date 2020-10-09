@@ -13,7 +13,7 @@ public:
 
   event_source() {}
 
-  virtual ~event_source() {}
+  /* virtual */ ~event_source() {}
 
   bool poll() {
     impl_poll();

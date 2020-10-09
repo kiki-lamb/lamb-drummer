@@ -9,7 +9,7 @@ class buffer_event_source : public event_source<event_t> {
 public:
   event_source<event_t> * source;
   buffer_event_source() : source(NULL) {}
-  virtual ~buffer_event_source() {}
+  /* virtual */ ~buffer_event_source() {}
 
 private:
   declare_light_buffer(event_t, queue_size_, event_queue);

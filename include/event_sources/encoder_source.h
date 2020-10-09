@@ -19,7 +19,7 @@ public:
     event.parameter = 0;
   }
 
-  virtual ~encoder_source() {}
+  /* virtual */ ~encoder_source() {}
 
   virtual void setup() {
     encoder::setup();

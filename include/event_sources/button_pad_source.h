@@ -29,7 +29,7 @@ public:
     _button_ordering_size(button_ordering_size_),
     queue() {}
 
-  virtual ~button_pad_source() {}
+  /* virtual */ ~button_pad_source() {}
 
 private:
   virtual void    impl_poll() {

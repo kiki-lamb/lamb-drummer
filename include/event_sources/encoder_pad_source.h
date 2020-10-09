@@ -27,7 +27,7 @@ public:
 //    Serial.println();
   }
 
-  virtual ~encoder_pad_source() {}
+  /* virtual */ ~encoder_pad_source() {}
 
 private:
   virtual void    impl_poll() {
