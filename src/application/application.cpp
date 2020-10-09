@@ -196,22 +196,24 @@ void application::setup_controls() {
   _drum_pad_device      .begin(drum_pad_addr);
   _encoder_pad_device   .begin(encoder_pad_addr);
 
-  Serial.println("Setup drum pad...");
+  Serial.println(F("\nSetup drum pad..."));
   _drum_pad_button_pad  .setup      ( &_drum_pad_device);
   _combine_event_sources.sources[0] = &_drum_pad_source;
   
-  Serial.println("Setup combo pad buttons...");
+  Serial.println(F("\nSetup combo pad buttons..."));
   _combo_pad_button_pad .setup      ( &_combo_pad_device);
   _combine_event_sources.sources[1] = &_combo_pad_button_source;
   
-  Serial.println("Setup combo pad encoders...");
+  Serial.println(F("\nSetup combo pad encoders..."));
   _combo_pad_encoder_pad.setup      ( &_combo_pad_device);
   _combine_event_sources.sources[2] = &_combo_pad_encoder_source;
   
-  Serial.println("Setup encoder pad...");
+  Serial.println(F("\nSetup encoder pad..."));
   _encoder_pad0         .setup      ( &_encoder_pad_device);
   _combine_event_sources.sources[3] = &_encoder_pad_source0;
 
+  Serial.println();
+  
   _control_event_source .source     = &_combine_event_sources;
 }
 
