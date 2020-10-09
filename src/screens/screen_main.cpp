@@ -183,17 +183,6 @@ void screen_main::impl_update() {
 
   draw_channel_numbers();
 
-//  uint8_t prior   = (
-//    ((uint8_t)((data->ticker>>1)-1)) %
-//    (*data->tracks).max_mod_maj()
-//  );
-
-//  uint8_t current = (
-//  /*     (data */->ticker>>1) %
-//  (*data->/* tracks */).max_mod_maj()
-//  );
-
-  ////Serial.println("Before rt!");
   bool redraw_page = false;
 
   static uint8_t last_page = 255;
