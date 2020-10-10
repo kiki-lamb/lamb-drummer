@@ -10,6 +10,7 @@ public:
   
   tracks_t const * tracks;
   uint8_t          bar;
+  uint8_t          page;
   uint8_t          bpm;
   uint16_t         millihz;
   bool             playback_state;
@@ -23,6 +24,7 @@ public:
   ui_data() :
     tracks(),
     bar(0),
+    page(1),
     bpm(120),
     millihz(0),
     playback_state(false),

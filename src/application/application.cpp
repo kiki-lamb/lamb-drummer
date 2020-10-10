@@ -518,7 +518,21 @@ bool application::process_application_event(
     goto success;
 #endif
   }
-  
+
+  case application_event_type::EVT_PAGE_UP:
+  {
+    _ui_data.page = 1;
+
+    goto after_page_select;
+  }
+
+  case application_event_type::EVT_PAGE_DN:
+  {
+    _ui_data.page = 0;
+
+    goto after_page_select;
+  }
+
   case application_event_type::EVT_SELECT_TRACK:
   {
     if (_tracks.jump(application_event.parameter)) {
@@ -577,8 +591,12 @@ bool application::process_application_event(
     Serial.flush();
   }
 
-failure:
-  return false;
+after_page_select:
+  Serial.print(F("Page = "));
+  Serial.print(_ui_data.page);
+  Serial.println();
+
+  goto success;
 
 after_track_select:
   _ui_data.redraw_selected_track_indicator.set();
@@ -596,6 +614,9 @@ success:
   flag_main_screen();
 
   return true;
+
+failure:
+  return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
