@@ -379,10 +379,14 @@ bool application::process_application_event(
   if (! application_event) return false;
 
   if ((application_event.type >= 20) && (application_event.type <= 27)) {
+#ifdef XOX
+    Serial.println("IMPLEMENT PTC FOR XOX.");
+#else
     ProcessTrackControl<application_event::event_type, 8>::apply(
       _tracks.current(),
       ((application_event::event_type)(application_event.type - 20))
     );
+#endif
     
     _ui_data.redraw_track.set();
     _ui_data.redraw_selected_track_indicator.set();

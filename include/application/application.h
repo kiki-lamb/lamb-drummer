@@ -64,10 +64,11 @@ public:
   static  const uint8_t            triggers_addr                    = 0x3a;
 
 #ifdef XOX
-  typedef tracks::euclidean                                            track;
-#else
   typedef tracks::x0x                                                  track;
+#else
+  typedef tracks::euclidean                                            track;
 #endif  
+
   typedef ::track_collection<tracks_count, track>                      track_collection;
   typedef ::ui_data<track_collection>                                  ui_data;
   typedef ::ui<ui_data>                                                ui;
