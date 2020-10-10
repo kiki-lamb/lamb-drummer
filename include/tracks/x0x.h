@@ -19,6 +19,8 @@ namespace tracks {
       for (uint8_t ix = 0; ix < length; ix++) {
         bars[ix] = other.bars[ix];
       }
+
+      return *this;
     }
 
     bool trigger_state(uint8_t const & counter) const {
