@@ -25,10 +25,10 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 
 // template <>
-// class screen_main<ui_data<track_collection<3, tracks::x0x<2> > > > :
-//   public screen<ui_data<track_collection<3, tracks::x0x<2> > > > {
+// class screen_main<ui_data<track_collection<3, tracks::x0x<1> > > > :
+//   public screen<ui_data<track_collection<3, tracks::x0x<1> > > > {
 // 
-//   typedef ui_data<track_collection<3, tracks::x0x<2> > > data_t;
+//   typedef ui_data<track_collection<3, tracks::x0x<1> > > data_t;
 //   typedef screen<data_t> base_t;
 // 
 //   unsigned long popup_bpm_time;
@@ -326,10 +326,10 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 
 template <>
-class screen_main<ui_data<track_collection<3, tracks::x0x<2> > > > :
-  public screen<ui_data<track_collection<3, tracks::x0x<2> > > > {
+class screen_main<ui_data<track_collection<3, tracks::x0x<1> > > > :
+  public screen<ui_data<track_collection<3, tracks::x0x<1> > > > {
 
-  typedef ui_data<track_collection<3, tracks::x0x<2> > > data_t;
+  typedef ui_data<track_collection<3, tracks::x0x<1> > > data_t;
   typedef screen<data_t> base_t;
   
 public:
@@ -451,7 +451,7 @@ private:
     uint8_t const & channel,
     uint8_t const & col
   ) {
-    tracks::x0x<2> const & t = (*data->tracks)[channel];
+    tracks::x0x<1> const & t = (*data->tracks)[channel];
     
     static const uint8_t col_map[] = {
       1,   2,  3,  4,

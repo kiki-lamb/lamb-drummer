@@ -5,30 +5,47 @@
 #include <lamb.h>
 
 namespace tracks {
-  template <uint8_t length_>
-  // length in 16-bit words bytes, not steps! One word per bar.
+  template <uint8_t _word_length_>
+  // _word_length in 16-bit words bytes, not steps! One word per bar.
   class x0x {
   public:
     lamb::flag modified;
 
-    static const uint8_t length = length_;
+    static const uint8_t _word_length = _word_length_;
 
-    uint16_t bars[length];
+    uint16_t bars[_word_length];
     
     x0x & operator=(x0x const & other) {
-      for (uint8_t ix = 0; ix < length; ix++) {
+      for (uint8_t ix = 0; ix < _word_length; ix++) {
         bars[ix] = other.bars[ix];
       }
 
       return *this;
     }
 
+    static uint8_t length() {
+      return _word_length << 4;
+    }
+    
     bool trigger_state(uint8_t const & counter) const {
-      return bars[0] & (1 << (counter % 16));
+      Serial.print("Look up step ");
+      Serial.print(counter);
+      
+      uint8_t bar  = counter >> 4;
+      uint8_t step = counter % 16;
+
+      bar %= _word_length;
+      
+      Serial.print(" => ");
+      Serial.print(bar);
+      Serial.print(":");
+      Serial.println(step);
+
+      return bars[bar] & (1 << (step % 16));
     }
 
     x0x() : bars() {
-      for (uint8_t ix = 0; ix < length; ix++) {
+      for (uint8_t ix = 0; ix < _word_length; ix++) {
         bars[ix] = 0;
       }
     }

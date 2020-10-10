@@ -128,12 +128,8 @@ void timer1::isr() {
           write |= 1 << col;
         }
       }
-
-#ifdef X0X
-      application::x0x_leds().write(~util::flip_bytes(write));
-#else
-      application::x0x_leds().write(util::flip_bytes(write));
-#endif
+    
+    application::x0x_leds().write(util::flip_bytes(write));
       
       uint16_t next_write = util::flip_bytes(1 << (((ticker_ >> 1) % 16)));
 

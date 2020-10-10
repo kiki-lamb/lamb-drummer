@@ -140,7 +140,7 @@ void application::setup() {
   
   set_playback_state(tmp.playback_state);
 
-  while (_tracks++);
+  // while (_tracks++);
 
   _eeprom .unflag_save_requested();
   _eeprom .flag_save_requested();
@@ -217,7 +217,7 @@ uint8_t application::page() {
   auto tracks = application::tracks();
 
 #ifdef XOX
-  uint8_t max = 16;
+  uint8_t max = track::length();
 #else
   uint8_t max = 0;
     
@@ -456,7 +456,7 @@ bool application::process_application_event(
     
     _tracks.current().bars[0] ^= bit;
 
-    _ui_data.redraw_selected_track_indicator.set();
+    _ui_data.redraw_track.set();
 #else
     static uint16_t light_states = 0;
 

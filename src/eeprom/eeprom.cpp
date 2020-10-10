@@ -97,18 +97,18 @@ void eeprom::restore_track<tracks::euclidean>(
 }
 
 template<>
-void eeprom::save_track<tracks::x0x<2> >(
+void eeprom::save_track<tracks::x0x<1> >(
   size_t const & eeprom_location,
-  tracks::x0x<2> & track
+  tracks::x0x<1> & track
 ) const {
   Serial.println("IMPLEMENT SAVE_TRACK FOR X0X");
 }
 
   
 template<>
-void eeprom::restore_track<tracks::x0x<2> >(
+void eeprom::restore_track<tracks::x0x<1> >(
   size_t const & eeprom_location,
-  tracks::x0x<2> & track
+  tracks::x0x<1> & track
 ) {
   Serial.println("IMPLEMENT RESTORE_TRACK FOR X0X");
 }
