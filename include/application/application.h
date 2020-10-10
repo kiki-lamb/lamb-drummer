@@ -20,6 +20,10 @@
 #include "eeprom/eeprom.h"
 #include <jm_PCF8574.h>
 
+#ifdef XOX
+  #include "tracks/x0x.h"
+#endif
+
 class application {
 public:
   enum modes {
@@ -27,7 +31,11 @@ public:
     MODE_XOX       = 2,
   };
 
+#ifdef XOX
   static  const modes              mode                             = MODE_XOX;
+#else
+  static  const modes              mode                             = MODE_EUCLIDEAN;
+#endif
   
   static  const uint8_t            tracks_count                     = 3;
 
@@ -55,8 +63,12 @@ public:
   static  const uint8_t            x0x_leds_addr                    = 0x4;
   static  const uint8_t            triggers_addr                    = 0x3a;
 
+#ifdef XOX
   typedef tracks::euclidean                                            track;
-  typedef ::track_collection<tracks_count, tracks>                     track_collection;
+#else
+  typedef tracks::x0x                                                  track;
+#endif  
+  typedef ::track_collection<tracks_count, track>                     track_collection;
   typedef ::ui_data<track_collection>                                  ui_data;
   typedef ::ui<ui_data>                                                ui;
   typedef eeprom::PersistantData<track_collection>                     persistant_data;
