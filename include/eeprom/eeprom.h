@@ -8,8 +8,10 @@
 
 #ifdef XOX
 #define ADDR_BASE 32
+#define ADDR_INCR 16
 #else
 #define ADDR_BASE 0
+#define ADDR_INCR 4
 #endif
 
 class eeprom {
@@ -70,7 +72,7 @@ public:
     for (
       size_t ix = 0, addr = 5;
       ix < data.tracks->size();
-      ix++, addr+= 4
+      ix++, addr+= ADDR_INCR
     ) {
       //Serial.print(F("Restore TS #"));
       //Serial.print(ix);
@@ -113,7 +115,7 @@ public:
     for (
       size_t ix = 0, addr = 5;
       ix < data.tracks->size();
-      ix++, addr+= 4
+      ix++, addr+= ADDR_INCR
     )
       save_track(addr | ADDR_BASE,  (*data.tracks)[ix]);
 
@@ -133,10 +135,16 @@ void eeprom::restore_track<tracks::euclidean>(
   tracks::euclidean & track
 );
 
-// template <>
-// void eeprom::save_track<tracks::x0x>(
-//   size_t const & eeprom_location,
-//   tracks::euclidean & track
-// ) const;
+template <>
+void eeprom::save_track<tracks::x0x>(
+  size_t const & eeprom_location,
+  tracks::x0x & track
+) const;
+
+template <>
+void eeprom::restore_track<tracks::x0x>(
+  size_t const & eeprom_location,
+  tracks::x0x & track
+);
 
 #endif
