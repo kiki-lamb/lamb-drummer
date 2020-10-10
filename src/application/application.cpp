@@ -450,6 +450,14 @@ bool application::process_application_event(
   case application_event::EVT_PAD_15:
   case application_event::EVT_PAD_16:
   {
+#ifdef XOX
+    uint8_t  col = ((uint8_t)application_event.type)-1;
+    uint16_t bit = 1 << col;
+    
+    _tracks.current().bars[0] ^= bit;
+
+    _ui_data.redraw_selected_track_indicator.set();
+#else
     static uint16_t light_states = 0;
 
     _x0x_leds.xor_write(light_states);
@@ -466,7 +474,8 @@ bool application::process_application_event(
     Serial.println();
 
     _x0x_leds.or_write(light_states, true);
-
+#endif
+    
     goto success;
   }
   case application_event::EVT_SELECTED_TRACK_UP:
