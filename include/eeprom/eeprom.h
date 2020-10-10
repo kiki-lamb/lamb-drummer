@@ -74,12 +74,13 @@ public:
       ix < data.tracks->size();
       ix++, addr+= ADDR_INCR
     ) {
-      //Serial.print(F("Restore TS #"));
-      //Serial.print(ix);
-      //Serial.print(F(" from "));
-      //Serial.print(addr);
-      //Serial.println();
-      restore_track(addr | ADDR_BASE,  (*data.tracks)[ix]);
+//      Serial.print(F("Restore TS #"));
+//      Serial.print(ix);
+//      Serial.print(F(" from "));
+//      Serial.print(addr);
+//      Serial.println();
+      
+      restore_track(addr + ADDR_BASE,  (*data.tracks)[ix]);
     }
 
     save_requested.unset();
@@ -117,7 +118,7 @@ public:
       ix < data.tracks->size();
       ix++, addr+= ADDR_INCR
     )
-      save_track(addr | ADDR_BASE,  (*data.tracks)[ix]);
+      save_track(addr + ADDR_BASE,  (*data.tracks)[ix]);
 
     //Serial.println(F("Done save all to EEPROM"));
   }
