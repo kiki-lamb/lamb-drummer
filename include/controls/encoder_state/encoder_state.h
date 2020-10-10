@@ -9,17 +9,15 @@ public:
   uint8_t stage_ix;
   bool    flagged;
   
-  encoder_state() : motion(0), stage_ix(0), flagged(false) {}
+  inline encoder_state() : motion(0), stage_ix(0), flagged(false) {}
   
-//  ~encoder_state() {}
-     
-  void update(char bit_pair) {
+  inline void update(char bit_pair) {
     static const unsigned char stages[] = { 0b00, 0b01, 0b11, 0b10 };
        
     if (stages[((uint8_t)(stage_ix + 1U)) & 0b11] == bit_pair) {
       this->motion--;
 
-      if (motion < -1) {
+      if (motion <= -2) {
         this->flagged = true;
       }
 
@@ -28,7 +26,7 @@ public:
     else if (stages[((uint8_t)(stage_ix - 1)) & 0b11] == bit_pair) {
       this->motion++;
 
-      if (motion > 1) {
+      if (motion >= 2) {
         this->flagged = true;
       }
 

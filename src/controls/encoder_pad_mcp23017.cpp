@@ -41,7 +41,7 @@ bool encoder_pad_mcp23017::read() {
     if (_encoder_states[ix].flagged && light_buffer_writable(motion_events)) {
       light_buffer_write(
         motion_events,
-        (motion_event { ix, (int8_t)(_encoder_states[ix].motion ^ 1) })
+        (motion_event { ix, (int8_t)(_encoder_states[ix].motion >> 1) })
       );
       _encoder_states[ix].motion = 0;
       _encoder_states[ix].flagged = false;
