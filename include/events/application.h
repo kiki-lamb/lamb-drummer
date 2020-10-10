@@ -50,6 +50,9 @@ namespace events {
       EVT_PLAYBACK_STATE_TOGGLE = 32,
 
       EVT_SELECT_TRACK = 33,
+
+      EVT_PAGE_UP = 34,
+      EVT_PAGE_DN = 35,
       
       EVT_UNKNOWN = 64
     };
