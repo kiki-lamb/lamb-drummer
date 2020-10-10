@@ -73,7 +73,6 @@
                 "ARDUINO_ARCH_AVR",
                 "ARDUINO_AVR_LARDU_328P",
                 "AVR_LARDU_328E",
-                "XOX",
                 "F_CPU=32000000L",
                 "CLOCK_SOURCE=1",
                 "ARDUINO_ARCH_AVR",

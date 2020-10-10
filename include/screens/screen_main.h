@@ -25,10 +25,10 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 
 template <>
-class screen_main<ui_data<track_collection<3, tracks::x0x> > > :
-  public screen<ui_data<track_collection<3, tracks::x0x> > > {
+class screen_main<ui_data<track_collection<3, tracks::x0x<2> > > > :
+  public screen<ui_data<track_collection<3, tracks::x0x<2> > > > {
 
-  typedef ui_data<track_collection<3, tracks::x0x> > data_t;
+  typedef ui_data<track_collection<3, tracks::x0x<2> > > data_t;
   typedef screen<data_t> base_t;
 
   unsigned long popup_bpm_time;
