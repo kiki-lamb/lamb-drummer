@@ -16,8 +16,6 @@ namespace tracks {
     uint8_t    _mod_mask; //    = STEPS_COUNT - 1;
     uint16_t * _bars;
 
-    void allocate(uint8_t bars_count_);
-    
   public:
     x0x(uint8_t bars_count_ = 1);
 

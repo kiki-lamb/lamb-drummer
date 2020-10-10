@@ -6,11 +6,24 @@ tracks::x0x::x0x(uint8_t bars_count_) :
   _mod_mask(0),
   _bars(NULL)
 {
-  allocate(bars_count_);
+  clear(bars_count_);
 }
 
-void tracks::x0x::allocate(uint8_t bars_count_) {
-  _bars_count  = bars_count_;
+void tracks::x0x::clear() {
+  clear(_bars_count);
+}
+
+void tracks::x0x::clear(uint8_t const & new_size) {
+  if (new_size == _bars_count)
+    return;
+
+  if (_bars_count != 0) {
+    modified.set();
+  }
+  
+  free(_bars);
+  
+  _bars_count  = new_size;
   _steps_count = _bars_count << 4;
   _mod_mask    = _steps_count - 1;
 
@@ -20,16 +33,6 @@ void tracks::x0x::allocate(uint8_t bars_count_) {
       sizeof(uint16_t)
     )
   );
-}
-
-void tracks::x0x::clear() {
-  clear(_bars_count);
-}
-
-void tracks::x0x::clear(uint8_t const & new_size) {
-  free(_bars);
-  
-  allocate(new_size);
 };
 
 tracks::x0x & tracks::x0x::operator=(tracks::x0x const & other) {
@@ -79,13 +82,27 @@ void tracks::x0x::flip_trigger(uint8_t const & index) {
 #undef GET_POSITIONS
     
 void tracks::x0x::set_trigger(uint8_t const & bar, uint8_t const & step) {
-  _bars[bar] |= (1 << step);
+  uint16_t tmp = (1 << step);
+
+  if (! (_bars[bar] & tmp)) {
+    _bars[bar] |= tmp;
+
+    modified.set();
+  }
 };
 
 void tracks::x0x::unset_trigger(uint8_t const & bar, uint8_t const & step) {
-  _bars[bar] &= ~(1 << step);
+  uint16_t tmp = (1 << step);
+
+  if (_bars[bar] & tmp) {    
+    _bars[bar] &= ~tmp;
+
+    modified.set();
+  }
 };
 
 void tracks::x0x::flip_trigger(uint8_t const & bar, uint8_t const & step) {
   _bars[bar] ^= (1 << step);
+  
+  modified.set();  
 };

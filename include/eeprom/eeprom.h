@@ -126,4 +126,10 @@ void eeprom::restore_track<tracks::euclidean>(
   tracks::euclidean & track
 );
 
+// template <>
+// void eeprom::save_track<tracks::x0x>(
+//   size_t const & eeprom_location,
+//   tracks::euclidean & track
+// ) const;
+
 #endif

@@ -51,11 +51,9 @@ public:
   static  const uint8_t            triggers_addr                    = 0x3a;
 
 #ifdef XOX
-  static  const uint8_t            bars_count                       = 2;
-
-  typedef tracks::x0x                                                  track;
+  typedef tracks::x0x                                           track;
 #else
-  typedef tracks::euclidean                                            track;
+  typedef tracks::euclidean                                     track;
 #endif  
 
   typedef ::track_collection<tracks_count, track>               track_collection;
