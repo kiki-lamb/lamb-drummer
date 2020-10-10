@@ -147,8 +147,12 @@ void application::setup() {
   _timer1.set_bpm(tmp.bpm);
   
 #ifdef XOX
-  for (uint8_t ix; ix < tracks_count; ix++) {
-    tracks()[ix].clear(bars_count);
+  {
+    uint8_t tmp = bars_count;
+  
+    for (uint8_t ix; ix < tracks_count; ix++) {
+      tracks()[ix].clear(tmp);
+    }
   }
 #endif
   
