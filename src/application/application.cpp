@@ -324,24 +324,31 @@ application::application_event application::process_control_event(
     else {
       switch (button_number) {
       case 131:
-        application_event.type = application_event_type::EVT_PLAYBACK_STATE_TOGGLE;
+        application_event.type =
+          application_event_type::EVT_PLAYBACK_STATE_TOGGLE;
 
         break;
       
       case 130:
-        application_event.type = application_event_type::EVT_SELECT_TRACK;
+        application_event.type =
+          application_event_type::EVT_SELECT_TRACK;
+        
         application_event.parameter  = 0;
 
         break;
         
       case 129:
-        application_event.type = application_event_type::EVT_SELECT_TRACK;
+        application_event.type =
+          application_event_type::EVT_SELECT_TRACK;
+        
         application_event.parameter  = 1;
 
         break;
         
       case 128:
-        application_event.type = application_event_type::EVT_SELECT_TRACK;
+        application_event.type =
+          application_event_type::EVT_SELECT_TRACK;
+        
         application_event.parameter  = 2;
 
         break;
