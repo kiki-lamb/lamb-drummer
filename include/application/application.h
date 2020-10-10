@@ -72,7 +72,6 @@ private:
   static  button_pad_mcp23017      _combo_pad_button_pad;
   static  button_pad_mcp23017      _drum_pad_button_pad;
   static  encoder_pad_source       _encoder_pad_source0;
-  static  encoder_pad_source       _encoder_pad_source1;
   static  encoder_pad_source       _combo_pad_encoder_source;
   static  button_pad_source        _combo_pad_button_source;
   static  button_pad_source        _drum_pad_source;
