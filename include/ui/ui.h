@@ -60,7 +60,7 @@ public:
     screens()
     {
       screens[0] = new screen_intro<data_t>(data);
-      screens[1] = new screen_main (data);
+      screens[1] = new screen_main<data_t> (data);
       // screens[2] = new screen_instr(data);
       // screens[3] = new screen_none (data);
     }

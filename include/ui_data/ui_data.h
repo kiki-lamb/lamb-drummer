@@ -3,10 +3,10 @@
 
 #include "Arduino.h"
 
-template <class tracks_t>
+template <class tracks_t_>
 class ui_data {
 public:
-  typedef tracks_t track;
+  typedef tracks_t_ tracks_t;
   
   tracks_t const * tracks;
   uint8_t          page;
