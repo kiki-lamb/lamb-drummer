@@ -2,6 +2,7 @@
 #include "eeprom/eeprom.h"
 #include "tracks/euclidean.h"
 #include "tracks/x0x.h"
+#include "util/util.h"
 
 #define ADDR_BPM  3
 #define ADDR_PLAY 4
@@ -109,13 +110,48 @@ void eeprom::save_track<tracks::x0x>(
   size_t const & eeprom_location,
   tracks::x0x & track
 ) const {
-  if (! track.modified.consume() )
+  if (! track.modified.consume() ) {
+    Serial.println(F("Not modified, not saving."));
+    
     return;
+  }
 
+  Serial.print(F("Save bars_count "));
+  Serial.print(track.bars_count());
+  Serial.print(F(" to 0x"));
+  Serial.print(eeprom_location, HEX);
+  Serial.println();
+
+  EEPROM.write(eeprom_location + 0, track.bars_count());
+
+  uint8_t ix = 0;
   
-//  EEPROM.write(eeprom_location + 0, track.mod_maj());
-//  Serial.print(F("Save mod_maj "));
-//  Serial.print(track.mod_maj()); Serial.println();
+  for (; ix < track.bars_count(); ix++) {
+    size_t loc = eeprom_location + 1 + (ix * 2);
+
+    uint16_t bar_data = track.bar(ix);
+    uint8_t  bar_data_lo = bar_data & 0xff;
+    uint8_t  bar_data_hi = bar_data >> 8;
+    
+    Serial.print(F("Save bar "));
+    Serial.print(ix);
+    Serial.print(F(" ("));
+    util::print_bits_16(track.bar(ix));
+    Serial.print(F(")  to 0x"));
+    Serial.print(loc, HEX);
+    Serial.println();
+
+    EEPROM.write(loc + 0, bar_data_hi);
+    EEPROM.write(loc + 1, bar_data_lo);
+  }
+
+  for (; ix < 8; ix++) {
+    size_t loc = eeprom_location + 1 + (ix * 2);
+
+    EEPROM.write(loc + 0, 0);
+    EEPROM.write(loc + 1, 0);
+  }
+  
 //  
 //  EEPROM.write(eeprom_location + 1, track.mod_min());
 //  Serial.print(F("Save mod_min "));
@@ -142,6 +178,46 @@ void eeprom::restore_track<tracks::x0x>(
   Serial.print(F("Restore track from 0x"));
   Serial.print(eeprom_location, HEX);
   Serial.println();
+
+  uint8_t tmp_bars_count = EEPROM.read(eeprom_location + 0);
+  
+  Serial.print(F("Restore bars_count "));
+  Serial.print(tmp_bars_count);
+  Serial.print(F(" from 0x"));
+  Serial.print(eeprom_location, HEX);
+  Serial.println();
+  
+  track.clear(tmp_bars_count);
+
+  for (uint8_t ix = 0; ix < track.bars_count(); ix++) {
+    size_t loc = eeprom_location + 1 + (ix * 2);
+
+    uint8_t  bar_data_hi = EEPROM.read(loc);
+
+    Serial.print("HI: ");
+    Serial.println(bar_data_hi);
+    
+    uint8_t  bar_data_lo = EEPROM.read(loc + 1);
+
+    Serial.print("LO: ");
+    Serial.println(bar_data_lo);
+    
+    uint16_t bar_data    = bar_data_hi;
+    bar_data <<= 8;
+    bar_data |= bar_data_lo;
+    
+    Serial.print(F("Restore bar "));
+    Serial.print(ix);
+    Serial.print(F(" ("));
+    util::print_bits_16(bar_data);
+    Serial.print(F(")  from 0x"));
+    Serial.print(loc, HEX);
+    Serial.println();
+    
+    track.set_bar(ix, bar_data);
+  }
+
+  
 //  track.set_mod_maj(EEPROM.read(eeprom_location + 0));
 //  Serial.print(F("Restore mod_maj "));
 //  Serial.print(track.mod_maj()); Serial.println();

@@ -137,7 +137,6 @@ void application::setup() {
   set_playback_state(tmp.playback_state);
 
   _eeprom .unflag_save_requested();
-  _eeprom .flag_save_requested();
 
   save_state();
   
@@ -149,7 +148,7 @@ void application::setup() {
   
 #ifdef XOX
   for (uint8_t ix; ix < tracks_count; ix++) {
-    tracks()[ix].clear(2);
+    tracks()[ix].clear(1);
   }
 #endif
   
@@ -506,9 +505,11 @@ bool application::process_application_event(
     _tracks.current().flip_trigger(page(), step);
     
     _ui_data.redraw_track.set();
-#endif
+
+    _eeprom.flag_save_requested();
     
     goto success;
+#endif
   }
   
   case application_event_type::EVT_SELECT_TRACK:

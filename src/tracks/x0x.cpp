@@ -10,35 +10,35 @@ tracks::x0x::x0x(uint8_t bars_count_) :
 }
 
 void tracks::x0x::clear() {
-  clear(_bars_count);
+  clear(bars_count());
 }
 
 void tracks::x0x::clear(uint8_t const & new_size) {
-  if (new_size == _bars_count)
+  if (new_size == bars_count())
     return;
 
-  if (_bars_count != 0) {
+  if (bars_count() != 0) {
     modified.set();
   }
   
   free(_bars);
   
   _bars_count  = new_size;
-  _steps_count = _bars_count << 4;
+  _steps_count = bars_count() << 4;
   _mod_mask    = _steps_count - 1;
 
   _bars = static_cast<uint16_t *>(
     calloc(
-      _bars_count,
+      bars_count(),
       sizeof(uint16_t)
     )
   );
 };
 
 tracks::x0x & tracks::x0x::operator=(tracks::x0x const & other) {
-  clear(other._bars_count);
+  clear(other.bars_count());
   
-  for (uint8_t ix = 0; ix < _bars_count; ix++) {
+  for (uint8_t ix = 0; ix < bars_count(); ix++) {
     _bars[ix] = other._bars[ix];
   }
   
@@ -106,3 +106,23 @@ void tracks::x0x::flip_trigger(uint8_t const & bar, uint8_t const & step) {
   
   modified.set();  
 };
+
+uint8_t tracks::x0x::bars_count() const {
+  return _bars_count;
+}
+
+uint16_t tracks::x0x::bar(uint8_t bar_) const {
+  bar_ %= bars_count();
+
+  return _bars[bar_];
+}
+
+void tracks::x0x::set_bar(uint8_t bar_, uint16_t data_) {
+  bar_ %= bars_count();
+
+  if (_bars[bar_] != data_) {
+    _bars[bar_] = data_;
+    
+    modified.set();
+  }
+}

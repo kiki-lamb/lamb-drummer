@@ -90,7 +90,7 @@ public:
   void save_all(
     PersistantData<tracks_t> const & data
   ) {
-    const unsigned long SAVE_DELAY = 15000UL;
+    const unsigned long SAVE_DELAY = 2500UL;
 
     unsigned long now   = millis();
     unsigned long delta = now - last_edit;

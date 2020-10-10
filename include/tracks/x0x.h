@@ -19,6 +19,12 @@ namespace tracks {
   public:
     x0x(uint8_t bars_count_ = 1);
 
+    uint8_t bars_count() const;
+
+    uint16_t bar(uint8_t bar_) const;
+    
+    void set_bar(uint8_t bar_, uint16_t data_);
+    
     void clear();
     
     void clear(uint8_t const & bars_count_);
