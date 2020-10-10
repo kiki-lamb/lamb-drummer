@@ -24,7 +24,7 @@ public:
   ui_data() :
     tracks(),
     bar(0),
-    page(1),
+    page(0),
     bpm(120),
     millihz(0),
     playback_state(false),
@@ -34,8 +34,6 @@ public:
     redraw_selected_track_indicator(true),
     redraw_playback_state          (true)
   {}
-
-//  /* virtual */ ~ui_data() {};
 };
 
 #endif

@@ -447,14 +447,14 @@ bool application::process_application_event(
       _tracks.current(),
       ((application_event::event_type)(application_event.type - 20))
     );
-#endif
-    
+
     _ui_data.redraw_track.set();
     _ui_data.redraw_selected_track_indicator.set();
     
     _eeprom.flag_save_requested();
     
     goto success;
+#endif    
   }
     
   switch (application_event.type) {
@@ -591,6 +591,10 @@ bool application::process_application_event(
     Serial.flush();
   }
 
+
+failure:
+  return false;
+
 after_page_select:
   Serial.print(F("Page = "));
   Serial.print(_ui_data.page);
@@ -614,9 +618,6 @@ success:
   flag_main_screen();
 
   return true;
-
-failure:
-  return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
