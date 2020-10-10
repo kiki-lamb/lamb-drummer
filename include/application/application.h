@@ -68,7 +68,9 @@ public:
   typedef events::sources::button_pad<button_pad_mcp23017>             button_pad_source;
   typedef events::sources::encoder_pad<encoder_pad_mcp23017>           encoder_pad_source;
   typedef events::sources::combine<control_event, event_sources_count> combined_source;
-
+  typedef application_event::event_type                            application_event_type;
+  typedef control_event::event_type                                control_event_type;
+  
 private:
   static  encoder_pad_mcp23017     _combo_pad_encoder_pad;
   static  encoder_pad_mcp23017     _encoder_pad0;

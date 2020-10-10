@@ -298,12 +298,12 @@ application::application_event application::process_control_event(
   application::control_event const & control_event
 ) {
   application_event application_event;
-  application_event.type = application_event::event_type::EVT_UNKNOWN;
+  application_event.type = application_event_type::EVT_UNKNOWN;
 
-  if (control_event.type == control_event::event_type::CTL_EVT_NOT_AVAILABLE) {
-    application_event.type = application_event::event_type::APP_EVT_NOT_AVAILABLE;
+  if (control_event.type == control_event_type::CTL_EVT_NOT_AVAILABLE) {
+    application_event.type = application_event_type::APP_EVT_NOT_AVAILABLE;
   }
-  else if (control_event.type == control_event::event_type::EVT_BUTTON) {
+  else if (control_event.type == control_event_type::EVT_BUTTON) {
     uint8_t button_number = control_event.parameter_hi();
     int8_t  button_state  = (int8_t)control_event.parameter_lo(); 
       
@@ -324,31 +324,31 @@ application::application_event application::process_control_event(
     else {
       switch (button_number) {
       case 131:
-        application_event.type = application_event::event_type::EVT_PLAYBACK_STATE_TOGGLE;
+        application_event.type = application_event_type::EVT_PLAYBACK_STATE_TOGGLE;
 
         break;
       
       case 130:
-        application_event.type = application_event::event_type::EVT_SELECT_TRACK;
+        application_event.type = application_event_type::EVT_SELECT_TRACK;
         application_event.parameter  = 0;
 
         break;
         
       case 129:
-        application_event.type = application_event::event_type::EVT_SELECT_TRACK;
+        application_event.type = application_event_type::EVT_SELECT_TRACK;
         application_event.parameter  = 1;
 
         break;
         
       case 128:
-        application_event.type = application_event::event_type::EVT_SELECT_TRACK;
+        application_event.type = application_event_type::EVT_SELECT_TRACK;
         application_event.parameter  = 2;
 
         break;
       }
     }
   }
-  else if (control_event.type == control_event::event_type::EVT_ENCODER) {
+  else if (control_event.type == control_event_type::EVT_ENCODER) {
     uint8_t encoder_number = control_event.parameter_hi();
     int8_t  encoder_motion = (int8_t)control_event.parameter_lo();
       
@@ -362,48 +362,48 @@ application::application_event application::process_control_event(
     case 128:
       application_event.type = (
         encoder_motion > 0 ?
-        application_event::event_type::EVT_MAJ_UP :
-        application_event::event_type::EVT_MAJ_DN
+        application_event_type::EVT_MAJ_UP :
+        application_event_type::EVT_MAJ_DN
       );
       break;
 
     case 129:
       application_event.type = (
         encoder_motion > 0 ?
-        application_event::event_type::EVT_MIN_UP :
-        application_event::event_type::EVT_MIN_DN
+        application_event_type::EVT_MIN_UP :
+        application_event_type::EVT_MIN_DN
       );
       break;
 
     case 130:
       application_event.type = (
         encoder_motion > 0 ?
-        application_event::event_type::EVT_PHASE_MAJ_UP :
-        application_event::event_type::EVT_PHASE_MAJ_DN
+        application_event_type::EVT_PHASE_MAJ_UP :
+        application_event_type::EVT_PHASE_MAJ_DN
       );
       break;
 
     case 131:
       application_event.type = (
         encoder_motion > 0 ?
-        application_event::event_type::EVT_PHASE_MIN_UP :
-        application_event::event_type::EVT_PHASE_MIN_DN
+        application_event_type::EVT_PHASE_MIN_UP :
+        application_event_type::EVT_PHASE_MIN_DN
       );
       break;
 
     case 71:
       application_event.type = (
         encoder_motion > 0 ?
-        application_event::event_type::EVT_SELECTED_TRACK_DN :
-        application_event::event_type::EVT_SELECTED_TRACK_UP
+        application_event_type::EVT_SELECTED_TRACK_DN :
+        application_event_type::EVT_SELECTED_TRACK_UP
       );
       break;
     
     case 64:
       application_event.type = (
         encoder_motion > 0 ?
-        application_event::event_type::EVT_BPM_UP :
-        application_event::event_type::EVT_BPM_DN
+        application_event_type::EVT_BPM_UP :
+        application_event_type::EVT_BPM_DN
       );
       break;
     }
@@ -438,12 +438,12 @@ bool application::process_application_event(
   }
     
   switch (application_event.type) {
-  case application_event::event_type::EVT_BPM_UP:
+  case application_event_type::EVT_BPM_UP:
   {
     uint8_t current_bpm = _timer1.bpm();
     
     if (current_bpm == 0xff) {
-      application_event.type = application_event::event_type::APP_EVT_NOT_AVAILABLE;
+      application_event.type = application_event_type::APP_EVT_NOT_AVAILABLE;
 
       break;
     }
@@ -453,12 +453,12 @@ bool application::process_application_event(
       goto after_bpm_set;
     }
   }
-  case application_event::event_type::EVT_BPM_DN:
+  case application_event_type::EVT_BPM_DN:
   {
     uint8_t current_bpm = _timer1.bpm();
     
     if (current_bpm == 0) {
-      application_event.type = application_event::event_type::APP_EVT_NOT_AVAILABLE;
+      application_event.type = application_event_type::APP_EVT_NOT_AVAILABLE;
 
       break;
     }
@@ -469,22 +469,22 @@ bool application::process_application_event(
     }
   }
   
-  case application_event::event_type::EVT_PAD_1:
-  case application_event::event_type::EVT_PAD_2:
-  case application_event::event_type::EVT_PAD_3:
-  case application_event::event_type::EVT_PAD_4:
-  case application_event::event_type::EVT_PAD_5:
-  case application_event::event_type::EVT_PAD_6:
-  case application_event::event_type::EVT_PAD_7:
-  case application_event::event_type::EVT_PAD_8:
-  case application_event::event_type::EVT_PAD_9:
-  case application_event::event_type::EVT_PAD_10:
-  case application_event::event_type::EVT_PAD_11:
-  case application_event::event_type::EVT_PAD_12:
-  case application_event::event_type::EVT_PAD_13:
-  case application_event::event_type::EVT_PAD_14:
-  case application_event::event_type::EVT_PAD_15:
-  case application_event::event_type::EVT_PAD_16:
+  case application_event_type::EVT_PAD_1:
+  case application_event_type::EVT_PAD_2:
+  case application_event_type::EVT_PAD_3:
+  case application_event_type::EVT_PAD_4:
+  case application_event_type::EVT_PAD_5:
+  case application_event_type::EVT_PAD_6:
+  case application_event_type::EVT_PAD_7:
+  case application_event_type::EVT_PAD_8:
+  case application_event_type::EVT_PAD_9:
+  case application_event_type::EVT_PAD_10:
+  case application_event_type::EVT_PAD_11:
+  case application_event_type::EVT_PAD_12:
+  case application_event_type::EVT_PAD_13:
+  case application_event_type::EVT_PAD_14:
+  case application_event_type::EVT_PAD_15:
+  case application_event_type::EVT_PAD_16:
   {
 #ifdef XOX
     uint8_t step = ((uint8_t)application_event.type)-1;
@@ -497,7 +497,7 @@ bool application::process_application_event(
     goto success;
   }
   
-  case application_event::event_type::EVT_SELECT_TRACK:
+  case application_event_type::EVT_SELECT_TRACK:
   {
     if (_tracks.jump(application_event.parameter)) {
       Serial.print(F("Jump to track "));
@@ -514,7 +514,7 @@ bool application::process_application_event(
       goto failure;
   }
 
-  case application_event::event_type::EVT_SELECTED_TRACK_UP:
+  case application_event_type::EVT_SELECTED_TRACK_UP:
   {
     _tracks++;
 
@@ -523,7 +523,7 @@ bool application::process_application_event(
     goto after_track_select;
   }
   
-  case application_event::event_type::EVT_SELECTED_TRACK_DN:
+  case application_event_type::EVT_SELECTED_TRACK_DN:
   {
     _tracks--;
 
@@ -532,7 +532,7 @@ bool application::process_application_event(
     goto after_track_select;
   }
 
-  case application_event::event_type::EVT_PLAYBACK_STATE_TOGGLE:
+  case application_event_type::EVT_PLAYBACK_STATE_TOGGLE:
   {
     set_playback_state(! _timer1.playback_state());
 
