@@ -306,9 +306,9 @@ application::application_event application::process_control_event(
     uint8_t button_number = control_event.parameter_hi();
     int8_t  button_state  = (int8_t)control_event.parameter_lo(); 
       
-    Serial.print("Button event, number: ");
+    Serial.print(F("Button event, number: "));
     Serial.print(button_number);
-    Serial.print(", state: ");
+    Serial.print(F(", state: "));
     Serial.print(button_state);
     Serial.println();
     
@@ -358,9 +358,9 @@ application::application_event application::process_control_event(
     uint8_t encoder_number = control_event.parameter >> 8;
     int8_t  encoder_motion = (int8_t)(control_event.parameter & 0xff);
 
-    Serial.print("Encoder event, number: ");
+    Serial.print(F("Encoder event, number: "));
     Serial.print(encoder_number);
-    Serial.print(", encoder_motion: ");
+    Serial.print(F(", encoder_motion: "));
     Serial.print(encoder_motion);
     Serial.println();
 
@@ -396,11 +396,6 @@ application::application_event application::process_control_event(
         application_event_type::EVT_PAGE_UP :
         application_event_type::EVT_PAGE_DN
       );
-
-      Serial.print("Set event ");
-      Serial.print(application_event.type);
-      Serial.println();
-      
 #else
       application_event.type = (
         encoder_motion > 0 ?
@@ -441,7 +436,7 @@ bool application::process_application_event(
 
   if ((application_event.type >= 20) && (application_event.type <= 27)) {
 #ifdef XOX
-    Serial.println("IMPLEMENT PTC FOR XOX.");
+    Serial.println(F("IMPLEMENT PTC FOR XOX."));
 #else
     ProcessTrackControl<application_event::event_type, 8>::apply(
       _tracks.current(),
@@ -554,7 +549,7 @@ bool application::process_application_event(
   {
     _tracks++;
 
-    Serial.print("Trk up -> ");
+    Serial.print(F("Trk up -> "));
 
     goto after_track_select;
   }
@@ -563,7 +558,7 @@ bool application::process_application_event(
   {
     _tracks--;
 
-    Serial.print("Trk dn -> ");
+    Serial.print(F("Trk dn -> "));
 
     goto after_track_select;
   }
@@ -573,10 +568,10 @@ bool application::process_application_event(
     set_playback_state(! _timer1.playback_state());
 
     if (_timer1.playback_state()) {
-      Serial.println("Play.");
+      Serial.println(F("Play."));
     }
     else {
-      Serial.println("Stop.");
+      Serial.println(F("Stop."));
     }
     
     _eeprom.flag_save_requested();
@@ -585,12 +580,11 @@ bool application::process_application_event(
   }
 
   default:
-    Serial.print("Unrecognized event: ");
+    Serial.print(F("Unrecognized event: "));
     Serial.print(application_event.type);
     Serial.println();
     Serial.flush();
   }
-
 
 failure:
   return false;
