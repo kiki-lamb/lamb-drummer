@@ -300,11 +300,11 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template <>
-class screen_main<ui_data<track_collection<3, tracks::x0x<2> > > > :
-  public screen<ui_data<track_collection<3, tracks::x0x<2> > > > {
+template <uint8_t length>
+class screen_main<ui_data<track_collection<3, tracks::x0x<length> > > > :
+  public screen<ui_data<track_collection<3, tracks::x0x<length> > > > {
 
-  typedef ui_data<track_collection<3, tracks::x0x<2> > > data_t;
+  typedef ui_data<track_collection<3, tracks::x0x<length> > > data_t;
   typedef screen<data_t> base_t;
   
 public:
@@ -414,7 +414,7 @@ private:
     }
   }
 
-  void 		    draw_column(
+  void draw_column(
     uint8_t const & col
   ) {
     for (uint8_t line = 1; line <= 3; line++) {
@@ -422,7 +422,7 @@ private:
     }
   }
 
-  void 		    draw_column(
+  void draw_column(
     uint8_t const & channel,
     uint8_t const & col
   ) {
