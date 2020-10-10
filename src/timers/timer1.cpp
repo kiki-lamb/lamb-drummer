@@ -100,6 +100,20 @@ void timer1::increment_ticker() {
   timer1::_ticker++;
 }
 
+void timer1::draw_track_on_x0x_leds() {
+  uint16_t write = 0;
+  uint8_t add    = application::page() << 4;
+  auto track     = application::tracks().current();
+  
+  for (uint8_t col = 0, total = add; col < 16; col++, total++) {
+    if (track.trigger(total)) {
+      write |= 1 << col;
+    }
+  }
+  
+  application::x0x_leds().write(util::flip_bytes(write));
+}
+
 void timer1::isr() {
 #ifdef LOG_TIMERS
   Serial.println(F("1:isr +"));
@@ -119,18 +133,8 @@ void timer1::isr() {
         application::flag_main_screen(); // In ISR, not that ugly...
       }
 
-      uint16_t write = 0;
-      uint8_t add    = application::page() << 4;
-      auto track     = application::tracks().current();
-      
-      for (uint8_t col = 0, total = add; col < 16; col++, total++) {
-        if (track.trigger(total)) {
-          write |= 1 << col;
-        }
-      }
-    
-    application::x0x_leds().write(util::flip_bytes(write));
-      
+      draw_track_on_x0x_leds();
+            
       uint16_t next_write = util::flip_bytes(1 << (((ticker_ >> 1) % 16)));
 
       application::x0x_leds().xor_write(next_write);
@@ -164,6 +168,9 @@ void timer1::isr() {
     }
     
     increment_ticker();
+  }
+  else {
+    draw_track_on_x0x_leds(); // doesn't need to happen this often!
   }
   
   TIMSK1 = cTIMSK1;
