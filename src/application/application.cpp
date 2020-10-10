@@ -304,8 +304,8 @@ application::application_event application::process_control_event(
     application_event.type = application_event::EVT_NOT_AVAILABLE;
   }
   else if (control_event.type == control_event::EVT_BUTTON) {
-    uint8_t button_number = control_event.parameter >> 8;
-    int8_t  button_state  = (int8_t)(control_event.parameter & 0xff);
+    uint8_t button_number = control_event.parameter_hi();
+    int8_t  button_state  = (int8_t)control_event.parameter_lo(); 
       
     Serial.print("Button event, number: ");
     Serial.print(button_number);
@@ -349,8 +349,8 @@ application::application_event application::process_control_event(
     }
   }
   else if (control_event.type == control_event::EVT_ENCODER) {
-    uint8_t encoder_number = control_event.parameter >> 8;
-    int8_t  encoder_motion = (int8_t)(control_event.parameter & 0xff);
+    uint8_t encoder_number = control_event.parameter_hi();
+    int8_t  encoder_motion = (int8_t)control_event.parameter_lo();
       
     Serial.print("Encoder event, number: ");
     Serial.print(encoder_number);

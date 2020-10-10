@@ -2,9 +2,10 @@
 #define LAMB_DRUMMER_APPLICATION_EVENT_H
 
 #include <Arduino.h>
+#include "events/event.h"
 
 namespace events {
-  class application {
+  class application : public event {
   public:
     enum event_type {
       EVT_NOT_AVAILABLE = 0,
@@ -58,13 +59,12 @@ namespace events {
     };
 
     event_type type;
-    uint16_t parameter;
 
     application(
       event_type type_ = event_type::EVT_NOT_AVAILABLE,
       uint16_t arg = 0
     ) :
-      type(type_), parameter(arg) {}
+      event(arg), type(type_) {}
 
     inline operator bool() const {
       return type != event_type::EVT_NOT_AVAILABLE;

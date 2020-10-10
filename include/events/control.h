@@ -3,9 +3,10 @@
 
 #include <Arduino.h>
 #include "events/application.h"
+#include "events/event.h"
 
 namespace events {
-  class control {
+  class control: public event {
   public:
     enum event_type {
       EVT_NOT_AVAILABLE = 0,       
@@ -14,14 +15,14 @@ namespace events {
     };
 
     event_type type;
-    uint16_t parameter;
-
+   
     control(event_type type_ = event_type::EVT_NOT_AVAILABLE, uint16_t arg = 0) :
-      type(type_), parameter(arg) {}
+      event(arg), type(type_) {}
 
     inline operator bool() const {
       return type != event_type::EVT_NOT_AVAILABLE;
     }
+
   };
 }
 
