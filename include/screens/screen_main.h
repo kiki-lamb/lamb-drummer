@@ -55,7 +55,7 @@ private:
     draw_page_number();
   }
 
-  virtual void      impl_update() override {
+  virtual void impl_update() override {
     bool redraw_bpm = false;
     
     if (data->popup_bpm_requested.consume()) {
