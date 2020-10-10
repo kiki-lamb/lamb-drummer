@@ -7,10 +7,13 @@
 #include "tracks/euclidean.h"
 #include "track_collection/track_collection.h"
 
+template <typename something>
 class screen_intro :
-  public screen<ui_data<track_collection<3, tracks::euclidean> > > {
+  public screen<something> {
+
 public:
-  explicit screen_intro(data_t * data);
+  explicit screen_intro(something * data);
+  
 private:
   virtual void impl_enter() override;
   virtual void impl_update() override;
@@ -20,6 +23,7 @@ class screen_instr :
   public screen<ui_data<track_collection<3, tracks::euclidean> > > {
 public:
   explicit screen_instr(data_t * data);
+  
 private:
   virtual void impl_enter() override;
   virtual void impl_update() override;
@@ -29,6 +33,7 @@ class screen_none :
   public screen<ui_data<track_collection<3, tracks::euclidean> > > {
 public:
   explicit screen_none(data_t * data);
+  
 private:
   virtual void impl_enter() override;
   virtual void impl_update() override;

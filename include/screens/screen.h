@@ -19,8 +19,6 @@ public:
     flag();
   }
 
-//  /* virtual */ ~screen() {}
-
   void flag() {
     requires_update.set();
   }

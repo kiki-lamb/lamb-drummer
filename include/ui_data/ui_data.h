@@ -6,6 +6,8 @@
 template <class tracks_t>
 class ui_data {
 public:
+  typedef tracks_t track;
+  
   tracks_t const * tracks;
   uint8_t          page;
   uint8_t          bpm;

@@ -11,9 +11,9 @@ class ui {
 public:
   enum screen_t {
     SCREEN_INTRO,
-    SCREEN_NONE,
     SCREEN_MAIN,
-    SCREEN_INSTR
+//    SCREEN_INSTR,
+//    SCREEN_NONE,
   };
 
   uint32_t last_update;
@@ -56,21 +56,19 @@ public:
   ui(data_t * data_) :
     last_update(0),
     data(data_),
-    current_screen(SCREEN_NONE),
+    current_screen(SCREEN_INTRO),
     screens()
     {
-      screens[0] = new screen_intro(data);
-      screens[1] = new screen_none (data);
-      screens[2] = new screen_main (data);
-      screens[3] = new screen_instr(data);
+      screens[0] = new screen_intro<data_t>(data);
+      screens[1] = new screen_main (data);
+      // screens[2] = new screen_instr(data);
+      // screens[3] = new screen_none (data);
     }
-
-//  /* virtual */ ~ui() {}
 
 private:
   data_t         * data;
   screen_t         current_screen;
-  screen<data_t> * screens[4];
+  screen<data_t> * screens[2];
 };
 
 #endif

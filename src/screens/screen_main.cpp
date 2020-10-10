@@ -227,10 +227,6 @@ void screen_main::draw_column(
 )  {
   tracks::euclidean const & t = (*data->tracks)[channel];
 
-//  Serial.print("Draw channel ");
-//  Serial.print(channel);
-//  Serial.println();
-  
   static const uint8_t col_map[] = {
     1,   2,  3,  4,
     6,   7,  8,  9,
