@@ -384,11 +384,25 @@ application::application_event application::process_control_event(
       break;
 
     case 131:
+#ifdef XOX
+      application_event.type = (
+        encoder_motion > 0 ?
+        application_event_type::EVT_PAGE_UP :
+        application_event_type::EVT_PAGE_DN
+      );
+
+      Serial.print("Set event ");
+      Serial.print(application_event.type);
+      Serial.println();
+      
+#else
       application_event.type = (
         encoder_motion > 0 ?
         application_event_type::EVT_PHASE_MIN_UP :
         application_event_type::EVT_PHASE_MIN_DN
       );
+#endif
+      
       break;
 
     case 71:
