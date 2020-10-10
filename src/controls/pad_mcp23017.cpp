@@ -37,25 +37,11 @@ void pad_mcp23017::setup(Adafruit_MCP23017 * _device) {
 
   button_mask >>= button_range_start;    
   button_shift = button_count - button_range_start;
-
-  
-  Serial.print("Button mask: ");
-  util::print_bits_16(button_mask);
-  Serial.println();
-  
-  Serial.print("Button shift: ");
-  Serial.print(button_shift);
-  Serial.println();
-  
   button_shift = 16 - button_count - button_range_start;
 }
 
 uint16_t pad_mcp23017::apply_button_mask(uint16_t const & value) {
   uint16_t tmp = value;
-
-//  Serial.print("In:  ");
-//  util::print_bits_16(value);
-//  Serial.println();
   
   if (button_mask != 0xffff) {
     tmp &= button_mask;
@@ -64,10 +50,6 @@ uint16_t pad_mcp23017::apply_button_mask(uint16_t const & value) {
   if (button_shift != 0) {
     tmp >>= button_shift;
   }
-
-//  Serial.print("Out:  ");
-//  util::print_bits_16(value);
-//  Serial.println();
   
   return tmp;  
 }
@@ -87,11 +69,6 @@ uint16_t pad_mcp23017::begin_read(bool & succeeded) {
     
     i2c_lock::release();
 
-#ifdef LOG_ENCODERPAD_MCP_RAW_READING
-    Serial.print(F("raw =>   ")); Serial.flush();
-    print_bits_16(tmpval);
-#endif
-    
     tmpval = ~tmpval;  
 
     if (tmpval == buttons_) {

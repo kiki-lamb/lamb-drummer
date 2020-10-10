@@ -240,7 +240,7 @@ private:
         (*data->tracks)[(*data->tracks).index()];
  
       lcd::set_cursor(0, 0);
-      lcd::print("                  ");
+      lcd::print(F("                  "));
  
       lcd::set_cursor(0, 0);
       lcd::print(F("Maj"));

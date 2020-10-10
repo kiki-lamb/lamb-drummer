@@ -39,14 +39,14 @@ public:
   static void write(uint8_t const & byte);
   template <typename T> static void print(T const & t) {
 #ifdef LOG_I2C_LOCK
-    Serial.print("L:p  ");
+    Serial.print(F("L:p  "));
 #endif
     if (! i2c_lock::claim()) return;
     
     device.print(t);
 
 #ifdef LOG_I2C_LOCK
-    Serial.print("L:p  ");
+    Serial.print(F("L:p  "));
 #endif
     i2c_lock::release();
   }

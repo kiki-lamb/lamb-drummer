@@ -53,14 +53,14 @@ void timer1::set_playback_state(bool const & playback_state_) {
 }
 
 void timer1::set_bpm(uint8_t const & tmp_bpm) {
-  Serial.print("BPM = ");
+  Serial.print(F("BPM = "));
   Serial.print(tmp_bpm);
   
   timer1::_bpm          = tmp_bpm;
   timer1::_millihz      = (((uint32_t)timer1::_bpm) * 1000) / 60;
   timer1::set_hz_by_bpm ( timer1::_bpm ); // This should probably be in the ISR...
 
-  Serial.print(", ");
+  Serial.print(F(", "));
   Serial.print(timer1::_millihz);
   Serial.println();
 }
@@ -83,11 +83,6 @@ void timer1::set_hz_by_bpm(uint8_t const & bpm_) {
     tmp <<= 23;
     tmp /=  60;
     tmp >>= 10;
-    
-    // Serial.print("NEW: ");
-    // Serial.println(tmp);
-    // Serial.print("OLD: ");
-    // Serial.println((2048 * (bpm_ / 60.0 * 4)));
     
     OCR1A = F_CPU / tmp - 1;
 

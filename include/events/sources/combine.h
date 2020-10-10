@@ -11,7 +11,6 @@ namespace events {
       source<event> * sources[sources_count_];
 
       combine() : sources() {}
-//      /* virtual */ ~combine() {}
 
     private:
       virtual uint8_t impl_queue_count() const {
@@ -23,10 +22,6 @@ namespace events {
 
       virtual void impl_poll() {
         for (size_t ix = 0; ix < sources_count_; ix++) {
-//      Serial.print("Poll combined source ");
-//      Serial.println(ix);
-//      Serial.flush();
-      
           sources[ix]->poll();
         }
       }

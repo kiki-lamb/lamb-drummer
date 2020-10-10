@@ -190,18 +190,9 @@ void eeprom::restore_track<tracks::x0x>(
   track.clear(tmp_bars_count);
 
   for (uint8_t ix = 0; ix < track.bars_count(); ix++) {
-    size_t loc = eeprom_location + 1 + (ix * 2);
-
+    size_t   loc         = eeprom_location + 1 + (ix * 2);
     uint8_t  bar_data_hi = EEPROM.read(loc);
-
-    Serial.print("HI: ");
-    Serial.println(bar_data_hi);
-    
     uint8_t  bar_data_lo = EEPROM.read(loc + 1);
-
-    Serial.print("LO: ");
-    Serial.println(bar_data_lo);
-    
     uint16_t bar_data    = bar_data_hi;
     bar_data <<= 8;
     bar_data |= bar_data_lo;
