@@ -4,6 +4,13 @@
 #include <EEPROM.h>
 #include <lamb.h>
 #include "tracks/euclidean.h"
+#include "tracks/x0x.h"
+
+#ifdef XOX
+#define ADDR_BASE 32
+#else
+#define ADDR_BASE 0
+#endif
 
 class eeprom {
 public:
@@ -70,7 +77,7 @@ public:
       //Serial.print(F(" from "));
       //Serial.print(addr);
       //Serial.println();
-      restore_track(addr,  (*data.tracks)[ix]);
+      restore_track(addr | ADDR_BASE,  (*data.tracks)[ix]);
     }
 
     save_requested.unset();
@@ -108,7 +115,7 @@ public:
       ix < data.tracks->size();
       ix++, addr+= 4
     )
-      save_track(addr,  (*data.tracks)[ix]);
+      save_track(addr | ADDR_BASE,  (*data.tracks)[ix]);
 
     //Serial.println(F("Done save all to EEPROM"));
   }
