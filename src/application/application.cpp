@@ -148,7 +148,10 @@ void application::setup() {
   
 #ifdef XOX
   for (uint8_t ix; ix < tracks_count; ix++) {
-    tracks()[ix].clear(bars_count);
+    // For some absolutely mystifying reason, bars_count becomes undefined
+    // without this cast...
+    
+    tracks()[ix].clear((typeof(bars_count))bars_count);
   }
 #endif
   

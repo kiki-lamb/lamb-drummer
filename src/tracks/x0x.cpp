@@ -9,10 +9,6 @@ tracks::x0x::x0x(uint8_t bars_count_) :
   clear(bars_count_);
 }
 
-void tracks::x0x::clear() {
-  clear(bars_count());
-}
-
 void tracks::x0x::clear(uint8_t const & new_size) {
   if (new_size == bars_count())
     return;
