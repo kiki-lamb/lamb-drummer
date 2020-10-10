@@ -25,8 +25,6 @@ namespace events {
         _device(device_),
         _button_number_mask(button_number_mask_) {}
 
-//      /* virtual */ ~encoder_pad() {}
-
     private:
       virtual void    impl_poll() {
         _device->read();
@@ -39,8 +37,8 @@ namespace events {
       virtual event impl_dequeue_event() {
         if (! light_buffer_readable(_device->motion_events))
           return events::control {
-            events::control::EVT_NOT_AVAILABLE
-              };
+            ((events::control::event_type)0)
+          };
 
         typename encoder_pad_type::motion_event tmp =
           light_buffer_read(_device->motion_events);
@@ -51,8 +49,8 @@ namespace events {
         );
 
         return events::control {
-          events::control::EVT_ENCODER, event_arg
-            };
+          events::control::event_type::EVT_ENCODER, event_arg
+        };
       };
     };
   }

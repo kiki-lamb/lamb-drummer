@@ -2,27 +2,23 @@
 #define LAMB_DRUMMER_CONTROL_EVENT_H
 
 #include <Arduino.h>
-#include "events/application.h"
 #include "events/event.h"
 
 namespace events {
-  class control: public event {
+  enum control_event_type {
+    CTL_EVT_NOT_AVAILABLE = 0,       
+    EVT_ENCODER       = 1,
+    EVT_BUTTON        = 2,
+  };
+
+  class control :
+    public event<control_event_type> {
   public:
-    enum event_type {
-      EVT_NOT_AVAILABLE = 0,       
-      EVT_ENCODER       = 1,
-      EVT_BUTTON        = 2,
-    };
-
-    event_type type;
-   
-    control(event_type type_ = event_type::EVT_NOT_AVAILABLE, uint16_t arg = 0) :
-      event(arg), type(type_) {}
-
-    inline operator bool() const {
-      return type != event_type::EVT_NOT_AVAILABLE;
-    }
-
+    control(
+      event_type type_ = event_type::CTL_EVT_NOT_AVAILABLE,
+      uint16_t arg = 0
+    ) :
+      event(type_, arg) {}
   };
 }
 

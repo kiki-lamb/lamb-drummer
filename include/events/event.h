@@ -4,11 +4,20 @@
 #include <inttypes.h>
 
 namespace events {
-  class event {
+  template <typename event_t_>
+    class event {
   public:
+    typedef event_t_ event_type;   
+    
+    event_type type;
     uint16_t parameter;
 
-    inline event(uint16_t parameter_) : parameter(parameter_) {}
+    inline event(
+      event_type type_ = ((event_type)0),
+      uint16_t parameter_ = 0
+    ) :
+      type(type_),
+      parameter(parameter_) {}
     
     inline uint8_t parameter_hi() const {
       return parameter >> 8;
@@ -16,6 +25,10 @@ namespace events {
 
     inline uint8_t parameter_lo() const {
       return parameter & 0xf;
+    }
+
+    inline operator bool() const {
+      return type != ((event_type)0);
     }
   };
 }
