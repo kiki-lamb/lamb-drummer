@@ -64,7 +64,7 @@ public:
   static  const uint8_t            triggers_addr                    = 0x3a;
 
 #ifdef XOX
-  typedef tracks::x0x                                                  track;
+  typedef tracks::x0x<16>                                              track;
 #else
   typedef tracks::euclidean                                            track;
 #endif  

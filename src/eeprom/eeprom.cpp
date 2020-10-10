@@ -1,5 +1,7 @@
 #include "Arduino.h"
 #include "eeprom/eeprom.h"
+#include "tracks/euclidean.h"
+#include "tracks/x0x.h"
 
 #define ADDR_BPM  3
 #define ADDR_PLAY 4
@@ -52,8 +54,8 @@ void eeprom::save_track<tracks::euclidean>(
   size_t const & eeprom_location,
   tracks::euclidean & track
 ) const {
-  // if (! track.modified.consume() )
-  //  return;
+  if (! track.modified.consume() )
+    return;
 
   EEPROM.write(eeprom_location + 0, track.mod_maj());
   Serial.print(F("Save mod_maj ")); Serial.print(track.mod_maj()); Serial.println();
@@ -92,4 +94,21 @@ void eeprom::restore_track<tracks::euclidean>(
   Serial.println();
   Serial.flush();
   track.modified.unset();
+}
+
+template<>
+void eeprom::save_track<tracks::x0x>(
+  size_t const & eeprom_location,
+  tracks::x0x & track
+) const {
+  Serial.println("IMPLEMENT SAVE_TRACK FOR X0X");
+}
+
+  
+template<>
+void eeprom::restore_track<tracks::x0x>(
+  size_t const & eeprom_location,
+  tracks::x0x & track
+) {
+  Serial.println("IMPLEMENT RESTORE_TRACK FOR X0X");
 }

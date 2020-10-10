@@ -7,7 +7,10 @@
 #include "ui_data/ui_data.h"
 #include "track_collection/track_collection.h"
 #include "tracks/euclidean.h"
+#include "tracks/x0x.h"
 #include "util/util.h"
+
+////////////////////////////////////////////////////////////////////////////////
 
 template <typename data_t>
 class screen_main :
@@ -19,12 +22,38 @@ private:
   virtual void      impl_update() override;
 };
 
+////////////////////////////////////////////////////////////////////////////////
+
+template <>
+class screen_main<ui_data<track_collection<3, tracks::x0x> > > :
+  public screen<ui_data<track_collection<3, tracks::x0x> > > {
+
+  typedef ui_data<track_collection<3, tracks::x0x> > data_t;
+  typedef screen<data_t> base_t;
+
+  unsigned long popup_bpm_time;
+  bool          popup_bpm_state;
+  static const unsigned long popup_bpm_duration = 600;
+
+public:
+  screen_main(data_t * data) :
+    base_t(data),
+    popup_bpm_time(0),
+    popup_bpm_state(false) {}
+  
+private:
+  virtual void      impl_enter() override {}
+ 
+  virtual void      impl_update() override {}
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
 template <>
 class screen_main<ui_data<track_collection<3, tracks::euclidean> > > :
   public screen<ui_data<track_collection<3, tracks::euclidean> > > {
 
   typedef ui_data<track_collection<3, tracks::euclidean> > data_t;
-
   typedef screen<data_t> base_t;
   
 public:
@@ -293,6 +322,5 @@ private:
   bool          popup_bpm_state;
   static const unsigned long popup_bpm_duration = 600;
 };
-
 
 #endif
