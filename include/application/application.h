@@ -114,7 +114,7 @@ private:
 public:
   static outputs::x0x_leds &       x0x_leds();
   static outputs::triggers &       triggers();  
-  static uint8_t                   page();
+  static uint8_t                   bar();
   static void                      flag_controls();     // called by ISR for timer2.
   static void                      flag_main_screen();  // called by ISR for timer1.
   static void                      loop();

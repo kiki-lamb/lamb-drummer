@@ -92,7 +92,7 @@ outputs::triggers & application::triggers() {
 ////////////////////////////////////////////////////////////////////////////////
 
 void application::update_ui_data() {
-  _ui_data.page           = page();
+  _ui_data.bar            = bar();
   _ui_data.bpm            = _timer1.bpm();
   _ui_data.millihz        = _timer1.millihz();
   _ui_data.playback_state = _timer1.playback_state();
@@ -217,7 +217,7 @@ void application::flag_main_screen() {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-uint8_t application::page() {
+uint8_t application::bar() {
 #ifdef XOX
   auto track = application::tracks()[0];
   
@@ -509,7 +509,7 @@ bool application::process_application_event(
 #ifdef XOX
     uint8_t step = ((uint8_t)application_event.type)-1;
 
-    _tracks.current().flip_trigger(page(), step);
+    _tracks.current().flip_trigger(bar(), step);
     
     _ui_data.redraw_track.set();
 

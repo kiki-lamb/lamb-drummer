@@ -56,7 +56,7 @@ private:
       draw_column(step, mmm);
     }
     
-    draw_page_number();
+    draw_bar_number();
   }
 
   virtual void impl_update() override {
@@ -81,29 +81,29 @@ private:
     
     draw_channel_numbers();
     
-    bool redraw_page = false;
+    bool redraw_bar = false;
     
-    static uint8_t last_page = 255;
-    uint8_t        tmp_page = data->page;
+    static uint8_t last_bar = 255;
+    uint8_t        tmp_bar = data->bar;
     
-    if (tmp_page != last_page) {
-      last_page = tmp_page;
-      redraw_page = true;
+    if (tmp_bar != last_bar) {
+      last_bar = tmp_bar;
+      redraw_bar = true;
     }
     
     uint8_t mmm = max_mod_maj(*data->tracks);
     
-    if (redraw_page) {
-      draw_page_number();
+    if (redraw_bar) {
+      draw_bar_number();
       
       for (uint8_t col = 0;  col < 16; col++) {
-        draw_column((data->page * 16) + col, mmm);
+        draw_column((data->bar * 16) + col, mmm);
       }
       
       data->redraw_track.consume();
     } else if (data->redraw_track.consume()) {
       for (uint8_t col = 0;  col < 16; col++) {
-        draw_column((*data->tracks).index(), (data->page * 16) + col, mmm);
+        draw_column((*data->tracks).index(), (data->bar * 16) + col, mmm);
       }
     }
   }
@@ -275,9 +275,9 @@ private:
     }
   }
 
-  void draw_page_number() {
+  void draw_bar_number() {
     lcd::set_cursor(18,0);
-    lcd::print(data->page+1);
+    lcd::print(data->bar+1);
   }
 
   template <size_t size>
@@ -332,7 +332,7 @@ private:
       draw_column(step);
     }
     
-    draw_page_number();
+    draw_bar_number();
   }
 
   virtual void impl_update() override {
@@ -357,27 +357,27 @@ private:
     
     draw_channel_numbers();
     
-    bool redraw_page = false;
+    bool redraw_bar = false;
     
-    static uint8_t last_page = 255;
-    uint8_t        tmp_page = data->page;
+    static uint8_t last_bar = 255;
+    uint8_t        tmp_bar = data->bar;
     
-    if (tmp_page != last_page) {
-      last_page = tmp_page;
-      redraw_page = true;
+    if (tmp_bar != last_bar) {
+      last_bar = tmp_bar;
+      redraw_bar = true;
     }
     
-    if (redraw_page) {
-      draw_page_number();
+    if (redraw_bar) {
+      draw_bar_number();
       
       for (uint8_t col = 0;  col < 16; col++) {
-        draw_column((data->page * 16) + col);
+        draw_column((data->bar * 16) + col);
       }
       
       data->redraw_track.consume();
     } else if (data->redraw_track.consume()) {
       for (uint8_t col = 0;  col < 16; col++) {
-        draw_column((*data->tracks).index(), (data->page * 16) + col);
+        draw_column((*data->tracks).index(), (data->bar * 16) + col);
       }
     }
   }
@@ -492,9 +492,9 @@ private:
     }
   }
 
-  void draw_page_number() {
+  void draw_bar_number() {
     lcd::set_cursor(18,0);
-    lcd::print(data->page+1);
+    lcd::print(data->bar+1);
   }
 
   unsigned long popup_bpm_time;
@@ -536,7 +536,7 @@ private:
       draw_column(step);
     }
     
-    draw_page_number();
+    draw_bar_number();
   }
 
   virtual void impl_update() override {
@@ -561,27 +561,27 @@ private:
     
     draw_channel_numbers();
     
-    bool redraw_page = false;
+    bool redraw_bar = false;
     
-    static uint8_t last_page = 255;
-    uint8_t        tmp_page = data->page;
+    static uint8_t last_bar = 255;
+    uint8_t        tmp_bar = data->bar;
     
-    if (tmp_page != last_page) {
-      last_page = tmp_page;
-      redraw_page = true;
+    if (tmp_bar != last_bar) {
+      last_bar = tmp_bar;
+      redraw_bar = true;
     }
     
-    if (redraw_page) {
-      draw_page_number();
+    if (redraw_bar) {
+      draw_bar_number();
       
       for (uint8_t col = 0;  col < 16; col++) {
-        draw_column((data->page * 16) + col);
+        draw_column((data->bar * 16) + col);
       }
       
       data->redraw_track.consume();
     } else if (data->redraw_track.consume()) {
       for (uint8_t col = 0;  col < 16; col++) {
-        draw_column((*data->tracks).index(), (data->page * 16) + col);
+        draw_column((*data->tracks).index(), (data->bar * 16) + col);
       }
     }
   }
@@ -696,9 +696,9 @@ private:
     }
   }
 
-  void draw_page_number() {
+  void draw_bar_number() {
     lcd::set_cursor(18,0);
-    lcd::print(data->page+1);
+    lcd::print(data->bar+1);
   }
 
   unsigned long popup_bpm_time;

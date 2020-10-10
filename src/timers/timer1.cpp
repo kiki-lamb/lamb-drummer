@@ -102,7 +102,7 @@ void timer1::increment_ticker() {
 
 void timer1::draw_track_on_x0x_leds() {
   uint16_t write = 0;
-  uint8_t add    = application::page() << 4;
+  uint8_t add    = application::bar() << 4;
   auto track     = application::tracks().current();
   
   for (uint8_t col = 0, total = add; col < 16; col++, total++) {
