@@ -10,10 +10,9 @@ template <class data_t>
 class ui {
 public:
   enum screen_t {
+    SCREEN_NONE,
     SCREEN_INTRO,
-    SCREEN_MAIN,
-//    SCREEN_INSTR,
-//    SCREEN_NONE,
+    SCREEN_MAIN
   };
 
   uint32_t last_update;
@@ -56,19 +55,18 @@ public:
   ui(data_t * data_) :
     last_update(0),
     data(data_),
-    current_screen(SCREEN_INTRO),
+    current_screen(SCREEN_NONE),
     screens()
     {
-      screens[0] = new screen_intro<data_t>(data);
-      screens[1] = new screen_main<data_t> (data);
-      // screens[2] = new screen_instr(data);
-      // screens[3] = new screen_none (data);
+      screens[0] = new screen_none<data_t>(data);
+      screens[1] = new screen_intro<data_t>(data);
+      screens[2] = new screen_main<data_t>(data);
     }
 
 private:
   data_t         * data;
   screen_t         current_screen;
-  screen<data_t> * screens[2];
+  screen<data_t> * screens[3];
 };
 
 #endif
