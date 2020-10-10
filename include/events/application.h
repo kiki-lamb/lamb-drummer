@@ -47,7 +47,8 @@ namespace events {
       EVT_BPM_UP = 30,
       EVT_BPM_DN = 31,
     
-      EVT_PLAYBACK_STATE_TOGGLE = 32
+      EVT_PLAYBACK_STATE_TOGGLE = 32,
+      EVT_UNKNOWN = 64
     };
 
     event_type type;

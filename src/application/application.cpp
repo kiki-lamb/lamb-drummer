@@ -147,6 +147,10 @@ void application::setup() {
 
   _timer1.set_bpm(tmp.bpm);
 
+  for (uint8_t ix; ix < tracks_count; ix++) {
+    tracks()[ix].clear(bars_count);
+  }
+  
   sei();
   
   Serial.println(F("Enter SCREEN_MAIN...")); Serial.flush();
@@ -157,6 +161,11 @@ void application::setup() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
+application::track_collection & application::tracks()
+{
+  return _tracks;
+}
 
 void application::setup_controls() {
   _combo_pad_device     .begin(combo_pad_addr);
@@ -287,6 +296,7 @@ application::application_event application::process_control_event(
   application::control_event const & control_event
 ) {
   application_event application_event;
+  application_event.type = application_event::EVT_UNKNOWN;
   
   if (control_event.type == control_event::EVT_BUTTON) {
     uint8_t button_number = control_event.parameter >> 8;

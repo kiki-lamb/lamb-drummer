@@ -64,7 +64,9 @@ public:
   static  const uint8_t            triggers_addr                    = 0x3a;
 
 #ifdef XOX
-  typedef tracks::x0x                                               track;
+  static  const uint8_t            bars_count                       = 2;
+
+  typedef tracks::x0x                                                  track;
 #else
   typedef tracks::euclidean                                            track;
 #endif  
@@ -131,11 +133,7 @@ public:
   static void                      loop();
   static void                      save_state();        // called by ISR for timer2.
   static void                      setup();
-
-  static constexpr track_collection const &             // called by ISR for timer1.
-                                   tracks()  {
-    return _tracks;
-  }
+  static track_collection &        tracks();
 };
 
 #endif
