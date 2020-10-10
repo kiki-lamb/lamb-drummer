@@ -23,6 +23,8 @@ private:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
+// screen_main<ui_data<track_collection<3, tracks::euclidean> > >
+////////////////////////////////////////////////////////////////////////////////
 
 template <>
 class screen_main<ui_data<track_collection<3, tracks::euclidean> > > :
@@ -38,6 +40,9 @@ public:
     popup_bpm_state(false) {}
   
 private:
+
+////////////////////////////////////////////////////////////////////////////////
+
   virtual void impl_enter() override {
     data->popup_bpm_requested.set();
     
@@ -58,6 +63,8 @@ private:
     
     draw_bar_number();
   }
+
+////////////////////////////////////////////////////////////////////////////////
 
   virtual void impl_update() override {
     bool redraw_bpm = false;
@@ -107,6 +114,8 @@ private:
       }
     }
   }
+
+////////////////////////////////////////////////////////////////////////////////
   
   void draw_bars() {
     static const uint8_t gap_map[] = { 5, 10, 15 };
@@ -117,6 +126,8 @@ private:
         lcd::print(F("|"));
       }
   }
+
+////////////////////////////////////////////////////////////////////////////////
 
   void draw_channel_numbers() {
     static uint8_t last_selected = 0xff;
@@ -140,6 +151,8 @@ private:
     }
   }
 
+////////////////////////////////////////////////////////////////////////////////
+
   void 		    draw_column(
     uint8_t const & col,
     uint8_t const & mod_maj
@@ -149,6 +162,8 @@ private:
     }
   }
 
+////////////////////////////////////////////////////////////////////////////////
+  
   void 		    draw_column(
     uint8_t const & channel,
     uint8_t const & col,
@@ -178,6 +193,8 @@ private:
     lcd::set_cursor(col_, channel + 1);
     lcd::write(character);
   }
+
+////////////////////////////////////////////////////////////////////////////////
 
   void draw_line0(bool const & redraw_bpm = false) {
     if (redraw_bpm) {
@@ -275,11 +292,15 @@ private:
     }
   }
 
+////////////////////////////////////////////////////////////////////////////////
+
   void draw_bar_number() {
     lcd::set_cursor(18,0);
     lcd::print(data->bar+1);
   }
 
+////////////////////////////////////////////////////////////////////////////////
+  
   template <size_t size>
   uint8_t max_mod_maj(
     track_collection<size, tracks::euclidean> const & that
@@ -299,6 +320,8 @@ private:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
+// screen_main<ui_data<track_collection<3, tracks::x0x > > >
+////////////////////////////////////////////////////////////////////////////////
 
 template <>
 class screen_main<ui_data<track_collection<3, tracks::x0x > > > :
@@ -308,12 +331,18 @@ class screen_main<ui_data<track_collection<3, tracks::x0x > > > :
   typedef screen<data_t> base_t;
   
 public:
+
+////////////////////////////////////////////////////////////////////////////////
+
   screen_main(data_t * data) :
     base_t(data),
     popup_bpm_time(0),
     popup_bpm_state(false) {}
   
 private:
+
+////////////////////////////////////////////////////////////////////////////////
+
   virtual void impl_enter() override {
     data->popup_bpm_requested.set();
     
@@ -334,6 +363,8 @@ private:
     
     draw_bar_number();
   }
+
+////////////////////////////////////////////////////////////////////////////////
 
   virtual void impl_update() override {
     bool redraw_bpm = false;
@@ -382,6 +413,8 @@ private:
     }
   }
   
+////////////////////////////////////////////////////////////////////////////////
+
   void draw_bars() {
     static const uint8_t gap_map[] = { 5, 10, 15 };
     
@@ -392,6 +425,8 @@ private:
       }
   }
 
+////////////////////////////////////////////////////////////////////////////////
+  
   void draw_channel_numbers() {
     static uint8_t last_selected = 0xff;
     uint8_t selected = (*data->tracks).index() + 1;
@@ -414,6 +449,8 @@ private:
     }
   }
 
+////////////////////////////////////////////////////////////////////////////////
+
   void draw_column(
     uint8_t const & col
   ) {
@@ -421,6 +458,8 @@ private:
       draw_column(line-1, col);
     }
   }
+
+////////////////////////////////////////////////////////////////////////////////
 
   void draw_column(
     uint8_t const & channel,
@@ -446,6 +485,8 @@ private:
     lcd::set_cursor(col_, channel + 1);
     lcd::write(character);
   }
+
+////////////////////////////////////////////////////////////////////////////////
 
   void draw_line0(bool const & redraw_bpm = false) {
     if (redraw_bpm) {
@@ -503,6 +544,8 @@ private:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
+// screen_main<ui_data<track_collection<6, tracks::x0x > > >
+////////////////////////////////////////////////////////////////////////////////
 
 template <>
 class screen_main<ui_data<track_collection<6, tracks::x0x > > > :
@@ -512,12 +555,18 @@ class screen_main<ui_data<track_collection<6, tracks::x0x > > > :
   typedef screen<data_t> base_t;
   
 public:
+
+////////////////////////////////////////////////////////////////////////////////
+  
   screen_main(data_t * data) :
     base_t(data),
     popup_bpm_time(0),
     popup_bpm_state(false) {}
   
 private:
+
+////////////////////////////////////////////////////////////////////////////////
+  
   virtual void impl_enter() override {
     data->popup_bpm_requested.set();
     
@@ -539,6 +588,8 @@ private:
     draw_bar_number();
   }
 
+////////////////////////////////////////////////////////////////////////////////
+  
   virtual void impl_update() override {
     bool redraw_bpm = false;
     
@@ -586,6 +637,8 @@ private:
     }
   }
   
+////////////////////////////////////////////////////////////////////////////////
+
   void draw_bars() {
     static const uint8_t gap_map[] = { 5, 10, 15 };
     
@@ -596,6 +649,8 @@ private:
       }
   }
 
+////////////////////////////////////////////////////////////////////////////////
+  
   void draw_channel_numbers() {
     static uint8_t last_selected = 0xff;
     uint8_t selected = (*data->tracks).index() + 1;
@@ -618,6 +673,8 @@ private:
     }
   }
 
+////////////////////////////////////////////////////////////////////////////////
+
   void draw_column(
     uint8_t const & col
   ) {
@@ -625,6 +682,8 @@ private:
       draw_column(line-1, col);
     }
   }
+
+////////////////////////////////////////////////////////////////////////////////
 
   void draw_column(
     uint8_t const & channel,
@@ -650,6 +709,8 @@ private:
     lcd::set_cursor(col_, channel + 1);
     lcd::write(character);
   }
+
+////////////////////////////////////////////////////////////////////////////////
 
   void draw_line0(bool const & redraw_bpm = false) {
     if (redraw_bpm) {
@@ -695,6 +756,8 @@ private:
       lcd::select_playstate(! data->playback_state);
     }
   }
+
+////////////////////////////////////////////////////////////////////////////////
 
   void draw_bar_number() {
     lcd::set_cursor(18,0);
