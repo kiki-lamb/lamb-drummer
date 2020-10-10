@@ -297,8 +297,11 @@ application::application_event application::process_control_event(
 ) {
   application_event application_event;
   application_event.type = application_event::EVT_UNKNOWN;
-  
-  if (control_event.type == control_event::EVT_BUTTON) {
+
+  if (control_event.type == control_event::EVT_NOT_AVAILABLE) {
+    application_event.type = application_event::EVT_NOT_AVAILABLE;
+  }
+  else if (control_event.type == control_event::EVT_BUTTON) {
     uint8_t button_number = control_event.parameter >> 8;
     int8_t  button_state  = (int8_t)(control_event.parameter & 0xff);
       
@@ -318,8 +321,28 @@ application::application_event application::process_control_event(
     }        
     else {
       switch (button_number) {
-      case 128:
+      case 131:
         application_event.type = application_event::EVT_PLAYBACK_STATE_TOGGLE;
+
+        break;
+      
+      case 130:
+        application_event.type = application_event::EVT_SELECT_TRACK;
+        application_event.parameter  = 0;
+
+        break;
+        
+      case 129:
+        application_event.type = application_event::EVT_SELECT_TRACK;
+        application_event.parameter  = 1;
+
+        break;
+        
+      case 128:
+        application_event.type = application_event::EVT_SELECT_TRACK;
+        application_event.parameter  = 2;
+
+        break;
       }
     }
   }
@@ -479,7 +502,7 @@ bool application::process_application_event(
 
     light_states ^= tmp;
       
-    Serial.print("Light up ");
+    Serial.print(F("Light up "));
     util::print_bits_16(light_states);
     Serial.println();
 
@@ -488,6 +511,24 @@ bool application::process_application_event(
     
     goto success;
   }
+  
+  case application_event::EVT_SELECT_TRACK:
+  {
+    if (_tracks.jump(application_event.parameter)) {
+      Serial.print(F("Jump to track "));
+      Serial.print(application_event.parameter);
+      Serial.println();
+      
+      goto success;
+    }
+
+      Serial.print(F("Can't jump to track "));
+      Serial.print(application_event.parameter);
+      Serial.println();
+
+      goto failure;
+  }
+
   case application_event::EVT_SELECTED_TRACK_UP:
   {
     _tracks++;
@@ -496,6 +537,7 @@ bool application::process_application_event(
 
     goto after_track_select;
   }
+  
   case application_event::EVT_SELECTED_TRACK_DN:
   {
     _tracks--;
@@ -504,6 +546,7 @@ bool application::process_application_event(
 
     goto after_track_select;
   }
+
   case application_event::EVT_PLAYBACK_STATE_TOGGLE:
   {
     set_playback_state(! _timer1.playback_state());
@@ -519,13 +562,15 @@ bool application::process_application_event(
       
     goto success;
   }
+
   default:
     Serial.print("Unrecognized event: ");
-    Serial.print(application_event.type, HEX);
+    Serial.print(application_event.type);
     Serial.println();
     Serial.flush();
   }
 
+failure:
   return false;
 
 after_track_select:

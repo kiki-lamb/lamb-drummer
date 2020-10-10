@@ -48,6 +48,9 @@ namespace events {
       EVT_BPM_DN = 31,
     
       EVT_PLAYBACK_STATE_TOGGLE = 32,
+
+      EVT_SELECT_TRACK = 33,
+      
       EVT_UNKNOWN = 64
     };
 
