@@ -68,7 +68,7 @@ public:
 #else
   typedef tracks::x0x                                                  track;
 #endif  
-  typedef ::track_collection<tracks_count, track>                     track_collection;
+  typedef ::track_collection<tracks_count, track>                      track_collection;
   typedef ::ui_data<track_collection>                                  ui_data;
   typedef ::ui<ui_data>                                                ui;
   typedef eeprom::PersistantData<track_collection>                     persistant_data;
