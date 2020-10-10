@@ -25,7 +25,11 @@ namespace tracks {
       return bars[0] & (1 << (counter % 16));
     }
 
-    x0x() : bars() {}
+    x0x() : bars() {
+      for (uint8_t ix = 0; ix < length; ix++) {
+        bars[ix] = 0;
+      }
+    }
   };
 }
 
