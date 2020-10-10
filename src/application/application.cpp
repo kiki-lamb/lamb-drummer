@@ -371,6 +371,7 @@ application::application_event application::process_control_event(
         application_event_type::EVT_MAJ_UP :
         application_event_type::EVT_MAJ_DN
       );
+
       break;
 
     case 129:
@@ -379,6 +380,7 @@ application::application_event application::process_control_event(
         application_event_type::EVT_MIN_UP :
         application_event_type::EVT_MIN_DN
       );
+
       break;
 
     case 130:
@@ -387,6 +389,7 @@ application::application_event application::process_control_event(
         application_event_type::EVT_PHASE_MAJ_UP :
         application_event_type::EVT_PHASE_MAJ_DN
       );
+
       break;
 
     case 131:
@@ -412,6 +415,7 @@ application::application_event application::process_control_event(
         application_event_type::EVT_SELECTED_TRACK_DN :
         application_event_type::EVT_SELECTED_TRACK_UP
       );
+
       break;
     
     case 64:
@@ -420,6 +424,7 @@ application::application_event application::process_control_event(
         application_event_type::EVT_BPM_UP :
         application_event_type::EVT_BPM_DN
       );
+
       break;
     }
   }
