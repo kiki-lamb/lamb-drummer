@@ -80,10 +80,6 @@ application::application() {};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// application::~application() {};
-
-////////////////////////////////////////////////////////////////////////////////
-
 outputs::x0x_leds & application::x0x_leds() {
   return _x0x_leds;
 }
@@ -132,15 +128,13 @@ void application::setup() {
   setup_controls();
   
   cli();
-
+  
   Serial.println(F("Stop all interrupts...")); Serial.flush();
   
   _timer1 .setup();
   _timer2 .setup();
   
   set_playback_state(tmp.playback_state);
-
-  // while (_tracks++);
 
   _eeprom .unflag_save_requested();
   _eeprom .flag_save_requested();
@@ -214,11 +208,18 @@ void application::flag_main_screen() {
 ////////////////////////////////////////////////////////////////////////////////
 
 uint8_t application::page() {
+#ifdef XOX
+  auto track = application::tracks()[0];
+  
+  uint8_t bar;
+  uint8_t step;
+  
+  track.position((_timer1.ticker() >> 1), bar, step);
+
+  return bar;
+#else
   auto tracks = application::tracks();
 
-#ifdef XOX
-  uint8_t max = track::length();
-#else
   uint8_t max = 0;
     
   for (uint8_t ix = 0; ix < tracks.size(); ix++) {
@@ -226,9 +227,9 @@ uint8_t application::page() {
       max = tracks[ix].mod_maj();
     }
   }
-#endif
-  
+
   return ((_timer1.ticker() >> 1) % max) >> 4;
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -451,11 +452,10 @@ bool application::process_application_event(
   case application_event::EVT_PAD_16:
   {
 #ifdef XOX
-    uint8_t  col = ((uint8_t)application_event.type)-1;
-    uint16_t bit = 1 << col;
-    
-    _tracks.current().bars[0] ^= bit;
+    uint8_t step = ((uint8_t)application_event.type)-1;
 
+    _tracks.current().flip_trigger(page(), step);
+    
     _ui_data.redraw_track.set();
 #else
     static uint16_t light_states = 0;

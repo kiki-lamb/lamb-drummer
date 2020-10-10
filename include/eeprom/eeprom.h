@@ -33,14 +33,18 @@ private:
   void save_track(
     size_t const & eeprom_location,
     track_t & track
-  ) const;
+  ) const {
+    Serial.println(F("SAVE_TRACK NOT IMPLEMENTED FOR THIS TYPE"));
+  }
 
   template <typename track_t>
   void restore_track(
     size_t const & eeprom_location,
     track_t & track
-  );
-  
+  ) {
+    Serial.println(F("RESTORE_TRACK NOT IMPLEMENTED FOR THIS TYPE"));
+  }  
+
   lamb::flag save_requested;
   unsigned long last_edit;
 public:
@@ -109,5 +113,17 @@ public:
     //Serial.println(F("Done save all to EEPROM"));
   }
 };
+
+template <>
+void eeprom::save_track<tracks::euclidean>(
+  size_t const & eeprom_location,
+  tracks::euclidean & track
+) const;
+
+template <>
+void eeprom::restore_track<tracks::euclidean>(
+  size_t const & eeprom_location,
+  tracks::euclidean & track
+);
 
 #endif

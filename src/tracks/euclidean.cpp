@@ -22,7 +22,7 @@ tracks::euclidean & tracks::euclidean::operator=(euclidean const & other) {
   return *this;
 }
 
-bool tracks::euclidean::trigger_state(uint8_t const & counter) const {
+bool tracks::euclidean::trigger(uint8_t const & counter) const {
     return 0 == (
       (((uint8_t)(counter - _phase_maj) % _mod_maj) - _phase_min) %
       _mod_min

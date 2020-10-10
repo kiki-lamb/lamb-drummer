@@ -17,7 +17,7 @@ namespace tracks {
     uint8_t    phase_min() const;
     uint8_t    phase_maj() const;
     euclidean &    operator=(euclidean const & other);
-    bool       trigger_state(uint8_t const & counter) const;
+    bool       trigger(uint8_t const & counter) const;
     euclidean(
       uint8_t const & mod_maj_ = 0,
       uint8_t const & mod_min_ = 1,

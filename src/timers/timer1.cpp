@@ -124,7 +124,7 @@ void timer1::isr() {
       auto track     = application::tracks().current();
       
       for (uint8_t col = 0, total = add; col < 16; col++, total++) {
-        if (track.trigger_state(total)) {
+        if (track.trigger(total)) {
           write |= 1 << col;
         }
       }
@@ -138,7 +138,7 @@ void timer1::isr() {
       byte blast = 0xff;
       
       for (byte ix = 0; ix <= 2; ix++) {
-        if (application::tracks()[ix].trigger_state(ticker_ >> 1)) {
+        if (application::tracks()[ix].trigger(ticker_ >> 1)) {
           blast &= ~_BV(ix);
         }
       }

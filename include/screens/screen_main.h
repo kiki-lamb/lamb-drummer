@@ -24,31 +24,6 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// template <>
-// class screen_main<ui_data<track_collection<3, tracks::x0x<1> > > > :
-//   public screen<ui_data<track_collection<3, tracks::x0x<1> > > > {
-// 
-//   typedef ui_data<track_collection<3, tracks::x0x<1> > > data_t;
-//   typedef screen<data_t> base_t;
-// 
-//   unsigned long popup_bpm_time;
-//   bool          popup_bpm_state;
-//   static const unsigned long popup_bpm_duration = 600;
-// 
-// public:
-//   screen_main(data_t * data) :
-//     base_t(data),
-//     popup_bpm_time(0),
-//     popup_bpm_state(false) {}
-//   
-// private:
-//   virtual void      impl_enter() override {}
-//  
-//   virtual void      impl_update() override {}
-// };
-
-////////////////////////////////////////////////////////////////////////////////
-
 template <>
 class screen_main<ui_data<track_collection<3, tracks::euclidean> > > :
   public screen<ui_data<track_collection<3, tracks::euclidean> > > {
@@ -192,7 +167,7 @@ private:
     
     uint8_t character  = lcd::CHAR_REST;
     bool    on_barrier = ((col - t.phase_maj() + 1) % t.mod_maj()) == 0;
-    bool    is_hit     = t.trigger_state(col);
+    bool    is_hit     = t.trigger(col);
     
     if (on_barrier)
       character |= 0b011;
@@ -463,7 +438,7 @@ private:
     int8_t col_ = col_map[col % 16];  
     
     uint8_t character  = lcd::CHAR_REST;
-    bool    is_hit     = t.trigger_state(col);
+    bool    is_hit     = t.trigger(col);
     
     if (is_hit)
       character |= 0b100;
