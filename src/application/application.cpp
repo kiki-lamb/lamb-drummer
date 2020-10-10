@@ -148,7 +148,7 @@ void application::setup() {
   
 #ifdef XOX
   for (uint8_t ix; ix < tracks_count; ix++) {
-    tracks()[ix].clear(1);
+    tracks()[ix].clear(bars_count);
   }
 #endif
   
@@ -198,13 +198,11 @@ void application::setup_controls() {
 
 void application::loop() {
   (
-    _triggers.update() || 
-    _x0x_leds.update()        ||
-    
-    _triggers.update() ||   
-    process_control_events()  ||
-    
-    _triggers.update() ||
+    _triggers.update()       || 
+    _x0x_leds.update()       ||    
+    _triggers.update()       ||   
+    process_control_events() ||    
+    _triggers.update()       ||
     (update_ui_data(), _ui.update_screen())
   );
 }
