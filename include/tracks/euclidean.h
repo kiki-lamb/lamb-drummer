@@ -1,5 +1,5 @@
-#ifndef LAMB_DRUMMER_TRACK_STATE_H
-#define LAMB_DRUMMER_TRACK_STATE_H
+#ifndef LAMB_DRUMMER_EUCLIDEAN_TRACK_STATE_H
+#define LAMB_DRUMMER_EUCLIDEAN_TRACK_STATE_H
 
 #include "Arduino.h"
 #include <lamb.h>
