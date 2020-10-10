@@ -18,63 +18,19 @@ namespace tracks {
     uint16_t bars[BAR_LENGTH];
 
   public:
-    inline x0x() : bars() {}
+    x0x();
     
-    inline x0x & operator=(x0x const & other) {
-      for (uint8_t ix = 0; ix < BAR_LENGTH; ix++) {
-        bars[ix] = other.bars[ix];
-      }
-
-      return *this;
-    }
-
-    inline static void position(uint8_t index, uint8_t & bar, uint8_t & step) {
-      index  &= MOD_MASK;
-      step    = index & 0xf;      
-      bar     = index >> 4;
-    }
-
-#define GET_POSITIONS(index) \
-    uint8_t bar, step; \
-    position(index, bar, step)
-   
-    inline bool trigger(uint8_t const & index) const {
-      GET_POSITIONS(index);
-
-      return bars[bar] & (1 << step);
-    }
-
-    inline void set_trigger(uint8_t const & index) {
-      GET_POSITIONS(index);
-      
-      set_trigger(bar, step);
-    }                
-
-    inline void unset_trigger(uint8_t const & index) {
-      GET_POSITIONS(index);
-      
-      set_trigger(bar, step);
-    }
+    x0x & operator=(x0x const & other);
     
-    inline void flip_trigger(uint8_t const & index) {
-      GET_POSITIONS(index);
-      
-      set_trigger(bar, step);
-    }                
-
-#undef GET_POSITIONS
+    static void position(uint8_t index, uint8_t & bar, uint8_t & step);
     
-    inline void set_trigger(uint8_t const & bar, uint8_t const & step) {
-      bars[bar] |= (1 << step);
-    };
-
-    inline void unset_trigger(uint8_t const & bar, uint8_t const & step) {
-      bars[bar] &= ~(1 << step);
-    };
-    
-    inline void flip_trigger(uint8_t const & bar, uint8_t const & step) {
-      bars[bar] ^= (1 << step);
-    };
+    bool trigger(uint8_t const & index) const;
+    void set_trigger(uint8_t const & index);
+    void unset_trigger(uint8_t const & index);    
+    void flip_trigger(uint8_t const & index);
+    void set_trigger(uint8_t const & bar, uint8_t const & step);
+    void unset_trigger(uint8_t const & bar, uint8_t const & step);   
+    void flip_trigger(uint8_t const & bar, uint8_t const & step);
   };
 }
 
