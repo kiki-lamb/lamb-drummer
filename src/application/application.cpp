@@ -492,23 +492,6 @@ bool application::process_application_event(
     _tracks.current().flip_trigger(page(), step);
     
     _ui_data.redraw_track.set();
-#else
-    static uint16_t light_states = 0;
-
-    _x0x_leds.xor_write(light_states);
-      
-    uint16_t tmp = util::flip_bytes(
-      ((uint16_t)1) <<
-      (((uint8_t)application_event.type) - 1)
-    );
-
-    light_states ^= tmp;
-      
-    Serial.print(F("Light up "));
-    util::print_bits_16(light_states);
-    Serial.println();
-
-    _x0x_leds.or_write(light_states, true);
 #endif
     
     goto success;

@@ -2,6 +2,7 @@
 #define LAMB_DRUMMER_APPLICATION_H
 
 #include "Arduino.h"
+#include <jm_PCF8574.h>
 #include "track_collection/track_collection.h"
 #include "ui/ui.h"
 #include "ui_data/ui_data.h"
@@ -18,25 +19,11 @@
 #include "timers/timer1.h"
 #include "timers/timer2.h"
 #include "eeprom/eeprom.h"
-#include <jm_PCF8574.h>
-
-#ifdef XOX
-  #include "tracks/x0x.h"
-#endif
+#include "tracks/x0x.h"
+#include "tracks/euclidean.h"
 
 class application {
 public:
-  enum modes {
-    MODE_EUCLIDEAN = 1,
-    MODE_XOX       = 2,
-  };
-
-#ifdef XOX
-  static  const modes              mode                             = MODE_XOX;
-#else
-  static  const modes              mode                             = MODE_EUCLIDEAN;
-#endif
-  
   static  const uint8_t            tracks_count                     = 3;
 
   static  const uint8_t            combo_pad_buttons_count          = 8;
