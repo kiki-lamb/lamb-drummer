@@ -502,4 +502,208 @@ private:
   static const unsigned long popup_bpm_duration = 600;
 };
 
+////////////////////////////////////////////////////////////////////////////////
+
+template <>
+class screen_main<ui_data<track_collection<6, tracks::x0x > > > :
+  public screen<ui_data<track_collection<6, tracks::x0x > > > {
+
+  typedef ui_data<track_collection<6, tracks::x0x > > data_t;
+  typedef screen<data_t> base_t;
+  
+public:
+  screen_main(data_t * data) :
+    base_t(data),
+    popup_bpm_time(0),
+    popup_bpm_state(false) {}
+  
+private:
+  virtual void impl_enter() override {
+    data->popup_bpm_requested.set();
+    
+    draw_line0();
+    
+    lcd::put_playstate(19,0); // Ugly...
+    
+    draw_channel_numbers();
+    
+    draw_bars();
+    
+    for (
+      uint8_t step = 0;
+      step < 16;
+      step++) {
+      draw_column(step);
+    }
+    
+    draw_page_number();
+  }
+
+  virtual void impl_update() override {
+    bool redraw_bpm = false;
+    
+    if (data->popup_bpm_requested.consume()) {
+      popup_bpm_time = millis();
+      popup_bpm_state = true;
+      redraw_bpm = true;
+    }
+    
+    if (popup_bpm_state) {
+      unsigned long now = millis();
+      
+      if ((now - popup_bpm_time) >= popup_bpm_duration) {
+        popup_bpm_state = false;
+        data->redraw_selected_track_indicator.set();
+      }
+    }
+    
+    draw_line0(redraw_bpm);
+    
+    draw_channel_numbers();
+    
+    bool redraw_page = false;
+    
+    static uint8_t last_page = 255;
+    uint8_t        tmp_page = data->page;
+    
+    if (tmp_page != last_page) {
+      last_page = tmp_page;
+      redraw_page = true;
+    }
+    
+    if (redraw_page) {
+      draw_page_number();
+      
+      for (uint8_t col = 0;  col < 16; col++) {
+        draw_column((data->page * 16) + col);
+      }
+      
+      data->redraw_track.consume();
+    } else if (data->redraw_track.consume()) {
+      for (uint8_t col = 0;  col < 16; col++) {
+        draw_column((*data->tracks).index(), (data->page * 16) + col);
+      }
+    }
+  }
+  
+  void draw_bars() {
+    static const uint8_t gap_map[] = { 5, 10, 15 };
+    
+    for (uint8_t line = 1; line <= 3; line++)
+      for (uint8_t gap = 0; gap <= 2; gap++) {
+        lcd::set_cursor(gap_map[gap], line);
+        lcd::print(F("|"));
+      }
+  }
+
+  void draw_channel_numbers() {
+    static uint8_t last_selected = 0xff;
+    uint8_t selected = (*data->tracks).index() + 1;
+    
+    if (selected !=last_selected) {
+      for (uint8_t line = 1; line <= 3; line++) {
+        if (line == selected) continue;
+        
+        lcd::set_cursor(0, line);
+        lcd::print(line);
+      }
+      
+      lcd::put_inversion(
+        0,
+        selected,
+        selected
+      );
+      
+      last_selected = selected;
+    }
+  }
+
+  void draw_column(
+    uint8_t const & col
+  ) {
+    for (uint8_t line = 1; line <= 3; line++) {
+      draw_column(line-1, col);
+    }
+  }
+
+  void draw_column(
+    uint8_t const & channel,
+    uint8_t const & col
+  ) {
+    tracks::x0x const & t = (*data->tracks)[channel];
+    
+    static const uint8_t col_map[] = {
+      1,   2,  3,  4,
+      6,   7,  8,  9,
+      11, 12, 13, 14,
+      16, 17, 18, 19
+    };
+    
+    int8_t col_ = col_map[col % 16];  
+    
+    uint8_t character  = lcd::CHAR_REST;
+    bool    is_hit     = t.trigger(col);
+    
+    if (is_hit)
+      character |= 0b100;
+    
+    lcd::set_cursor(col_, channel + 1);
+    lcd::write(character);
+  }
+
+  void draw_line0(bool const & redraw_bpm = false) {
+    if (redraw_bpm) {
+      lcd::set_cursor(0, 0);
+      lcd::print(F("                  "));
+
+      lcd::set_cursor(0, 0);
+      lcd::print(data->bpm);
+      if      (data->bpm >= 100) {
+        lcd::set_cursor(3, 0);
+        lcd::print(F(" BPM"));
+      }
+      else if (data->bpm >= 10) {
+        lcd::set_cursor(2, 0);
+        lcd::print(F(" BPM "));
+      }
+      else {
+        lcd::set_cursor(1, 0);
+        lcd::print(F(" BPM  "));
+      }
+ 
+      lcd::set_cursor(9, 0);
+      lcd::print(data->millihz);
+      if      (data->millihz >= 1000) {
+        lcd::set_cursor(13, 0);
+        lcd::print(F(" mhz")); 
+      }
+      else if (data->millihz >= 100) {
+        lcd::set_cursor(12, 0);
+        lcd::print(F(" mhz ")); 
+      }
+      else if (data->millihz >= 10) {
+        lcd::set_cursor(11, 0);
+        lcd::print(F(" mhz  ")); 
+      }
+      else {
+        lcd::set_cursor(10, 0);
+        lcd::print(F(" mhz   ")); 
+      }
+    }
+    
+    if (data->redraw_playback_state.consume()) {
+      lcd::select_playstate(! data->playback_state);
+    }
+  }
+
+  void draw_page_number() {
+    lcd::set_cursor(18,0);
+    lcd::print(data->page+1);
+  }
+
+  unsigned long popup_bpm_time;
+  bool          popup_bpm_state;
+  static const unsigned long popup_bpm_duration = 600;
+};
+
 #endif

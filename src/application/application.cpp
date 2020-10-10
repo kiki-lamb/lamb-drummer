@@ -13,7 +13,6 @@ eeprom                        application::_eeprom;
 timer1                        application::_timer1;
 timer2                        application::_timer2;
 lamb::flag                    application::_controls_flag;
-lamb::flag                    application::_output_flag;
 outputs::x0x_leds             application::_x0x_leds;
 outputs::triggers             application::_triggers;
 Adafruit_MCP23017             application::_x0x_leds_device;

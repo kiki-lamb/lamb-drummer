@@ -90,7 +90,6 @@ private:
   static  eeprom                   _eeprom;
   static  jm_PCF8574               _triggers_device;
   static  lamb::flag               _controls_flag;
-  static  lamb::flag               _output_flag;
   static  timer1                   _timer1;
   static  timer2                   _timer2;
   static  track_collection         _tracks;
