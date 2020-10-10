@@ -58,18 +58,18 @@ public:
   typedef tracks::euclidean                                            track;
 #endif  
 
-  typedef ::track_collection<tracks_count, track>                      track_collection;
-  typedef ::ui_data<track_collection>                                  ui_data;
-  typedef ::ui<ui_data>                                                ui;
-  typedef eeprom::PersistantData<track_collection>                     persistant_data;
-  typedef events::application                                          application_event;
-  typedef events::control                                              control_event;  
-  typedef events::sources::buffer<control_event, 8>                    control_source;
-  typedef events::sources::button_pad<button_pad_mcp23017>             button_pad_source;
-  typedef events::sources::encoder_pad<encoder_pad_mcp23017>           encoder_pad_source;
+  typedef ::track_collection<tracks_count, track>               track_collection;
+  typedef ::ui_data<track_collection>                           ui_data;
+  typedef ::ui<ui_data>                                         ui;
+  typedef eeprom::PersistantData<track_collection>              persistant_data;
+  typedef events::application                                   application_event;
+  typedef events::control                                       control_event;  
+  typedef application_event::event_type                         application_event_type;
+  typedef control_event::event_type                             control_event_type;
+  typedef events::sources::buffer<control_event, 8>             control_source;
+  typedef events::sources::button_pad<button_pad_mcp23017>      button_pad_source;
+  typedef events::sources::encoder_pad<encoder_pad_mcp23017>    encoder_pad_source;
   typedef events::sources::combine<control_event, event_sources_count> combined_source;
-  typedef application_event::event_type                            application_event_type;
-  typedef control_event::event_type                                control_event_type;
   
 private:
   static  encoder_pad_mcp23017     _combo_pad_encoder_pad;
