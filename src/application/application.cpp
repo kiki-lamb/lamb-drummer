@@ -349,9 +349,9 @@ application::application_event application::process_control_event(
     }
   }
   else if (control_event.type == control_event_type::EVT_ENCODER) {
-    uint8_t encoder_number = control_event.parameter_hi();
-    int8_t  encoder_motion = (int8_t)control_event.parameter_lo();
-      
+    uint8_t encoder_number = control_event.parameter >> 8;
+    int8_t  encoder_motion = (int8_t)(control_event.parameter & 0xff);
+
     Serial.print("Encoder event, number: ");
     Serial.print(encoder_number);
     Serial.print(", encoder_motion: ");

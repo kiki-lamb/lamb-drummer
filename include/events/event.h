@@ -24,7 +24,7 @@ namespace events {
     }
 
     inline uint8_t parameter_lo() const {
-      return parameter & 0xf;
+      return parameter & 0xff;
     }
 
     inline operator bool() const {
