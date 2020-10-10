@@ -300,11 +300,11 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template <uint8_t length>
-class screen_main<ui_data<track_collection<3, tracks::x0x<length> > > > :
-  public screen<ui_data<track_collection<3, tracks::x0x<length> > > > {
+template <>
+class screen_main<ui_data<track_collection<3, tracks::x0x > > > :
+  public screen<ui_data<track_collection<3, tracks::x0x > > > {
 
-  typedef ui_data<track_collection<3, tracks::x0x<length> > > data_t;
+  typedef ui_data<track_collection<3, tracks::x0x > > data_t;
   typedef screen<data_t> base_t;
   
 public:
@@ -426,7 +426,7 @@ private:
     uint8_t const & channel,
     uint8_t const & col
   ) {
-    tracks::x0x<2> const & t = (*data->tracks)[channel];
+    tracks::x0x const & t = (*data->tracks)[channel];
     
     static const uint8_t col_map[] = {
       1,   2,  3,  4,
