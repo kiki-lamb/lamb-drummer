@@ -3,11 +3,11 @@
 
 #include <inttypes.h>
 #include "lamb.h"
-#include "controls/pad_mcp23017.h"
 
 #include "encoder_state/encoder_state.h"
 
-class encoder_pad_mcp23017 : public pad_mcp23017 {
+class encoder_pad_mcp23017 :
+  public lamb::controls::pad_mcp23017 {
 private:
   uint8_t _encoder_count;
 

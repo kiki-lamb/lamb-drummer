@@ -3,9 +3,9 @@
 
 #include <Arduino.h>
 #include "lamb.h"
-#include "controls/pad_mcp23017.h"
 
-class button_pad_mcp23017 : public pad_mcp23017 {
+class button_pad_mcp23017 :
+  public lamb::controls::pad_mcp23017 {
 public:
   struct button_event {
     uint8_t button_number;
