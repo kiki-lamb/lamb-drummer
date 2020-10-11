@@ -67,7 +67,7 @@ public:
   typedef control_event::event_type                             control_event_type;
   typedef lamb::events::sources::buffer<control_event, 8>       control_source;
 
-  typedef events::sources::button_pad<
+  typedef lamb::events::sources::button_pad<
     button_pad_mcp23017,
     control_event,
     control_event_type::EVT_BUTTON
