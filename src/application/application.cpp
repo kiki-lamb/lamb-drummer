@@ -328,7 +328,7 @@ application::application_event application::process_control_event(
     }        
     else {
       switch (button_number) {
-      case 131:
+      case 135:
         application_event.type =
           application_event_type::EVT_PLAYBACK_STATE_TOGGLE;
 
@@ -374,8 +374,13 @@ application::application_event application::process_control_event(
     case 128:
       application_event.type = (
         encoder_motion > 0 ?
+#ifdef XOX
+        application_event_type::EVT_BPM_UP :
+        application_event_type::EVT_BPM_DN
+#else
         application_event_type::EVT_MAJ_UP :
         application_event_type::EVT_MAJ_DN
+#endif        
       );
 
       break;
@@ -390,20 +395,28 @@ application::application_event application::process_control_event(
       break;
 
     case 130:
+#ifdef XOX
+      application_event.type = (
+        encoder_motion > 0 ?
+        application_event_type::EVT_PAGE_UP :
+        application_event_type::EVT_PAGE_DN
+      );
+#else
       application_event.type = (
         encoder_motion > 0 ?
         application_event_type::EVT_PHASE_MAJ_UP :
         application_event_type::EVT_PHASE_MAJ_DN
       );
-
+#endif
+      
       break;
 
     case 131:
 #ifdef XOX
       application_event.type = (
         encoder_motion > 0 ?
-        application_event_type::EVT_PAGE_UP :
-        application_event_type::EVT_PAGE_DN
+        application_event_type::EVT_SELECTED_TRACK_DN :
+        application_event_type::EVT_SELECTED_TRACK_UP
       );
 #else
       application_event.type = (
@@ -415,15 +428,8 @@ application::application_event application::process_control_event(
       
       break;
 
-    case 71:
-      application_event.type = (
-        encoder_motion > 0 ?
-        application_event_type::EVT_SELECTED_TRACK_DN :
-        application_event_type::EVT_SELECTED_TRACK_UP
-      );
-
-      break;
-    
+      
+#ifndef XOX    
     case 64:
       application_event.type = (
         encoder_motion > 0 ?
@@ -432,6 +438,7 @@ application::application_event application::process_control_event(
       );
 
       break;
+#endif
     }
   }
 
