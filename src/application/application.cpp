@@ -398,8 +398,8 @@ application::application_event application::process_control_event(
 #ifdef XOX
       application_event.type = (
         encoder_motion > 0 ?
-        application_event_type::EVT_PAGE_UP :
-        application_event_type::EVT_PAGE_DN
+        application_event_type::EVT_PAGE_DN :
+        application_event_type::EVT_PAGE_UP
       );
 #else
       application_event.type = (
