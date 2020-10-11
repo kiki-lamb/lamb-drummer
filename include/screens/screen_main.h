@@ -439,7 +439,7 @@ private:
 //        Serial.print(F(" block "));
 //        Serial.print(block_ix);
 //        Serial.println();
-/        
+        
         draw_line(track_ix, track, block_ix++, track_ix == tracks.index());
 
         if (block_ix == 4) {
