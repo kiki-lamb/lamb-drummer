@@ -55,20 +55,44 @@ private:
 
     uint8_t selected = (*data->tracks).index() + 1;
     
-    if (selected !=last_selected) {
+    if (selected != last_selected) {
+      Serial.print("SELECT ");
+      Serial.println(selected);
+      
       for (uint8_t line = 1; line <= 3; line++) {
-        if (line == selected) continue;
+        if (line + (3 * data->page) == selected) {
+          Serial.print(F("Line "));
+          Serial.print(line);
+          Serial.print(F(" = selected "));
+          Serial.print(line + (3 * data->page));
+          Serial.println();
+          
+          continue;
+        }
         
         lcd::set_cursor(0, line);
-        lcd::print(line);
+
+        Serial.print(F("Put number "));
+        Serial.print(line + (3 * data->page));
+        Serial.print(F(" on line "));
+        Serial.print(line);
+        Serial.println();          
+
+        lcd::print(line + 3 * data->page);
       }
       
       lcd::put_inversion(
         0,
-        selected,
+        selected - (3 * data->page),
         selected
       );
       
+      Serial.print(F("Put inversion of "));
+      Serial.print(selected);
+      Serial.print(F(" on line "));
+      Serial.print(selected - (3 * data->page));
+      Serial.println();          
+
       last_selected = selected;
     }
   }

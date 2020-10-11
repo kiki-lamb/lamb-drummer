@@ -529,19 +529,27 @@ bool application::process_application_event(
   {
     _ui_data.page = 1;
 
+    if (tracks().index() < 3) {
+      tracks().jump(tracks().index() + 3);
+    }
+    
     goto after_page_select;
   }
 
   case application_event_type::EVT_PAGE_DN:
   {
     _ui_data.page = 0;
-
+    
+    if (tracks().index() > 2) {
+      tracks().jump(tracks().index() - 3);
+    }
+    
     goto after_page_select;
   }
 
   case application_event_type::EVT_SELECT_TRACK:
   {
-    if (_tracks.jump(application_event.parameter)) {
+    if (_tracks.jump(application_event.parameter + 3 * _ui_data.page)) {
       Serial.print(F("Jump to track "));
       Serial.print(application_event.parameter);
       Serial.println();
@@ -604,8 +612,6 @@ after_page_select:
   Serial.print(F("Page = "));
   Serial.print(_ui_data.page);
   Serial.println();
-
-  tracks().jump(_ui_data.page * 3 + 1);
 
   goto success;
 
