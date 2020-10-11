@@ -6,7 +6,7 @@
 
 template <class data_t_>
 class screen {
-private:
+protected:
   lamb::flag requires_update;
 
 public:
