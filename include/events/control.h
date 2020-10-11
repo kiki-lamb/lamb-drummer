@@ -2,7 +2,7 @@
 #define LAMB_DRUMMER_CONTROL_EVENT_H
 
 #include <Arduino.h>
-#include "events/event.h"
+#include "lamb.h"
 
 namespace events {
   enum control_event_type {
@@ -12,7 +12,7 @@ namespace events {
   };
 
   class control :
-    public event<control_event_type> {
+    public lamb::events::event<control_event_type> {
   public:
     control(
       event_type type_ = event_type::CTL_EVT_NOT_AVAILABLE,

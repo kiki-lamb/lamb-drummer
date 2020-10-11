@@ -2,7 +2,7 @@
 #define LAMB_DRUMMER_APPLICATION_EVENT_H
 
 #include <Arduino.h>
-#include "events/event.h"
+#include "lamb.h"
 
 namespace events {
   enum application_event_type {
@@ -57,7 +57,7 @@ namespace events {
   };  
 
   class application :
-    public event<application_event_type> {
+    public lamb::events::event<application_event_type> {
   public:
     application(
       event_type type_ = event_type::APP_EVT_NOT_AVAILABLE,
