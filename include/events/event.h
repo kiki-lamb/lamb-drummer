@@ -4,10 +4,10 @@
 #include <inttypes.h>
 
 namespace events {
-  template <typename event_t_>
+  template <typename enum_t_>
     class event {
   public:
-    typedef event_t_ event_type;   
+    typedef enum_t_ event_type;   
     
     event_type type;
     uint16_t parameter;
