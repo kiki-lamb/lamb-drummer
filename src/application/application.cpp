@@ -328,7 +328,7 @@ application::application_event application::process_control_event(
     }        
     else {
       switch (button_number) {
-      case 64:
+      case 132:
         application_event.type =
           application_event_type::EVT_PAGE_TOGGLE;
 
@@ -541,11 +541,15 @@ bool application::process_application_event(
 
   case application_event_type::EVT_PAGE_TOGGLE:
   {
-    _ui_data.page = _ui_data.page == 1 ? 0 : 1;
+    Serial.print(F("Page before: "));
+    Serial.println(_ui_data.page);
 
-//    if (tracks().index() < 3) {
-//      tracks().jump(tracks().index() + 3);
-//    }
+    if (tracks().index() < 3) {
+      tracks().jump(tracks().index() + 3);
+    }
+    else {
+      tracks().jump(tracks().index() - 3);
+    }
     
     goto after_track_select;
   }
@@ -554,9 +558,9 @@ bool application::process_application_event(
   {
     _ui_data.page = 1;
 
-//    if (tracks().index() < 3) {
-//      tracks().jump(tracks().index() + 3);
-//    }
+    if (tracks().index() < 3) {
+      tracks().jump(tracks().index() + 3);
+    }
     
     goto after_track_select;
   }
@@ -565,9 +569,9 @@ bool application::process_application_event(
   {
     _ui_data.page = 0;
     
-//     if (tracks().index() > 2) {
-//       tracks().jump(tracks().index() - 3);
-//     }
+     if (tracks().index() > 2) {
+       tracks().jump(tracks().index() - 3);
+     }
     
     goto after_track_select;
   }
@@ -640,6 +644,7 @@ after_track_select:
   else {
     _ui_data.page = 0;
   }
+  
  
   _ui_data.redraw_selected_track_indicator.set();
   Serial.print(_tracks.index()); Serial.flush();
