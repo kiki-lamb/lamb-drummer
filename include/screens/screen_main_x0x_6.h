@@ -119,35 +119,34 @@ private:
       draw_channel_numbers();
     }
     
-    if (bar != last_bar) {
+    if (new_page || (bar != last_bar)) {
       last_bar = bar;
 
       draw_bar_number();
 
-      mid_draw = true;
+      mid_draw = false;
+      track_ix = 0 + 3 * data->page;     
+      block_ix = 0;
     }
     
     if (mid_draw) {
         auto track = tracks[track_ix];
-
-//        Serial.print(F("Draw track "));
-//        Serial.print(track_ix);
-//        Serial.print(F(" block "));
-//        Serial.print(block_ix);
-//        Serial.println();
         
-        draw_line(track_ix, track, block_ix++, track_ix == tracks.index());
+        draw_line(
+          track_ix,
+          track,
+          block_ix++,
+          track_ix == tracks.index()
+        );
 
         if (block_ix == 4) {
           block_ix = 0;
           track_ix++;
         }
         
-        if (track_ix == 3) {
+        if (track_ix == 3 + (3 * data->page)) {
           mid_draw = false;
-          track_ix = 0;
-          block_ix = 0;
-          
+
           data->redraw_track.consume();
         }
         else {
@@ -225,7 +224,7 @@ private:
       buff[col_map[step % 16]] = character; 
     }
         
-    lcd::set_cursor(block * 5, track_ix + 1);
+    lcd::set_cursor(block * 5, track_ix + 1 - 3 * data->page);
     lcd::print_with_nulls(buff + block * 5, 5);
   }
 
