@@ -339,6 +339,16 @@ public:
     popup_bpm_state(false) {}
   
 private:
+  unsigned long popup_bpm_time;
+  bool          popup_bpm_state;
+  static const unsigned long popup_bpm_duration = 600;
+
+////////////////////////////////////////////////////////////////////////////////
+
+  void draw_bar_number() {
+    lcd::set_cursor(18,0);
+    lcd::print(data->bar+1);
+  }
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -353,14 +363,50 @@ private:
     
     draw_bars();
     
-    for (
-      uint8_t step = 0;
-      step < 16;
-      step++) {
-      draw_column(step);
-    }
+//    for (
+//      uint8_t step = 0;
+//      step < 16;
+//      step++) {
+//      draw_line(step);
+//    }
     
     draw_bar_number();
+  }
+  
+////////////////////////////////////////////////////////////////////////////////
+
+  void draw_bars() {
+    static const uint8_t gap_map[] = { 5, 10, 15 };
+    
+    for (uint8_t line = 1; line <= 3; line++)
+      for (uint8_t gap = 0; gap <= 2; gap++) {
+        lcd::set_cursor(gap_map[gap], line);
+        lcd::print(F("|"));
+      }
+  }
+  
+////////////////////////////////////////////////////////////////////////////////
+  
+  void draw_channel_numbers() {
+    static uint8_t last_selected = 0xff;
+    uint8_t selected = (*data->tracks).index() + 1;
+    
+    if (selected !=last_selected) {
+      for (uint8_t line = 1; line <= 3; line++) {
+        if (line == selected) continue;
+        
+        lcd::set_cursor(0, line);
+        lcd::print(line);
+      }
+      
+      lcd::put_inversion(
+        0,
+        selected,
+        selected
+      );
+      
+      last_selected = selected;
+    }
   }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -396,66 +442,30 @@ private:
       draw_bar_number();
       
       for (uint8_t col = 0;  col < 16; col++) {
-        draw_column((data->bar * 16) + col);
+        draw_line((data->bar * 16) + col);
       }
       
       data->redraw_track.consume();
     } else if (data->redraw_track.consume()) {
       for (uint8_t col = 0;  col < 16; col++) {
-        draw_column((*data->tracks).index(), (data->bar * 16) + col);
+        draw_line((*data->tracks).index(), (data->bar * 16) + col);
       }
     }
   }
-  
-////////////////////////////////////////////////////////////////////////////////
-
-  void draw_bars() {
-    static const uint8_t gap_map[] = { 5, 10, 15 };
-    
-    for (uint8_t line = 1; line <= 3; line++)
-      for (uint8_t gap = 0; gap <= 2; gap++) {
-        lcd::set_cursor(gap_map[gap], line);
-        lcd::print(F("|"));
-      }
-  }
-
-////////////////////////////////////////////////////////////////////////////////
-  
-  void draw_channel_numbers() {
-    static uint8_t last_selected = 0xff;
-    uint8_t selected = (*data->tracks).index() + 1;
-    
-    if (selected !=last_selected) {
-      for (uint8_t line = 1; line <= 3; line++) {
-        if (line == selected) continue;
-        
-        lcd::set_cursor(0, line);
-        lcd::print(line);
-      }
-      
-      lcd::put_inversion(
-        0,
-        selected,
-        selected
-      );
-      
-      last_selected = selected;
-    }
-  }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-  void draw_column(
+  void draw_line(
     uint8_t const & col
   ) {
     for (uint8_t line = 1; line <= 3; line++) {
-      draw_column(line-1, col);
+      draw_line(line-1, col);
     }
   }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-  void draw_column(
+  void draw_line(
     uint8_t const & channel,
     uint8_t const & col
   ) {
@@ -467,11 +477,13 @@ private:
       11, 12, 13, 14,
       16, 17, 18, 19
     };
+
+    static char buff[8];
     
-    int8_t col_ = col_map[col % 16];  
-    
+    int8_t  col_       = col_map[col % 16];  
     uint8_t character  = lcd::CHAR_REST;
     bool    is_hit     = t.trigger(col);
+
     
     if (is_hit)
       character |= 0b100;
@@ -506,7 +518,7 @@ private:
       lcd::print(data->millihz);
       if      (data->millihz >= 1000) {
         lcd::set_cursor(13, 0);
-        lcd::print(F(" mhz")); 
+        lcd::print(Fxs(" mhz")); 
       }
       else if (data->millihz >= 100) {
         lcd::set_cursor(12, 0);
@@ -526,15 +538,6 @@ private:
       lcd::select_playstate(! data->playback_state);
     }
   }
-
-  void draw_bar_number() {
-    lcd::set_cursor(18,0);
-    lcd::print(data->bar+1);
-  }
-
-  unsigned long popup_bpm_time;
-  bool          popup_bpm_state;
-  static const unsigned long popup_bpm_duration = 600;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
