@@ -534,8 +534,6 @@ bool application::process_application_event(
     }
     
     goto after_track_select;
-
-    // goto after_page_select;
   }
 
   case application_event_type::EVT_PAGE_DN:
@@ -547,8 +545,6 @@ bool application::process_application_event(
     }
     
     goto after_track_select;
-    
-    // goto after_page_select;
   }
 
   case application_event_type::EVT_SELECT_TRACK:
@@ -558,13 +554,6 @@ bool application::process_application_event(
       Serial.print(application_event.parameter);
       Serial.println();
 
-      if (tracks().index() > 2) {
-        _ui_data.page = 1;
-      }
-      else {
-        _ui_data.page = 0;
-      }
-      
       goto after_track_select;
     }
     
@@ -620,6 +609,13 @@ failure:
   return false;
 
 after_track_select:
+  if (tracks().index() > 2) {
+    _ui_data.page = 1;
+  }
+  else {
+    _ui_data.page = 0;
+  }
+ 
   _ui_data.redraw_selected_track_indicator.set();
   Serial.print(_tracks.index()); Serial.flush();
   Serial.println(); Serial.flush();
