@@ -9,7 +9,7 @@ application::track_collection application::_tracks;
 application::ui_data          application::_ui_data;
 application::ui               application::_ui(&_ui_data);
 eeprom                        application::_eeprom;
-timer1                        application::_timer1;
+timer1                        application::_timer1(application::tracks_count);
 timer2                        application::_timer2;
 lamb::flag                    application::_controls_flag;
 outputs::x0x_leds             application::_x0x_leds;

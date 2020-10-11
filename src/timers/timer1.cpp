@@ -1,7 +1,8 @@
 #include "timers/timer1.h"
 #include "application/application.h"
 
-timer1::timer1() :
+timer1::timer1(uint8_t const & track_count_) :
+  _track_count(track_count_),
   _bpm(0),
   _playback_state(true),
   _ticker(0),
@@ -135,7 +136,7 @@ void timer1::isr() {
       
       byte blast = 0xff;
       
-      for (byte ix = 0; ix <= 2; ix++) {
+      for (byte ix = 0; ix <= _track_count; ix++) {
         if (application::tracks()[ix].trigger(ticker_ >> 1)) {
           blast &= ~_BV(ix);
         }
