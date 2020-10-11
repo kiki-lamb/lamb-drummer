@@ -25,7 +25,12 @@ public:
 
   bool update() {
     if (requires_update.consume()) {
-      return impl_update();
+      if (!  impl_update()) {
+        requires_update.set();
+        return false;
+      }
+
+      return true;
     }
     
     return false;

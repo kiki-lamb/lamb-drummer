@@ -419,11 +419,12 @@ private:
     auto           tracks   = (*data->tracks);
     static bool    mid_draw = false;
     static uint8_t track_ix = 0;
+    static uint8_t block_ix = 0;
     uint8_t        tmp_bar  = data->bar;
     bool redraw_bpm = false;
     
     if (tmp_bar != last_bar) {
-      last_bar   = tmp_bar;
+      last_bar = tmp_bar;
 
       draw_bar_number();
 
@@ -433,22 +434,37 @@ private:
     if (mid_draw) {
         auto track = tracks[track_ix];
 
-        draw_line(track_ix++, track);
-             
+//        Serial.print(F("Draw track "));
+//        Serial.print(track_ix);
+//        Serial.print(F(" block "));
+//        Serial.print(block_ix);
+//        Serial.println();
+/        
+        draw_line(track_ix, track, block_ix++, track_ix == tracks.index());
+
+        if (block_ix == 4) {
+          block_ix = 0;
+          track_ix++;
+        }
+        
         if (track_ix == 3) {
           mid_draw = false;
           track_ix = 0;
+          block_ix = 0;
+          
           data->redraw_track.consume();
         }
         else {
-          requires_update.set();
-          
           return false;
         }
     } else if (data->redraw_track.consume()) {
       auto t = tracks.current();
       
-      draw_line(tracks.index(), t);
+      draw_line(tracks.index(), t, 0, true);
+      draw_line(tracks.index(), t, 1, true);
+      draw_line(tracks.index(), t, 2, true);
+      draw_line(tracks.index(), t, 3, true);
+      draw_line(tracks.index(), t, 4, true);
     }
 
     if (data->popup_bpm_requested.consume()) {
@@ -475,7 +491,12 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-  void draw_line(uint8_t track_ix, tracks::x0x & track) {
+  void draw_line(
+    uint8_t track_ix,
+    tracks::x0x & track,
+    uint8_t block,
+    bool selected
+  ) {
     static const uint8_t col_map[] = {
       1,   2,  3,  4,
       6,   7,  8,  9,
@@ -490,7 +511,9 @@ private:
       '|',  0,   0,   0,   0
     };      
   
-    buff[0]  = '0' + (track_ix + 1);
+    buff[0] = selected ?
+      lcd::CHAR_INVERSION :
+      ('0' + (track_ix + 1));
     
     for (uint8_t step = 0; step < 16; step++) {
       char character = lcd::CHAR_REST;
@@ -502,8 +525,8 @@ private:
       buff[col_map[step % 16]] = character; 
     }
         
-    lcd::set_cursor(0, track_ix + 1);
-    lcd::print_with_nulls(buff, 20);
+    lcd::set_cursor(block * 5, track_ix + 1);
+    lcd::print_with_nulls(buff + block * 5, 5);
   }
 
 ////////////////////////////////////////////////////////////////////////////////

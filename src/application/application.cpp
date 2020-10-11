@@ -211,10 +211,7 @@ void application::loop() {
         _triggers.update())
   ) {
     update_ui_data();
-    
-    if (! _ui.update_screen()) {
-      _triggers.update();
-    }
+    _ui.update_screen();
   }
 }
 
