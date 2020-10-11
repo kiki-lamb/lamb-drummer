@@ -130,22 +130,25 @@ void timer1::isr() {
 
       draw_track_on_x0x_leds();
             
-      uint16_t next_write = lamb::flip_bytes(1 << (((ticker_ >> 1) % 16)));
-
-      application::x0x_leds().xor_write(next_write);
+      application::x0x_leds().xor_write(
+        lamb::flip_bytes(1 << (((ticker_ >> 1) % 16)))
+      );
       
-      byte blast = 0xff;
+      uint8_t blast = 0xff;
       
-      for (byte ix = 0; ix <= _track_count; ix++) {
+      for (uint8_t ix = 0; ix < _track_count; ix++) {      
         if (application::tracks()[ix].trigger(ticker_ >> 1)) {
           blast &= ~_BV(ix);
         }
       }
       
-      Serial.print(F("blast   "));
-      Serial.print(F(" = "));
-      lamb::print_bits_8(blast);
-      Serial.println();
+//      Serial.print(F("blast   "));
+//      Serial.print(F(" = "));
+//      lamb::print_bits_8(blast);
+
+//      Serial.print(" ");
+//      Serial.print(ticker_ >> 1);
+//      Serial.println();
       
       application::triggers().write(blast);
     }
