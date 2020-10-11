@@ -1,6 +1,5 @@
 #include "outputs/triggers/triggers.h"
 #include "application/application.h"
-#include "util/util.h"
 
 outputs::triggers::triggers() : _device(NULL), _values(0) {}
 

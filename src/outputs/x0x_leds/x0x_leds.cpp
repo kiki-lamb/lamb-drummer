@@ -1,10 +1,7 @@
 #include "outputs/x0x_leds/x0x_leds.h"
 #include "application/application.h"
-#include "util/util.h"
 
 outputs::x0x_leds::x0x_leds() : _device(NULL), _values(0) {}
-
-// x0x_leds::~x0x_leds() {}
 
 bool outputs::x0x_leds::setup(Adafruit_MCP23017 * device_) {
   _device = device_;

@@ -8,7 +8,6 @@
 #include "track_collection/track_collection.h"
 #include "tracks/euclidean.h"
 #include "tracks/x0x.h"
-#include "util/util.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 

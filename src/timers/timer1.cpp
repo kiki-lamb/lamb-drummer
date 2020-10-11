@@ -1,14 +1,12 @@
 #include "timers/timer1.h"
 #include "application/application.h"
-#include "util/util.h"
+#include "lamb.h"
 
 timer1::timer1() :
   _bpm(0),
   _playback_state(true),
   _ticker(0),
   _millihz(0) {};
-
-// timer1::~timer1() {}
 
 timer1 * timer1::_instance = 0;
 
@@ -106,7 +104,7 @@ void timer1::draw_track_on_x0x_leds() {
     }
   }
   
-  application::x0x_leds().write(util::flip_bytes(write));
+  application::x0x_leds().write(lamb::flip_bytes(write));
 }
 
 void timer1::isr() {
@@ -130,7 +128,7 @@ void timer1::isr() {
 
       draw_track_on_x0x_leds();
             
-      uint16_t next_write = util::flip_bytes(1 << (((ticker_ >> 1) % 16)));
+      uint16_t next_write = lamb::flip_bytes(1 << (((ticker_ >> 1) % 16)));
 
       application::x0x_leds().xor_write(next_write);
       

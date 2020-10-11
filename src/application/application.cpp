@@ -1,7 +1,6 @@
 #include "application/application.h"
 #include "events/application.h"
 #include "process_track_control_event.h"
-#include "util/util.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -28,50 +27,55 @@ application::combined_source application::_combine_event_sources;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-encoder_pad_mcp23017   application::_combo_pad_encoder_pad(
-                         application::combo_pad_encoders_count,
-                         application::combo_pad_encoders_range_start
-                       );
+lamb::controls::encoder_pad_mcp23017
+application::_combo_pad_encoder_pad(
+  application::combo_pad_encoders_count,
+  application::combo_pad_encoders_range_start
+);
 
-button_pad_mcp23017    application::_combo_pad_button_pad(
-                         application::combo_pad_buttons_count,
+lamb::controls::button_pad_mcp23017
+application::_combo_pad_button_pad(
+  application::combo_pad_buttons_count,
                          application::combo_pad_buttons_range_start
-                       );
+);
+
 ////////////////////////////////////////////////////////////////////////////////
 
-encoder_pad_mcp23017   application::_encoder_pad0(
-                         application::encoder_pad_encoders_count,
-                         application::encoder_pad_encoders_range_start
-                       );
+lamb::controls::encoder_pad_mcp23017
+application::_encoder_pad0(
+  application::encoder_pad_encoders_count,
+  application::encoder_pad_encoders_range_start
+);
 
-button_pad_mcp23017    application::_drum_pad_button_pad(
-                         application::drum_pad_buttons_count,
-                         application::drum_pad_buttons_range_start
-                       );
-
-application::encoder_pad_source
-                       application::_encoder_pad_source0(
-                         &application::_encoder_pad0,
-                         application::encoder_pad_source_mask
-                       );
+lamb::controls::button_pad_mcp23017
+application::_drum_pad_button_pad(
+  application::drum_pad_buttons_count,
+  application::drum_pad_buttons_range_start
+);
 
 application::encoder_pad_source
-                       application::_combo_pad_encoder_source(
-                         &application::_combo_pad_encoder_pad,
-                         application::combo_pad_encoders_source_mask
-                       );
+application::_encoder_pad_source0(
+  &application::_encoder_pad0,
+  application::encoder_pad_source_mask
+);
+
+application::encoder_pad_source
+application::_combo_pad_encoder_source(
+  &application::_combo_pad_encoder_pad,
+  application::combo_pad_encoders_source_mask
+);
 
 application::button_pad_source
-                       application::_combo_pad_button_source(
-                         &application::_combo_pad_button_pad,
-                         application::combo_pad_buttons_source_mask
-                       );
+application::_combo_pad_button_source(
+  &application::_combo_pad_button_pad,
+  application::combo_pad_buttons_source_mask
+);
 
 application::button_pad_source
-                       application::_drum_pad_source(
-                         &application::_drum_pad_button_pad,
-                         application::drum_pad_buttons_source_mask
-                       );
+application::_drum_pad_source(
+  &application::_drum_pad_button_pad,
+  application::drum_pad_buttons_source_mask
+);
 
 ////////////////////////////////////////////////////////////////////////////////
 

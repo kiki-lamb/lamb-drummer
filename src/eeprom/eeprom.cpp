@@ -2,14 +2,12 @@
 #include "eeprom/eeprom.h"
 #include "tracks/euclidean.h"
 #include "tracks/x0x.h"
-#include "util/util.h"
+#include "lamb.h"
 
 #define ADDR_BPM  3
 #define ADDR_PLAY 4
 
 eeprom::eeprom() : save_requested(), last_edit(0) {}
-
-// eeprom::~eeprom() {}
 
 void eeprom::flag_save_requested() {
   save_requested.set();
@@ -136,7 +134,7 @@ void eeprom::save_track<tracks::x0x>(
     Serial.print(F("Save bar "));
     Serial.print(ix);
     Serial.print(F(" ("));
-    util::print_bits_16(track.bar(ix));
+    lamb::print_bits_16(track.bar(ix));
     Serial.print(F(")  to 0x"));
     Serial.print(loc, HEX);
     Serial.println();
@@ -200,7 +198,7 @@ void eeprom::restore_track<tracks::x0x>(
     Serial.print(F("Restore bar "));
     Serial.print(ix);
     Serial.print(F(" ("));
-    util::print_bits_16(bar_data);
+    lamb::print_bits_16(bar_data);
     Serial.print(F(")  from 0x"));
     Serial.print(loc, HEX);
     Serial.println();
@@ -208,26 +206,5 @@ void eeprom::restore_track<tracks::x0x>(
     track.set_bar(ix, bar_data);
   }
 
-  
-//  track.set_mod_maj(EEPROM.read(eeprom_location + 0));
-//  Serial.print(F("Restore mod_maj "));
-//  Serial.print(track.mod_maj()); Serial.println();
-//  
-//  track.set_mod_min(EEPROM.read(eeprom_location + 1));
-//  Serial.print(F("Restore mod_min "));
-//  Serial.print(track.mod_min()); Serial.println();
-//  
-//  track.set_phase_min(EEPROM.read(eeprom_location + 2));
-//  Serial.print(F("Restore phase_min "));
-//  Serial.print(track.phase_min()); Serial.println();
-//  
-//  track.set_phase_maj(EEPROM.read(eeprom_location + 3));
-//  Serial.print(F("Restore phase_maj "));
-//  Serial.print(track.phase_maj()); Serial.println();
-//  
-//  Serial.print(F("Unflag track state"));
-//  Serial.println();
-//  Serial.println();
-//  Serial.flush();
   track.modified.unset();
 }
