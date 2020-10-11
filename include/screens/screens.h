@@ -51,7 +51,7 @@ private:
     lcd::clear();
   }
   
-  virtual void impl_update() override {}
+  virtual bool impl_update() override { return true; }
 };
 
 template <typename data_t>
@@ -62,7 +62,7 @@ public:
   
 private:
   virtual void impl_enter() override {}
-  virtual void impl_update() override {}
+  virtual bool impl_update() override { return true; }
 };
  
 #endif

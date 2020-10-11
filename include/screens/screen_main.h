@@ -18,7 +18,7 @@ class screen_main :
 private:
   virtual void      impl_enter() override;
 
-  virtual void      impl_update() override;
+  virtual bool      impl_update() override;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -65,7 +65,7 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-  virtual void impl_update() override {
+  virtual bool impl_update() override {
     bool redraw_bpm = false;
     
     if (data->popup_bpm_requested.consume()) {
@@ -112,6 +112,8 @@ private:
         draw_column((*data->tracks).index(), (data->bar * 16) + col, mmm);
       }
     }
+
+    return true;
   }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -412,7 +414,7 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-  virtual void impl_update() override {
+  virtual bool impl_update() override {
     bool redraw_bpm = false;
     
     if (data->popup_bpm_requested.consume()) {
@@ -460,12 +462,16 @@ private:
         }
         else {
           requires_update.set();
+          
+          return false;
         }
     } else if (data->redraw_track.consume()) {
       auto t = tracks.current();
       
       draw_line(tracks.index(), t);
     }
+
+    return true;
   }
 
 ////////////////////////////////////////////////////////////////////////////////

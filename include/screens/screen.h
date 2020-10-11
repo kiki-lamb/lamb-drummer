@@ -25,9 +25,7 @@ public:
 
   bool update() {
     if (requires_update.consume()) {
-      impl_update();
-      
-      return true;
+      return impl_update();
     }
     
     return false;
@@ -42,7 +40,7 @@ public:
   }
 
 private:
-  virtual void impl_update() = 0;
+  virtual bool impl_update() = 0;
 
   virtual void impl_enter() = 0;
 };
