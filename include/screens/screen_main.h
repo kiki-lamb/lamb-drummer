@@ -328,7 +328,8 @@ class screen_main<ui_data<track_collection<3, tracks::x0x > > > :
 
   typedef ui_data<track_collection<3, tracks::x0x > > data_t;
   typedef screen<data_t> base_t;
-  
+
+  static const uint8_t track_count = 3;
 public:
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -452,7 +453,7 @@ private:
 
         draw_line(track_ix++, track);
              
-        if (track_ix == 4) {
+        if (track_ix == 3) {
           mid_draw = false;
           track_ix = 0;
           data->redraw_track.consume();
@@ -489,7 +490,7 @@ private:
     for (uint8_t step = 0; step < 16; step++) {
       char character = lcd::CHAR_REST;
 
-      if (track.trigger(step)) {
+      if (track.trigger(step + 16 * data->bar)) {
         character |= 0b100;
       }
       
