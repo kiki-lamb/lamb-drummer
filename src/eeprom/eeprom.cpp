@@ -174,17 +174,12 @@ void eeprom::restore_track<tracks::x0x>(
   size_t const & eeprom_location,
   tracks::x0x & track
 ) {
-  Serial.print(F("Restore track from 0x"));
-  Serial.print(eeprom_location, HEX);
-  Serial.println();
-  Serial.flush();
-
   uint8_t tmp_bars_count = EEPROM.read(eeprom_location + 0);
   
-  Serial.print(F("Restore bars_count "));
-  Serial.print(tmp_bars_count);
-  Serial.print(F(" from 0x"));
+  Serial.print(F(" 0x"));
   Serial.print(eeprom_location, HEX);
+  Serial.print(F(" bars_count = "));
+  Serial.print(tmp_bars_count);
   Serial.println();
   Serial.flush();
   
@@ -198,12 +193,12 @@ void eeprom::restore_track<tracks::x0x>(
     bar_data <<= 8;
     bar_data |= bar_data_lo;
     
-    Serial.print(F("Restore bar "));
-    Serial.print(ix);
-    Serial.print(F(" ("));
-    lamb::print_bits_16(bar_data);
-    Serial.print(F(")  from 0x"));
+    Serial.print(F(" 0x"));
     Serial.print(loc, HEX);
+    Serial.print(F(" bar "));
+    Serial.print(ix);
+    Serial.print(F(" = "));
+    lamb::print_bits_16(bar_data);
     Serial.println();
     Serial.flush();
   

@@ -25,7 +25,7 @@ namespace tracks {
     
     void set_bar(uint8_t bar_, uint16_t data_);
     
-    void clear(uint8_t const & bars_count_ = 0);
+    void clear(uint8_t bars_count_ = 0);
     
     x0x & operator=(x0x const & other);
     

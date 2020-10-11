@@ -9,9 +9,17 @@ tracks::x0x::x0x(uint8_t bars_count_) :
   clear(bars_count_);
 }
 
-void tracks::x0x::clear(uint8_t const & new_size) {
+void tracks::x0x::clear(uint8_t new_size) {
   if (new_size == bars_count())
     return;
+  else if (new_size > 4) {
+    Serial.print(F("Refusing to resize to "));
+    Serial.print(new_size);
+    Serial.print(F(" bars. Using 2 instead."));
+    Serial.println();
+
+    new_size = 4;
+  }
 
   if (bars_count() != 0) {
     modified.set();

@@ -74,11 +74,11 @@ public:
       ix < data.tracks->size();
       ix++, addr+= ADDR_INCR
     ) {
-//      Serial.print(F("Restore TS #"));
-//      Serial.print(ix);
-//      Serial.print(F(" from "));
-//      Serial.print(addr);
-//      Serial.println();
+      Serial.print(F("\nRestore track #"));
+      Serial.print(ix);
+      Serial.print(F(" from "));
+      Serial.print(addr + ADDR_BASE, HEX);
+      Serial.println();
       
       restore_track(addr + ADDR_BASE,  (*data.tracks)[ix]);
     }
