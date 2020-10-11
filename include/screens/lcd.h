@@ -36,6 +36,9 @@ public:
   static void clear();
   static void set_cursor(uint8_t const & x, uint8_t const & y);
   static void write(uint8_t const & byte);
+
+  static size_t print_with_nulls(const char * buffer, size_t size);
+  
   template <typename T> static void print(T const & t) {
 #ifdef LOG_I2C_LOCK
     Serial.print(F("L:p  "));

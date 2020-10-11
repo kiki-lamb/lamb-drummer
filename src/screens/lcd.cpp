@@ -55,6 +55,28 @@ void lcd::set_cursor(uint8_t const & x, uint8_t const &  y) {
   lamb::i2c_lock::release();
 }
 
+
+size_t lcd::print_with_nulls(const char * buffer, size_t size) {
+#ifdef LOG_I2C_LOCK
+  Serial.print(F("L:pn  "));
+#endif
+  if (! lamb::i2c_lock::claim()) return 0;
+  
+  size_t n = 0;
+
+  while (size--) {
+    if (device.write(*buffer++)) n++;
+    else break;
+  }
+
+#ifdef LOG_I2C_LOCK
+  Serial.print(F("L:pn  "));
+#endif
+  lamb::i2c_lock::release();
+
+  return n;
+}
+
 void lcd::write(uint8_t const & byte) {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:w  "));
