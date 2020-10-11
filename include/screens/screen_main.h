@@ -466,43 +466,27 @@ private:
       16, 17, 18, 19
     };
 
-    static bool buff_init = false;
-
-    static char buff[21] = 
-      { 'h',  0,   0,   0,   0,
-        'h', 'e', 'l', 'l', 'o',
-        'h', 'e', 'l', 'l', 'o',
-        'h', 'e', 'l', 'l', 'o',
-        0
-      };
-      
-    if (! buff_init) {      
-      buff[5]   = '|';
-      buff[10]  = '|';
-      buff[15]  = '|';
-      buff[20]  = 0;
-
-      buff_init = true;
-    }
+    static char buff[20] = {
+       0 ,  0,   0,   0,   0,
+      '|',  0,   0,   0,   0, 
+      '|',  0,   0,   0,   0, 
+      '|',  0,   0,   0,   0
+    };      
   
     buff[0]  = '0' + track_ix;
     
     for (uint8_t step = 0; step < 16; step++) {
-      uint8_t col_      = col_map[step % 16];  
-      char    character = lcd::CHAR_REST;
+      char character = lcd::CHAR_REST;
 
       if (track.trigger(step)) {
         character |= 0b100;
       }
       
-      buff[col_] = character; 
-
-//      lcd::set_cursor(col_, track_ix + 1);
-//      lcd::print(character);
+      buff[col_map[step % 16]] = character; 
     }
         
     lcd::set_cursor(0, track_ix + 1);
-    lcd::print_with_nulls(buff, 21);
+    lcd::print_with_nulls(buff, 20);
   }
 
 ////////////////////////////////////////////////////////////////////////////////
