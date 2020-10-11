@@ -109,7 +109,7 @@ void application::setup() {
   Serial .begin(230400);
 
   Wire   .begin();
-  Wire   .setClock(400000);
+  Wire   .setClock(1000000);
 
   _x0x_leds_device.begin(x0x_leds_addr);
   _x0x_leds.setup(&_x0x_leds_device);
