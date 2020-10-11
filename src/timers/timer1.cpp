@@ -141,23 +141,14 @@ void timer1::isr() {
         }
       }
       
-#ifdef LOG_OUTPUT
-      Serial.println();
       Serial.print(F("blast   "));
-      Serial.print(ticker_);
       Serial.print(F(" = "));
       application::print_bits(blast);
       Serial.println();
-#endif
       
       application::triggers().write(blast);
     }
     else {
-#ifdef LOG_OUTPUT
-      Serial.println();
-      Serial.println(F("unblast "));
-#endif
-
       application::triggers().write(0xff);
     }
     

@@ -26,7 +26,7 @@
 class application {
 public:
   static  const uint8_t            tracks_count                     = 6;
-  static  const uint8_t            bars_count                       = 2;
+  static  const uint8_t            bars_count                       = 1;
 
   static  const uint8_t            combo_pad_buttons_count          = 8;
   static  const uint8_t            combo_pad_buttons_range_start    = 0;
