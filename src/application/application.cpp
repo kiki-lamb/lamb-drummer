@@ -328,6 +328,12 @@ application::application_event application::process_control_event(
     }        
     else {
       switch (button_number) {
+      case 64:
+        application_event.type =
+          application_event_type::EVT_PAGE_TOGGLE;
+
+        break;
+      
       case 135:
         application_event.type =
           application_event_type::EVT_PLAYBACK_STATE_TOGGLE;
@@ -398,8 +404,8 @@ application::application_event application::process_control_event(
 #ifdef XOX
       application_event.type = (
         encoder_motion > 0 ?
-        application_event_type::EVT_PAGE_DN :
-        application_event_type::EVT_PAGE_UP
+        application_event_type::EVT_PAGE_UP :
+        application_event_type::EVT_PAGE_DN
       );
 #else
       application_event.type = (
@@ -415,8 +421,8 @@ application::application_event application::process_control_event(
 #ifdef XOX
       application_event.type = (
         encoder_motion > 0 ?
-        application_event_type::EVT_SELECTED_TRACK_DN :
-        application_event_type::EVT_SELECTED_TRACK_UP
+        application_event_type::EVT_SELECTED_TRACK_UP :
+        application_event_type::EVT_SELECTED_TRACK_DN
       );
 #else
       application_event.type = (
@@ -532,13 +538,25 @@ bool application::process_application_event(
 #endif
   }
 
+
+  case application_event_type::EVT_PAGE_TOGGLE:
+  {
+    _ui_data.page = _ui_data.page == 1 ? 0 : 1;
+
+//    if (tracks().index() < 3) {
+//      tracks().jump(tracks().index() + 3);
+//    }
+    
+    goto after_track_select;
+  }
+
   case application_event_type::EVT_PAGE_UP:
   {
     _ui_data.page = 1;
 
-    if (tracks().index() < 3) {
-      tracks().jump(tracks().index() + 3);
-    }
+//    if (tracks().index() < 3) {
+//      tracks().jump(tracks().index() + 3);
+//    }
     
     goto after_track_select;
   }
@@ -547,9 +565,9 @@ bool application::process_application_event(
   {
     _ui_data.page = 0;
     
-    if (tracks().index() > 2) {
-      tracks().jump(tracks().index() - 3);
-    }
+//     if (tracks().index() > 2) {
+//       tracks().jump(tracks().index() - 3);
+//     }
     
     goto after_track_select;
   }
