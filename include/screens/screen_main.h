@@ -25,5 +25,6 @@ private:
 
 #include "screen_main_euclidean_3.h"
 #include "screen_main_x0x_3.h"
+#include "screen_main_x0x_6.h"
 
 #endif
