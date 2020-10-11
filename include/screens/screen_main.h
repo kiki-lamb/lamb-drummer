@@ -415,32 +415,12 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 
   virtual bool impl_update() override {
-    bool redraw_bpm = false;
-    
-    if (data->popup_bpm_requested.consume()) {
-      popup_bpm_time = millis();
-      popup_bpm_state = true;
-      redraw_bpm = true;
-    }
-    
-    if (popup_bpm_state) {
-      unsigned long now = millis();
-      
-      if ((now - popup_bpm_time) >= popup_bpm_duration) {
-        popup_bpm_state = false;
-        data->redraw_selected_track_indicator.set();
-      }
-    }
-    
-    draw_line_0(redraw_bpm);
-    
-    draw_channel_numbers();
-    
     static uint8_t last_bar = 255;
-    uint8_t        tmp_bar  = data->bar;
     auto           tracks   = (*data->tracks);
     static bool    mid_draw = false;
     static uint8_t track_ix = 0;
+    uint8_t        tmp_bar  = data->bar;
+    bool redraw_bpm = false;
     
     if (tmp_bar != last_bar) {
       last_bar   = tmp_bar;
@@ -471,6 +451,25 @@ private:
       draw_line(tracks.index(), t);
     }
 
+    if (data->popup_bpm_requested.consume()) {
+      popup_bpm_time = millis();
+      popup_bpm_state = true;
+      redraw_bpm = true;
+    }
+    
+    if (popup_bpm_state) {
+      unsigned long now = millis();
+      
+      if ((now - popup_bpm_time) >= popup_bpm_duration) {
+        popup_bpm_state = false;
+        data->redraw_selected_track_indicator.set();
+      }
+    }
+    
+    draw_line_0(redraw_bpm);
+    
+    draw_channel_numbers();        
+
     return true;
   }
 
@@ -491,7 +490,7 @@ private:
       '|',  0,   0,   0,   0
     };      
   
-    buff[0]  = '0' + track_ix;
+    buff[0]  = '0' + (track_ix + 1);
     
     for (uint8_t step = 0; step < 16; step++) {
       char character = lcd::CHAR_REST;
