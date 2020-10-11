@@ -21,13 +21,15 @@ public:
     uint32_t now = millis();
     uint32_t delta = now - last_update;
 
-    if (delta < 100)      
-      return false;
+    if (delta < 100) return false;
         
     bool tmp = screens[current_screen]->update();
 
     if (tmp) {
       last_update = now;
+    }
+    else {
+      screens[current_screen]->flag();
     }
     
     return tmp;

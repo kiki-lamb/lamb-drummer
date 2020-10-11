@@ -214,7 +214,6 @@ void application::loop() {
     
     if (! _ui.update_screen()) {
       _triggers.update();
-      flag_main_screen();
     }
   }
 }
