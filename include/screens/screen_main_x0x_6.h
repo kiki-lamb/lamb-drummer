@@ -52,6 +52,7 @@ private:
   
   void draw_channel_numbers() {
     static uint8_t last_selected = 0xff;
+
     uint8_t selected = (*data->tracks).index() + 1;
     
     if (selected !=last_selected) {
@@ -75,16 +76,27 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 
   virtual bool impl_update() override {
-    static uint8_t last_bar = 255;
-    auto           tracks   = (*data->tracks);
-    static bool    mid_draw = false;
-    static uint8_t track_ix = 0;
-    static uint8_t block_ix = 0;
-    uint8_t        tmp_bar  = data->bar;
-    bool redraw_bpm = false;
+    auto           tracks       = *data->tracks;
+    static uint8_t last_page    = 0xff;
+    static uint8_t last_bar     = 255;
+    static uint8_t track_ix     = 0;
+    static uint8_t block_ix     = 0;
+    static bool    mid_draw     = false;
+    bool           redraw_bpm   = false;
+    uint8_t        bar          = data->bar;
+    uint8_t        current_page = data->page;
+    bool           new_page     = current_page != last_page;
+
+    if (new_page) {
+      Serial.println("NEW PAGE.");
+
+      last_page = current_page;
+      
+      draw_channel_numbers();
+    }
     
-    if (tmp_bar != last_bar) {
-      last_bar = tmp_bar;
+    if (bar != last_bar) {
+      last_bar = bar;
 
       draw_bar_number();
 

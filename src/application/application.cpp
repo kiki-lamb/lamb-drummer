@@ -605,6 +605,8 @@ after_page_select:
   Serial.print(_ui_data.page);
   Serial.println();
 
+  tracks().jump(_ui_data.page * 3 + 1);
+
   goto success;
 
 after_track_select:
