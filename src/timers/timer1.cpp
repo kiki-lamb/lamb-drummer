@@ -141,10 +141,10 @@ void timer1::isr() {
         }
       }
       
-      Serial.print(F("blast   "));
-      Serial.print(F(" = "));
-      lamb::print_bits_8(blast);
-      Serial.println();
+//      Serial.print(F("blast   "));
+//      Serial.print(F(" = "));
+//      lamb::print_bits_8(blast);
+//      Serial.println();
       
       application::triggers().write(blast);
     }

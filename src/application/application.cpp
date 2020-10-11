@@ -533,7 +533,9 @@ bool application::process_application_event(
       tracks().jump(tracks().index() + 3);
     }
     
-    goto after_page_select;
+    goto after_track_select;
+
+    // goto after_page_select;
   }
 
   case application_event_type::EVT_PAGE_DN:
@@ -544,7 +546,9 @@ bool application::process_application_event(
       tracks().jump(tracks().index() - 3);
     }
     
-    goto after_page_select;
+    goto after_track_select;
+    
+    // goto after_page_select;
   }
 
   case application_event_type::EVT_SELECT_TRACK:
@@ -553,17 +557,24 @@ bool application::process_application_event(
       Serial.print(F("Jump to track "));
       Serial.print(application_event.parameter);
       Serial.println();
+
+      if (tracks().index() > 2) {
+        _ui_data.page = 1;
+      }
+      else {
+        _ui_data.page = 0;
+      }
       
-      goto success;
+      goto after_track_select;
     }
-
-      Serial.print(F("Can't jump to track "));
-      Serial.print(application_event.parameter);
-      Serial.println();
-
-      goto failure;
+    
+    Serial.print(F("Can't jump to track "));
+    Serial.print(application_event.parameter);
+    Serial.println();
+    
+    goto failure;
   }
-
+  
   case application_event_type::EVT_SELECTED_TRACK_UP:
   {
     _tracks++;
@@ -608,18 +619,15 @@ bool application::process_application_event(
 failure:
   return false;
 
-after_page_select:
-  Serial.print(F("Page = "));
-  Serial.print(_ui_data.page);
-  Serial.println();
-
-  goto success;
-
 after_track_select:
   _ui_data.redraw_selected_track_indicator.set();
   Serial.print(_tracks.index()); Serial.flush();
   Serial.println(); Serial.flush();
   
+  Serial.print(F("Page = "));
+  Serial.print(_ui_data.page);
+  Serial.println();
+
   goto success;
 
 after_bpm_set:      

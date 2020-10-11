@@ -119,12 +119,12 @@ private:
       draw_channel_numbers();
     }
     
-    if (new_page || (bar != last_bar)) {
+    if ((! mid_draw) && (new_page || (bar != last_bar))) {
       last_bar = bar;
 
       draw_bar_number();
 
-      mid_draw = false;
+      mid_draw = true;
       track_ix = 0 + 3 * data->page;     
       block_ix = 0;
     }
@@ -146,7 +146,9 @@ private:
         
         if (track_ix == 3 + (3 * data->page)) {
           mid_draw = false;
-
+          track_ix = 0 + 3 * data->page;     
+          block_ix = 0;
+          
           data->redraw_track.consume();
         }
         else {
@@ -159,7 +161,6 @@ private:
       draw_line(tracks.index(), t, 1, true);
       draw_line(tracks.index(), t, 2, true);
       draw_line(tracks.index(), t, 3, true);
-      draw_line(tracks.index(), t, 4, true);
     }
 
     if (data->popup_bpm_requested.consume()) {
@@ -192,6 +193,15 @@ private:
     uint8_t block,
     bool selected
   ) {
+    Serial.print(F("draw_line("));
+    Serial.print(track_ix);
+    Serial.print(F(", <t>, "));
+    Serial.print(block);
+    Serial.print(F(", "));
+    Serial.print(selected ? "TRUE" : "false");
+    Serial.print(F(")"));
+    Serial.println();
+    
     static const uint8_t col_map[] = {
       1,   2,  3,  4,
       6,   7,  8,  9,
@@ -223,8 +233,14 @@ private:
       
       buff[col_map[step % 16]] = character; 
     }
-        
-    lcd::set_cursor(block * 5, track_ix + 1 - 3 * data->page);
+
+    Serial.print(F("Place cursor at "));
+    Serial.print(block * 5);
+    Serial.print(F(", "));
+    Serial.print(track_ix + 1 - (data->page * 3));
+    Serial.println();    
+    
+    lcd::set_cursor(block * 5, track_ix + 1 - (data->page * 3));
     lcd::print_with_nulls(buff + block * 5, 5);
   }
 
