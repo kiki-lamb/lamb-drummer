@@ -272,4 +272,3 @@ const uint8_t lcd::custom_chars[8][8] = {
     0b00000
   }
 };
-// 
