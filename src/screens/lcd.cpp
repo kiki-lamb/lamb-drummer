@@ -176,9 +176,6 @@ void lcd::put_playstate(uint8_t const & col, uint8_t const & line) {
 }
 
 void lcd::select_playstate(bool const & paused) {
-#ifdef LOG_I2C_LOCK
-  Serial.print(F("L:sp "));
-#endif
   if (! lamb::i2c_lock::claim()) return;
   
   static const uint8_t playstates[][8] = {
@@ -209,7 +206,7 @@ void lcd::select_playstate(bool const & paused) {
     const_cast<uint8_t *>(playstates[paused ? 0 : 1])
   );
 
-  Serial.print(F("L:sp ")); lamb::i2c_lock::release();
+  lamb::i2c_lock::release();
 }
 
 const uint8_t lcd::custom_chars[8][8] = {

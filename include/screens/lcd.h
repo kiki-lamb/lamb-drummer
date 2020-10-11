@@ -40,16 +40,10 @@ public:
   static size_t print_with_nulls(const char * buffer, size_t size);
   
   template <typename T> static void print(T const & t) {
-#ifdef LOG_I2C_LOCK
-    Serial.print(F("L:p  "));
-#endif
     if (! lamb::i2c_lock::claim()) return;
     
     device.print(t);
 
-#ifdef LOG_I2C_LOCK
-    Serial.print(F("L:p  "));
-#endif
     lamb::i2c_lock::release();
   }
 };
