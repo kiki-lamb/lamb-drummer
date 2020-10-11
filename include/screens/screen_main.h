@@ -45,7 +45,7 @@ private:
   virtual void impl_enter() override {
     data->popup_bpm_requested.set();
     
-    draw_line0();
+    draw_line_0();
     
     lcd::put_playstate(19,0); // Ugly...
     
@@ -83,7 +83,7 @@ private:
       }
     }
     
-    draw_line0(redraw_bpm);
+    draw_line_0(redraw_bpm);
     
     draw_channel_numbers();
     
@@ -195,7 +195,7 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-  void draw_line0(bool const & redraw_bpm = false) {
+  void draw_line_0(bool const & redraw_bpm = false) {
     if (redraw_bpm) {
       lcd::set_cursor(0, 0);
       lcd::print(F("                  "));
@@ -355,7 +355,7 @@ private:
   virtual void impl_enter() override {
     data->popup_bpm_requested.set();
     
-    draw_line0();
+    draw_line_0();
     
     lcd::put_playstate(19,0); // Ugly...
     
@@ -429,7 +429,7 @@ private:
       }
     }
     
-    draw_line0(redraw_bpm);
+    draw_line_0(redraw_bpm);
     
     draw_channel_numbers();
     
@@ -441,25 +441,13 @@ private:
 
       draw_bar_number();
       
-      for (uint8_t col = 0;  col < 16; col++) {
-        draw_line((data->bar * 16) + col);
+      for (uint8_t line = 0; line < 3; line++) {
+        draw_line(line);
       }
       
       data->redraw_track.consume();
     } else if (data->redraw_track.consume()) {
-      for (uint8_t col = 0;  col < 16; col++) {
-        draw_line((*data->tracks).index(), (data->bar * 16) + col);
-      }
-    }
-  }
-
-////////////////////////////////////////////////////////////////////////////////
-
-  void draw_line(
-    uint8_t const & col
-  ) {
-    for (uint8_t line = 1; line <= 3; line++) {
-      draw_line(line-1, col);
+      draw_line((*data->tracks).index());
     }
   }
 
@@ -494,7 +482,7 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-  void draw_line0(bool const & redraw_bpm = false) {
+  void draw_line_0(bool const & redraw_bpm = false) {
     if (redraw_bpm) {
       lcd::set_cursor(0, 0);
       lcd::print(F("                  "));
@@ -567,7 +555,7 @@ private:
 //   virtual void impl_enter() override {
 //     data->popup_bpm_requested.set();
 //     
-//     draw_line0();
+//     draw_line_0();
 //     
 //     lcd::put_playstate(19,0); // Ugly...
 //     
@@ -605,7 +593,7 @@ private:
 //       }
 //     }
 //     
-//     draw_line0(redraw_bpm);
+//     draw_line_0(redraw_bpm);
 //     
 //     draw_channel_numbers();
 //     
@@ -709,7 +697,7 @@ private:
 // 
 ////////////////////////////////////////////////////////////////////////////////
 // 
-//   void draw_line0(bool const & redraw_bpm = false) {
+//   void draw_line_0(bool const & redraw_bpm = false) {
 //     if (redraw_bpm) {
 //       lcd::set_cursor(0, 0);
 //       lcd::print(F("                  "));
