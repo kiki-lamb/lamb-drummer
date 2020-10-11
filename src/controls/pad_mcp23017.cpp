@@ -1,7 +1,6 @@
 #include "controls/pad_mcp23017.h"
 #include <Arduino.h>
-#include "i2c_lock/i2c_lock.h"
-#include "util/util.h"
+#include "lamb.h"
 
 pad_mcp23017::pad_mcp23017(
     uint8_t button_count_,
@@ -14,8 +13,6 @@ pad_mcp23017::pad_mcp23017(
   button_mask(0), 
   button_shift(0) {}
   
-//pad_mcp23017::~pad_mcp23017() {}
-
 void pad_mcp23017::setup(Adafruit_MCP23017 * _device) {
   device = _device;
 
@@ -59,7 +56,7 @@ uint16_t pad_mcp23017::begin_read(bool & succeeded) {
     Serial.print(F("E:ir ")); Serial.flush();
 #endif
 
-    if (! i2c_lock::claim()) {
+    if (! lamb::i2c_lock::claim()) {
       succeeded = false;
 
       return 0;
@@ -67,7 +64,7 @@ uint16_t pad_mcp23017::begin_read(bool & succeeded) {
 
     uint16_t tmpval = device->readGPIOAB();
     
-    i2c_lock::release();
+    lamb::i2c_lock::release();
 
     tmpval = ~tmpval;  
 

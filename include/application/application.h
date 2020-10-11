@@ -1,6 +1,7 @@
 #ifndef LAMB_DRUMMER_APPLICATION_H
 #define LAMB_DRUMMER_APPLICATION_H
 
+#include "lamb.h"
 #include "Arduino.h"
 #include <jm_PCF8574.h>
 #include "track_collection/track_collection.h"

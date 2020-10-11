@@ -1,7 +1,6 @@
 #include "application/application.h"
 #include "events/application.h"
 #include "process_track_control_event.h"
-#include "util/util.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 

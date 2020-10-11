@@ -2,7 +2,6 @@
 #include "eeprom/eeprom.h"
 #include "tracks/euclidean.h"
 #include "tracks/x0x.h"
-#include "util/util.h"
 
 #define ADDR_BPM  3
 #define ADDR_PLAY 4
@@ -136,7 +135,7 @@ void eeprom::save_track<tracks::x0x>(
     Serial.print(F("Save bar "));
     Serial.print(ix);
     Serial.print(F(" ("));
-    util::print_bits_16(track.bar(ix));
+    lamb::print_bits_16(track.bar(ix));
     Serial.print(F(")  to 0x"));
     Serial.print(loc, HEX);
     Serial.println();
@@ -200,7 +199,7 @@ void eeprom::restore_track<tracks::x0x>(
     Serial.print(F("Restore bar "));
     Serial.print(ix);
     Serial.print(F(" ("));
-    util::print_bits_16(bar_data);
+    lamb::print_bits_16(bar_data);
     Serial.print(F(")  from 0x"));
     Serial.print(loc, HEX);
     Serial.println();

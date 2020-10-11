@@ -31,42 +31,42 @@ void lcd::clear() {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:c  "));
 #endif
-  if (! i2c_lock::claim()) return;
+  if (! lamb::i2c_lock::claim()) return;
 
   device.clear();
 
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:c  "));
 #endif
-  i2c_lock::release();
+  lamb::i2c_lock::release();
 }
 
 void lcd::set_cursor(uint8_t const & x, uint8_t const &  y) {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:sc "));
 #endif
-  if (! i2c_lock::claim()) return;
+  if (! lamb::i2c_lock::claim()) return;
   
   device.setCursor(x, y);
 
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:sc "));
 #endif
-  i2c_lock::release();
+  lamb::i2c_lock::release();
 }
 
 void lcd::write(uint8_t const & byte) {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:w  "));
 #endif
-  if (! i2c_lock::claim()) return;
+  if (! lamb::i2c_lock::claim()) return;
       
   device.write(byte);
 
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:w  "));
 #endif
-  i2c_lock::release();
+  lamb::i2c_lock::release();
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -85,7 +85,7 @@ void lcd::select_inversion(uint8_t const & number) {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:si "));
 #endif
-  if (! i2c_lock::claim()) return;
+  if (! lamb::i2c_lock::claim()) return;
   
   static const uint8_t inversions[][8] = {
     {
@@ -135,14 +135,14 @@ void lcd::select_inversion(uint8_t const & number) {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:si "));
 #endif
-  i2c_lock::release();
+  lamb::i2c_lock::release();
 }
 
 void lcd::put_playstate(uint8_t const & col, uint8_t const & line) {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:pp "));
 #endif
-  if (! i2c_lock::claim()) return;
+  if (! lamb::i2c_lock::claim()) return;
   
   device.setCursor(col, line);
   device.write(byte(CHAR_PLAYSTATE));
@@ -150,14 +150,14 @@ void lcd::put_playstate(uint8_t const & col, uint8_t const & line) {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:pp "));
 #endif
-  i2c_lock::release();
+  lamb::i2c_lock::release();
 }
 
 void lcd::select_playstate(bool const & paused) {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:sp "));
 #endif
-  if (! i2c_lock::claim()) return;
+  if (! lamb::i2c_lock::claim()) return;
   
   static const uint8_t playstates[][8] = {
     {
@@ -187,7 +187,7 @@ void lcd::select_playstate(bool const & paused) {
     const_cast<uint8_t *>(playstates[paused ? 0 : 1])
   );
 
-  Serial.print(F("L:sp ")); i2c_lock::release();
+  Serial.print(F("L:sp ")); lamb::i2c_lock::release();
 }
 
 const uint8_t lcd::custom_chars[8][8] = {

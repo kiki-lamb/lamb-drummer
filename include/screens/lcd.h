@@ -2,12 +2,11 @@
 #define LAMB_DRUMMER_LCD_H
 
 #include "LiquidCrystal_I2C.h"
-#include "i2c_lock/i2c_lock.h"
+#include "lamb.h"
 
 class lcd {
 private:
   lcd();
-//  ~lcd();
   static const uint8_t     LCD_COLS;
   static const uint8_t     LCD_LINES;
   static const uint8_t     LCD_RS;
@@ -41,14 +40,14 @@ public:
 #ifdef LOG_I2C_LOCK
     Serial.print(F("L:p  "));
 #endif
-    if (! i2c_lock::claim()) return;
+    if (! lamb::i2c_lock::claim()) return;
     
     device.print(t);
 
 #ifdef LOG_I2C_LOCK
     Serial.print(F("L:p  "));
 #endif
-    i2c_lock::release();
+    lamb::i2c_lock::release();
   }
 };
 
