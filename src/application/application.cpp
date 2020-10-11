@@ -27,23 +27,23 @@ application::combined_source application::_combine_event_sources;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-encoder_pad_mcp23017   application::_combo_pad_encoder_pad(
+lamb::controls::encoder_pad_mcp23017   application::_combo_pad_encoder_pad(
                          application::combo_pad_encoders_count,
                          application::combo_pad_encoders_range_start
                        );
 
-button_pad_mcp23017    application::_combo_pad_button_pad(
+lamb::controls::button_pad_mcp23017    application::_combo_pad_button_pad(
                          application::combo_pad_buttons_count,
                          application::combo_pad_buttons_range_start
                        );
 ////////////////////////////////////////////////////////////////////////////////
 
-encoder_pad_mcp23017   application::_encoder_pad0(
+lamb::controls::encoder_pad_mcp23017   application::_encoder_pad0(
                          application::encoder_pad_encoders_count,
                          application::encoder_pad_encoders_range_start
                        );
 
-button_pad_mcp23017    application::_drum_pad_button_pad(
+lamb::controls::button_pad_mcp23017    application::_drum_pad_button_pad(
                          application::drum_pad_buttons_count,
                          application::drum_pad_buttons_range_start
                        );
