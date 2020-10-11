@@ -2,14 +2,13 @@
 #define LAMB_DRUMMER_BUTTON_PAD_SOURCE_H
 
 #include <Arduino.h>
-#include "source.h"
 #include "../control.h"
 #include "lamb.h"
 
 namespace events {
   namespace sources {
     template <class button_pad_t_, size_t buffer_size = 8>
-    class button_pad : public source<events::control>{
+    class button_pad : public lamb::events::sources::source<events::control>{
     public:
       typedef button_pad_t_ button_pad_type;
 

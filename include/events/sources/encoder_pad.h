@@ -2,14 +2,13 @@
 #define LAMB_DRUMMER_I_ENCODER_PAD_SOURCE_H
 
 #include <Arduino.h>
-#include "source.h"
 #include "../control.h"
 #include "lamb.h"
 
 namespace events {
   namespace sources {
     template <class encoder_pad_t_>
-    class encoder_pad : public source<events::control> {
+    class encoder_pad : public lamb::events::sources::source<events::control> {
     public:
       typedef encoder_pad_t_ encoder_pad_type;
   
