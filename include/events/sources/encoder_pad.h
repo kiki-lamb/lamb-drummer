@@ -5,53 +5,58 @@
 #include "../control.h"
 #include "lamb.h"
 
-namespace events {
-  namespace sources {
-    template <class encoder_pad_t_>
-    class encoder_pad : public lamb::events::sources::source<events::control> {
-    public:
-      typedef encoder_pad_t_ encoder_pad_type;
+namespace lamb {
+  namespace events {
+    namespace sources {
+      template <
+        class encoder_pad_t_,
+        typename event,
+        uint8_t event_number
+        >
+      class encoder_pad :
+        public lamb::events::sources::source<event> {
+
+      public:
+        typedef encoder_pad_t_ encoder_pad_type;
   
-    private:
-      encoder_pad_type * _device;
-      uint8_t _button_number_mask;
+      private:
+        encoder_pad_type * _device;
+        uint8_t _button_number_mask;
   
-    public:
-      encoder_pad(
-        encoder_pad_type * device_,
-        uint8_t button_number_mask_
-      ) :
-        _device(device_),
-        _button_number_mask(button_number_mask_) {}
+      public:
+        encoder_pad(
+          encoder_pad_type * device_,
+          uint8_t button_number_mask_
+        ) :
+          _device(device_),
+          _button_number_mask(button_number_mask_) {}
 
-    private:
-      virtual void    impl_poll() {
-        _device->read();
-      }
+      private:
+        virtual void    impl_poll() {
+          _device->read();
+        }
 
-      virtual uint8_t impl_queue_count() const {
-        return _device->motion_events_count;
-      }
+        virtual uint8_t impl_queue_count() const {
+          return _device->motion_events_count;
+        }
 
-      virtual event impl_dequeue_event() {
-        if (! light_buffer_readable(_device->motion_events))
-          return events::control {
-            ((events::control::event_type)0)
-          };
+        virtual event impl_dequeue_event() {
+          if (! light_buffer_readable(_device->motion_events))
+            return event { (typename event::event_type)0 };
 
-        typename encoder_pad_type::motion_event tmp =
-          light_buffer_read(_device->motion_events);
+          typename encoder_pad_type::motion_event tmp =
+            light_buffer_read(_device->motion_events);
 
-        uint16_t event_arg = (
-          ((tmp.encoder_number | _button_number_mask) << 8) |
-          ((uint8_t)tmp.motion)
-        );
+          uint16_t event_arg = (
+            ((tmp.encoder_number | _button_number_mask) << 8) |
+            ((uint8_t)tmp.motion)
+          );
 
-        return events::control {
-          events::control::event_type::EVT_ENCODER, event_arg
+          return event { (typename event::event_type)event_number, event_arg };
         };
       };
-    };
+    }
   }
 }
+
 #endif

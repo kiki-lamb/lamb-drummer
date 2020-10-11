@@ -6,8 +6,7 @@
 #include "lamb.h"
 
 namespace events {
-  namespace sources {
-    
+  namespace sources {    
     template <
       class button_pad_t_,
       typename event,
@@ -16,6 +15,7 @@ namespace events {
       >
     class button_pad :
       public lamb::events::sources::source<event>{
+
     public:
       typedef button_pad_t_ button_pad_type;
 

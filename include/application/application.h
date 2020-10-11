@@ -71,10 +71,17 @@ public:
     button_pad_mcp23017,
     control_event,
     control_event_type::EVT_BUTTON
-    >                                                           button_pad_source;
-  
-  typedef events::sources::encoder_pad<encoder_pad_mcp23017>    encoder_pad_source;
-  typedef lamb::events::sources::combine<control_event, event_sources_count> combined_source;
+    >                                                           button_pad_source;  
+
+  typedef lamb::events::sources::encoder_pad<
+    encoder_pad_mcp23017,
+    control_event,
+    control_event_type::EVT_ENCODER>                            encoder_pad_source;
+
+  typedef lamb::events::sources::combine<
+    control_event,
+    event_sources_count
+    >                                                           combined_source;
   
 private:
   static  encoder_pad_mcp23017     _combo_pad_encoder_pad;
