@@ -203,14 +203,20 @@ void application::setup_controls() {
 ////////////////////////////////////////////////////////////////////////////////
 
 void application::loop() {
-  (
-    _triggers.update()       || 
-    _x0x_leds.update()       ||    
-    _triggers.update()       ||   
-    process_control_events() ||    
-    _triggers.update()       ||
-    (update_ui_data(), _ui.update_screen())
-  );
+  if (! (
+        _triggers.update()       || 
+        _x0x_leds.update()       ||    
+        _triggers.update()       ||   
+        process_control_events() ||    
+        _triggers.update())
+  ) {
+    update_ui_data();
+    
+    if (! _ui.update_screen()) {
+      _triggers.update();
+      flag_main_screen();
+    }
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
