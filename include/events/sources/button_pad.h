@@ -7,8 +7,15 @@
 
 namespace events {
   namespace sources {
-    template <class button_pad_t_, size_t buffer_size = 8>
-    class button_pad : public lamb::events::sources::source<events::control>{
+    
+    template <
+      class button_pad_t_,
+      typename event,
+      uint8_t event_number,
+      size_t buffer_size = 8
+      >
+    class button_pad :
+      public lamb::events::sources::source<event>{
     public:
       typedef button_pad_t_ button_pad_type;
 
@@ -35,9 +42,7 @@ namespace events {
 
       virtual event impl_dequeue_event() {
         if (! light_buffer_readable(_device->button_events))
-          return events::control {
-            ((events::control::event_type)0)
-          };
+          return event { (typename event::event_type)0 };
 
         typename button_pad_type::button_event tmp =
           light_buffer_read(_device->button_events);
@@ -47,9 +52,7 @@ namespace events {
           ((uint8_t)tmp.button_state)
         );
 
-        return events::control {
-          events::control::event_type::EVT_BUTTON, event_arg
-            };
+        return event { (typename event::event_type)event_number, event_arg };
       };
     };
   }
