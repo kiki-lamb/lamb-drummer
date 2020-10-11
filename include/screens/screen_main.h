@@ -364,28 +364,7 @@ private:
     
     draw_channel_numbers();
     
-    draw_bars();
-    
-//    for (
-//      uint8_t step = 0;
-//      step < 16;
-//      step++) {
-//      draw_line(step);
-//    }
-    
     draw_bar_number();
-  }
-  
-////////////////////////////////////////////////////////////////////////////////
-
-  void draw_bars() {
-    static const uint8_t gap_map[] = { 5, 10, 15 };
-    
-    for (uint8_t line = 1; line <= 3; line++)
-      for (uint8_t gap = 0; gap <= 2; gap++) {
-        lcd::set_cursor(gap_map[gap], line);
-        lcd::print(F("|"));
-      }
   }
   
 ////////////////////////////////////////////////////////////////////////////////
@@ -515,7 +494,11 @@ private:
       lcd::CHAR_INVERSION :
       ('0' + (track_ix + 1));
     
-    for (uint8_t step = 0; step < 16; step++) {
+    for (
+      uint8_t step = block * 5;
+      step < ((block * 5) + 5);
+      step++
+    ) {
       char character = lcd::CHAR_REST;
 
       if (track.trigger(step + 16 * data->bar)) {
