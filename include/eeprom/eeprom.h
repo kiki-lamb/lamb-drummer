@@ -33,16 +33,33 @@ public:
       {}
   };
 private:
-  void save_playback_state(bool const & playback_state_) const;
-  void save_bpm(uint8_t const & bpm_) const;
+  static const size_t BUFFER_SIZE = 128;
+  
+  struct queued_write {
+    int idx;
+    uint8_t val;
+
+    inline queued_write(int idx_ = 0, uint8_t val_ = 0) :
+      idx(idx_), val(val_) {}
+  };
+  
+  declare_light_buffer(queued_write, BUFFER_SIZE, queue);
+  
+  bool write_to_queue(int idx_, uint8_t val_);
+  
+  void save_playback_state(bool const & playback_state_);
+
+  void save_bpm(uint8_t const & bpm_);
+
   bool playback_state() const;
+
   uint8_t bpm() const;
 
   template <typename track_t>
   void save_track(
     size_t const & eeprom_location,
     track_t & track
-  ) const {
+  ) {
     Serial.println(F("SAVE_TRACK NOT IMPLEMENTED FOR THIS TYPE"));
   }
 
@@ -58,6 +75,8 @@ private:
   unsigned long last_edit;
 
 public:
+  bool write_from_queue();
+
   void flag_save_requested();
 
   void unflag_save_requested();
@@ -94,12 +113,14 @@ public:
   ) {
     static uint8_t saved_bpm            = 0;
     static bool    saved_playback_state = false;
-    
+
     if (! save_requested.consume()) return;
-    
-//    else {
-//      Serial.println(F("Saving all..."));
-//    }
+
+    if (light_buffer_available(queue) < ADDR_INCR) {
+      Serial.println("Too little buffer space, abort.");
+      
+      return;
+    }
 
     if (saved_bpm != data.bpm) {
       save_bpm(data.bpm);
@@ -150,7 +171,7 @@ template <>
 void eeprom::save_track<tracks::euclidean>(
   size_t const & eeprom_location,
   tracks::euclidean & track
-) const;
+);
 
 template <>
 void eeprom::restore_track<tracks::euclidean>(
@@ -162,7 +183,7 @@ template <>
 void eeprom::save_track<tracks::x0x>(
   size_t const & eeprom_location,
   tracks::x0x & track
-) const;
+);
 
 template <>
 void eeprom::restore_track<tracks::x0x>(

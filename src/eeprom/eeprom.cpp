@@ -8,8 +8,6 @@
 
 eeprom::eeprom() : save_requested() {}
 
-// eeprom::~eeprom() {}
-
 void eeprom::flag_save_requested() {
   save_requested.set();
   last_edit = millis();
@@ -19,17 +17,57 @@ void eeprom::unflag_save_requested() {
   save_requested.unset();
 }
 
-void eeprom::save_playback_state(bool const & playback_state_) const {
+void eeprom::save_playback_state(bool const & playback_state_) {
   Serial.print(F("Save playback_state "));
   Serial.println(playback_state_ ? 1 : 0);
 
-  EEPROM.write(ADDR_PLAY, playback_state_);
+  write_to_queue(ADDR_PLAY, playback_state_);
+//  EEPROM.write(ADDR_PLAY, playback_state_);
 }
 
-void eeprom::save_bpm(uint8_t const & bpm_) const {
+bool eeprom::write_to_queue(int idx_, uint8_t val_) {
+  if (! light_buffer_writable(queue)) return false;
+  
+  light_buffer_write(queue, queued_write(idx_, val_));
+  
+  Serial.print(F("Queued write 0x"));
+  Serial.print(idx_, HEX);
+  Serial.print(F(" = "));
+  Serial.print(val_);
+  Serial.println();
+  
+  return true;
+}
+
+bool eeprom::write_from_queue() {
+  if (light_buffer_readable(queue)) {
+    queued_write q_w =
+      light_buffer_read(queue);
+    
+    Serial.print(F("Write queued 0x"));
+    Serial.print(q_w.idx, HEX);
+    Serial.print(F(" = "));
+    Serial.print(q_w.val);
+    Serial.println();
+  
+    EEPROM.write(
+      q_w.idx,
+      q_w.val
+    );
+
+    return true;
+  }
+
+  //Serial.println("Nothing to write.");
+  
+  return false;
+}
+
+void eeprom::save_bpm(uint8_t const & bpm_) {
   Serial.print(F("Save BPM "));
   Serial.println(bpm_);
-  EEPROM.write(ADDR_BPM, bpm_);
+//  EEPROM.write(ADDR_BPM, bpm_);
+  write_to_queue(ADDR_BPM, bpm_);
 }
 
 bool eeprom::playback_state() const {
@@ -53,20 +91,24 @@ template <>
 void eeprom::save_track<tracks::euclidean>(
   size_t const & eeprom_location,
   tracks::euclidean & track
-) const {
-  EEPROM.write(eeprom_location + 0, track.mod_maj());
+) {
+  write_to_queue(eeprom_location + 0, track.mod_maj());
+//  EEPROM.write(eeprom_location + 0, track.mod_maj());
   Serial.print(F("Save mod_maj "));
   Serial.print(track.mod_maj()); Serial.println();
   
-  EEPROM.write(eeprom_location + 1, track.mod_min());
+  write_to_queue(eeprom_location + 1, track.mod_min());
+//  EEPROM.write(eeprom_location + 1, track.mod_min());
   Serial.print(F("Save mod_min "));
   Serial.print(track.mod_min()); Serial.println();
   
-  EEPROM.write(eeprom_location + 2, track.phase_min());
+  write_to_queue(eeprom_location + 2, track.phase_min());
+//  EEPROM.write(eeprom_location + 2, track.phase_min());
   Serial.print(F("Save phase_min "));
   Serial.print(track.phase_min()); Serial.println();
   
-  EEPROM.write(eeprom_location + 3, track.phase_maj());
+  write_to_queue(eeprom_location + 3, track.phase_maj());
+//  EEPROM.write(eeprom_location + 3, track.phase_maj());
   Serial.print(F("Save phase_maj "));
   Serial.print(track.phase_maj()); Serial.println();
   
@@ -105,7 +147,7 @@ template <>
 void eeprom::save_track<tracks::x0x>(
   size_t const & eeprom_location,
   tracks::x0x & track
-) const {
+) {
   // if (! track.modified.consume() ) {
   //   Serial.println(F("Not modified, not saving."));
     
@@ -119,7 +161,8 @@ void eeprom::save_track<tracks::x0x>(
   Serial.println();
   Serial.flush();
 
-  EEPROM.write(eeprom_location + 0, track.bars_count());
+  write_to_queue(eeprom_location + 0, track.bars_count());
+//  EEPROM.write(eeprom_location + 0, track.bars_count());
 
   uint8_t ix = 0;
   
@@ -148,15 +191,19 @@ void eeprom::save_track<tracks::x0x>(
     Serial.println();
     Serial.flush();
 
-    EEPROM.write(loc + 0, bar_data_hi);
-    EEPROM.write(loc + 1, bar_data_lo);
+    write_to_queue(loc + 0, bar_data_hi);
+//    EEPROM.write(loc + 0, bar_data_hi);
+    write_to_queue(loc + 1, bar_data_lo);
+//    EEPROM.write(loc + 1, bar_data_lo);
   }
 
   for (; ix < 8; ix++) {
     size_t loc = eeprom_location + 1 + (ix * 2);
 
-    EEPROM.write(loc + 0, 0);
-    EEPROM.write(loc + 1, 0);
+    write_to_queue(loc + 0, 0);
+//    EEPROM.write(loc + 0, 0);
+    write_to_queue(loc + 1, 0);
+//    EEPROM.write(loc + 1, 0);
   }
     
   Serial.print(F("Saved track to 0x"));

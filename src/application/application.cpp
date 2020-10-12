@@ -215,7 +215,8 @@ void application::loop() {
     _triggers.update()       ||
     (update_ui_data(),
      _ui.update_screen())    ||
-    priv_save_state()
+    priv_save_state()        ||
+    _eeprom.write_from_queue()
   );
 }
 
@@ -280,7 +281,7 @@ bool application::priv_save_state() {
     )
   );
 
-  return true;
+  return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
