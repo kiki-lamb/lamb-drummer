@@ -109,7 +109,7 @@ public:
   }
 
   template <class tracks_t>
-  bool save_all(
+  bool queue_all(
     PersistentData<tracks_t> const & data
   ) {
     if (! save_requested.consume()) return false;
