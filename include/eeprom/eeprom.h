@@ -121,14 +121,14 @@ public:
         ix = 0;
         addr = 5;
 
-        Serial.println(F("Nothing left to save."));
+//        Serial.println(F("Nothing left to save."));
         
         return;
       }
       
       ix++, addr += ADDR_INCR;
 
-      Serial.print(F("IX becomes "));
+//      Serial.print(F("IX becomes "));
       Serial.println(ix);
     }
     
@@ -143,7 +143,7 @@ public:
     
     save_track(addr + ADDR_BASE, (*data.tracks)[ix]);
 
-    save_requested.set();
+//    save_requested.set();
   }
 };
 

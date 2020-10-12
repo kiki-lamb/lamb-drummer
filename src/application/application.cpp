@@ -139,6 +139,10 @@ void application::setup() {
   
   set_playback_state(tmp.playback_state);
 
+  for (uint8_t ix = 0; ix < _tracks.size(); ix++) {
+    _tracks[ix].modified.unset();
+  }
+  
   _eeprom .unflag_save_requested();
 
   priv_save_state();
@@ -256,8 +260,6 @@ void application::set_playback_state(bool const & playback_state_) {
   _ui_data.redraw_playback_state.set();
 
   flag_main_screen();
-
-  flag_save_state();
 }
 
 
@@ -473,8 +475,6 @@ bool application::process_application_event(
     _ui_data.redraw_track.set();
     _ui_data.redraw_selected_track_indicator.set();
     
-    _eeprom.flag_save_requested();
-    
     goto success;
 #endif    
   }
@@ -535,8 +535,6 @@ bool application::process_application_event(
     
     _ui_data.redraw_track.set();
 
-    _eeprom.flag_save_requested();
-    
     goto success;
 #endif
   }
@@ -625,8 +623,6 @@ bool application::process_application_event(
       Serial.println(F("Stop."));
     }
     
-    _eeprom.flag_save_requested();
-      
     goto success;
   }
 
@@ -662,8 +658,6 @@ after_track_select:
 after_bpm_set:      
   _ui_data.popup_bpm_requested.set();
 
-  _eeprom.flag_save_requested();
-  
 success:
   flag_main_screen();
 
