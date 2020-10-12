@@ -120,7 +120,7 @@ void application::setup() {
   _ui   .setup();
   _ui   .enter_screen(ui::SCREEN_INTRO);
   
-  persistant_data tmp(
+  persistent_data tmp(
     &_tracks,
     _timer1.bpm(),
     _timer1.playback_state()
@@ -264,7 +264,7 @@ void application::set_playback_state(bool const & playback_state_) {
 
 void application::save_state() {
   _eeprom.save_all(
-    persistant_data(
+    persistent_data(
       &_tracks,
       _timer1.bpm(),
       _timer1.playback_state()

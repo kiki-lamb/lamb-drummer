@@ -55,7 +55,7 @@ public:
   typedef ::track_collection<tracks_count, track>               track_collection;
   typedef ::ui_data<track_collection>                           ui_data;
   typedef ::ui<ui_data>                                         ui;
-  typedef eeprom::PersistantData<track_collection>              persistant_data;
+  typedef eeprom::PersistentData<track_collection>              persistent_data;
   typedef events::application                                   application_event;
   typedef events::control                                       control_event;  
   typedef application_event::event_type                         application_event_type;
@@ -63,7 +63,7 @@ public:
   typedef lamb::events::sources::buffer<control_event, 8>       control_source;
   typedef lamb::controls::encoder_pad_mcp23017                  encoder_pad;
   typedef lamb::controls::button_pad_mcp23017                   button_pad;
-
+  
   typedef lamb::events::sources::button_pad<
     button_pad,
     control_event,

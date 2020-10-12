@@ -17,12 +17,12 @@
 class eeprom {
 public:
   template <class tracks_t>
-  class PersistantData {
+  class PersistentData {
   public:
     tracks_t * tracks;
     uint8_t bpm;
     bool playback_state;
-    PersistantData(
+    PersistentData(
       tracks_t * tracks_,
       uint8_t bpm_,
       bool playback_state_
@@ -66,7 +66,7 @@ public:
 
   template <class tracks_t>
   void restore_all(
-    PersistantData<tracks_t> & data
+    PersistentData<tracks_t> & data
   ) {
     data.bpm = bpm();
     data.playback_state = playback_state();
@@ -90,7 +90,7 @@ public:
 
   template <class tracks_t>
   void save_all(
-    PersistantData<tracks_t> const & data
+    PersistentData<tracks_t> const & data
   ) {
     const unsigned long SAVE_DELAY = 5000UL;
 
