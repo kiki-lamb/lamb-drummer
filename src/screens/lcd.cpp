@@ -4,7 +4,6 @@
 #include "LiquidCrystal_I2C.h"
 
 lcd::lcd() {}
-// lcd::~lcd() {}
 
 void lcd::setup() {
   device.init();

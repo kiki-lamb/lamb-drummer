@@ -12,8 +12,6 @@ namespace outputs {
     uint16_t _values;
     
   public:
-    x0x_leds();
-//  /* virtual */ ~x0x_leds();
     bool setup(Adafruit_MCP23017 * device_);
     void flag();
     void xor_write(uint16_t const & values_, bool const & immediate = false);
