@@ -56,11 +56,13 @@ private:
 
   lamb::flag save_requested;
   unsigned long last_edit;
+
 public:
   void flag_save_requested();
+
   void unflag_save_requested();
+
   eeprom();
-//  /* virtual */ ~eeprom_();
 
   template <class tracks_t>
   void restore_all(
@@ -76,7 +78,7 @@ public:
     ) {
       Serial.print(F("\nRestore track #"));
       Serial.print(ix);
-      Serial.print(F(" from "));
+      Serial.print(F(" from 0x"));
       Serial.print(addr + ADDR_BASE, HEX);
       Serial.println();
       
@@ -99,14 +101,10 @@ public:
       return;
 
     if (delta < SAVE_DELAY) {
-      //Serial.print(F("Must wait "));
-      //Serial.print(SAVE_DELAY-delta);
-      //Serial.println(F("ms before saving."));
       save_requested.set();
+
       return;
     }
-
-    //Serial.println(F("Save all to EEPROM..."));
 
     save_bpm(data.bpm);
     save_playback_state(data.playback_state);
@@ -115,10 +113,15 @@ public:
       size_t ix = 0, addr = 5;
       ix < data.tracks->size();
       ix++, addr+= ADDR_INCR
-    )
-      save_track(addr + ADDR_BASE,  (*data.tracks)[ix]);
+    ) {
+      Serial.print(F("\nSave track #"));
+      Serial.print(ix);
+      Serial.print(F(" to 0x"));
+      Serial.print(addr + ADDR_BASE, HEX);
+      Serial.println();
 
-    //Serial.println(F("Done save all to EEPROM"));
+      save_track(addr + ADDR_BASE,  (*data.tracks)[ix]);
+    }
   }
 };
 

@@ -115,11 +115,12 @@ void eeprom::save_track<tracks::x0x>(
     return;
   }
 
-  Serial.print(F("Save bars_count "));
-  Serial.print(track.bars_count());
-  Serial.print(F(" to 0x"));
+  Serial.print(F(" 0x"));
   Serial.print(eeprom_location, HEX);
+  Serial.print(F(" bars_count = "));
+  Serial.print(track.bars_count());
   Serial.println();
+  Serial.flush();
 
   EEPROM.write(eeprom_location + 0, track.bars_count());
 
@@ -132,13 +133,23 @@ void eeprom::save_track<tracks::x0x>(
     uint8_t  bar_data_lo = bar_data & 0xff;
     uint8_t  bar_data_hi = bar_data >> 8;
     
-    Serial.print(F("Save bar "));
-    Serial.print(ix);
-    Serial.print(F(" ("));
-    lamb::print_bits_16(track.bar(ix));
-    Serial.print(F(")  to 0x"));
+    Serial.print(F(" 0x"));
     Serial.print(loc, HEX);
+    Serial.print(F(" bar "));
+    Serial.print(ix);
+    Serial.print(F(" hi = "));
+    lamb::print_bits_8(bar_data_hi);
     Serial.println();
+    Serial.flush();
+
+    Serial.print(F(" 0x"));
+    Serial.print(loc + 1, HEX);
+    Serial.print(F(" bar "));
+    Serial.print(ix);
+    Serial.print(F(" lo = "));
+    lamb::print_bits_8(bar_data_lo);
+    Serial.println();
+    Serial.flush();
 
     EEPROM.write(loc + 0, bar_data_hi);
     EEPROM.write(loc + 1, bar_data_lo);
@@ -150,20 +161,7 @@ void eeprom::save_track<tracks::x0x>(
     EEPROM.write(loc + 0, 0);
     EEPROM.write(loc + 1, 0);
   }
-  
-//  
-//  EEPROM.write(eeprom_location + 1, track.mod_min());
-//  Serial.print(F("Save mod_min "));
-//  Serial.print(track.mod_min()); Serial.println();
-//  
-//  EEPROM.write(eeprom_location + 2, track.phase_min());
-//  Serial.print(F("Save phase_min "));
-//  Serial.print(track.phase_min()); Serial.println();
-//  
-//  EEPROM.write(eeprom_location + 3, track.phase_maj());
-//  Serial.print(F("Save phase_maj "));
-//  Serial.print(track.phase_maj()); Serial.println();
-  
+    
   Serial.print(F("Saved track to 0x"));
   Serial.print(eeprom_location, HEX);
   Serial.println();
@@ -197,11 +195,20 @@ void eeprom::restore_track<tracks::x0x>(
     Serial.print(loc, HEX);
     Serial.print(F(" bar "));
     Serial.print(ix);
-    Serial.print(F(" = "));
-    lamb::print_bits_16(bar_data);
+    Serial.print(F(" hi = "));
+    lamb::print_bits_8(bar_data_hi);
     Serial.println();
     Serial.flush();
-  
+
+    Serial.print(F(" 0x"));
+    Serial.print(loc + 1, HEX);
+    Serial.print(F(" bar "));
+    Serial.print(ix);
+    Serial.print(F(" lo = "));
+    lamb::print_bits_8(bar_data_lo);
+    Serial.println();
+    Serial.flush();
+
     track.set_bar(ix, bar_data);
   }
 
