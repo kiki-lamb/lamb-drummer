@@ -47,36 +47,36 @@ public:
   static  const uint8_t            triggers_addr                    = 0x3a;
 
 #ifdef XOX
-  typedef tracks::x0x                                           track;
+  typedef tracks::x0x                                     track;
 #else
-  typedef tracks::euclidean                                     track;
+  typedef tracks::euclidean                               track;
 #endif  
 
-  typedef ::track_collection<tracks_count, track>               track_collection;
-  typedef ::ui_data<track_collection>                           ui_data;
-  typedef ::ui<ui_data>                                         ui;
-  typedef eeprom::PersistentData<track_collection>              persistent_data;
-  typedef events::application                                   application_event;
-  typedef events::control                                       control_event;  
-  typedef application_event::event_type                         application_event_type;
-  typedef control_event::event_type                             control_event_type;
-  typedef lamb::events::sources::buffer<control_event, 8>       control_source;
-  typedef lamb::controls::encoder_pad_mcp23017                  encoder_pad;
-  typedef lamb::controls::button_pad_mcp23017                   button_pad;
+  typedef ::track_collection<tracks_count, track>         track_collection;
+  typedef ::ui_data<track_collection>                     ui_data;
+  typedef ::ui<ui_data>                                   ui;
+  typedef eeprom::PersistentData<track_collection>        persistent_data;
+  typedef events::application                             application_event;
+  typedef events::control                                 control_event;  
+  typedef application_event::event_type                   application_event_type;
+  typedef control_event::event_type                       control_event_type;
+  typedef lamb::events::sources::buffer<control_event, 8> control_source;
+  typedef lamb::controls::encoder_pad_mcp23017            encoder_pad;
+  typedef lamb::controls::button_pad_mcp23017             button_pad;
   
   typedef lamb::events::sources::button_pad<
     button_pad,
     control_event,
-    control_event_type::EVT_BUTTON>                             button_pad_source;  
+    control_event_type::EVT_BUTTON>                       button_pad_source;  
 
   typedef lamb::events::sources::encoder_pad<
     encoder_pad,
     control_event,
-    control_event_type::EVT_ENCODER>                            encoder_pad_source;
+    control_event_type::EVT_ENCODER>                      encoder_pad_source;
 
   typedef lamb::events::sources::combine<
     control_event,
-    event_sources_count>                                        combined_source;
+    event_sources_count>                                  combined_source;
   
 private:
   static  encoder_pad                              _combo_pad_encoder_pad;
