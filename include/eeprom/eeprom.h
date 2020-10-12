@@ -120,20 +120,24 @@ public:
       return false;
     }
 
-    if (saved_bpm != data.bpm) {
-      save_bpm(data.bpm);
-      
-      saved_bpm = data.bpm;
-    }
-    
-    if (saved_playback_state != data.playback_state) {
-      save_playback_state(data.playback_state);
-      
-      saved_playback_state = data.playback_state;
-    }
-
     while (! (*data.tracks)[save_ix].modified.consume()) {
-      if (save_ix >= data.tracks->size() - 1) return false;      
+      if (save_ix >= data.tracks->size() - 1) {
+
+        if (saved_bpm != data.bpm) {
+          save_bpm(data.bpm);
+          
+          saved_bpm = data.bpm;
+        }
+        
+        if (saved_playback_state != data.playback_state) {
+          save_playback_state(data.playback_state);
+          
+          saved_playback_state = data.playback_state;
+        }
+
+        return false;
+      }
+      
       save_ix++, save_addr += ADDR_INCR;
     }
     
