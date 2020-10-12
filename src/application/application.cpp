@@ -345,13 +345,13 @@ application::application_event application::process_button_event(
   }        
   else {
     switch (button_number) {
+//    case 132:
+//      application_event.type =
+//        application_event_type::EVT_PAGE_TOGGLE;
+//      
+//      break;
+      
     case 132:
-      application_event.type =
-        application_event_type::EVT_PAGE_TOGGLE;
-      
-      break;
-      
-    case 131:
       application_event.type =
         application_event_type::EVT_PLAYBACK_STATE_TOGGLE;
       
@@ -428,7 +428,13 @@ application::application_event application::process_encoder_event(
     break;
 
   case 130:
-#ifndef XOX
+#ifdef XOX
+    application_event.type = (
+      encoder_motion > 0 ?
+      application_event_type::EVT_PAGE_R :
+      application_event_type::EVT_PAGE_L
+    );
+#else
     application_event.type = (
       encoder_motion > 0 ?
       application_event_type::EVT_PHASE_MAJ_UP :

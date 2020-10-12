@@ -53,6 +53,9 @@ namespace events {
     EVT_PAGE_UP = 34,
     EVT_PAGE_DN = 35,
     EVT_PAGE_TOGGLE = 36,
+
+    EVT_PAGE_L = 37,
+    EVT_PAGE_R = 38,
     
     EVT_UNKNOWN = 64
   };  
