@@ -6,11 +6,18 @@
 #define ADDR_BPM  3
 #define ADDR_PLAY 4
 
-eeprom::eeprom() : save_requested() {}
+eeprom::eeprom() :
+  saved_bpm(0),
+  saved_playback_state(false),
+  save_ix(0xff),
+  save_addr(5),
+  save_requested() {}
 
 void eeprom::flag_save_requested() {
   save_requested.set();
   last_edit = millis();
+  save_ix   = 0;
+  save_addr = 5;
 }
 
 void eeprom::unflag_save_requested() {
@@ -22,7 +29,6 @@ void eeprom::save_playback_state(bool const & playback_state_) {
   Serial.println(playback_state_ ? 1 : 0);
 
   write_to_queue(ADDR_PLAY, playback_state_);
-//  EEPROM.write(ADDR_PLAY, playback_state_);
 }
 
 bool eeprom::write_to_queue(int idx_, uint8_t val_) {
@@ -58,33 +64,30 @@ bool eeprom::write_from_queue() {
     return true;
   }
 
-  //Serial.println("Nothing to write.");
-  
   return false;
 }
 
 void eeprom::save_bpm(uint8_t const & bpm_) {
   Serial.print(F("Save BPM "));
   Serial.println(bpm_);
-//  EEPROM.write(ADDR_BPM, bpm_);
   write_to_queue(ADDR_BPM, bpm_);
 }
 
 bool eeprom::playback_state() const {
-  bool tmp = EEPROM.read(ADDR_PLAY);
+  saved_playback_state = EEPROM.read(ADDR_PLAY);
 
   Serial.print(F("Load playback_state "));
-  Serial.println(tmp ? F("play") : F("pause"));
-  return tmp;
+  Serial.println(saved_playback_state ? F("play") : F("pause"));
+  return saved_playback_state;
 }
 
 uint8_t eeprom::bpm() const {
-  uint8_t tmp = EEPROM.read(ADDR_BPM);
-
+  saved_bpm = EEPROM.read(ADDR_BPM);
+  
   Serial.print(F("Load BPM "));
-  Serial.println(tmp);
+  Serial.println(saved_bpm);
 
-  return tmp;
+  return saved_bpm;
 }
 
 template <>
@@ -93,22 +96,18 @@ void eeprom::save_track<tracks::euclidean>(
   tracks::euclidean & track
 ) {
   write_to_queue(eeprom_location + 0, track.mod_maj());
-//  EEPROM.write(eeprom_location + 0, track.mod_maj());
   Serial.print(F("Save mod_maj "));
   Serial.print(track.mod_maj()); Serial.println();
   
   write_to_queue(eeprom_location + 1, track.mod_min());
-//  EEPROM.write(eeprom_location + 1, track.mod_min());
   Serial.print(F("Save mod_min "));
   Serial.print(track.mod_min()); Serial.println();
   
   write_to_queue(eeprom_location + 2, track.phase_min());
-//  EEPROM.write(eeprom_location + 2, track.phase_min());
   Serial.print(F("Save phase_min "));
   Serial.print(track.phase_min()); Serial.println();
   
   write_to_queue(eeprom_location + 3, track.phase_maj());
-//  EEPROM.write(eeprom_location + 3, track.phase_maj());
   Serial.print(F("Save phase_maj "));
   Serial.print(track.phase_maj()); Serial.println();
   
@@ -148,12 +147,6 @@ void eeprom::save_track<tracks::x0x>(
   size_t const & eeprom_location,
   tracks::x0x & track
 ) {
-  // if (! track.modified.consume() ) {
-  //   Serial.println(F("Not modified, not saving."));
-    
-  //   return;
-  // }
-
   Serial.print(F(" 0x"));
   Serial.print(eeprom_location, HEX);
   Serial.print(F(" bars_count = "));
@@ -162,7 +155,6 @@ void eeprom::save_track<tracks::x0x>(
   Serial.flush();
 
   write_to_queue(eeprom_location + 0, track.bars_count());
-//  EEPROM.write(eeprom_location + 0, track.bars_count());
 
   uint8_t ix = 0;
   
@@ -192,18 +184,7 @@ void eeprom::save_track<tracks::x0x>(
     Serial.flush();
 
     write_to_queue(loc + 0, bar_data_hi);
-//    EEPROM.write(loc + 0, bar_data_hi);
     write_to_queue(loc + 1, bar_data_lo);
-//    EEPROM.write(loc + 1, bar_data_lo);
-  }
-
-  for (; ix < 8; ix++) {
-    size_t loc = eeprom_location + 1 + (ix * 2);
-
-    write_to_queue(loc + 0, 0);
-//    EEPROM.write(loc + 0, 0);
-    write_to_queue(loc + 1, 0);
-//    EEPROM.write(loc + 1, 0);
   }
     
   Serial.print(F("Saved track to 0x"));
@@ -256,26 +237,5 @@ void eeprom::restore_track<tracks::x0x>(
     track.set_bar(ix, bar_data);
   }
 
-  
-//  track.set_mod_maj(EEPROM.read(eeprom_location + 0));
-//  Serial.print(F("Restore mod_maj "));
-//  Serial.print(track.mod_maj()); Serial.println();
-//  
-//  track.set_mod_min(EEPROM.read(eeprom_location + 1));
-//  Serial.print(F("Restore mod_min "));
-//  Serial.print(track.mod_min()); Serial.println();
-//  
-//  track.set_phase_min(EEPROM.read(eeprom_location + 2));
-//  Serial.print(F("Restore phase_min "));
-//  Serial.print(track.phase_min()); Serial.println();
-//  
-//  track.set_phase_maj(EEPROM.read(eeprom_location + 3));
-//  Serial.print(F("Restore phase_maj "));
-//  Serial.print(track.phase_maj()); Serial.println();
-//  
-//  Serial.print(F("Unflag track state"));
-//  Serial.println();
-//  Serial.println();
-//  Serial.flush();
   track.modified.unset();
 }

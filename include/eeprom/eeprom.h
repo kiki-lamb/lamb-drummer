@@ -33,8 +33,15 @@ public:
       {}
   };
 private:
-  static const size_t BUFFER_SIZE = 128;
-  
+  static const size_t BUFFER_SIZE            = 128;
+  mutable uint8_t     saved_bpm              = 0;
+  mutable bool        saved_playback_state   = false;    
+  size_t              save_ix = 0, save_addr = 5;
+
+  lamb::flag save_requested;  
+  unsigned long last_edit;
+
+
   struct queued_write {
     int idx;
     uint8_t val;
@@ -70,9 +77,6 @@ private:
   ) {
     Serial.println(F("RESTORE_TRACK NOT IMPLEMENTED FOR THIS TYPE"));
   }  
-
-  lamb::flag save_requested;
-  unsigned long last_edit;
 
 public:
   bool write_from_queue();
@@ -111,9 +115,6 @@ public:
   void save_all(
     PersistentData<tracks_t> const & data
   ) {
-    static uint8_t saved_bpm            = 0;
-    static bool    saved_playback_state = false;
-
     if (! save_requested.consume()) return;
 
     if (light_buffer_available(queue) < ADDR_INCR) {
@@ -133,37 +134,28 @@ public:
       
       saved_playback_state = data.playback_state;
     }
-    
-    static size_t ix = 0, addr = 5;
 
-    while (! (*data.tracks)[ix].modified.consume()) {
-      if (ix == data.tracks->size() - 1) {
-        ix = 0;
-        addr = 5;
+    while (! (*data.tracks)[save_ix].modified.consume()) {
+      if (save_ix >= data.tracks->size() - 1) {
+        save_ix = 0;
+        save_addr = 5;
 
-//        Serial.println(F("Nothing left to save."));
-        
         return;
       }
       
-      ix++, addr += ADDR_INCR;
-
-//      Serial.print(F("IX becomes "));
-//      Serial.println(ix);
+      save_ix++, save_addr += ADDR_INCR;
     }
     
     Serial.print(F("\nSave track #"));
-    Serial.print(ix + 1);
+    Serial.print(save_ix + 1);
     Serial.print('/');
     Serial.print(data.tracks->size());
     Serial.print(' ');
     Serial.print(F(" to 0x"));
-    Serial.print(addr + ADDR_BASE, HEX);
+    Serial.print(save_addr + ADDR_BASE, HEX);
     Serial.println();
     
-    save_track(addr + ADDR_BASE, (*data.tracks)[ix]);
-
-//    save_requested.set();
+    save_track(save_addr + ADDR_BASE, (*data.tracks)[save_ix]);
   }
 };
 
