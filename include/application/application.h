@@ -60,30 +60,29 @@ public:
   typedef events::control                                       control_event;  
   typedef application_event::event_type                         application_event_type;
   typedef control_event::event_type                             control_event_type;
-
   typedef lamb::events::sources::buffer<control_event, 8>       control_source;
+  typedef lamb::controls::encoder_pad_mcp23017                  encoder_pad;
+  typedef lamb::controls::button_pad_mcp23017                   button_pad;
 
   typedef lamb::events::sources::button_pad<
-    lamb::controls::button_pad_mcp23017,
+    button_pad,
     control_event,
-    control_event_type::EVT_BUTTON
-    >                                                           button_pad_source;  
+    control_event_type::EVT_BUTTON>                             button_pad_source;  
 
   typedef lamb::events::sources::encoder_pad<
-    lamb::controls::encoder_pad_mcp23017,
+    encoder_pad,
     control_event,
     control_event_type::EVT_ENCODER>                            encoder_pad_source;
 
   typedef lamb::events::sources::combine<
     control_event,
-    event_sources_count
-    >                                                           combined_source;
+    event_sources_count>                                        combined_source;
   
 private:
-  static  lamb::controls::encoder_pad_mcp23017     _combo_pad_encoder_pad;
-  static  lamb::controls::encoder_pad_mcp23017     _encoder_pad0;
-  static  lamb::controls::button_pad_mcp23017      _combo_pad_button_pad;
-  static  lamb::controls::button_pad_mcp23017      _drum_pad_button_pad;
+  static  encoder_pad                              _combo_pad_encoder_pad;
+  static  encoder_pad                              _encoder_pad0;
+  static  button_pad                               _combo_pad_button_pad;
+  static  button_pad                               _drum_pad_button_pad;
   static  encoder_pad_source                       _encoder_pad_source0;
   static  encoder_pad_source                       _combo_pad_encoder_source;
   static  button_pad_source                        _combo_pad_button_source;
