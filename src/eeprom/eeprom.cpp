@@ -15,7 +15,6 @@ eeprom::eeprom() :
 
 void eeprom::flag_save_requested() {
   save_requested.set();
-  last_edit = millis();
   save_ix   = 0;
   save_addr = 5;
 }

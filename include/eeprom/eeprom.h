@@ -37,10 +37,7 @@ private:
   mutable uint8_t     saved_bpm              = 0;
   mutable bool        saved_playback_state   = false;    
   size_t              save_ix = 0, save_addr = 5;
-
-  lamb::flag save_requested;  
-  unsigned long last_edit;
-
+  lamb::flag          save_requested;  
 
   struct queued_write {
     int idx;
@@ -112,15 +109,15 @@ public:
   }
 
   template <class tracks_t>
-  void save_all(
+  bool save_all(
     PersistentData<tracks_t> const & data
   ) {
-    if (! save_requested.consume()) return;
+    if (! save_requested.consume()) return false;
 
     if (light_buffer_available(queue) < ADDR_INCR) {
       Serial.println("Too little buffer space, abort.");
       
-      return;
+      return false;
     }
 
     if (saved_bpm != data.bpm) {
@@ -140,7 +137,7 @@ public:
         save_ix = 0;
         save_addr = 5;
 
-        return;
+        return false;
       }
       
       save_ix++, save_addr += ADDR_INCR;
@@ -156,6 +153,8 @@ public:
     Serial.println();
     
     save_track(save_addr + ADDR_BASE, (*data.tracks)[save_ix]);
+
+    return true;
   }
 };
 

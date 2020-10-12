@@ -110,7 +110,7 @@ private:
   static void                      setup_controls();
   static void                      setup_triggers();
   static void                      update_ui_data();
-  static bool                      priv_save_state();
+  static bool                      save_state();
   
   static application_event         process_control_event(
     control_event const & control_event
