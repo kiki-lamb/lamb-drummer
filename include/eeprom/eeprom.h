@@ -33,7 +33,12 @@ public:
       {}
   };
 private:
-  static const size_t BUFFER_SIZE            = 128;
+#ifdef XOX
+  static const size_t BUFFER_SIZE            = 64;
+#else
+  static const size_t BUFFER_SIZE            = 32;
+#endif
+  
   mutable uint8_t     saved_bpm              = 0;
   mutable bool        saved_playback_state   = false;    
   size_t              save_ix = 0, save_addr = 5;
