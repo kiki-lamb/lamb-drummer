@@ -1,6 +1,14 @@
 #include "timers/timer1.h"
 #include "application/application.h"
 
+void timer1::set_ticker(uint8_t const & ticker_) { 
+  _ticker = ticker_;
+}
+
+void timer1::adjust_ticker(int8_t const & ticker_addend_) { 
+  _ticker += ticker_addend_;
+}
+
 timer1::timer1(uint8_t const & track_count_) :
   _track_count(track_count_),
   _bpm(0),

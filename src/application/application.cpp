@@ -524,6 +524,40 @@ bool application::process_application_event(
   }
     
   switch (application_event.type) {
+  case application_event_type::EVT_PAGE_L:
+  {
+    Serial.print(F("PAGE L old bar = "));
+    Serial.print(bar());
+    Serial.print(F(", new bar = "));
+    
+    if (bar() > 0) {
+      _timer1.adjust_ticker(-32);
+    }
+
+//    uint8_t new_bar = (bar() + (bars_count - 1)) % bars_count;
+//
+//    Serial.print(new_bar);
+    Serial.println();
+    
+    goto success;
+  }
+
+  case application_event_type::EVT_PAGE_R:
+  {
+    Serial.print(F("PAGE R old bar = "));
+    Serial.print(bar());
+    Serial.print(F(", new bar = "));
+    
+    if (bar() < (bars_count - 1)) {
+      _timer1.adjust_ticker(32);
+    }
+      
+//    Serial.print(new_bar);
+    Serial.println();
+    
+    goto success;
+  }
+    
   case application_event_type::EVT_BPM_UP:
   {
     uint8_t current_bpm = _timer1.bpm();
@@ -686,8 +720,7 @@ after_track_select:
   }
   else {
     _ui_data.page = 0;
-  }
-  
+  }  
  
   _ui_data.redraw_selected_track_indicator.set();
   Serial.print(_tracks.index()); Serial.flush();

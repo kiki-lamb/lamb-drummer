@@ -24,6 +24,8 @@ public:
   uint8_t              bpm() const;
   uint16_t             millihz() const;
   uint8_t              ticker() const;
+  void                 adjust_ticker(int8_t const & ticker_addend_);
+  void                 set_ticker(uint8_t const & ticker__);
   void                 increment_ticker();
   timer1(uint8_t const & track_count_);
 };
