@@ -92,6 +92,9 @@ public:
   void save_all(
     PersistentData<tracks_t> const & data
   ) {
+    static uint8_t saved_bpm            = 0;
+    static bool    saved_playback_state = false;
+    
     if (! save_requested.consume()) {
       return;
     }
@@ -99,33 +102,47 @@ public:
       Serial.println(F("Saving all..."));
     }
 
+    if (saved_bpm != data.bpm) {
+      save_bpm(data.bpm);
+      
+      saved_bpm = data.bpm;
+    }
+    
+    if (saved_playback_state != data.playback_state) {
+      save_playback_state(data.playback_state);
+      
+      saved_playback_state = data.playback_state;
+    }
+    
     static size_t ix = 0, addr = 5;
 
     while (! (*data.tracks)[ix].modified.consume()) {
-      if (ix == data.tracks->size()) {
+      if (ix == data.tracks->size() - 1) {
         ix = 0;
         addr = 5;
-
-        save_bpm(data.bpm);
-
-        save_playback_state(data.playback_state);
 
         Serial.println(F("Nothing left to save."));
         
         return;
       }
-
+      
       ix++, addr += ADDR_INCR;
+
+      Serial.print(F("IX becomes "));
+      Serial.println(ix);
     }
     
     Serial.print(F("\nSave track #"));
-    Serial.print(ix +1 );
+    Serial.print(ix + 1);
+    Serial.print('/');
+    Serial.print(data.tracks->size());
+    Serial.print(' ');
     Serial.print(F(" to 0x"));
     Serial.print(addr + ADDR_BASE, HEX);
     Serial.println();
     
-    save_track(addr + ADDR_BASE,  (*data.tracks)[ix]);
-    
+    save_track(addr + ADDR_BASE, (*data.tracks)[ix]);
+
     save_requested.set();
   }
 };
