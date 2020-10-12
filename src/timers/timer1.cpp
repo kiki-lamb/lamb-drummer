@@ -23,9 +23,10 @@ void timer1::setup() {
   TCCR1A  = 0;
   TCCR1B  = 0;
   TCNT1   = 0; // initialize counter value to 0
-  OCR1A   = 31249; // = 16000000 / (256 * 2) - 1 (must be <655) // set compare match register for 2 Hz increments
+  OCR1A   = 31249; // = 16000000 / (256 * 2) - 1
   TCCR1B |= (1 << WGM12); // TURN ON OUTPUT
-  TCCR1B |= (1 << CS12) | (0 << CS11) | (1 << CS10); // Set CS12, CS11 and CS10 bits for 512 prescaler
+  TCCR1B |= (1 << CS12) | (0 << CS11) | (1 << CS10);
+  // Set CS12, CS11 and CS10 bits for 512 prescaler
   TIMSK1 |= (1 << OCIE1A);
   TCCR1A |= (1 << COM1A0);
   DDRB   |= _BV(1);
@@ -37,19 +38,20 @@ bool timer1::playback_state() const {
 
 void timer1::set_playback_state(bool const & playback_state_) {
   _playback_state = playback_state_;
-//   if (_playback_state) {
-//     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-//       TCCR1A |= (1 << COM1A0);
-//       TCNT1 = 0;
-//     }
-//   }
-//   else { // stop playback
-//     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-//       TCCR1A ^= (1 << COM1A0);
-//       application::triggers().write(~0b1111);
-//       PORTB ^= 0b10;
-//     }
-//   }
+
+  // if (_playback_state) {
+  //    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+  //      TCCR1A |= (1 << COM1A0);
+  //      TCNT1 = 0;
+  //    }
+  //  }
+  //  else { // stop playback
+  //    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+  //      TCCR1A ^= (1 << COM1A0);
+  //      application::triggers().write(~0b11111111);
+  //      PORTB ^= 0b10;
+  //    }
+  // }
 }
 
 void timer1::set_bpm(uint8_t const & tmp_bpm) {
@@ -58,7 +60,7 @@ void timer1::set_bpm(uint8_t const & tmp_bpm) {
   
   timer1::_bpm          = tmp_bpm;
   timer1::_millihz      = (((uint32_t)timer1::_bpm) * 1000) / 60;
-  timer1::set_hz_by_bpm ( timer1::_bpm ); // This should probably be in the ISR...
+  timer1::set_hz_by_bpm ( timer1::_bpm ); 
 
   Serial.print(F(", "));
   Serial.print(timer1::_millihz);
@@ -142,13 +144,12 @@ void timer1::isr() {
         }
       }
       
-//      Serial.print(F("blast   "));
-//      Serial.print(F(" = "));
-//      lamb::print_bits_8(blast);
+      Serial.print(F("out = "));
+      lamb::print_bits_8(blast);
 
-//      Serial.print(" ");
-//      Serial.print(ticker_ >> 1);
-//      Serial.println();
+      Serial.print(" ");
+      Serial.print(ticker_ >> 1);
+      Serial.println();
       
       application::triggers().write(blast);
     }
