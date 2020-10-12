@@ -723,7 +723,7 @@ after_track_select:
   }  
  
   _ui_data.redraw_selected_track_indicator.set();
-  Serial.print(_tracks.index()); Serial.flush();
+  Serial.print(_tracks.index() + 1); Serial.flush();
   Serial.println(); Serial.flush();
   
   Serial.print(F("Page = "));
