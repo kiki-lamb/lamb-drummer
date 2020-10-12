@@ -95,12 +95,11 @@ public:
     static uint8_t saved_bpm            = 0;
     static bool    saved_playback_state = false;
     
-    if (! save_requested.consume()) {
-      return;
-    }
-    else {
-      Serial.println(F("Saving all..."));
-    }
+    if (! save_requested.consume()) return;
+    
+//    else {
+//      Serial.println(F("Saving all..."));
+//    }
 
     if (saved_bpm != data.bpm) {
       save_bpm(data.bpm);
@@ -129,7 +128,7 @@ public:
       ix++, addr += ADDR_INCR;
 
 //      Serial.print(F("IX becomes "));
-      Serial.println(ix);
+//      Serial.println(ix);
     }
     
     Serial.print(F("\nSave track #"));
