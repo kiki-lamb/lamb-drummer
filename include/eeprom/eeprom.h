@@ -93,33 +93,40 @@ public:
     PersistentData<tracks_t> const & data
   ) {
     if (! save_requested.consume()) {
-      // Serial.println("No flag, abort.");
-
       return;
     }
-    
-    Serial.println(F("Proceed with save..."));
-
-    save_bpm(data.bpm);
-
-    save_playback_state(data.playback_state);
-
-    for (
-      size_t ix = 0, addr = 5;
-      ix < data.tracks->size();
-      ix++, addr+= ADDR_INCR
-    ) {
-      if (! (*data.tracks)[ix].modified.consume())
-        continue;
-      
-      Serial.print(F("\nSave track #"));
-      Serial.print(ix +1 );
-      Serial.print(F(" to 0x"));
-      Serial.print(addr + ADDR_BASE, HEX);
-      Serial.println();
-      
-      save_track(addr + ADDR_BASE,  (*data.tracks)[ix]);
+    else {
+      Serial.println(F("Saving all..."));
     }
+
+    static size_t ix = 0, addr = 5;
+
+    while (! (*data.tracks)[ix].modified.consume()) {
+      if (ix == data.tracks->size()) {
+        ix = 0;
+        addr = 5;
+
+        save_bpm(data.bpm);
+
+        save_playback_state(data.playback_state);
+
+        Serial.println(F("Nothing left to save."));
+        
+        return;
+      }
+
+      ix++, addr += ADDR_INCR;
+    }
+    
+    Serial.print(F("\nSave track #"));
+    Serial.print(ix +1 );
+    Serial.print(F(" to 0x"));
+    Serial.print(addr + ADDR_BASE, HEX);
+    Serial.println();
+    
+    save_track(addr + ADDR_BASE,  (*data.tracks)[ix]);
+    
+    save_requested.set();
   }
 };
 
