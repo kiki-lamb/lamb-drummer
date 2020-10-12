@@ -59,7 +59,7 @@ size_t lcd::print_with_nulls(const char * buffer, size_t size) {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:pn  "));
 #endif
-  if (! lamb::i2c_lock::claim()) return 0;
+//  if (! lamb::i2c_lock::claim()) return 0;
   
   size_t n = 0;
 
@@ -71,7 +71,7 @@ size_t lcd::print_with_nulls(const char * buffer, size_t size) {
 #ifdef LOG_I2C_LOCK
   Serial.print(F("L:pn  "));
 #endif
-  lamb::i2c_lock::release();
+//  lamb::i2c_lock::release();
 
   return n;
 }

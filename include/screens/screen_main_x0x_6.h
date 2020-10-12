@@ -132,7 +132,7 @@ private:
           track_ix == tracks.index()
         );
 
-        if (block_ix == 5) {
+        if (block_ix == 20) {
           block_ix = 0;
           track_ix++;
         }
@@ -147,15 +147,20 @@ private:
         else {
           return false;
         }
-    } else if (data->redraw_track.consume()) {
-      auto t = tracks.current();
+    }//  else if (data->redraw_track.consume()) {
+    //   auto t = tracks.current();
       
-      draw_line(tracks.index(), t, 0, true);
-      draw_line(tracks.index(), t, 1, true);
-      draw_line(tracks.index(), t, 2, true);
-      draw_line(tracks.index(), t, 3, true);
-      draw_line(tracks.index(), t, 4, true);
-    }
+    //   draw_line(tracks.index(), t, 0, true);
+    //   draw_line(tracks.index(), t, 1, true);
+    //   draw_line(tracks.index(), t, 2, true);
+    //   draw_line(tracks.index(), t, 3, true);
+    //   draw_line(tracks.index(), t, 4, true);
+    //   draw_line(tracks.index(), t, 5, true);
+    //   draw_line(tracks.index(), t, 6, true);
+    //   draw_line(tracks.index(), t, 7, true);
+    //   draw_line(tracks.index(), t, 8, true);
+    //   draw_line(tracks.index(), t, 9, true);
+    // }
 
     if (data->popup_bpm_requested.consume()) {
       popup_bpm_time = millis();
@@ -201,33 +206,30 @@ private:
       '|',  0,   0,   0,   0, 
       '|',  0,   0,   0,   0
     };      
-  
+
+    if (block == 0) {
     buff[0] = selected ?
       lcd::CHAR_INVERSION :
       ('0' + (track_ix + 1));
-    
-    for (
-      uint8_t step = block * 4;
-      step < ((block * 4) + 4);
-      step++
-    ) {
+    }
+    else {
       char character = lcd::CHAR_REST;
-
-      if (track.trigger(step + 16 * data->bar)) {
+      
+      if (track.trigger(block + (data->bar << 4))) {
         character |= 0b100;
       }
-      
-      buff[col_map[step % 16]] = character; 
-    }
-
-//    Serial.print(F("Place cursor at "));
-//    Serial.print(block * 5);
-//    Serial.print(F(", "));
-//    Serial.print(track_ix + 1 - (data->page * 3));
-//    Serial.println();    
     
-    lcd::set_cursor(block * 4, track_ix + 1 - (data->page * 3));
-    lcd::print_with_nulls(buff + block * 4, 4);
+      buff[col_map[block % 16]] = character;
+    }
+    
+    Serial.print(F("Place cursor at "));
+    Serial.print(block);
+    Serial.print(F(", "));
+    Serial.print(track_ix + 1 - (data->page * 3));
+    Serial.println();    
+    
+    lcd::set_cursor(block, track_ix + 1 - (data->page * 3));
+    lcd::print_with_nulls(buff + block, 1);
   }
 
 ////////////////////////////////////////////////////////////////////////////////
