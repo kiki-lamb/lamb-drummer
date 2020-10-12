@@ -147,15 +147,7 @@ private:
         else {
           return false;
         }
-    } else if (data->redraw_track.consume()) {
-      auto t = tracks.current();
-      
-      draw_line(tracks.index(), t, 0, true);
-      draw_line(tracks.index(), t, 1, true);
-      draw_line(tracks.index(), t, 2, true);
-      draw_line(tracks.index(), t, 3, true);
-      draw_line(tracks.index(), t, 4, true);
-    }
+    } 
 
     if (data->popup_bpm_requested.consume()) {
       popup_bpm_time = millis();
@@ -201,25 +193,28 @@ private:
       '|',  0,   0,   0,   0, 
       '|',  0,   0,   0,   0
     };      
-  
-    buff[0] = selected ?
-      lcd::CHAR_INVERSION :
-      ('0' + (track_ix + 1));
-    
-    for (
-      uint8_t step = block * 4;
-      step < ((block * 4) + 4);
-      step++
-    ) {
-      char character = lcd::CHAR_REST;
 
-      if (track.trigger(step + 16 * data->bar)) {
-        character |= 0b100;
-      }
-      
-      buff[col_map[step % 16]] = character; 
+    if (block == 0) {
+      buff[0] = selected ?
+        lcd::CHAR_INVERSION :
+        ('0' + (track_ix + 1));
     }
-
+    else {
+      for (
+        uint8_t step = block * 4;
+        step < ((block * 4) + 4);
+        step++
+      ) {
+        char character = lcd::CHAR_REST;
+        
+        if (track.trigger(step + 16 * data->bar)) {
+          character |= 0b100;
+        }
+        
+        buff[col_map[step % 16]] = character; 
+      }
+    }
+    
 //    Serial.print(F("Place cursor at "));
 //    Serial.print(block * 5);
 //    Serial.print(F(", "));
