@@ -117,6 +117,14 @@ private:
     control_event const & control_event
   );
 
+  static application_event         process_button_event(
+    control_event const & control_event
+  );
+
+  static application_event         process_encoder_event(
+    control_event const & control_event
+  );
+
   static bool                      process_application_event(
     application_event application_event
   );

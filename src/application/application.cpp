@@ -320,147 +320,175 @@ bool application::process_control_events() {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-application::application_event application::process_control_event(
+application::application_event application::process_button_event(
   application::control_event const & control_event
 ) {
   application_event application_event;
   application_event.type = application_event_type::EVT_UNKNOWN;
 
-  if (control_event.type == control_event_type::CTL_EVT_NOT_AVAILABLE) {
-    application_event.type = application_event_type::APP_EVT_NOT_AVAILABLE;
-  }
-  else if (control_event.type == control_event_type::EVT_BUTTON) {
-    uint8_t button_number = control_event.parameter_hi();
-    int8_t  button_state  = (int8_t)control_event.parameter_lo(); 
-      
-    Serial.print(F("Button event, number: "));
-    Serial.print(button_number);
-    Serial.print(F(", state: "));
-    Serial.print(button_state);
-    Serial.println();
-    
-    if ((button_number >= 64) && (button_number <= 79)) { // Drum pad buttons
-      application_event.type = (application_event::event_type)(
-        16 - (
-          button_number ^
-          application::drum_pad_buttons_source_mask
+  uint8_t button_number = control_event.parameter_hi();
+  int8_t  button_state  = (int8_t)control_event.parameter_lo(); 
+  
+  Serial.print(F("Button event, number: "));
+  Serial.print(button_number);
+  Serial.print(F(", state: "));
+  Serial.print(button_state);
+  Serial.println();
+  
+  if ((button_number >= 64) && (button_number <= 79)) { // Drum pad buttons
+    application_event.type = (application_event::event_type)(
+      16 - (
+        button_number ^
+        application::drum_pad_buttons_source_mask
         )
-      );
-    }        
-    else {
-      switch (button_number) {
-      case 132:
-        application_event.type =
-          application_event_type::EVT_PAGE_TOGGLE;
-
-        break;
+    );
+  }        
+  else {
+    switch (button_number) {
+    case 132:
+      application_event.type =
+        application_event_type::EVT_PAGE_TOGGLE;
       
-      case 131:
-        application_event.type =
-          application_event_type::EVT_PLAYBACK_STATE_TOGGLE;
-
-        break;
+      break;
       
-      case 130:
-        application_event.type =
-          application_event_type::EVT_SELECT_TRACK;
-        
-        application_event.parameter  = 0;
-
-        break;
-        
-      case 129:
-        application_event.type =
-          application_event_type::EVT_SELECT_TRACK;
-        
-        application_event.parameter  = 1;
-
-        break;
-        
-      case 128:
-        application_event.type =
-          application_event_type::EVT_SELECT_TRACK;
-        
-        application_event.parameter  = 2;
-
-        break;
-      }
+    case 131:
+      application_event.type =
+        application_event_type::EVT_PLAYBACK_STATE_TOGGLE;
+      
+      break;
+      
+    case 130:
+      application_event.type =
+        application_event_type::EVT_SELECT_TRACK;
+      
+      application_event.parameter  = 0;
+      
+      break;
+      
+    case 129:
+      application_event.type =
+        application_event_type::EVT_SELECT_TRACK;
+      
+      application_event.parameter  = 1;
+      
+      break;
+      
+    case 128:
+      application_event.type =
+        application_event_type::EVT_SELECT_TRACK;
+      
+      application_event.parameter  = 2;
+      
+      break;
     }
   }
-  else if (control_event.type == control_event_type::EVT_ENCODER) {
-    uint8_t encoder_number = control_event.parameter >> 8;
-    int8_t  encoder_motion = (int8_t)(control_event.parameter & 0xff);
 
-    Serial.print(F("Encoder event, number: "));
-    Serial.print(encoder_number);
-    Serial.print(F(", encoder_motion: "));
-    Serial.print(encoder_motion);
-    Serial.println();
+  return application_event;
+}
 
-    switch (encoder_number) {
-    case 128:
-      application_event.type = (
-        encoder_motion > 0 ?
+////////////////////////////////////////////////////////////////////////////////
+
+application::application_event application::process_encoder_event(
+  application::control_event const & control_event
+) {
+  application_event application_event;
+  application_event.type = application_event_type::EVT_UNKNOWN;
+
+  uint8_t encoder_number = control_event.parameter >> 8;
+  int8_t  encoder_motion = (int8_t)(control_event.parameter & 0xff);
+
+  Serial.print(F("Encoder event, number: "));
+  Serial.print(encoder_number);
+  Serial.print(F(", encoder_motion: "));
+  Serial.print(encoder_motion);
+  Serial.println();
+
+  switch (encoder_number) {
+  case 128:
+    application_event.type = (
+      encoder_motion > 0 ?
 #ifdef XOX
-        application_event_type::EVT_BPM_UP :
-        application_event_type::EVT_BPM_DN
+      application_event_type::EVT_BPM_UP :
+      application_event_type::EVT_BPM_DN
 #else
-        application_event_type::EVT_MAJ_UP :
-        application_event_type::EVT_MAJ_DN
+      application_event_type::EVT_MAJ_UP :
+      application_event_type::EVT_MAJ_DN
 #endif        
-      );
+    );
 
-      break;
+    break;
 
-    case 129:
-      application_event.type = (
-        encoder_motion > 0 ?
-        application_event_type::EVT_MIN_UP :
-        application_event_type::EVT_MIN_DN
-      );
+  case 129:
+    application_event.type = (
+      encoder_motion > 0 ?
+      application_event_type::EVT_MIN_UP :
+      application_event_type::EVT_MIN_DN
+    );
 
-      break;
+    break;
 
-    case 130:
+  case 130:
 #ifndef XOX
-      application_event.type = (
-        encoder_motion > 0 ?
-        application_event_type::EVT_PHASE_MAJ_UP :
-        application_event_type::EVT_PHASE_MAJ_DN
-      );
+    application_event.type = (
+      encoder_motion > 0 ?
+      application_event_type::EVT_PHASE_MAJ_UP :
+      application_event_type::EVT_PHASE_MAJ_DN
+    );
 #endif
       
-      break;
+    break;
 
-    case 131:
+  case 131:
 #ifdef XOX
-      application_event.type = (
-        encoder_motion > 0 ?
-        application_event_type::EVT_SELECTED_TRACK_UP :
-        application_event_type::EVT_SELECTED_TRACK_DN
-      );
+    application_event.type = (
+      encoder_motion > 0 ?
+      application_event_type::EVT_SELECTED_TRACK_UP :
+      application_event_type::EVT_SELECTED_TRACK_DN
+    );
 #else
-      application_event.type = (
-        encoder_motion > 0 ?
-        application_event_type::EVT_PHASE_MIN_UP :
-        application_event_type::EVT_PHASE_MIN_DN
-      );
+    application_event.type = (
+      encoder_motion > 0 ?
+      application_event_type::EVT_PHASE_MIN_UP :
+      application_event_type::EVT_PHASE_MIN_DN
+    );
 #endif
       
-      break;
+    break;
 
       
 #ifndef XOX    
-    case 64:
-      application_event.type = (
-        encoder_motion > 0 ?
-        application_event_type::EVT_BPM_UP :
-        application_event_type::EVT_BPM_DN
-      );
+  case 64:
+    application_event.type = (
+      encoder_motion > 0 ?
+      application_event_type::EVT_BPM_UP :
+      application_event_type::EVT_BPM_DN
+    );
 
-      break;
+    break;
 #endif
-    }
+  }
+
+  return application_event;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+application::application_event application::process_control_event(
+  application::control_event const & control_event
+) {
+  application_event application_event;
+  application_event.type = application_event_type::EVT_UNKNOWN;
+ 
+  if (control_event.type == control_event_type::CTL_EVT_NOT_AVAILABLE) {
+    application_event.type = application_event_type::APP_EVT_NOT_AVAILABLE;
+
+    return application_event;
+  }
+  else if (control_event.type == control_event_type::EVT_BUTTON) {
+    return process_button_event(control_event);
+  }
+  else if (control_event.type == control_event_type::EVT_ENCODER) {
+    return process_encoder_event(control_event);
   }
 
   return application_event;
