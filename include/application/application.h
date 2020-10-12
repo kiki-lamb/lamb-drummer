@@ -110,7 +110,7 @@ private:
   static void                      setup_controls();
   static void                      setup_triggers();
   static void                      update_ui_data();
-  static bool                      queue_save_state();
+  static bool                      enqueue_data_to_save();
   static bool                      update_screen();
   
   static application_event         process_control_event(

@@ -145,8 +145,6 @@ void application::setup() {
   
   _eeprom .unflag_save_requested();
 
-  queue_save_state();
-  
   _ui_data.tracks = &_tracks;
 
   update_ui_data();
@@ -218,10 +216,17 @@ void application::loop() {
   (
     _triggers.update()         || 
     _x0x_leds.update()         ||    
+
+    _triggers.update()         || 
     process_control_events()   ||
+
     _triggers.update()         ||
     update_screen()            ||
-    queue_save_state()         ||
+
+    _triggers.update()         ||
+    enqueue_data_to_save()     ||
+
+    _triggers.update()         ||
     _eeprom.write_queued_bytes() 
   );
 }
@@ -278,7 +283,7 @@ void application::flag_save_state() {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool application::queue_save_state() {
+bool application::enqueue_data_to_save() {
   return _eeprom.queue_all(
     persistent_data(
       &_tracks,
