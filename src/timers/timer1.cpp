@@ -111,6 +111,12 @@ void timer1::draw_track_on_x0x_leds() {
   application::x0x_leds().write(lamb::flip_bytes(write));
 }
 
+void timer1::draw_chase_light_on_x0x_leds(uint8_t const & ticker_) {
+  application::x0x_leds().xor_write(
+    lamb::flip_bytes(1 << (((ticker_ >> 1) % 16)))
+  );    
+}
+  
 void timer1::isr() {
 #ifdef LOG_TIMERS
   Serial.println(F("1:isr +"));
@@ -125,17 +131,18 @@ void timer1::isr() {
   uint8_t ticker_ = ticker();
 
   if (playback_state()) {
-    if (! (ticker_ & 0b1)) {
-      if ((ticker_ % 8) == 0) {
+    if ((ticker_ & 0b1)) {
+      application::triggers().write(0xff);
+    }
+    else {
+      if ((ticker_ % 8) == 0) { // can probably happen less often?
         application::flag_main_screen(); // In ISR, not that ugly...
       }
 
       draw_track_on_x0x_leds();
+
+      draw_chase_light_on_x0x_leds(ticker_);
             
-      application::x0x_leds().xor_write(
-        lamb::flip_bytes(1 << (((ticker_ >> 1) % 16)))
-      );
-      
       uint8_t out = 0xff;
       
       for (uint8_t ix = 0; ix < _track_count; ix++) {      
@@ -144,17 +151,14 @@ void timer1::isr() {
         }
       }
       
-      Serial.print(F("out = "));
-      lamb::print_bits_8(out);
+      // Serial.print(F("out = "));
+      // lamb::print_bits_8(out);
 
-      Serial.print(" ");
-      Serial.print(ticker_ >> 1);
-      Serial.println();
+      // Serial.print(" ");
+      // Serial.print(ticker_ >> 1);
+      // Serial.println();
       
       application::triggers().write(out);
-    }
-    else {
-      application::triggers().write(0xff);
     }
     
     increment_ticker();

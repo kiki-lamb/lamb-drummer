@@ -13,6 +13,7 @@ private:
   uint16_t             _millihz;
   static timer1 *      _instance;
   void                 draw_track_on_x0x_leds();
+  void                 draw_chase_light_on_x0x_leds(uint8_t const & ticker_);
 public:
   void                 isr();
   static timer1 &      instance();

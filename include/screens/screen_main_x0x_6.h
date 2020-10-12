@@ -273,6 +273,7 @@ private:
     
     if (data->redraw_playback_state.consume()) {
       lcd::select_playstate(! data->playback_state);
+      lcd::put_playstate(19,0);
     }
   }
 };

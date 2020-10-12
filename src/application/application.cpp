@@ -334,7 +334,7 @@ application::application_event application::process_control_event(
 
         break;
       
-      case 135:
+      case 131:
         application_event.type =
           application_event_type::EVT_PLAYBACK_STATE_TOGGLE;
 

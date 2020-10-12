@@ -109,11 +109,11 @@ void eeprom::save_track<tracks::x0x>(
   size_t const & eeprom_location,
   tracks::x0x & track
 ) const {
-  if (! track.modified.consume() ) {
-    Serial.println(F("Not modified, not saving."));
+  // if (! track.modified.consume() ) {
+  //   Serial.println(F("Not modified, not saving."));
     
-    return;
-  }
+  //   return;
+  // }
 
   Serial.print(F(" 0x"));
   Serial.print(eeprom_location, HEX);

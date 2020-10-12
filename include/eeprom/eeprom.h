@@ -77,7 +77,7 @@ public:
       ix++, addr+= ADDR_INCR
     ) {
       Serial.print(F("\nRestore track #"));
-      Serial.print(ix);
+      Serial.print(ix + 1);
       Serial.print(F(" from 0x"));
       Serial.print(addr + ADDR_BASE, HEX);
       Serial.println();
@@ -115,7 +115,7 @@ public:
       ix++, addr+= ADDR_INCR
     ) {
       Serial.print(F("\nSave track #"));
-      Serial.print(ix);
+      Serial.print(ix +1 );
       Serial.print(F(" to 0x"));
       Serial.print(addr + ADDR_BASE, HEX);
       Serial.println();
