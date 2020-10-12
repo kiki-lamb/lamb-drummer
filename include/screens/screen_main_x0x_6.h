@@ -147,20 +147,7 @@ private:
         else {
           return false;
         }
-    }//  else if (data->redraw_track.consume()) {
-    //   auto t = tracks.current();
-      
-    //   draw_line(tracks.index(), t, 0, true);
-    //   draw_line(tracks.index(), t, 1, true);
-    //   draw_line(tracks.index(), t, 2, true);
-    //   draw_line(tracks.index(), t, 3, true);
-    //   draw_line(tracks.index(), t, 4, true);
-    //   draw_line(tracks.index(), t, 5, true);
-    //   draw_line(tracks.index(), t, 6, true);
-    //   draw_line(tracks.index(), t, 7, true);
-    //   draw_line(tracks.index(), t, 8, true);
-    //   draw_line(tracks.index(), t, 9, true);
-    // }
+    }
 
     if (data->popup_bpm_requested.consume()) {
       popup_bpm_time = millis();
@@ -221,12 +208,12 @@ private:
     
       buff[col_map[block % 16]] = character;
     }
-    
-    Serial.print(F("Place cursor at "));
-    Serial.print(block);
-    Serial.print(F(", "));
-    Serial.print(track_ix + 1 - (data->page * 3));
-    Serial.println();    
+
+    // Serial.print(F("Place cursor at "));
+    // Serial.print(block);
+    // Serial.print(F(", "));
+    // Serial.print(track_ix + 1 - (data->page * 3));
+    // Serial.println();    
     
     lcd::set_cursor(block, track_ix + 1 - (data->page * 3));
     lcd::print_with_nulls(buff + block, 1);
