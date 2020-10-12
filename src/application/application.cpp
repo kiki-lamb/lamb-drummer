@@ -593,8 +593,6 @@ bool application::process_application_event(
   {
     if (_tracks.jump(application_event.parameter + 3 * _ui_data.page)) {
       Serial.print(F("Jump to track "));
-      Serial.print(application_event.parameter);
-      Serial.println();
 
       goto after_track_select;
     }

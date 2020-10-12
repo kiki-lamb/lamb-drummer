@@ -61,11 +61,11 @@ private:
       
       for (uint8_t line = 1; line <= 3; line++) {
         if (line + (3 * data->page) == selected) {
-          Serial.print(F("Line "));
-          Serial.print(line);
-          Serial.print(F(" = selected "));
-          Serial.print(line + (3 * data->page));
-          Serial.println();
+          // Serial.print(F("Line "));
+          // Serial.print(line);
+          // Serial.print(F(" = selected "));
+          // Serial.print(line + (3 * data->page));
+          // Serial.println();
           
           continue;
         }
