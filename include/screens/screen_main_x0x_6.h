@@ -132,7 +132,7 @@ private:
           track_ix == tracks.index()
         );
 
-        if (block_ix == 4) {
+        if (block_ix == 5) {
           block_ix = 0;
           track_ix++;
         }
@@ -154,6 +154,7 @@ private:
       draw_line(tracks.index(), t, 1, true);
       draw_line(tracks.index(), t, 2, true);
       draw_line(tracks.index(), t, 3, true);
+      draw_line(tracks.index(), t, 4, true);
     }
 
     if (data->popup_bpm_requested.consume()) {
@@ -206,8 +207,8 @@ private:
       ('0' + (track_ix + 1));
     
     for (
-      uint8_t step = block * 5;
-      step < ((block * 5) + 5);
+      uint8_t step = block * 4;
+      step < ((block * 4) + 4);
       step++
     ) {
       char character = lcd::CHAR_REST;
@@ -225,8 +226,8 @@ private:
 //    Serial.print(track_ix + 1 - (data->page * 3));
 //    Serial.println();    
     
-    lcd::set_cursor(block * 5, track_ix + 1 - (data->page * 3));
-    lcd::print_with_nulls(buff + block * 5, 5);
+    lcd::set_cursor(block * 4, track_ix + 1 - (data->page * 3));
+    lcd::print_with_nulls(buff + block * 4, 4);
   }
 
 ////////////////////////////////////////////////////////////////////////////////

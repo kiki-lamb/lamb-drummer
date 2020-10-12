@@ -38,7 +38,7 @@ void timer2::isr() {
 
   static uint16_t ix = 0;
   
-  if (! (ix++ & 0b11111111)) {
+  if (! (ix++ & 0b111111111)) {
     PORTB ^= _BV(5);   // flip LED_BUILTIN
 
 //    Serial.println(F("Flagging save..."));

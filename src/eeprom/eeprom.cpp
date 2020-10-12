@@ -38,6 +38,8 @@ bool eeprom::enqueue_byte(int idx_, uint8_t val_) {
   Serial.print(F("Queued write 0x"));
   Serial.print(idx_, HEX);
   Serial.print(F(" = "));
+  lamb::print_bits_8(val_);
+  Serial.print(" ");
   Serial.print(val_);
   Serial.println();
   
@@ -52,6 +54,8 @@ bool eeprom::write_queued_bytes() {
     Serial.print(F("Write queued 0x"));
     Serial.print(q_w.idx, HEX);
     Serial.print(F(" = "));
+    lamb::print_bits_8(q_w.val);
+    Serial.print(" ");
     Serial.print(q_w.val);
     Serial.println();
   
