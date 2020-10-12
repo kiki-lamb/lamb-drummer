@@ -133,13 +133,7 @@ public:
     }
 
     while (! (*data.tracks)[save_ix].modified.consume()) {
-      if (save_ix >= data.tracks->size() - 1) {
-        save_ix = 0;
-        save_addr = 5;
-
-        return false;
-      }
-      
+      if (save_ix >= data.tracks->size() - 1) return false;      
       save_ix++, save_addr += ADDR_INCR;
     }
     
