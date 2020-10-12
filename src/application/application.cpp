@@ -551,6 +551,8 @@ bool application::process_application_event(
     else {
       tracks().jump(tracks().index() - 3);
     }
+
+    Serial.print(F("Page turn jumped to track "));
     
     goto after_track_select;
   }
