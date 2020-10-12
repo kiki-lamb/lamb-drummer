@@ -14,7 +14,7 @@ timer2 & timer2::instance() {
 
 void timer2::setup() {
   _instance = this;
-  DDRB |= 0b00010000;
+  DDRB |= 0b0001'0000;
 
   TCCR2A  = 0; // set entire TCCR2A register to 0
   TCCR2B  = 0; // same for TCCR2B
@@ -38,7 +38,7 @@ void timer2::isr() {
 
   static uint16_t ix = 0;
   
-  if (! (ix++ & 0b111111111)) {
+  if (! (ix++ & 0b1'1111'1111)) {
     PORTB ^= _BV(5);   // flip LED_BUILTIN
 
 //    Serial.println(F("Flagging save..."));
