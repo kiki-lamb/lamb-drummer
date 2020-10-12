@@ -1,10 +1,6 @@
 #include "outputs/triggers/triggers.h"
 #include "application/application.h"
 
-outputs::triggers::triggers() : _device(NULL), _values(0) {}
-
-// outputs::triggers::~triggers() {}
-
 bool outputs::triggers::setup(jm_PCF8574 * device_) {
   _device = device_;
 

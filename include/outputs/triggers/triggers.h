@@ -12,8 +12,6 @@ namespace outputs {
     uint16_t _values;
   
   public:
-    triggers();
-//  ~triggers();
     bool setup(jm_PCF8574 * device_);
     void flag();
     void write(uint16_t const & values_);

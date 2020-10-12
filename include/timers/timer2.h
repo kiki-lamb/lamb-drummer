@@ -5,8 +5,6 @@ class timer2 {
 private:
   static timer2 *     _instance;
 public:
-  timer2();
-//  /* virtual */ ~timer2();
   void    setup();
   void    isr();
   static  timer2 &     instance();

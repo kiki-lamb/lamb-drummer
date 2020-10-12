@@ -2,10 +2,6 @@
 #include "timers/timer2.h"
 #include "application/application.h"
 
-timer2::timer2() {};
-
-// timer2::~timer2() {};
-
 timer2 * timer2::_instance = 0;
 
 timer2 & timer2::instance() {
@@ -38,15 +34,14 @@ void timer2::isr() {
 
   static uint16_t ix = 0;
   
-  if (! (ix++ & 0b1'1111'1111)) {
-    PORTB ^= _BV(5);   // flip LED_BUILTIN
+  if (! (ix++ & 0b1'1111'1111)) { // 
+    PORTB ^= _BV(5);
 
-//    Serial.println(F("Flagging save..."));
-    
-    application::flag_save_state(); // In ISR, not that ugly...
+    application::flag_save_state();
   }
 
   application::flag_controls();
+  
 
   TIMSK1 = cTIMSK1;
   TIMSK2 = cTIMSK2;
