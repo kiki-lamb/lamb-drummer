@@ -141,7 +141,7 @@ void application::setup() {
 
   _eeprom .unflag_save_requested();
 
-  save_state();
+  priv_save_state();
   
   _ui_data.tracks = &_tracks;
 
@@ -203,16 +203,16 @@ void application::setup_controls() {
 ////////////////////////////////////////////////////////////////////////////////
 
 void application::loop() {
-  if (! (
-        _triggers.update()       || 
-        _x0x_leds.update()       ||    
-        _triggers.update()       ||   
-        process_control_events() ||    
-        _triggers.update())
-  ) {
-    update_ui_data();
-    _ui.update_screen();
-  }
+  (
+    _triggers.update()       || 
+    _x0x_leds.update()       ||    
+    _triggers.update()       ||   
+    process_control_events() ||    
+    _triggers.update()       ||
+    (update_ui_data(),
+     _ui.update_screen())    ||
+    priv_save_state()
+  );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -257,12 +257,19 @@ void application::set_playback_state(bool const & playback_state_) {
 
   flag_main_screen();
 
+  flag_save_state();
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+void application::flag_save_state() {
   _eeprom.flag_save_requested();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void application::save_state() {
+bool application::priv_save_state() {
   _eeprom.save_all(
     persistent_data(
       &_tracks,
@@ -270,6 +277,8 @@ void application::save_state() {
       _timer1.playback_state()
     )
   );
+
+  return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -92,21 +92,16 @@ public:
   void save_all(
     PersistentData<tracks_t> const & data
   ) {
-    const unsigned long SAVE_DELAY = 5000UL;
-
-    unsigned long now   = millis();
-    unsigned long delta = now - last_edit;
-
-    if (! save_requested.consume())
-      return;
-
-    if (delta < SAVE_DELAY) {
-      save_requested.set();
+    if (! save_requested.consume()) {
+      // Serial.println("No flag, abort.");
 
       return;
     }
+    
+    Serial.println(F("Proceed with save..."));
 
     save_bpm(data.bpm);
+
     save_playback_state(data.playback_state);
 
     for (
@@ -114,12 +109,15 @@ public:
       ix < data.tracks->size();
       ix++, addr+= ADDR_INCR
     ) {
+      if (! (*data.tracks)[ix].modified.consume())
+        continue;
+      
       Serial.print(F("\nSave track #"));
       Serial.print(ix +1 );
       Serial.print(F(" to 0x"));
       Serial.print(addr + ADDR_BASE, HEX);
       Serial.println();
-
+      
       save_track(addr + ADDR_BASE,  (*data.tracks)[ix]);
     }
   }

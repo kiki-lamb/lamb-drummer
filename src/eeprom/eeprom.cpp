@@ -6,7 +6,7 @@
 #define ADDR_BPM  3
 #define ADDR_PLAY 4
 
-eeprom::eeprom() : save_requested(), last_edit(0) {}
+eeprom::eeprom() : save_requested() {}
 
 // eeprom::~eeprom() {}
 
@@ -54,9 +54,6 @@ void eeprom::save_track<tracks::euclidean>(
   size_t const & eeprom_location,
   tracks::euclidean & track
 ) const {
-  if (! track.modified.consume() )
-    return;
-  
   EEPROM.write(eeprom_location + 0, track.mod_maj());
   Serial.print(F("Save mod_maj "));
   Serial.print(track.mod_maj()); Serial.println();

@@ -110,7 +110,8 @@ private:
   static void                      setup_controls();
   static void                      setup_triggers();
   static void                      update_ui_data();
-
+  static bool                      priv_save_state();
+  
   static application_event         process_control_event(
     control_event const & control_event
   );
@@ -126,7 +127,7 @@ public:
   static void                      flag_controls();     // called by ISR for timer2.
   static void                      flag_main_screen();  // called by ISR for timer1.
   static void                      loop();
-  static void                      save_state();        // called by ISR for timer2.
+  static void                      flag_save_state();        // called by ISR for timer2.
   static void                      setup();
   static track_collection &        tracks();
 };

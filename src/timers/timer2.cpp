@@ -40,7 +40,10 @@ void timer2::isr() {
   
   if (! (ix++ & 0b11111111)) {
     PORTB ^= _BV(5);   // flip LED_BUILTIN
-    application::save_state(); // In ISR, not that ugly...
+
+    Serial.println(F("Flagging save..."));
+    
+    application::flag_save_state(); // In ISR, not that ugly...
   }
 
   application::flag_controls();
