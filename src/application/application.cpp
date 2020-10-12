@@ -208,6 +208,7 @@ void application::setup_controls() {
 
 bool application::update_screen() {
   update_ui_data();
+
   return _ui.update_screen();
 }
 
