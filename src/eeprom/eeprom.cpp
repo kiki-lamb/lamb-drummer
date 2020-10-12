@@ -213,8 +213,15 @@ void eeprom::restore_track<tracks::x0x>(
 
   for (uint8_t ix = 0; ix < track.bars_count(); ix++) {
     size_t   loc         = eeprom_location + 1 + (ix * 2);
+
+#ifdef RESET_PATTERN
+    uint8_t  bar_data_hi = 0;
+    uint8_t  bar_data_lo = 0;
+#else
     uint8_t  bar_data_hi = EEPROM.read(loc);
     uint8_t  bar_data_lo = EEPROM.read(loc + 1);
+#endif    
+
     uint16_t bar_data    = bar_data_hi;
     bar_data <<= 8;
     bar_data |= bar_data_lo;
@@ -240,5 +247,7 @@ void eeprom::restore_track<tracks::x0x>(
     track.set_bar(ix, bar_data);
   }
 
+#ifndef RESET_PATTERN
   track.modified.unset();
+#endif
 }
