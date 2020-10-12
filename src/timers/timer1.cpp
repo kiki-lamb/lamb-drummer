@@ -136,22 +136,22 @@ void timer1::isr() {
         lamb::flip_bytes(1 << (((ticker_ >> 1) % 16)))
       );
       
-      uint8_t blast = 0xff;
+      uint8_t out = 0xff;
       
       for (uint8_t ix = 0; ix < _track_count; ix++) {      
         if (application::tracks()[ix].trigger(ticker_ >> 1)) {
-          blast &= ~_BV(ix);
+          out &= ~_BV(ix);
         }
       }
       
       Serial.print(F("out = "));
-      lamb::print_bits_8(blast);
+      lamb::print_bits_8(out);
 
       Serial.print(" ");
       Serial.print(ticker_ >> 1);
       Serial.println();
       
-      application::triggers().write(blast);
+      application::triggers().write(out);
     }
     else {
       application::triggers().write(0xff);
