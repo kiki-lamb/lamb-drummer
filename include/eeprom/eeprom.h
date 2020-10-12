@@ -44,28 +44,28 @@ private:
   size_t              save_ix = 0, save_addr = 5;
   lamb::flag          save_requested;  
 
-  struct queued_write {
+  struct queued_byte {
     int idx;
     uint8_t val;
 
-    inline queued_write(int idx_ = 0, uint8_t val_ = 0) :
+    inline queued_byte(int idx_ = 0, uint8_t val_ = 0) :
       idx(idx_), val(val_) {}
   };
   
-  declare_light_buffer(queued_write, BUFFER_SIZE, queue);
+  declare_light_buffer(queued_byte, BUFFER_SIZE, queue);
   
-  bool write_to_queue(int idx_, uint8_t val_);
+  bool enqueue_byte(int idx_, uint8_t val_);
   
-  void save_playback_state(bool const & playback_state_);
+  void enqueue_playback_state(bool const & playback_state_);
 
-  void save_bpm(uint8_t const & bpm_);
+  void enqueue_bpm(uint8_t const & bpm_);
 
   bool playback_state() const;
 
   uint8_t bpm() const;
 
   template <typename track_t>
-  void save_track(
+  void enqueue_track(
     size_t const & eeprom_location,
     track_t & track
   ) {
@@ -81,7 +81,7 @@ private:
   }  
 
 public:
-  bool write_from_queue();
+  bool write_queued_bytes();
 
   void flag_save_requested();
 
@@ -129,13 +129,13 @@ public:
       if (save_ix >= data.tracks->size() - 1) {
 
         if (saved_bpm != data.bpm) {
-          save_bpm(data.bpm);
+          enqueue_bpm(data.bpm);
           
           saved_bpm = data.bpm;
         }
         
         if (saved_playback_state != data.playback_state) {
-          save_playback_state(data.playback_state);
+          enqueue_playback_state(data.playback_state);
           
           saved_playback_state = data.playback_state;
         }
@@ -155,14 +155,14 @@ public:
     Serial.print(save_addr + ADDR_BASE, HEX);
     Serial.println();
     
-    save_track(save_addr + ADDR_BASE, (*data.tracks)[save_ix]);
+    enqueue_track(save_addr + ADDR_BASE, (*data.tracks)[save_ix]);
 
     return true;
   }
 };
 
 template <>
-void eeprom::save_track<tracks::euclidean>(
+void eeprom::enqueue_track<tracks::euclidean>(
   size_t const & eeprom_location,
   tracks::euclidean & track
 );
@@ -174,7 +174,7 @@ void eeprom::restore_track<tracks::euclidean>(
 );
 
 template <>
-void eeprom::save_track<tracks::x0x>(
+void eeprom::enqueue_track<tracks::x0x>(
   size_t const & eeprom_location,
   tracks::x0x & track
 );

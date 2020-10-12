@@ -222,7 +222,7 @@ void application::loop() {
     _triggers.update()         ||
     update_screen()            ||
     queue_save_state()         ||
-    _eeprom.write_from_queue() 
+    _eeprom.write_queued_bytes() 
   );
 }
 
