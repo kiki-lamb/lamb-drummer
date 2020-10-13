@@ -215,11 +215,11 @@ private:
       }
     }
     
-//    Serial.print(F("Place cursor at "));
-//    Serial.print(block * 5);
-//    Serial.print(F(", "));
-//    Serial.print(track_ix + 1 - (data->page * 3));
-//    Serial.println();    
+    Serial.print(F("Place cursor at "));
+    Serial.print(block * 4);
+    Serial.print(F(", "));
+    Serial.print(track_ix + 1 - (data->page * 3));
+    Serial.println();    
     
     lcd::set_cursor(block * 4, track_ix + 1 - (data->page * 3));
     lcd::print_with_nulls(buff + block * 4, 4);
