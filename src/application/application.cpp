@@ -21,25 +21,25 @@ Adafruit_MCP23017             application::_encoder_pad_device;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-lamb::controls::encoder_pad_mcp23017
+application::encoder_pad
 application::_combo_pad_encoder_pad(
   application::combo_pad_encoders_count,
   application::combo_pad_encoders_range_start
 );
 
-lamb::controls::button_pad_mcp23017
+application::button_pad
 application::_combo_pad_button_pad(
   application::combo_pad_buttons_count,
   application::combo_pad_buttons_range_start
 );
 
-lamb::controls::encoder_pad_mcp23017
+application::encoder_pad
 application::_encoder_pad0(
   application::encoder_pad_encoders_count,
   application::encoder_pad_encoders_range_start
 );
 
-lamb::controls::button_pad_mcp23017
+application::button_pad
 application::_drum_pad_button_pad(
   application::drum_pad_buttons_count,
   application::drum_pad_buttons_range_start
