@@ -92,10 +92,6 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-  // 20 must be evenly divisible by block_size
-  static const uint8_t block_size = 2; 
-
-////////////////////////////////////////////////////////////////////////////////    
   virtual bool impl_update() override {
     auto           tracks       = *data->tracks;
     static uint8_t last_page    = 0xff;
@@ -107,7 +103,7 @@ private:
     uint8_t        bar          = data->bar;
     uint8_t        current_page = data->page;
     bool           new_page     = current_page != last_page;
-    
+
     if (new_page) {
       Serial.println("NEW PAGE.");
 
@@ -136,7 +132,7 @@ private:
           track_ix == tracks.index()
         );
 
-        if (block_ix == (20 / block_size)) {
+        if (block_ix == 4) {
           block_ix = 0;
           track_ix++;
         }
@@ -153,10 +149,11 @@ private:
         }
     } else if (data->redraw_track.consume()) {
       auto t = tracks.current();
-
-      for (uint8_t blk = 0; blk < (20 / block_size); blk++ ) {
-        draw_line(tracks.index(), t, blk, true);
-      }
+      
+      draw_line(tracks.index(), t, 0, true);
+      draw_line(tracks.index(), t, 1, true);
+      draw_line(tracks.index(), t, 2, true);
+      draw_line(tracks.index(), t, 3, true);
     }
 
     if (data->popup_bpm_requested.consume()) {
@@ -176,7 +173,7 @@ private:
     
     draw_line_0(redraw_bpm);
     
-    draw_channel_numbers();
+    draw_channel_numbers();        
 
     return true;
   }
@@ -189,6 +186,7 @@ private:
     uint8_t block,
     bool selected
   ) {
+    
     static const uint8_t col_map[] = {
       1,   2,  3,  4,
       6,   7,  8,  9,
@@ -202,16 +200,14 @@ private:
       '|',  0,   0,   0,   0, 
       '|',  0,   0,   0,   0
     };      
-
-    if (block == 0) {
-      buff[0] = selected ?
-        lcd::CHAR_INVERSION :
-        ('0' + (track_ix + 1));
-    }
+  
+    buff[0] = selected ?
+      lcd::CHAR_INVERSION :
+      ('0' + (track_ix + 1));
     
     for (
-      uint8_t step = block * block_size;
-      step < ((block * block_size) + block_size);
+      uint8_t step = block * 5;
+      step < ((block * 5) + 5);
       step++
     ) {
       char character = lcd::CHAR_REST;
@@ -223,14 +219,14 @@ private:
       buff[col_map[step % 16]] = character; 
     }
 
-//    Serial.print(F("Place cursor at "));
-//    Serial.print(block * block_size);
-//    Serial.print(F(", "));
-//    Serial.print(track_ix + 1 - (data->page * 3));
-//    Serial.println();    
+    Serial.print(F("Place cursor at "));
+    Serial.print(block * 5);
+    Serial.print(F(", "));
+    Serial.print(track_ix + 1 - (data->page * 3));
+    Serial.println();    
     
-    lcd::set_cursor(block * block_size, track_ix + 1 - (data->page * 3));
-    lcd::print_with_nulls(buff + block * block_size, block_size);
+    lcd::set_cursor(block * 5, track_ix + 1 - (data->page * 3));
+    lcd::print_with_nulls(buff + block * 5, 5);
   }
 
 ////////////////////////////////////////////////////////////////////////////////
