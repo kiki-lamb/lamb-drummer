@@ -61,8 +61,8 @@ public:
   typedef application_event::event_type                   application_event_type;
   typedef control_event::event_type                       control_event_type;
   typedef lamb::events::sources::buffer<control_event, 8> control_source;
-  typedef lamb::controls::encoder_pad_mcp23017            encoder_pad;
-  typedef lamb::controls::button_pad_mcp23017             button_pad;
+  typedef lamb::controls::mcp23017_encoders               encoder_pad;
+  typedef lamb::controls::mcp23017_buttons                button_pad;
   
   typedef lamb::events::sources::button_pad<
     button_pad,

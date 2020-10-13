@@ -141,12 +141,12 @@ void timer1::isr() {
         }
       }
       
-      // Serial.print(F("out = "));
-      // lamb::print_bits_8(out);
+      Serial.print(F("out = "));
+      lamb::print_bits_8(out);
 
-      // Serial.print(" ");
-      // Serial.print(ticker_ >> 1);
-      // Serial.println();
+      Serial.print(" ");
+      Serial.print(ticker_ >> 1);
+      Serial.println();
       
       application::triggers().write(out);
     }
