@@ -21,25 +21,25 @@ Adafruit_MCP23017             application::_encoder_pad_device;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-application::encoder_pad
+application::encoders
 application::_combo_pad_encoder_pad(
   application::combo_pad_encoders_count,
   application::combo_pad_encoders_range_start
 );
 
-application::button_pad
+application::buttons
 application::_combo_pad_button_pad(
   application::combo_pad_buttons_count,
   application::combo_pad_buttons_range_start
 );
 
-application::encoder_pad
+application::encoders
 application::_encoder_pad0(
   application::encoder_pad_encoders_count,
   application::encoder_pad_encoders_range_start
 );
 
-application::button_pad
+application::buttons
 application::_drum_pad_button_pad(
   application::drum_pad_buttons_count,
   application::drum_pad_buttons_range_start
@@ -47,25 +47,25 @@ application::_drum_pad_button_pad(
 
 ////////////////////////////////////////////////////////////////////////////////
 
-application::encoder_pad_source
+application::encoders_source
 application::_encoder_pad_source0(
   &application::_encoder_pad0,
   application::encoder_pad_source_mask
 );
 
-application::encoder_pad_source
+application::encoders_source
 application::_combo_pad_encoder_source(
   &application::_combo_pad_encoder_pad,
   application::combo_pad_encoders_source_mask
 );
 
-application::button_pad_source
+application::buttons_source
 application::_combo_pad_button_source(
   &application::_combo_pad_button_pad,
   application::combo_pad_buttons_source_mask
 );
 
-application::button_pad_source
+application::buttons_source
 application::_drum_pad_source(
   &application::_drum_pad_button_pad,
   application::drum_pad_buttons_source_mask

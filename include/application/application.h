@@ -61,32 +61,32 @@ public:
   typedef application_event::event_type                   application_event_type;
   typedef control_event::event_type                       control_event_type;
   typedef lamb::events::sources::buffer<control_event, 8> control_source;
-  typedef lamb::controls::mcp23017_encoders               encoder_pad;
-  typedef lamb::controls::mcp23017_buttons                button_pad;
+  typedef lamb::controls::mcp23017_encoders               encoders;
+  typedef lamb::controls::mcp23017_buttons                buttons;
   
-  typedef lamb::events::sources::button_pad<
-    button_pad,
+  typedef lamb::events::sources::buttons<
+    buttons,
     control_event,
-    control_event_type::EVT_BUTTON>                       button_pad_source;  
+    control_event_type::EVT_BUTTON>                       buttons_source;  
 
-  typedef lamb::events::sources::encoder_pad<
-    encoder_pad,
+  typedef lamb::events::sources::encoders<
+    encoders,
     control_event,
-    control_event_type::EVT_ENCODER>                      encoder_pad_source;
+    control_event_type::EVT_ENCODER>                      encoders_source;
 
   typedef lamb::events::sources::combine<
     control_event,
     event_sources_count>                                  combined_source;
   
 private:
-  static  encoder_pad                              _combo_pad_encoder_pad;
-  static  encoder_pad                              _encoder_pad0;
-  static  button_pad                               _combo_pad_button_pad;
-  static  button_pad                               _drum_pad_button_pad;
-  static  encoder_pad_source                       _encoder_pad_source0;
-  static  encoder_pad_source                       _combo_pad_encoder_source;
-  static  button_pad_source                        _combo_pad_button_source;
-  static  button_pad_source                        _drum_pad_source;
+  static  encoders                                 _combo_pad_encoder_pad;
+  static  encoders                                 _encoder_pad0;
+  static  buttons                                  _combo_pad_button_pad;
+  static  buttons                                  _drum_pad_button_pad;
+  static  encoders_source                          _encoder_pad_source0;
+  static  encoders_source                          _combo_pad_encoder_source;
+  static  buttons_source                           _combo_pad_button_source;
+  static  buttons_source                           _drum_pad_source;
   static  combined_source                          _combine_event_sources;
   static  outputs::triggers                        _triggers;  
   static  outputs::x0x_leds                        _x0x_leds;
