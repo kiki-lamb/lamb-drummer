@@ -44,7 +44,7 @@ public:
   static  const uint8_t            drum_pad_addr                    = 0x3;
   static  const uint8_t            encoder_pad_addr                 = 0x5;
   static  const uint8_t            x0x_leds_addr                    = 0x4;
-  static  const uint8_t            triggers_addr                    = 0x3a;
+  static  const uint8_t            triggers_addr                    = 0x3f;
 
 #ifdef XOX
   typedef tracks::x0x                                     track;

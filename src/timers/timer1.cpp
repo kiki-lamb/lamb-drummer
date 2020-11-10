@@ -121,40 +121,47 @@ void timer1::isr() {
   uint8_t ticker_ = ticker();
 
   if (playback_state()) {
-    if ((ticker_ & 0b1)) {
-      application::triggers().write(0xff);
-    }
-    else {
-      if ((ticker_ % 8) == 0) { // can probably happen less often?
-        application::flag_main_screen(); // In ISR, not that ugly...
-      }
-
-      draw_track_on_x0x_leds();
-
-      draw_chase_light_on_x0x_leds(ticker_);
-            
-      uint8_t out = 0xff;
-      
-      for (uint8_t ix = 0; ix < _track_count; ix++) {      
-        if (application::tracks()[ix].trigger(ticker_ >> 1)) {
-          out &= ~_BV(ix);
-        }
-      }
-      
-      Serial.print(F("out = "));
-      lamb::print_bits_8(out);
-
-      Serial.print(" ");
-      Serial.print(ticker_ >> 1);
-      Serial.println();
-      
-      application::triggers().write(out);
+   uint8_t out = 0xff;
+   
+   if ((ticker_ & 0b1)) {
+//    application::triggers().write(0xff);
+   }
+   else {
+    if ((ticker_ % 8) == 0) { // can probably happen less often?
+     application::flag_main_screen(); // In ISR, not that ugly...
+     out &= ~_BV(7);
     }
     
-    increment_ticker();
+    draw_track_on_x0x_leds();
+    
+    draw_chase_light_on_x0x_leds(ticker_);    
+    
+    for (uint8_t ix = 0; ix < _track_count; ix++) {      
+     if (application::tracks()[ix].trigger(ticker_ >> 1)) {
+      out &= ~_BV(ix);
+     }
+    }
+    
+    out &= ~_BV(6);
+    
+    // if (ticker_ & 8) {
+
+    // }    
+   }
+
+   application::triggers().write(out);
+   
+   Serial.print(F("out = "));
+   lamb::print_bits_8(out);
+   
+   Serial.print(" ");
+   Serial.print(ticker_); // >> 1);
+   Serial.println();  
+   
+   increment_ticker();
   }
   else {
-    draw_track_on_x0x_leds(); // doesn't need to happen this often!
+   draw_track_on_x0x_leds(); // doesn't need to happen this often!
   }
   
   TIMSK1 = cTIMSK1;
