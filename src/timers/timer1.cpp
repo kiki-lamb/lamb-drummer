@@ -1,11 +1,13 @@
 #include "timers/timer1.h"
 #include "application/application.h"
 
-void timer1::set_ticker(uint8_t const & ticker_) { 
+void timer1::set_ticker(uint8_t const & ticker_) {
+// Serial.println(F("Set."));
   _ticker = ticker_;
 }
 
-void timer1::adjust_ticker(int8_t const & ticker_addend_) { 
+void timer1::adjust_ticker(int8_t const & ticker_addend_) {
+//  Serial.println(F("Adjust."));
   _ticker += ticker_addend_;
 }
 
@@ -14,7 +16,8 @@ timer1::timer1(uint8_t const & track_count_) :
   _bpm(0),
   _playback_state(true),
   _ticker(0),
-  _millihz(0) {};
+  _millihz(0),
+  _setup_complete(false)  {};
 
 // timer1::~timer1() {}
 
@@ -36,6 +39,7 @@ void timer1::setup() {
   TIMSK1   |= (1 << OCIE1A);
   TCCR1A   |= (1 << COM1A0);
   DDRB     |= _BV(1);
+  _setup_complete = true;
 }
 
 bool timer1::playback_state() const {
@@ -86,6 +90,7 @@ void timer1::set_hz_by_bpm(uint8_t const & bpm_) {
 }
 
 void timer1::increment_ticker() {
+//  Serial.println(F("Incr."));
   timer1::_ticker++;
 }
 
@@ -123,11 +128,8 @@ void timer1::isr() {
   if (playback_state()) {
    uint8_t out = 0xff;
    
-   if ((ticker_ & 0b1)) {
-//    application::triggers().write(0xff);
-   }
-   else {
-    if ((ticker_ % 8) == 0) { // can probably happen less often?
+   if (! (ticker_ & 0b1)) {
+    if ((ticker_ % 32) == 0) { // can probably happen less often?
      application::flag_main_screen(); // In ISR, not that ugly...
      out &= ~_BV(7);
     }
@@ -143,10 +145,6 @@ void timer1::isr() {
     }
     
     out &= ~_BV(6);
-    
-    // if (ticker_ & 8) {
-
-    // }    
    }
 
    application::triggers().write(out);
@@ -155,7 +153,7 @@ void timer1::isr() {
    lamb::print_bits_8(out);
    
    Serial.print(" ");
-   Serial.print(ticker_); // >> 1);
+   Serial.print(ticker_);
    Serial.println();  
    
    increment_ticker();
@@ -173,5 +171,6 @@ void timer1::isr() {
 }
 
 ISR(TIMER1_COMPA_vect) {
-  timer1::instance().isr();
+ if (! timer1::instance()._setup_complete) return;
+ timer1::instance().isr();
 }

@@ -129,15 +129,6 @@ void application::setup() {
   _eeprom .restore_all(tmp);
 
   setup_controls();
-  
-  cli();
-  
-  Serial.println(F("Stop all interrupts...")); Serial.flush();
-  
-  _timer1 .setup();
-  _timer2 .setup();
-  
-  set_playback_state(tmp.playback_state);
 
   for (uint8_t ix = 0; ix < _tracks.size(); ix++) {
     _tracks[ix].modified.unset();
@@ -149,8 +140,6 @@ void application::setup() {
 
   update_ui_data();
 
-  _timer1.set_bpm(tmp.bpm);
-  
 #ifdef XOX
   for (uint8_t ix; ix < tracks_count; ix++) {
     // For some absolutely mystifying reason, bars_count becomes undefined
@@ -160,13 +149,26 @@ void application::setup() {
   }
 #endif
   
-  sei();
-  
   Serial.println(F("Enter SCREEN_MAIN...")); Serial.flush();
 
   _ui    .enter_screen(ui::SCREEN_MAIN);
 
   Serial.println(F("Entered SCREEN_MAIN.")); Serial.flush();
+
+  {
+   cli();
+   
+   Serial.println(F("Stop all interrupts...")); Serial.flush();
+   
+   _timer1 .setup();
+   _timer2 .setup();
+   
+   _timer1.set_bpm(tmp.bpm);
+   
+   set_playback_state(tmp.playback_state);
+
+   sei();
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

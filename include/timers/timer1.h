@@ -15,6 +15,7 @@ private:
   void                 draw_track_on_x0x_leds();
   void                 draw_chase_light_on_x0x_leds(uint8_t const & ticker_);
 public:
+  bool _setup_complete;
   void                 isr();
   static timer1 &      instance();
   void                 setup();
