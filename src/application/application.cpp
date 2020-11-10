@@ -698,6 +698,16 @@ bool application::process_application_event(
       Serial.println(F("Play."));
     }
     else {
+     Serial.print(F("Adjust ticker from "));
+     uint8_t tmp = _timer1.ticker();
+     Serial.print(tmp);
+     
+     tmp %= 32;
+     _timer1.adjust_ticker(-tmp);
+     
+     Serial.print(F(" to "));
+     Serial.println(_timer1.ticker());
+     
       Serial.println(F("Stop."));
     }
     
