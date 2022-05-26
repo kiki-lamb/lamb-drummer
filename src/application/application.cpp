@@ -700,6 +700,12 @@ bool application::process_application_event(
       Serial.println(F("Play."));
     }
     else {
+     triggers().write(0xff);
+     
+     Serial.print(F("out = "));
+     lamb::print_bits_8(0xff);
+     Serial.println();   
+
      Serial.print(F("Adjust ticker from "));
      uint8_t tmp = _timer1.ticker();
      Serial.print(tmp);

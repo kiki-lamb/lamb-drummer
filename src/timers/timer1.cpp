@@ -129,7 +129,7 @@ void timer1::isr() {
    uint8_t out = 0xff;
    
    if (! (ticker_ & 0b1)) {
-    if ((ticker_ % 32) == 0) { // can probably happen less often?
+    if ((ticker_ % 128) == 0) { // can probably happen less often?
      application::flag_main_screen(); // In ISR, not that ugly...
      out &= ~_BV(7);
     }

@@ -13,7 +13,8 @@
             "request": "launch",
             "name": "PIO Debug",
             "executable": "d:/Documents/PlatformIO/Projects/lamb-drummer/.pio/build/LGT8F328P/firmware.elf",
-            "toolchainBinDir": "C:/Users/kathe/.platformio/packages/toolchain-atmelavr/bin",
+            "projectEnvName": "LGT8F328P",
+            "toolchainBinDir": "",
             "preLaunchTask": {
                 "type": "PlatformIO",
                 "task": "Pre-Debug"
@@ -25,7 +26,8 @@
             "request": "launch",
             "name": "PIO Debug (skip Pre-Debug)",
             "executable": "d:/Documents/PlatformIO/Projects/lamb-drummer/.pio/build/LGT8F328P/firmware.elf",
-            "toolchainBinDir": "C:/Users/kathe/.platformio/packages/toolchain-atmelavr/bin",
+            "projectEnvName": "LGT8F328P",
+            "toolchainBinDir": "",
             "internalConsoleOptions": "openOnSessionStart"
         }
     ]
